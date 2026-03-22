@@ -1,0 +1,9 @@
+{
+    "compiler": "g++",
+  
+    "libraries": ["glfw", "dl"],
+  
+    "extension": ".sh",
+  
+    "name": "renderer"
+}
