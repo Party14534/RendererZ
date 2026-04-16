@@ -32,13 +32,14 @@ int main() {
     {
         glfwPollEvents();    
         r1.setColor(Color(.67f, .69f, std::sin(glfwGetTime()), 1.f));
+        t.setColor(Color(.67f, .69f, std::cos(glfwGetTime()), 1.f));
 
         // Handle rendering
         win.clear(Color(.88f, .76f, 1.f, 1.f));
 
-        //win.draw(t);
         //win.draw(t2);
         win.draw(r1);
+        win.draw(t);
     }
 
     return 0;

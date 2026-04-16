@@ -18,17 +18,14 @@ void Tri::init() {
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
-    ColorLoc = glGetUniformLocation(baseShaderProgram,
-                                            SHADER_COLOR_UNIFORM);
-
     initialized = true;
 }
 
-void Tri::draw() {
+void Tri::draw(Shader& shader) {
     if (!initialized) init();
 
-    glUseProgram(baseShaderProgram);
-    glUniform4f(ColorLoc, color.r, color.g, color.b, color.a);
+    shader.use();
+    shader.setColor(SHADER_COLOR_UNIFORM, color);
     glBindVertexArray(VAO);
     glDrawArrays(GL_TRIANGLES, 0, 3);
     glBindVertexArray(0);
@@ -59,17 +56,14 @@ void Rect::init() {
                             sizeof(Vec3), (void*)0);
     glEnableVertexAttribArray(0);
 
-    ColorLoc = glGetUniformLocation(baseShaderProgram,
-                                            SHADER_COLOR_UNIFORM);
-
     initialized = true;
 }
 
-void Rect::draw() {
+void Rect::draw(Shader& shader) {
     if (!initialized) init();
 
-    glUseProgram(baseShaderProgram);
-    glUniform4f(ColorLoc, color.r, color.g, color.b, color.a);
+    shader.use();
+    shader.setColor(SHADER_COLOR_UNIFORM, color);
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);

@@ -4,12 +4,12 @@
 #include "../include/glad.h"
 
 #include <GLFW/glfw3.h>
+#include "Shaders/shaders.h"
 #include <iostream>
 
 #define SHADER_COLOR_UNIFORM "color_z"
 
 inline GLFWwindow* win;
-inline unsigned int baseShaderProgram;
 
 void initializeGL();
 

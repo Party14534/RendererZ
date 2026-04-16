@@ -13,8 +13,7 @@ struct Window {
     u32 width, height;
     std::string windowName;
 
-    // Drawing variables
-    u32 baseFragShader, baseVertShader;
+    Shader defaultShader;
 
     Window(u32 width, u32 height, std::string windowName);
     ~Window();

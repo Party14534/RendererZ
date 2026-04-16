@@ -32,20 +32,7 @@ Window::Window(u32 width, u32 height, std::string windowName) :
     // Update window size with window update
     glfwSetFramebufferSizeCallback(win, framebuffer_size_callback);
 
-    /*
-     * Shader initialization
-     */
-
-    // TODO: TEMPORARY
-    // Load in shaders
-    baseVertShader = loadShader("../src/Shaders/vertex.vert", GL_VERTEX_SHADER);
-    baseFragShader = loadShader("../src/Shaders/frag.frag", GL_FRAGMENT_SHADER);
-
-    // Link shaders to shader program
-    baseShaderProgram = glCreateProgram();
-    glAttachShader(baseShaderProgram, baseVertShader);
-    glAttachShader(baseShaderProgram, baseFragShader);
-    glLinkProgram(baseShaderProgram);
+    defaultShader = Shader("../src/Shaders/vertex.vert", "../src/Shaders/frag.frag");
 }
 
 Window::~Window() {
@@ -63,6 +50,6 @@ void Window::clear(Color c) {
 }
 
 void Window::draw(Drawable& d) {
-    d.draw();
+    d.draw(defaultShader);
 }
 

@@ -6,7 +6,7 @@
 class Tri : public Drawable {
     public: 
         Tri(std::vector<Vec3> _vertices);
-        void draw();
+        void draw(Shader& shader);
         void init();
 };
 
@@ -15,7 +15,7 @@ class Rect : public Drawable {
         u32 EBO;
 
         Rect(std::vector<Vec3> _vertices, std::vector<u32> _indices);
-        void draw();
+        void draw(Shader& shader);
         void init();
 };
 

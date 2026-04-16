@@ -4,7 +4,6 @@
 #include <vector>
 #include <cstdlib>
 
-#include "Types.h"
 #include "../global.h"
 
 class Drawable {
@@ -14,7 +13,7 @@ class Drawable {
 
         size_t startingId;
 
-        u32 VAO, VBO, ColorLoc;
+        u32 VAO, VBO;
 
         bool initialized = false;
 
@@ -23,7 +22,7 @@ class Drawable {
         virtual ~Drawable();
 
         virtual void init() = 0;
-        virtual void draw() = 0;
+        virtual void draw(Shader& shader) = 0;
 
         void setColor(Color c);
         Color getColor();
