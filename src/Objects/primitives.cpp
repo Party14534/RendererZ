@@ -1,6 +1,10 @@
 #include "Primitives.h"
 
-Tri::Tri(std::vector<Vec3> _vertices) : Drawable(_vertices) { }
+/*
+ * TRIANGLE
+ */
+
+Tri::Tri() : Drawable(_defaultVerts) { }
 
 void Tri::init() {
     // Generate VAO and VBO
@@ -10,13 +14,26 @@ void Tri::init() {
     // Bind and set up buffers
     glBindVertexArray(VAO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vec3),
-            vertices.data(),
-            GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float),
+            vertices.data(), GL_STATIC_DRAW);
 
-    // Set data
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    // Set attribs
+    // vertex pos
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE,
+                            8 * sizeof(float), (void*)(0));
     glEnableVertexAttribArray(0);
+
+    // vertex col
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE,
+                            8 * sizeof(float),
+                            (void*)(3*sizeof(float)));
+    glEnableVertexAttribArray(1);
+
+    // tex coord
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE,
+                            8 * sizeof(float),
+                            (void*)(6*sizeof(float)));
+    glEnableVertexAttribArray(2);
 
     initialized = true;
 }
@@ -26,13 +43,20 @@ void Tri::draw(Shader& shader) {
 
     shader.use();
     shader.setColor(SHADER_COLOR_UNIFORM, color);
+    shader.setBool(SHADER_TEX_SET_UNIFORM, tex != nullptr);
+
+    if (tex != nullptr) { tex->bind(); }
+    
     glBindVertexArray(VAO);
     glDrawArrays(GL_TRIANGLES, 0, 3);
     glBindVertexArray(0);
 }
 
-Rect::Rect(std::vector<Vec3> _vertices, std::vector<u32> _indices)
-    : Drawable(_vertices, _indices) { }
+/*
+ * RECT
+ */
+
+Rect::Rect() : Drawable(Rect::_defaultVerts, Rect::_defaultIndices) { }
 
 void Rect::init() {
     // Generate VAO and VBO and EBO
@@ -44,17 +68,30 @@ void Rect::init() {
     glBindVertexArray(VAO); // MUST BIND VAO FIRST
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vec3),
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float),
             vertices.data(), GL_STATIC_DRAW);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(u32),
             indices.data(), GL_STATIC_DRAW);
 
-    // Set data
+    // Set attribs
+    // vertex pos
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE,
-                            sizeof(Vec3), (void*)0);
+                            8 * sizeof(float), (void*)(0));
     glEnableVertexAttribArray(0);
+
+    // vertex col
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE,
+                            8 * sizeof(float),
+                            (void*)(3*sizeof(float)));
+    glEnableVertexAttribArray(1);
+
+    // tex coord
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE,
+                            8 * sizeof(float),
+                            (void*)(6*sizeof(float)));
+    glEnableVertexAttribArray(2);
 
     initialized = true;
 }
@@ -64,6 +101,10 @@ void Rect::draw(Shader& shader) {
 
     shader.use();
     shader.setColor(SHADER_COLOR_UNIFORM, color);
+    shader.setBool(SHADER_TEX_SET_UNIFORM, tex != nullptr);
+
+    if (tex != nullptr) { tex->bind(); }
+    
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);

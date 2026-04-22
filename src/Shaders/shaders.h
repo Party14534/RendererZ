@@ -9,6 +9,7 @@
 #include <GLFW/glfw3.h>
 
 #include "../Objects/Types.h"
+#include "../Objects/Texture.h"
 
 struct Shader {
     // Shader program id

@@ -1,5 +1,4 @@
 #include "global.h"
-
 bool glInitialized = false;
 
 void initializeGL() {
@@ -23,3 +22,6 @@ void initializeGL() {
 
     glInitialized = true;
 }
+
+#define STB_IMAGE_IMPLEMENTATION
+#include "../include/stb_image.h"

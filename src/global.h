@@ -4,10 +4,10 @@
 #include "../include/glad.h"
 
 #include <GLFW/glfw3.h>
-#include "Shaders/shaders.h"
 #include <iostream>
 
 #define SHADER_COLOR_UNIFORM "color_z"
+#define SHADER_TEX_SET_UNIFORM "usingTex_z"
 
 inline GLFWwindow* win;
 

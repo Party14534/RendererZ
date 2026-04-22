@@ -18,6 +18,7 @@ struct Window {
     Window(u32 width, u32 height, std::string windowName);
     ~Window();
 
+    void display();
     bool isOpen();
     void clear(Color c);
     void draw(Drawable& d);

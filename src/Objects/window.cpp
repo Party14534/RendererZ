@@ -39,8 +39,11 @@ Window::~Window() {
     glfwTerminate();
 }
 
-bool Window::isOpen() {
+void Window::display() {
     glfwSwapBuffers(win);
+}
+
+bool Window::isOpen() {
     return !glfwWindowShouldClose(win);
 }
 
