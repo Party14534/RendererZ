@@ -30,7 +30,8 @@ void Texture::loadImage(std::string _path) {
     loaded = true;
 }
 
-void Texture::bind() {
+void Texture::bind(u32 texNum) {
+    glActiveTexture(GL_TEXTURE0 + texNum);
     glBindTexture(GL_TEXTURE_2D, ID);
 }
 

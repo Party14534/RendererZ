@@ -16,7 +16,8 @@ class Drawable {
         std::vector<u32> indices;
 
         size_t startingId;
-        Texture* tex;
+        std::vector<Texture*> texs;
+        Shader* shader;
 
         u32 VAO, VBO;
 
@@ -33,6 +34,9 @@ class Drawable {
 
         void setColor(Color c);
         void setTexture(Texture& _tex);
+        void addTexture(Texture& _tex);
+        void removeTexture(u32 id);
+        void setShader(Shader& _shader);
         Color getColor();
 
     protected:

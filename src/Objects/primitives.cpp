@@ -38,18 +38,30 @@ void Tri::init() {
     initialized = true;
 }
 
-void Tri::draw(Shader& shader) {
+void Tri::draw(Shader& defaultShader) {
     if (!initialized) init();
 
-    shader.use();
-    shader.setColor(SHADER_COLOR_UNIFORM, color);
-    shader.setBool(SHADER_TEX_SET_UNIFORM, tex != nullptr);
+    if (shader == nullptr) {
+        defaultShader.use();
+        defaultShader.setColor(SHADER_COLOR_UNIFORM, color);
+        defaultShader.setBool(SHADER_TEX_SET_UNIFORM, texs.size() > 0);
+    } else {
+        shader->use();
+    }
 
-    if (tex != nullptr) { tex->bind(); }
+    for(int i = 0; i < texs.size(); i++) {
+        texs[i]->bind(i); 
+    }
     
     glBindVertexArray(VAO);
     glDrawArrays(GL_TRIANGLES, 0, 3);
     glBindVertexArray(0);
+    
+    // Unbind textures
+    for(int i = 0; i < texs.size(); i++) {
+        glActiveTexture(GL_TEXTURE0 + i);
+        glBindTexture(GL_TEXTURE_2D, 0);
+    }
 }
 
 /*
@@ -96,16 +108,28 @@ void Rect::init() {
     initialized = true;
 }
 
-void Rect::draw(Shader& shader) {
+void Rect::draw(Shader& defaultShader) {
     if (!initialized) init();
 
-    shader.use();
-    shader.setColor(SHADER_COLOR_UNIFORM, color);
-    shader.setBool(SHADER_TEX_SET_UNIFORM, tex != nullptr);
+    if (shader == nullptr) {
+        defaultShader.use();
+        defaultShader.setColor(SHADER_COLOR_UNIFORM, color);
+        defaultShader.setBool(SHADER_TEX_SET_UNIFORM, texs.size() > 0);
+    } else {
+        shader->use();
+    }
 
-    if (tex != nullptr) { tex->bind(); }
+    for(int i = 0; i < texs.size(); i++) {
+        texs[i]->bind(i); 
+    }
     
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
+
+    // Unbind textures
+    for(int i = 0; i < texs.size(); i++) {
+        glActiveTexture(GL_TEXTURE0 + i);
+        glBindTexture(GL_TEXTURE_2D, 0);
+    }
 }

@@ -14,7 +14,19 @@ void Drawable::setColor(Color c) {
 }
 
 void Drawable::setTexture(Texture& _tex) {
-    tex = &_tex;
+    if (texs.size() == 0) {
+        texs.push_back(&_tex);
+    } else {
+        texs[0] = &_tex;
+    }
+}
+
+void Drawable::addTexture(Texture& _tex) {
+    texs.push_back(&_tex);
+}
+
+void Drawable::setShader(Shader& _shader) {
+    shader = &_shader;
 }
 
 Color Drawable::getColor() { return color; }

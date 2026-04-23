@@ -49,7 +49,7 @@ struct Texture {
     void setTextureFilter(TextureFilterOption _texFilter);
     void setMipMapFilter(MipMapFilterOption _mmFilter);
 
-    void bind();
+    void bind(u32 texNum);
 };
 
 #endif

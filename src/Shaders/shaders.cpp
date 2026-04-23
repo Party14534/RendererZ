@@ -13,6 +13,11 @@ std::string loadFile(std::string path) {
 unsigned int loadShader(std::string path, int shaderType) {
     const std::string shaderCode = loadFile(path);
 
+    if (shaderCode.length() <= 10) { 
+        std::cout << "Failed to load shader at path: " << path << "\n";
+        return 0;
+    }
+
     unsigned int shader = glCreateShader(shaderType);
     const char *source = shaderCode.data();
 
@@ -34,8 +39,8 @@ unsigned int loadShader(std::string path, int shaderType) {
 Shader::Shader() {}
 
 Shader::Shader(const std::string& vertPath, const std::string& fragPath) {
-    vID = loadShader("../src/Shaders/vertex.vert", GL_VERTEX_SHADER);
-    fID = loadShader("../src/Shaders/frag.frag", GL_FRAGMENT_SHADER);
+    vID = loadShader(vertPath, GL_VERTEX_SHADER);
+    fID = loadShader(fragPath, GL_FRAGMENT_SHADER);
 
     // Link shaders
     ID = glCreateProgram();
