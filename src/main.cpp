@@ -25,6 +25,11 @@ int main() {
     t.setTexture(tex);
     t.addTexture(tex2);
 
+    /*Mat4 x({4.f, 2.f, 0.f, 0.f, 0.f, 8.f, 1.f, 0.f, 0.f, 1.f, 0.f, 0.f});
+    Mat4 y({4.f, 2.f, 1.f, 0.f, 2.f, 0.f, 4.f, 0.f, 9.f, 4.f, 2.f, 0.f});
+    Mat4 o = x * y;
+    std::cout << o;*/
+
     while(win.isOpen())
     {
         glfwPollEvents();    
@@ -46,7 +51,7 @@ int main() {
         customShader.setFloat("dt", 1. - dt);
         customShader.setColor("color", t.getColor());
 
-        win.draw(t);
+        //win.draw(t);
 
         win.display();
     }
