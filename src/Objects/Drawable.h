@@ -15,6 +15,8 @@ class Drawable {
         std::vector<float> vertices;
         std::vector<u32> indices;
 
+        Vec3 pos, rotation, scale;
+
         size_t startingId;
         std::vector<Texture*> texs;
         Shader* shader;

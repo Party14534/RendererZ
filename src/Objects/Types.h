@@ -55,6 +55,7 @@ struct Mat4 {
     Mat4 operator +(const Mat4 m) const;
     Mat4 operator -(const Mat4 m) const;
     Mat4 operator *(const Mat4 m) const;
+    Vec4 operator *(const Vec4 m) const;
 
     friend std::ostream& operator <<(std::ostream& os, const Mat4& m);
 

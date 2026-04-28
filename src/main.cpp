@@ -8,7 +8,6 @@ Tri t;
 int main() {
     Window win(800, 600, "Test");
 
-    std::cout << "initializing custom\n";
     Shader customShader("../src/Shaders/vertex.vert", "../src/Shaders/multiTex.frag");
     customShader.use();
     customShader.setInt("tex1", 0);
@@ -25,10 +24,24 @@ int main() {
     t.setTexture(tex);
     t.addTexture(tex2);
 
-    /*Mat4 x({4.f, 2.f, 0.f, 0.f, 0.f, 8.f, 1.f, 0.f, 0.f, 1.f, 0.f, 0.f});
-    Mat4 y({4.f, 2.f, 1.f, 0.f, 2.f, 0.f, 4.f, 0.f, 9.f, 4.f, 2.f, 0.f});
-    Mat4 o = x * y;
-    std::cout << o;*/
+    Mat4 translation = Mat4({
+            1,0,0,1,
+            0,1,0,2,
+            0,0,1,3,
+            0,0,0,1
+            });
+    Mat4 scale = Mat4({
+            2,0,0,0,
+            0,2,0,0,
+            0,0,2,0,
+            0,0,0,1
+            });
+
+    Mat4 ts = translation * scale;
+    std::cout << ts;
+
+    Vec4 pos = ts * Vec4(1.f,1.f,1.f,1.f);
+    std::cout << pos.x << "," <<pos.y <<","<<pos.z<<","<<pos.w<<"\n";
 
     while(win.isOpen())
     {
@@ -38,6 +51,7 @@ int main() {
                     1. - std::cos(dt), 1.f));
         t.setColor(Color(std::cos(dt), std::sin(dt),
                     1. - std::sin(dt), 1.f));
+        
         // Handle rendering
         win.clear(Color(.88f, .76f, 1.f, 1.f));
 
