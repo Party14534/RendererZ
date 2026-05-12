@@ -5,7 +5,7 @@
 #include <string>
 
 #include "Drawable.h"
-#include "Types.h"
+#include "../Math/math.h"
 #include "../Shaders/shaders.h"
 
 struct Window {

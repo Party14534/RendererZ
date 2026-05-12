@@ -5,7 +5,7 @@
 
 #include "../../include/stb_image.h"
 #include "../global.h"
-#include "Types.h"
+#include "../Math/math.h"
 
 enum TextureParameterOption {
     REPEAT,

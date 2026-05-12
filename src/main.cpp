@@ -1,6 +1,4 @@
 #include "main.h"
-#include <GLFW/glfw3.h>
-#include <cmath>
 
 Rect r;
 Tri t;
@@ -24,23 +22,29 @@ int main() {
     t.setTexture(tex);
     t.addTexture(tex2);
 
-    Mat4 translation = Mat4({
+    Mat translation = Mat(4,4,{
             1,0,0,1,
             0,1,0,2,
             0,0,1,3,
             0,0,0,1
             });
-    Mat4 scale = Mat4({
+    Mat scale = Mat(4,4,{
             2,0,0,0,
             0,2,0,0,
             0,0,2,0,
             0,0,0,1
             });
 
-    Mat4 ts = translation * scale;
+    Mat ts = translation * scale;
     std::cout << ts;
 
     Vec4 pos = ts * Vec4(1.f,1.f,1.f,1.f);
+
+    Mat m = generateRandomMatrix(4096, 4096);
+    Mat m2 = generateRandomMatrix(4096, 4096);
+
+    Mat o = m * m2;
+
     std::cout << pos.x << "," <<pos.y <<","<<pos.z<<","<<pos.w<<"\n";
 
     while(win.isOpen())

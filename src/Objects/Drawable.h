@@ -15,7 +15,7 @@ class Drawable {
         std::vector<float> vertices;
         std::vector<u32> indices;
 
-        Vec3 pos, rotation, scale;
+        Mat transform;
 
         size_t startingId;
         std::vector<Texture*> texs;
@@ -35,6 +35,11 @@ class Drawable {
         virtual void draw(Shader& shader) = 0;
 
         void setColor(Color c);
+        void setPos(Vec3 v);
+        void rotateX(float angle);
+        void rotateY(float angle);
+        void rotateZ(float angle);
+        void setScale(Vec3 v);
         void setTexture(Texture& _tex);
         void addTexture(Texture& _tex);
         void removeTexture(u32 id);
@@ -43,7 +48,7 @@ class Drawable {
 
     protected:
         Color color;
-
+        Vec3 pos, rotation, scale;
 };
 
 #endif

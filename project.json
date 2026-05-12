@@ -1,5 +1,9 @@
 {
     "compiler": "g++",
+
+    "flags": ["fopenmp", "O3"],
+
+    "excludes": [".git", "build", "dist", "temp"],
   
     "libraries": ["glfw", "dl"],
   

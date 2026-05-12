@@ -8,7 +8,7 @@
 #include <iostream>
 #include <GLFW/glfw3.h>
 
-#include "../Objects/Types.h"
+#include "../Math/math.h"
 #include "../Objects/Texture.h"
 
 struct Shader {
