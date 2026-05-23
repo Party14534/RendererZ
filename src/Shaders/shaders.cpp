@@ -76,3 +76,13 @@ void Shader::setVec4(const std::string& name, Vec4 val) const {
 void Shader::setColor(const std::string& name, Color val) const {
     glUniform4f(glGetUniformLocation(ID, name.c_str()), val.r, val.g, val.b, val.a);
 }
+
+void Shader::setMat4(const std::string& name, const Mat& m) const {
+    glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()),
+            1, GL_TRUE, m.values.data());
+
+    GLenum err = glGetError();
+    if (err != GL_NO_ERROR) {
+        std::cerr << "open gl error " << err << "\n";
+    }
+}

@@ -22,30 +22,15 @@ int main() {
     t.setTexture(tex);
     t.addTexture(tex2);
 
-    Mat translation = Mat(4,4,{
-            1,0,0,1,
-            0,1,0,2,
-            0,0,1,3,
-            0,0,0,1
-            });
-    Mat scale = Mat(4,4,{
-            2,0,0,0,
-            0,2,0,0,
-            0,0,2,0,
-            0,0,0,1
-            });
-
-    Mat ts = translation * scale;
-    std::cout << ts;
-
-    Vec4 pos = ts * Vec4(1.f,1.f,1.f,1.f);
-
-    Mat m = generateRandomMatrix(4096, 4096);
+    /*Mat m = generateRandomMatrix(4096, 4096);
     Mat m2 = generateRandomMatrix(4096, 4096);
 
     Mat o = m * m2;
 
-    std::cout << pos.x << "," <<pos.y <<","<<pos.z<<","<<pos.w<<"\n";
+    std::cout << pos.x << "," <<pos.y <<","<<pos.z<<","<<pos.w<<"\n";*/
+
+    r.setPos(Vec3(0.1, 0.3, 0));
+    r.setScale(Vec3(0.5f, 0.5f, 0.5f));
 
     while(win.isOpen())
     {
@@ -53,6 +38,8 @@ int main() {
         double dt = glfwGetTime();
         r.setColor(Color(std::sin(dt), std::cos(dt),
                     1. - std::cos(dt), 1.f));
+        r.rotateZ(dt);
+
         t.setColor(Color(std::cos(dt), std::sin(dt),
                     1. - std::sin(dt), 1.f));
         

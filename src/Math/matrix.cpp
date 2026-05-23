@@ -160,3 +160,13 @@ Mat generateRandomMatrix(size_t rows, size_t cols) {
 
     return Mat(rows, cols, vals);
 }
+
+Mat Mat::getIdentity(const size_t s) {
+    Mat m = Mat(s, s);
+
+    for (int i = 0; i < s; i++) {
+        m.set(i, i, 1.f);
+    }
+
+    return m;
+}

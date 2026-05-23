@@ -8,6 +8,7 @@
 
 #define SHADER_COLOR_UNIFORM "color_z"
 #define SHADER_TEX_SET_UNIFORM "usingTex_z"
+#define SHADER_TRANSFORM_SET_UNIFORM "transform_z"
 
 inline GLFWwindow* win;
 

@@ -45,8 +45,10 @@ void Tri::draw(Shader& defaultShader) {
         defaultShader.use();
         defaultShader.setColor(SHADER_COLOR_UNIFORM, color);
         defaultShader.setBool(SHADER_TEX_SET_UNIFORM, texs.size() > 0);
+        defaultShader.setMat4(SHADER_TRANSFORM_SET_UNIFORM, getTransMat());
     } else {
         shader->use();
+        shader->setMat4(SHADER_TRANSFORM_SET_UNIFORM, getTransMat());
     }
 
     for(int i = 0; i < texs.size(); i++) {

@@ -49,6 +49,7 @@ class Drawable {
     protected:
         Color color;
         Vec3 pos, rotation, scale;
+        Mat getTransMat();
 };
 
 #endif

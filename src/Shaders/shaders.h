@@ -29,6 +29,8 @@ struct Shader {
     void setVec3(const std::string& name, Vec3 val) const;
     void setVec4(const std::string& name, Vec4 val) const;
     void setColor(const std::string& name, Color val) const;
+
+    void setMat4(const std::string& name, const Mat& m) const;
 };
 
 unsigned int loadShader(std::string path, int shaderType);
