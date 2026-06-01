@@ -68,12 +68,12 @@ void Cube::draw(Shader& defaultShader, const Mat& viewMat, const Mat& projMat) {
     }
     
     glBindVertexArray(VAO);
-    glDrawArrays(GL_TRIANGLES, 0, 36);
+    glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
 
     // Unbind textures
     for(int i = 0; i < texs.size(); i++) {
         glActiveTexture(GL_TEXTURE0 + i);
-        glBindTexture(GL_TEXTURE_2D, 0);
+        //glBindTexture(GL_TEXTURE_2D, 0);
     }
 }

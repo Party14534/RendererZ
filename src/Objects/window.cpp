@@ -1,4 +1,5 @@
 #include "Window.h"
+#include "global.h"
 
 void framebuffer_size_callback(GLFWwindow* win, int width, int height) {
     glViewport(0, 0, width, height);
@@ -29,8 +30,11 @@ Window::Window(u32 width, u32 height, std::string windowName) :
         exit(1);
     }
 
-    // Set viewport
-    glViewport(0, 0, width, height);
+    // Set viewport using the actual framebuffer size (differs from the
+    // requested window size on high-DPI / Retina displays)
+    int fbWidth, fbHeight;
+    glfwGetFramebufferSize(win, &fbWidth, &fbHeight);
+    glViewport(0, 0, fbWidth, fbHeight);
 
     // Update window size with window update
     glfwSetFramebufferSizeCallback(win, framebuffer_size_callback);
@@ -39,6 +43,9 @@ Window::Window(u32 width, u32 height, std::string windowName) :
 
     // Create perspective matrices
     buildPerspectiveMatrices();
+
+    // Enable depth testing
+    glEnable(GL_DEPTH_TEST);
 }
 
 Window::~Window() {
@@ -54,8 +61,8 @@ bool Window::isOpen() {
 }
 
 void Window::clear(Color c) {
-    glClearColor(.88f, .76f, 1.f, 1.f);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClearColor(c.r, c.g, c.b, c.a);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void Window::draw(Drawable& d) {

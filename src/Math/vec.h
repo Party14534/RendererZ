@@ -35,6 +35,7 @@ struct Vec4 {
 struct Color {
     float r, g, b, a;
     Color();
+    Color(const float val);
     Color(float r, float g, float b, float a);
 };
 

@@ -73,4 +73,5 @@ Vec4 Vec4::normalize() const {
  */
 
 Color::Color() : r(0.), g(0.), b(0.), a(0.) {}
+Color::Color(const float val) : r(val), g(val), b(val), a(val) {}
 Color::Color(float r, float g, float b, float a) : r(r), g(g), b(b), a(a) {}

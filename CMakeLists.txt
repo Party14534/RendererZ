@@ -29,19 +29,20 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
 endif()
 
 # --- Sources ------------------------------------------------------------------
+# Discover the project sources automatically. CONFIGURE_DEPENDS makes CMake
+# re-run the glob when files are added/removed, so the file list never has to
+# be maintained by hand. glad.c lives under include/ and is added explicitly.
+file(GLOB_RECURSE RENDERER_SOURCES CONFIGURE_DEPENDS
+    ${CMAKE_SOURCE_DIR}/src/*.cpp
+)
+
+# src/temp/ holds experimental scratch code that must not be compiled into the
+# renderer (it duplicates symbols from the real sources). Filter it out.
+list(FILTER RENDERER_SOURCES EXCLUDE REGEX "${CMAKE_SOURCE_DIR}/src/temp/")
+
 add_executable(renderer
     include/glad.c
-    src/global.cpp
-    src/main.cpp
-    src/Objects/window.cpp
-    src/Objects/texture.cpp
-    src/Objects/drawable.cpp
-    src/Objects/Primatives/tri.cpp
-    src/Objects/Primatives/rect.cpp
-    src/Objects/Primatives/cube.cpp
-    src/Math/vector.cpp
-    src/Math/matrix.cpp
-    src/Shaders/shaders.cpp
+    ${RENDERER_SOURCES}
 )
 
 target_include_directories(renderer PRIVATE
