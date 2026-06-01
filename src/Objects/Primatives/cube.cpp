@@ -2,12 +2,12 @@
 #include "global.h"
 
 /*
- * RECT
+ * CUBE
  */
 
-Rect::Rect() : Drawable(Rect::_defaultVerts, Rect::_defaultIndices) { }
+Cube::Cube() : Drawable(Cube::_defaultVerts, Cube::_defaultIndices) { }
 
-void Rect::init() {
+void Cube::init() {
     // Generate VAO and VBO and EBO
     glGenBuffers(1, &VBO);
     glGenBuffers(1, &EBO);
@@ -45,7 +45,7 @@ void Rect::init() {
     initialized = true;
 }
 
-void Rect::draw(Shader& defaultShader, const Mat& viewMat, const Mat& projMat) {
+void Cube::draw(Shader& defaultShader, const Mat& viewMat, const Mat& projMat) {
     if (!initialized) init();
 
     if (shader == nullptr) {
@@ -68,7 +68,7 @@ void Rect::draw(Shader& defaultShader, const Mat& viewMat, const Mat& projMat) {
     }
     
     glBindVertexArray(VAO);
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
     glBindVertexArray(0);
 
     // Unbind textures

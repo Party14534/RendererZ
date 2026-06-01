@@ -38,6 +38,7 @@ add_executable(renderer
     src/Objects/drawable.cpp
     src/Objects/Primatives/tri.cpp
     src/Objects/Primatives/rect.cpp
+    src/Objects/Primatives/cube.cpp
     src/Math/vector.cpp
     src/Math/matrix.cpp
     src/Shaders/shaders.cpp

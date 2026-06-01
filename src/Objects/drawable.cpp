@@ -1,12 +1,12 @@
 #include "Drawable.h"
 
-Drawable::Drawable() : transform(Mat(4, 4)) { }
+Drawable::Drawable() : modelMat(Mat(4, 4)) { }
 
 Drawable::Drawable(std::vector<float> _vertices) :
-    vertices(_vertices), transform(Mat(4, 4)) { }
+    vertices(_vertices), modelMat(Mat(4, 4)) { }
 
 Drawable::Drawable(std::vector<float> _vertices, std::vector<u32> _indices) :
-    vertices(_vertices), indices(_indices), transform(Mat(4, 4)) { }
+    vertices(_vertices), indices(_indices), modelMat(Mat(4, 4)) { }
 
 Drawable::~Drawable() { }
 
@@ -52,7 +52,7 @@ void Drawable::setShader(Shader& _shader) {
 
 Color Drawable::getColor() { return color; }
 
-Mat Drawable::getTransMat() {
+Mat Drawable::getModelMat() {
     // Build scale matrix
     Mat scaleMat = Mat::getIdentity(4);
     scaleMat.set(0, 0, scale.x);

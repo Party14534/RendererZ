@@ -8,7 +8,10 @@
 
 #define SHADER_COLOR_UNIFORM "color_z"
 #define SHADER_TEX_SET_UNIFORM "usingTex_z"
-#define SHADER_TRANSFORM_SET_UNIFORM "transform_z"
+#define SHADER_MODEL_SET_UNIFORM "model_z"
+#define SHADER_VIEW_SET_UNIFORM "view_z"
+#define SHADER_PROJECTION_SET_UNIFORM "projection_z"
+#define PI 3.141592653589
 
 inline GLFWwindow* win;
 

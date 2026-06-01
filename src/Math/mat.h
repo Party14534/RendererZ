@@ -15,6 +15,7 @@ struct Mat {
     size_t rows, cols;
 
     Mat(size_t rows, size_t cols);
+    Mat(size_t rows, size_t cols, const float _value);
     Mat(size_t rows, size_t cols, const std::vector<float>& values);
 
     float get(const size_t i, const size_t j) const;

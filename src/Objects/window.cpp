@@ -7,7 +7,10 @@ void framebuffer_size_callback(GLFWwindow* win, int width, int height) {
 Window::Window(u32 width, u32 height, std::string windowName) :
     width(width),
     height(height),
-    windowName(windowName)
+    windowName(windowName),
+    orthoMat(4, 4),
+    perspMat(4, 4),
+    viewMat(Mat::getIdentity(4))
 {
     initializeGL(); // Initialize GLFW
 
@@ -33,6 +36,9 @@ Window::Window(u32 width, u32 height, std::string windowName) :
     glfwSetFramebufferSizeCallback(win, framebuffer_size_callback);
 
     defaultShader = Shader("../src/Shaders/vertex.vert", "../src/Shaders/frag.frag");
+
+    // Create perspective matrices
+    buildPerspectiveMatrices();
 }
 
 Window::~Window() {
@@ -53,6 +59,34 @@ void Window::clear(Color c) {
 }
 
 void Window::draw(Drawable& d) {
-    d.draw(defaultShader);
+    d.draw(defaultShader, viewMat, isOrthographic ? orthoMat : perspMat);
 }
 
+void Window::buildPerspectiveMatrices() {
+    float near = 0.1;
+    float far = 100;
+    float left = 0;
+    float right = width;
+    float bottom = 0;
+    float top = height;
+
+    fov = 90;
+
+    aspectRatio = (float)width / (float)height;
+    orthoMat = Mat(4, 4, {
+            2/(right - left), 0, 0, -((right + left) / (right - left)),
+            0, 2/(top - bottom), 0, -((top + bottom) / (top - bottom)),
+            0, 0, -2/(far - near), -((far + near) / (far - near)),
+            0, 0, 0, 1
+        }
+    );
+
+    float S = 1.f / (tan((fov * 0.5f) * (PI * (1.f / 180.f))));
+    perspMat = Mat(4, 4, {
+            S / aspectRatio, 0, 0, 0,
+            0, S, 0, 0,
+            0, 0, -((far + near) / (far - near)), -((2.f * far * near) / (far - near)),
+            0, 0, -1, 0
+        }
+    );
+}

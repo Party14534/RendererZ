@@ -38,17 +38,19 @@ void Tri::init() {
     initialized = true;
 }
 
-void Tri::draw(Shader& defaultShader) {
+void Tri::draw(Shader& defaultShader, const Mat& viewMat, const Mat& projMat) {
     if (!initialized) init();
 
     if (shader == nullptr) {
         defaultShader.use();
         defaultShader.setColor(SHADER_COLOR_UNIFORM, color);
         defaultShader.setBool(SHADER_TEX_SET_UNIFORM, texs.size() > 0);
-        defaultShader.setMat4(SHADER_TRANSFORM_SET_UNIFORM, getTransMat());
+        defaultShader.setMat4(SHADER_MODEL_SET_UNIFORM, getModelMat());
     } else {
         shader->use();
-        shader->setMat4(SHADER_TRANSFORM_SET_UNIFORM, getTransMat());
+        shader->setMat4(SHADER_MODEL_SET_UNIFORM, getModelMat());
+        shader->setMat4(SHADER_VIEW_SET_UNIFORM, viewMat);
+        shader->setMat4(SHADER_PROJECTION_SET_UNIFORM, projMat);
     }
 
     for(int i = 0; i < texs.size(); i++) {

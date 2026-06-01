@@ -4,6 +4,12 @@ Mat::Mat(size_t rows, size_t cols) : rows(rows), cols(cols) {
     values = std::vector<float>(rows * cols);
 }
 
+Mat::Mat(size_t rows, size_t cols, const float _value) :
+    rows(rows), cols(cols)
+{
+    values = std::vector<float>(rows * cols, _value);
+}
+
 Mat::Mat(size_t rows, size_t cols, const std::vector<float>& _values) :
     rows(rows), cols(cols)
 {

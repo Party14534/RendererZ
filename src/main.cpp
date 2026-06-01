@@ -1,6 +1,6 @@
 #include "main.h"
 
-Rect r;
+Cube r;
 Tri t;
 
 int main() {
@@ -14,7 +14,7 @@ int main() {
     t.setShader(customShader);
 
     Texture tex("../src/res/textures/zari.jpg");
-    Texture tex2("../src/res/textures/cat.jpg");
+    Texture tex2("../src/res/textures/zari.jpg");
 
     r.setTexture(tex);
     r.addTexture(tex2);
@@ -25,20 +25,24 @@ int main() {
     /*Mat m = generateRandomMatrix(4096, 4096);
     Mat m2 = generateRandomMatrix(4096, 4096);
 
-    Mat o = m * m2;
+    Mat o = m * m2;*/
 
-    std::cout << pos.x << "," <<pos.y <<","<<pos.z<<","<<pos.w<<"\n";*/
+    r.setPos(Vec3(0., 0., -3.));
+    r.setScale(Vec3(2.f, 2.f, 1.f));
 
-    r.setPos(Vec3(0.1, 0.3, 0));
-    r.setScale(Vec3(0.5f, 0.5f, 0.5f));
+    t.setPos(Vec3(0.1, 0.3, 0));
+    t.setScale(Vec3(0.25f, 0.25f, 0.25f));
 
     while(win.isOpen())
     {
+        // Poll events
         glfwPollEvents();    
+
         double dt = glfwGetTime();
         r.setColor(Color(std::sin(dt), std::cos(dt),
                     1. - std::cos(dt), 1.f));
         r.rotateZ(dt);
+        t.rotateZ(-dt);
 
         t.setColor(Color(std::cos(dt), std::sin(dt),
                     1. - std::sin(dt), 1.f));
