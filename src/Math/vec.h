@@ -1,6 +1,17 @@
 #ifndef VEC3_H
 #define VEC3_H
 
+struct Vec2 {
+    float x, y;
+    
+    Vec2();
+    Vec2(const float x, const float y);
+
+    Vec2 operator+(const Vec2& other) const;
+    Vec2 operator-(const Vec2& other) const;
+    Vec2 operator*(float scalar) const;
+};
+
 struct Vec3 {
     float x, y, z;
     

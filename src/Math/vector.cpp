@@ -1,6 +1,31 @@
 #include "math.h"
 
-Vec3::Vec3() {}
+/*
+ * Vec2
+ */
+
+Vec2::Vec2() : x(0), y(0) {}
+
+Vec2::Vec2(float x, float y) : x(x), y(y) {}
+
+
+Vec2 Vec2::operator+(const Vec2& other) const {
+    return Vec2(x+other.x, y+other.y);
+}
+
+Vec2 Vec2::operator-(const Vec2& other) const {
+    return Vec2(x-other.x, y-other.y);
+}
+
+Vec2 Vec2::operator*(const float scalar) const {
+    return Vec2(x*scalar, y*scalar);
+}
+
+/*
+ * Vec3
+ */
+
+Vec3::Vec3() : x(0), y(0), z(0) {}
 
 Vec3::Vec3(float x, float y, float z) : x(x), y(y), z(z) {}
 
@@ -38,7 +63,11 @@ Vec3 Vec3::cross(const Vec3& other) const {
     );
 }
 
-Vec4::Vec4() {}
+/*
+ * Vec4
+ */
+
+Vec4::Vec4() : x(0), y(0), z(0), w(0) {}
 
 Vec4::Vec4(float x, float y, float z, float w) : x(x), y(y), z(z), w(w) {}
 
