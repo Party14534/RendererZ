@@ -8,6 +8,9 @@ Cube r5;
 Cube r6;
 Object bunny("../src/res/objects/bunny.obj");
 Object teapot("../src/res/objects/teapot.obj");
+Object armadillo("../src/res/objects/armadillo.obj");
+Object homer("../src/res/objects/homer.obj");
+Object cow("../src/res/objects/cow.obj");
 
 int main() {
     Window win(800, 600, "Test");
@@ -38,6 +41,9 @@ int main() {
     r6.setColor(Color(1.f, 1.f, 1.f, 1.f));
     bunny.setColor(Color(.87f, .85f, 1.f, 1.f));
     teapot.setColor(Color(1.f - .87f, 1.f - .85f, 1.f - 1.f, 1.f));
+    armadillo.setColor(Color(1.f));
+    homer.setColor(Color(1.f));
+    cow.setColor(Color(1.f));
 
     /*Mat m = generateRandomMatrix(4096, 4096);
     Mat m2 = generateRandomMatrix(4096, 4096);
@@ -54,6 +60,9 @@ int main() {
     r6.setPos(Vec3(9000, -2000, 0.));
     bunny.setPos(Vec3(0, 10, 10));
     teapot.setPos(Vec3(0, -10, -10));
+    armadillo.setPos(Vec3(0, -10, -15));
+    homer.setPos(Vec3(0, -10, 15));
+    cow.setPos(Vec3(0, 10, 20));
 
     r2.setScale(Vec3(1.f, 1.f, 1.f));
     r3.setScale(Vec3(2.f, 2.f, 2.f));
@@ -61,6 +70,7 @@ int main() {
     r5.setScale(Vec3(50.f, 50.f, 50.f));
     r6.setScale(Vec3(30000.f, 30000.f, 30000.f));
     bunny.setScale(Vec3(50, 50, 50));
+    armadillo.setScale(Vec3(.01f, .01f, .01f));
 
     while(win.isOpen())
     {
@@ -84,9 +94,13 @@ int main() {
         r6.rotateY(-dt);
         r6.rotateX(-dt * 0.5f);
         r6.rotateZ(-dt * 0.5f);
+
+        bunny.rotateY(dt * 2);
+        Vec3 p = bunny.getPos();
+        bunny.setPos(Vec3(p.x, p.y + .05f * cos(3 * dt), p.z));
         
         // Handle rendering
-        win.clear(Color(1.f));
+        win.clear(Color(0.f));
 
         customShader.use();
         customShader.setFloat("dt", dt);
@@ -100,6 +114,9 @@ int main() {
         win.draw(r5);
         win.draw(bunny);
         win.draw(teapot);
+        win.draw(armadillo);
+        win.draw(homer);
+        win.draw(cow);
 
         win.display();
     }

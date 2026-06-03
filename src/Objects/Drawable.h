@@ -43,16 +43,19 @@ class Drawable {
         virtual void draw(Shader& defaultShader, const Mat& viewMat, const Mat& projMat) = 0;
 
         void setColor(Color c);
+        Color getColor();
         void setPos(Vec3 v);
+        Vec3 getPos();
+        void setScale(Vec3 v);
+        Vec3 getScale();
+
         void rotateX(float angle);
         void rotateY(float angle);
         void rotateZ(float angle);
-        void setScale(Vec3 v);
         void setTexture(Texture& _tex);
         void addTexture(Texture& _tex);
         void removeTexture(u32 id);
         void setShader(Shader& _shader);
-        Color getColor();
 
     protected:
         Color color;

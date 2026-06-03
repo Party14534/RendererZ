@@ -10,17 +10,14 @@ Drawable::Drawable(std::vector<VertexAttribute> _vertices, std::vector<u32> _ind
 
 Drawable::~Drawable() { }
 
-void Drawable::setColor(Color c) { 
-    color = c; 
-}
+void Drawable::setColor(Color c) { color = c; }
+Color Drawable::getColor() { return color; }
 
-void Drawable::setPos(Vec3 v) { 
-    pos = v; 
-}
+void Drawable::setPos(Vec3 v) { pos = v; }
+Vec3 Drawable::getPos() { return pos; }
 
-void Drawable::setScale(Vec3 s) { 
-    scale = s; 
-}
+void Drawable::setScale(Vec3 s) { scale = s; }
+Vec3 Drawable::getScale() { return scale; }
 
 void Drawable::rotateX(float angle) { 
     rotation.x = angle;
@@ -49,8 +46,6 @@ void Drawable::addTexture(Texture& _tex) {
 void Drawable::setShader(Shader& _shader) {
     shader = &_shader;
 }
-
-Color Drawable::getColor() { return color; }
 
 Mat Drawable::getModelMat() {
     // Build scale matrix
