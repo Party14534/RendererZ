@@ -14,7 +14,7 @@ void Tri::init() {
     // Bind and set up buffers
     glBindVertexArray(VAO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float),
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(VertexAttribute),
             vertices.data(), GL_STATIC_DRAW);
 
     // Set attribs

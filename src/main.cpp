@@ -6,6 +6,8 @@ Cube r3;
 Cube r4;
 Cube r5;
 Cube r6;
+Object bunny("../src/res/objects/bunny.obj");
+Object teapot("../src/res/objects/teapot.obj");
 
 int main() {
     Window win(800, 600, "Test");
@@ -34,6 +36,8 @@ int main() {
     r4.setColor(Color(0.f, 1.f, 1.f, 1.f));
     r5.setColor(Color(1.f, 1.f, 0.f, 1.f));
     r6.setColor(Color(1.f, 1.f, 1.f, 1.f));
+    bunny.setColor(Color(.87f, .85f, 1.f, 1.f));
+    teapot.setColor(Color(1.f - .87f, 1.f - .85f, 1.f - 1.f, 1.f));
 
     /*Mat m = generateRandomMatrix(4096, 4096);
     Mat m2 = generateRandomMatrix(4096, 4096);
@@ -48,12 +52,15 @@ int main() {
     r4.setPos(Vec3(0, 0, -60.));
     r5.setPos(Vec3(0, 0, 70.));
     r6.setPos(Vec3(9000, -2000, 0.));
+    bunny.setPos(Vec3(0, 10, 10));
+    teapot.setPos(Vec3(0, -10, -10));
 
     r2.setScale(Vec3(1.f, 1.f, 1.f));
     r3.setScale(Vec3(2.f, 2.f, 2.f));
     r4.setScale(Vec3(30.f, 30.f, 30.f));
     r5.setScale(Vec3(50.f, 50.f, 50.f));
     r6.setScale(Vec3(30000.f, 30000.f, 30000.f));
+    bunny.setScale(Vec3(50, 50, 50));
 
     while(win.isOpen())
     {
@@ -79,7 +86,7 @@ int main() {
         r6.rotateZ(-dt * 0.5f);
         
         // Handle rendering
-        win.clear(Color());
+        win.clear(Color(1.f));
 
         customShader.use();
         customShader.setFloat("dt", dt);
@@ -91,7 +98,8 @@ int main() {
         win.draw(r3);
         win.draw(r4);
         win.draw(r5);
-        //win.draw(r6);
+        win.draw(bunny);
+        win.draw(teapot);
 
         win.display();
     }

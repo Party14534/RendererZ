@@ -3,6 +3,7 @@
 
 #include "System/Window.h"
 #include "Objects/Primitives.h"
+#include "Objects/Object.h"
 #include "Shaders/shaders.h"
 #include "Input/Input.h"
 

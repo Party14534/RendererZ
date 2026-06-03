@@ -2,10 +2,10 @@
 
 Drawable::Drawable() : modelMat(Mat(4, 4)) { }
 
-Drawable::Drawable(std::vector<float> _vertices) :
+Drawable::Drawable(std::vector<VertexAttribute> _vertices) :
     vertices(_vertices), modelMat(Mat(4, 4)) { }
 
-Drawable::Drawable(std::vector<float> _vertices, std::vector<u32> _indices) :
+Drawable::Drawable(std::vector<VertexAttribute> _vertices, std::vector<u32> _indices) :
     vertices(_vertices), indices(_indices), modelMat(Mat(4, 4)) { }
 
 Drawable::~Drawable() { }
@@ -93,3 +93,17 @@ Mat Drawable::getModelMat() {
     
     return m;
 }
+
+/*
+ * Helper types
+ */
+
+VertexAttribute::VertexAttribute() 
+    : x(0), y(0), z(0), r(0), g(0), b(0), u(0), v(0) {}
+
+VertexAttribute::VertexAttribute(
+        float x, float y, float z, 
+        float r, float g, float b,
+        float u, float v)
+    : x(x), y(y), z(z), r(r), g(g), b(b), u(u), v(v) {}
+

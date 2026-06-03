@@ -78,6 +78,12 @@ const void Shader::setColor(const std::string& name, Color val) const {
 }
 
 const void Shader::setMat4(const std::string& name, const Mat& m) const {
+    // TODO: Return number error and don't just exit
+    if (m.cols != m.rows || m.cols != 4) {
+        std::cerr << "Matrix is not 4x4\n";
+        exit(1);
+    }
+
     glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()),
             1, GL_TRUE, m.values.data());
 

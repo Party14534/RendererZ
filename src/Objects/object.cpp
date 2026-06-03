@@ -1,13 +1,14 @@
-#include "../Primitives.h"
-#include "global.h"
+#include "Object.h"
 
 /*
- * CUBE
+ * Object
  */
 
-Cube::Cube() : Drawable(Cube::_defaultVerts, Cube::_defaultIndices) { }
+Object::Object(std::string filePath) {
+    LoadObjectFromFilePath(this, filePath);
+}
 
-void Cube::init() {
+void Object::init() {
     // Generate VAO and VBO and EBO
     glGenBuffers(1, &VBO);
     glGenBuffers(1, &EBO);
@@ -45,7 +46,7 @@ void Cube::init() {
     initialized = true;
 }
 
-void Cube::draw(Shader& defaultShader, const Mat& viewMat, const Mat& projMat) {
+void Object::draw(Shader& defaultShader, const Mat& viewMat, const Mat& projMat) {
     if (!initialized) init();
 
     if (shader == nullptr) {
@@ -68,12 +69,13 @@ void Cube::draw(Shader& defaultShader, const Mat& viewMat, const Mat& projMat) {
     }
     
     glBindVertexArray(VAO);
-    glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
 
     // Unbind textures
     for(int i = 0; i < texs.size(); i++) {
+        std::cout << "HERE\n";
         glActiveTexture(GL_TEXTURE0 + i);
-        glBindTexture(GL_TEXTURE_2D, 0);
+        //glBindTexture(GL_TEXTURE_2D, 0);
     }
 }

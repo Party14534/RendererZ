@@ -10,9 +10,17 @@
 
 #include "Texture.h"
 
+struct VertexAttribute {
+    float x, y, z, r, g, b, u, v;
+
+    VertexAttribute();
+    VertexAttribute(float x, float y, float z, float r, float g, float b,
+            float u, float v);
+};
+
 class Drawable {
     public:
-        std::vector<float> vertices;
+        std::vector<VertexAttribute> vertices;
         std::vector<u32> indices;
 
         Mat modelMat;
@@ -26,8 +34,8 @@ class Drawable {
         bool initialized = false;
 
         Drawable();
-        Drawable(std::vector<float> _vertices);
-        Drawable(std::vector<float> _vertices, std::vector<u32> indices);
+        Drawable(std::vector<VertexAttribute> _vertices);
+        Drawable(std::vector<VertexAttribute> _vertices, std::vector<u32> indices);
 
         virtual ~Drawable();
 
@@ -48,7 +56,8 @@ class Drawable {
 
     protected:
         Color color;
-        Vec3 pos, rotation, scale;
+        Vec3 pos, rotation;
+        Vec3 scale = Vec3(1.f, 1.f, 1.f);
         Mat getModelMat();
 };
 
