@@ -97,7 +97,7 @@ void Camera::calculateViewMatrix() {
 
 void Camera::BuildPerspectiveMatrices(u32 width, u32 height) {
     float near = 0.1;
-    float far = 100;
+    float far = 50000;
     float left = 0;
     float right = width;
     float bottom = 0;

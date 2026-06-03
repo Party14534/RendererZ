@@ -35,6 +35,7 @@ struct Window {
     void captureMouse();
     void uncaptureMouse();
     bool isKeyPressed(u32 keycode);
+    void createKeyReleaseCallback(u32 keycode);
     Vec2 GetMouseChange();
 
     // Callbacks

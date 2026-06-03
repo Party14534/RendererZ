@@ -74,6 +74,6 @@ void Cube::draw(Shader& defaultShader, const Mat& viewMat, const Mat& projMat) {
     // Unbind textures
     for(int i = 0; i < texs.size(); i++) {
         glActiveTexture(GL_TEXTURE0 + i);
-        //glBindTexture(GL_TEXTURE_2D, 0);
+        glBindTexture(GL_TEXTURE_2D, 0);
     }
 }

@@ -4,6 +4,8 @@ Cube r;
 Cube r2;
 Cube r3;
 Cube r4;
+Cube r5;
+Cube r6;
 
 int main() {
     Window win(800, 600, "Test");
@@ -24,10 +26,14 @@ int main() {
     r2.setTexture(tex);
     r3.setTexture(tex);
     r4.setTexture(tex);
+    r5.setTexture(tex);
+    r6.setTexture(tex);
 
     r2.setColor(Color(1.f));
     r3.setColor(Color(1.f, 0.f, 0.f, 1.f));
-    r4.setColor(Color(0.0f, 1.f, 1.f, 1.f));
+    r4.setColor(Color(0.f, 1.f, 1.f, 1.f));
+    r5.setColor(Color(1.f, 1.f, 0.f, 1.f));
+    r6.setColor(Color(1.f, 1.f, 1.f, 1.f));
 
     /*Mat m = generateRandomMatrix(4096, 4096);
     Mat m2 = generateRandomMatrix(4096, 4096);
@@ -40,10 +46,14 @@ int main() {
     r2.setPos(Vec3(5.5, 3.5, -5.));
     r3.setPos(Vec3(-5.5, -3.5, -5.));
     r4.setPos(Vec3(0, 0, -60.));
+    r5.setPos(Vec3(0, 0, 70.));
+    r6.setPos(Vec3(9000, -2000, 0.));
 
     r2.setScale(Vec3(1.f, 1.f, 1.f));
     r3.setScale(Vec3(2.f, 2.f, 2.f));
     r4.setScale(Vec3(30.f, 30.f, 30.f));
+    r5.setScale(Vec3(50.f, 50.f, 50.f));
+    r6.setScale(Vec3(30000.f, 30000.f, 30000.f));
 
     while(win.isOpen())
     {
@@ -62,6 +72,11 @@ int main() {
         r3.rotateX(dt * 0.5f);
         r4.rotateY(dt);
         r4.rotateX(dt * 0.5f);
+        r5.rotateY(dt);
+        r5.rotateX(dt * 0.5f);
+        r6.rotateY(-dt);
+        r6.rotateX(-dt * 0.5f);
+        r6.rotateZ(-dt * 0.5f);
         
         // Handle rendering
         win.clear(Color());
@@ -75,6 +90,8 @@ int main() {
         win.draw(r2);
         win.draw(r3);
         win.draw(r4);
+        win.draw(r5);
+        //win.draw(r6);
 
         win.display();
     }
@@ -83,14 +100,18 @@ int main() {
 }
 
 void processInput(Window& win) {
+    static bool escapePressed = false;
     float camSpeed = 0.05f;
     if (win.isKeyPressed(GLFW_KEY_LEFT_SHIFT)) {
         camSpeed *= 2.f;
-        if (win.isKeyPressed(GLFW_KEY_ESCAPE)) {
-            win.captureMouse();
-        }
-    } else if (win.isKeyPressed(GLFW_KEY_ESCAPE)) {
+    }
+
+    if (win.isKeyPressed(GLFW_KEY_ESCAPE)) {
         win.uncaptureMouse();
+        escapePressed = true;
+    } else if (escapePressed) {
+        win.captureMouse();
+        escapePressed = false;
     }
 
     if(win.isKeyPressed(GLFW_KEY_W)) {

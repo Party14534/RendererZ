@@ -104,8 +104,6 @@ void Window::pollEvents() {
 
 void Window::captureMouse() {
     glfwSetInputMode(win, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-    mouse.x = (double)width * 0.5;
-    mouse.y = (double)height * 0.5;
 }
 
 void Window::uncaptureMouse() {
