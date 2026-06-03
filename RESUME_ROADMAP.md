@@ -14,11 +14,11 @@ is a visual field; bullets without pixels are half-credit.
 This is the gap between what you have (2D textured quads, CPU-side transforms) and
 anything a graphics team cares about. No bullet here — it's the price of entry.
 
-- [ ] Perspective camera: view + projection matrices, a free-fly/orbit camera with input.
-- [ ] Move transforms to the GPU — upload model/view/projection as uniforms instead of
+- [X] Perspective camera: view + projection matrices, a free-fly/orbit camera with input.
+- [X] Move transforms to the GPU — upload model/view/projection as uniforms instead of
       multiplying vertices on the CPU. (Your CPU `Mat` library stays for camera/scene math.)
-- [ ] Enable the depth buffer (`glEnable(GL_DEPTH_TEST)`).
-- [ ] Load real meshes: an OBJ loader first, then glTF 2.0 (glTF gets you PBR materials,
+- [X] Enable the depth buffer (`glEnable(GL_DEPTH_TEST)`).
+- [/] Load real meshes: an OBJ loader first, then glTF 2.0 (glTF gets you PBR materials,
       normals, and tangents for free later — worth doing).
 - [ ] Index buffers (EBO) and a real `Mesh` abstraction.
 
