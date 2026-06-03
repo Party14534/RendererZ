@@ -42,3 +42,4 @@
 
 build/*
 include/glad.zip
+.cache
