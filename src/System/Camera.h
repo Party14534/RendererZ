@@ -1,9 +1,7 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include "Math/math.h"
-#include "Math/vec.h"
-#include "Math/mat.h"
+#include "../Math/math.h"
 
 struct Camera {
     public:
