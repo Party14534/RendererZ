@@ -11,10 +11,10 @@
 #include "Texture.h"
 
 struct VertexAttribute {
-    float x, y, z, r, g, b, u, v;
+    float x, y, z, xn, yn, zn, u, v;
 
     VertexAttribute();
-    VertexAttribute(float x, float y, float z, float r, float g, float b,
+    VertexAttribute(float x, float y, float z, float xn, float yn, float zn,
             float u, float v);
 };
 
@@ -42,7 +42,7 @@ class Drawable {
         virtual ~Drawable();
 
         virtual void init() = 0;
-        virtual void draw(Shader& defaultShader, const Mat& viewMat, const Mat& projMat) = 0;
+        virtual void draw(Shader& defaultShader, const Mat& viewMat, const Mat& projMat, const Vec3& viewPos) = 0;
 
         void setColor(Color c);
         Color getColor();
@@ -58,6 +58,7 @@ class Drawable {
         void addTexture(Texture& _tex);
         void removeTexture(u32 id);
         void setShader(Shader& _shader);
+        void setDefaultUniforms(Shader& shader, const Mat& viewMat, const Mat& projMat, const Vec3& viewPos);
 
     protected:
         Color color;

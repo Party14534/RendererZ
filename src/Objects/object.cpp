@@ -31,7 +31,7 @@ void Object::init() {
                             8 * sizeof(float), (void*)(0));
     glEnableVertexAttribArray(0);
 
-    // vertex col
+    // vertex normal
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE,
                             8 * sizeof(float),
                             (void*)(3*sizeof(float)));
@@ -46,16 +46,12 @@ void Object::init() {
     initialized = true;
 }
 
-void Object::draw(Shader& defaultShader, const Mat& viewMat, const Mat& projMat) {
+void Object::draw(Shader& defaultShader, const Mat& viewMat, const Mat& projMat, const Vec3& viewPos) {
     if (!initialized) init();
 
     if (shader == nullptr) {
         defaultShader.use();
-        defaultShader.setColor(SHADER_COLOR_UNIFORM, color);
-        defaultShader.setBool(SHADER_TEX_SET_UNIFORM, texs.size() > 0);
-        defaultShader.setMat4(SHADER_MODEL_SET_UNIFORM, getModelMat());
-        defaultShader.setMat4(SHADER_VIEW_SET_UNIFORM, viewMat);
-        defaultShader.setMat4(SHADER_PROJECTION_SET_UNIFORM, projMat);
+        setDefaultUniforms(defaultShader, viewMat, projMat, viewPos);
     } else {
         shader->use();
         Mat m = getModelMat();

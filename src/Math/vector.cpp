@@ -84,6 +84,13 @@ Vec4 Vec4::operator*(const float scalar) const {
     return Vec4(x*scalar, y*scalar, z*scalar, w*scalar);
 }
 
+void Vec4::operator=(Color c) {
+    x = c.r;
+    y = c.g;
+    z = c.b;
+    w = c.a;
+}
+
 float Vec4::length() const {
     return sqrt(x*x + y*y + z*z + w*w);
 }

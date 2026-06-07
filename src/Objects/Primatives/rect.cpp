@@ -44,16 +44,12 @@ void Rect::init() {
     initialized = true;
 }
 
-void Rect::draw(Shader& defaultShader, const Mat& viewMat, const Mat& projMat) {
+void Rect::draw(Shader& defaultShader, const Mat& viewMat, const Mat& projMat, const Vec3& viewPos) {
     if (!initialized) init();
 
     if (shader == nullptr) {
         defaultShader.use();
-        defaultShader.setColor(SHADER_COLOR_UNIFORM, color);
-        defaultShader.setBool(SHADER_TEX_SET_UNIFORM, texs.size() > 0);
-        defaultShader.setMat4(SHADER_MODEL_SET_UNIFORM, getModelMat());
-        defaultShader.setMat4(SHADER_VIEW_SET_UNIFORM, viewMat);
-        defaultShader.setMat4(SHADER_PROJECTION_SET_UNIFORM, projMat);
+        setDefaultUniforms(defaultShader, viewMat, projMat, viewPos);
     } else {
         shader->use();
         Mat m = getModelMat();

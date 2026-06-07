@@ -28,6 +28,8 @@ struct Vec3 {
     Vec3 cross(const Vec3& other) const;
 };
 
+struct Color;
+
 struct Vec4 {
     float x, y, z, w;
 
@@ -37,6 +39,7 @@ struct Vec4 {
     Vec4 operator+(const Vec4& other) const;
     Vec4 operator-(const Vec4& other) const;
     Vec4 operator*(float scalar) const;
+    void operator=(Color c);
 
     float length() const;
     float dot(const Vec4& other) const;

@@ -10,7 +10,7 @@ class LightSource : public Drawable {
         LightSource();
         LightSource(std::vector<VertexAttribute> verts, std::vector<u32> indices);
 
-        void draw(Shader& defaultShader, const Mat& viewMat, const Mat& projMat);
+        void draw(Shader& defaultShader, const Mat& viewMat, const Mat& projMat, const Vec3& viewPos);
         void init(); 
 };
 

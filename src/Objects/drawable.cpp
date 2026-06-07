@@ -47,6 +47,17 @@ void Drawable::setShader(Shader& _shader) {
     shader = &_shader;
 }
 
+void Drawable::setDefaultUniforms(Shader& shader, const Mat& viewMat, const Mat& projMat, const Vec3& viewPos) {
+        shader.setColor(SHADER_COLOR_UNIFORM, color);
+        shader.setVec4(SHADER_LIGHT_COLOR_UNIFORM, lightCol);
+        shader.setVec3(SHADER_LIGHT_POSITION_UNIFORM, lightPos);
+        shader.setBool(SHADER_TEX_SET_UNIFORM, texs.size() > 0);
+        shader.setMat4(SHADER_MODEL_SET_UNIFORM, getModelMat());
+        shader.setMat4(SHADER_VIEW_SET_UNIFORM, viewMat);
+        shader.setMat4(SHADER_PROJECTION_SET_UNIFORM, projMat);
+        shader.setVec3(SHADER_VIEW_POSITION_UNIFORM, viewPos);
+}
+
 Mat Drawable::getModelMat() {
     // Build scale matrix
     Mat scaleMat = Mat::getIdentity(4);
@@ -94,11 +105,11 @@ Mat Drawable::getModelMat() {
  */
 
 VertexAttribute::VertexAttribute() 
-    : x(0), y(0), z(0), r(0), g(0), b(0), u(0), v(0) {}
+    : x(0), y(0), z(0), xn(0), yn(0), zn(0), u(0), v(0) {}
 
 VertexAttribute::VertexAttribute(
         float x, float y, float z, 
-        float r, float g, float b,
+        float xn,float yn,float zn,
         float u, float v)
-    : x(x), y(y), z(z), r(r), g(g), b(b), u(u), v(v) {}
+    : x(x), y(y), z(z), xn(xn), yn(yn), zn(zn), u(u), v(v) {}
 

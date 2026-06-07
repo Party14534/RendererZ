@@ -69,7 +69,8 @@ void Window::clear(Color c) {
 
 void Window::draw(Drawable& d) {
     d.draw(d.isLightSource ? lightShader : objectShader,
-            cam.GetViewMatrix(), cam.GetProjectionMatrix());
+            cam.GetViewMatrix(), cam.GetProjectionMatrix(),
+            cam.GetPos());
 }
 
 /*

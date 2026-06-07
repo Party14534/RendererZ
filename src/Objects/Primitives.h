@@ -6,7 +6,7 @@
 class Tri : public Drawable {
     public: 
         Tri();
-        void draw(Shader& defaultShader, const Mat& viewMat, const Mat& projMat);
+        void draw(Shader& defaultShader, const Mat& viewMat, const Mat& projMat, const Vec3& viewPos);
         void init();
     
     private:
@@ -14,7 +14,7 @@ class Tri : public Drawable {
 };
 
 inline const std::vector<VertexAttribute> Tri::_defaultVerts {
-    // vertices             // colors           // texture coords
+    // vertices                             // vertex normala   // texture coords
     VertexAttribute(-0.5f, -0.5f, 0.0f,     0.f, 0.f, 0.f,      0.f, 0.f),
     VertexAttribute(0.5f, -0.5f, 0.0f,      0.f, 0.f, 0.f,      1.f, 0.f),
     VertexAttribute(0.0f,  0.5f, 0.0f,      0.f, 0.f, 0.f,      0.5f, 1.f)
@@ -26,7 +26,7 @@ class Rect : public Drawable {
         u32 EBO;
 
         Rect();
-        void draw(Shader& defaultShader, const Mat& viewMat, const Mat& projMat);
+        void draw(Shader& defaultShader, const Mat& viewMat, const Mat& projMat, const Vec3& viewPos);
         void init();
     
     private:
@@ -35,7 +35,7 @@ class Rect : public Drawable {
 };
 
 inline const std::vector<VertexAttribute> Rect::_defaultVerts {
-    // vertices             // colors           // texture coords
+    // vertices                             // normals          // texture coords
     VertexAttribute(0.5f, 0.5f, 0.0f,       0.f, 0.f, 0.f,      1.f, 1.f),
     VertexAttribute(0.5f, -0.5f, 0.0f,      0.f, 0.f, 0.f,      1.f, 0.f),
     VertexAttribute(-0.5f, -0.5f, 0.0f,     0.f, 0.f, 0.f,      0.f, 0.f),
@@ -53,7 +53,7 @@ class Cube : public Drawable {
         u32 EBO;
 
         Cube();
-        void draw(Shader& defaultShader, const Mat& viewMat, const Mat& projMat);
+        void draw(Shader& defaultShader, const Mat& viewMat, const Mat& projMat, const Vec3& viewPos);
         void init();
     
         static const std::vector<VertexAttribute> _defaultVerts;
@@ -64,42 +64,42 @@ class Cube : public Drawable {
 // mapping (shared corners can't, since each corner needs a different UV per
 // face). Corners are ordered per face as BL(0,0) BR(1,0) TR(1,1) TL(0,1).
 inline const std::vector<VertexAttribute> Cube::_defaultVerts {
-    // verts                // colors       // texture coords
-    // front face (z = 0.5)
-    VertexAttribute(-0.5f, -0.5f,  0.5f,    0.f, 0.f, 0.f,  0.f, 0.f),
-    VertexAttribute(0.5f, -0.5f,  0.5f,    0.f, 0.f, 0.f,  1.f, 0.f),
-    VertexAttribute(0.5f,  0.5f,  0.5f,    0.f, 0.f, 0.f,  1.f, 1.f),
-    VertexAttribute(-0.5f,  0.5f,  0.5f,    0.f, 0.f, 0.f,  0.f, 1.f),
+    // verts                                // normals              // texture coords
+    // front face (z = 0.5) - normal pointing +Z
+    VertexAttribute(-0.5f, -0.5f,  0.5f,    0.f, 0.f, 1.f,  0.f, 0.f),
+    VertexAttribute(0.5f, -0.5f,  0.5f,    0.f, 0.f, 1.f,  1.f, 0.f),
+    VertexAttribute(0.5f,  0.5f,  0.5f,    0.f, 0.f, 1.f,  1.f, 1.f),
+    VertexAttribute(-0.5f,  0.5f,  0.5f,    0.f, 0.f, 1.f,  0.f, 1.f),
 
-    // back face (z = -0.5)
-    VertexAttribute(0.5f, -0.5f, -0.5f,    0.f, 0.f, 0.f,  0.f, 0.f),
-    VertexAttribute(-0.5f, -0.5f, -0.5f,    0.f, 0.f, 0.f,  1.f, 0.f),
-    VertexAttribute(-0.5f,  0.5f, -0.5f,    0.f, 0.f, 0.f,  1.f, 1.f),
-    VertexAttribute(0.5f,  0.5f, -0.5f,    0.f, 0.f, 0.f,  0.f, 1.f),
+    // back face (z = -0.5) - normal pointing -Z
+    VertexAttribute(0.5f, -0.5f, -0.5f,    0.f, 0.f, -1.f,  0.f, 0.f),
+    VertexAttribute(-0.5f, -0.5f, -0.5f,    0.f, 0.f, -1.f,  1.f, 0.f),
+    VertexAttribute(-0.5f,  0.5f, -0.5f,    0.f, 0.f, -1.f,  1.f, 1.f),
+    VertexAttribute(0.5f,  0.5f, -0.5f,    0.f, 0.f, -1.f,  0.f, 1.f),
 
-    // left face (x = -0.5)
-    VertexAttribute(-0.5f, -0.5f, -0.5f,    0.f, 0.f, 0.f,  0.f, 0.f),
-    VertexAttribute(-0.5f, -0.5f,  0.5f,    0.f, 0.f, 0.f,  1.f, 0.f),
-    VertexAttribute(-0.5f,  0.5f,  0.5f,    0.f, 0.f, 0.f,  1.f, 1.f),
-    VertexAttribute(-0.5f,  0.5f, -0.5f,    0.f, 0.f, 0.f,  0.f, 1.f),
+    // left face (x = -0.5) - normal pointing -X
+    VertexAttribute(-0.5f, -0.5f, -0.5f,    -1.f, 0.f, 0.f,  0.f, 0.f),
+    VertexAttribute(-0.5f, -0.5f,  0.5f,    -1.f, 0.f, 0.f,  1.f, 0.f),
+    VertexAttribute(-0.5f,  0.5f,  0.5f,    -1.f, 0.f, 0.f,  1.f, 1.f),
+    VertexAttribute(-0.5f,  0.5f, -0.5f,    -1.f, 0.f, 0.f,  0.f, 1.f),
 
-    // right face (x = 0.5)
-    VertexAttribute(0.5f, -0.5f,  0.5f,    0.f, 0.f, 0.f,  0.f, 0.f),
-    VertexAttribute(0.5f, -0.5f, -0.5f,    0.f, 0.f, 0.f,  1.f, 0.f),
-    VertexAttribute(0.5f,  0.5f, -0.5f,    0.f, 0.f, 0.f,  1.f, 1.f),
-    VertexAttribute(0.5f,  0.5f,  0.5f,    0.f, 0.f, 0.f,  0.f, 1.f),
+    // right face (x = 0.5) - normal pointing +X
+    VertexAttribute(0.5f, -0.5f,  0.5f,    1.f, 0.f, 0.f,  0.f, 0.f),
+    VertexAttribute(0.5f, -0.5f, -0.5f,    1.f, 0.f, 0.f,  1.f, 0.f),
+    VertexAttribute(0.5f,  0.5f, -0.5f,    1.f, 0.f, 0.f,  1.f, 1.f),
+    VertexAttribute(0.5f,  0.5f,  0.5f,    1.f, 0.f, 0.f,  0.f, 1.f),
 
-    // bottom face (y = -0.5)
-    VertexAttribute(-0.5f, -0.5f, -0.5f,    0.f, 0.f, 0.f,  0.f, 0.f),
-    VertexAttribute(0.5f, -0.5f, -0.5f,    0.f, 0.f, 0.f,  1.f, 0.f),
-    VertexAttribute(0.5f, -0.5f,  0.5f,    0.f, 0.f, 0.f,  1.f, 1.f),
-    VertexAttribute(-0.5f, -0.5f,  0.5f,    0.f, 0.f, 0.f,  0.f, 1.f),
+    // bottom face (y = -0.5) - normal pointing -Y
+    VertexAttribute(-0.5f, -0.5f, -0.5f,    0.f, -1.f, 0.f,  0.f, 0.f),
+    VertexAttribute(0.5f, -0.5f, -0.5f,    0.f, -1.f, 0.f,  1.f, 0.f),
+    VertexAttribute(0.5f, -0.5f,  0.5f,    0.f, -1.f, 0.f,  1.f, 1.f),
+    VertexAttribute(-0.5f, -0.5f,  0.5f,    0.f, -1.f, 0.f,  0.f, 1.f),
 
-    // top face (y = 0.5)
-    VertexAttribute(-0.5f,  0.5f,  0.5f,    0.f, 0.f, 0.f,  0.f, 0.f),
-    VertexAttribute(0.5f,  0.5f,  0.5f,    0.f, 0.f, 0.f,  1.f, 0.f),
-    VertexAttribute(0.5f,  0.5f, -0.5f,    0.f, 0.f, 0.f,  1.f, 1.f),
-    VertexAttribute(-0.5f,  0.5f, -0.5f,    0.f, 0.f, 0.f,  0.f, 1.f)
+    // top face (y = 0.5) - normal pointing +Y
+    VertexAttribute(-0.5f,  0.5f,  0.5f,    0.f, 1.f, 0.f,  0.f, 0.f),
+    VertexAttribute(0.5f,  0.5f,  0.5f,    0.f, 1.f, 0.f,  1.f, 0.f),
+    VertexAttribute(0.5f,  0.5f, -0.5f,    0.f, 1.f, 0.f,  1.f, 1.f),
+    VertexAttribute(-0.5f,  0.5f, -0.5f,    0.f, 1.f, 0.f,  0.f, 1.f)
 };
 
 // Two triangles per face: BL,BR,TR and TR,TL,BL (base = face * 4).

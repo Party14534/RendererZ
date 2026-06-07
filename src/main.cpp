@@ -75,13 +75,16 @@ int main() {
     r6.setScale(Vec3(30000.f, 30000.f, 30000.f));
     bunny.setScale(Vec3(50, 50, 50));
     armadillo.setScale(Vec3(.01f, .01f, .01f));
-    l.setScale(Vec3(12, 12, 12));
+
 
     while(win.isOpen())
     {
         // Poll events
         win.pollEvents();
         processInput(win);        
+
+        lightCol = l.getColor();
+        lightPos = l.getPos();
 
         double dt = glfwGetTime();
         r.setColor(Color(std::sin(dt), std::cos(dt),

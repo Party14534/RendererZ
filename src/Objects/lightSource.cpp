@@ -42,7 +42,7 @@ void LightSource::init() {
     initialized = true;
 }
 
-void LightSource::draw(Shader& defaultShader, const Mat& viewMat, const Mat& projMat) {
+void LightSource::draw(Shader& defaultShader, const Mat& viewMat, const Mat& projMat, const Vec3& viewPos) {
     if (vertices.empty()) { return; }
     if (!initialized) init();
 
