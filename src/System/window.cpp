@@ -47,7 +47,7 @@ Window::Window(u32 width, u32 height, std::string windowName) :
     // Set mouse position
     glfwGetCursorPos(win, &mouse.x, &mouse.y);
 
-    glEnable(GL_CULL_FACE);
+    //glEnable(GL_CULL_FACE);
 }
 
 Window::~Window() {

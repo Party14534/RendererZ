@@ -45,7 +45,7 @@ int main() {
     bunny.setColor(Color(.87f, .85f, 1.f, 1.f));
     teapot.setColor(Color(1.f - .87f, 1.f - .85f, 1.f - 1.f, 1.f));
     armadillo.setColor(Color(1.f));
-    homer.setColor(Color(1.f));
+    homer.setColor(Color(float(248)/255,float(219)/255,(float)39/255, 1.));
     cow.setColor(Color(1.f));
 
     /*Mat m = generateRandomMatrix(4096, 4096);
