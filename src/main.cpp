@@ -7,11 +7,11 @@ Cube r3;
 Cube r4;
 Cube r5;
 Cube r6;
-Object bunny("../src/res/objects/bunny.obj");
-Object teapot("../src/res/objects/teapot.obj");
-Object armadillo("../src/res/objects/armadillo.obj");
-Object homer("../src/res/objects/homer.obj");
-Object cow("../src/res/objects/cow.obj");
+Object bunny("../src/res/objects/bunny.obj", true);
+Object teapot("../src/res/objects/teapot.obj", true);
+Object armadillo("../src/res/objects/armadillo.obj", true);
+Object homer("../src/res/objects/homer.obj", true);
+Object cow("../src/res/objects/cow.obj", true);
 
 int main() {
     Window win(800, 600, "Test");

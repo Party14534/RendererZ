@@ -19,6 +19,7 @@ void main()
 {
     vec4 objCol = usingTex_z ? texture(tex, TexCoord) * color_z : color_z;
 
+    // LIGHT CODE
     float ambientStrength = 0.1;
     vec3 ambient = light_color_z.xyz * ambientStrength;
 
@@ -33,6 +34,10 @@ void main()
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
     vec3 specular = specularStrength * spec * light_color_z.xyz;
 
-    vec3 result = vec3(objCol.xyz) * (ambient + diffuse + specular);
+    // Create smaller light coming from camera
+    float vDiff = max(dot(norm, viewDir), 0.0) * .2;
+    vec3 vDiffuse = light_color_z.xyz * vDiff;
+
+    vec3 result = vec3(objCol.xyz) * (ambient + diffuse + vDiffuse + specular);
     FragColor = vec4(result, 1.0);
 }

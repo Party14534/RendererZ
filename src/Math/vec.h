@@ -53,4 +53,6 @@ struct Color {
     Color(float r, float g, float b, float a);
 };
 
+Vec3 CalculateFaceNormal(Vec3 x, Vec3 y, Vec3 z);
+
 #endif

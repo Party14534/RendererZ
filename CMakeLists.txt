@@ -87,6 +87,9 @@ else()
     message(STATUS "OpenMP not found - building without it.")
 endif()
 
+find_package(TBB REQUIRED)
+target_link_libraries(renderer PRIVATE TBB::tbb)
+
 # --- Platform libraries -------------------------------------------------------
 if(APPLE)
     # glad loads GL symbols at runtime via dlopen; GLFW needs these frameworks.

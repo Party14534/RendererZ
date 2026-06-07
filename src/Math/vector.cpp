@@ -63,6 +63,10 @@ Vec3 Vec3::cross(const Vec3& other) const {
     );
 }
 
+Vec3 CalculateFaceNormal(Vec3 x, Vec3 y, Vec3 z) {
+    return (y - x).cross(z - x);
+}
+
 /*
  * Vec4
  */

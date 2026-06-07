@@ -52,10 +52,10 @@ void loadObjectFileFromFilePath(Drawable* d, std::filesystem::path filePath) {
             u32 val = std::stoul(words[1]) - 1;
             d->indices.push_back(val);
 
-            val = std::stoi(words[2]) - 1;
+            val = std::stoul(words[2]) - 1;
             d->indices.push_back(val);
 
-            val = std::stoi(words[3]) - 1;
+            val = std::stoul(words[3]) - 1;
             d->indices.push_back(val);
         }
     }
