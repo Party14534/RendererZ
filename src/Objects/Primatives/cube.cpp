@@ -1,5 +1,4 @@
 #include "../Primitives.h"
-#include "global.h"
 
 /*
  * CUBE

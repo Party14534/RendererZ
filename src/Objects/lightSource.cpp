@@ -1,12 +1,23 @@
-#include "../Primitives.h"
+#include "LightSource.h"
 
 /*
- * RECT
+ * Light Source
  */
 
-Rect::Rect() : Drawable(Rect::_defaultVerts, Rect::_defaultIndices) { }
+LightSource::LightSource() : Drawable() { 
+    isLightSource = true; 
+    color = Color(1.);
+}
+LightSource::LightSource(std::vector<VertexAttribute> verts,
+        std::vector<u32> indices) : Drawable(verts, indices) {
+    isLightSource = true; 
+    color = Color(1.);
+}
 
-void Rect::init() {
+void LightSource::init() {
+    // Don't create stuff on the GPU if theres no model to load
+    if (vertices.empty()) { return; }
+
     // Generate VAO and VBO and EBO
     glGenBuffers(1, &VBO);
     glGenBuffers(1, &EBO);
@@ -28,29 +39,16 @@ void Rect::init() {
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE,
                             8 * sizeof(float), (void*)(0));
     glEnableVertexAttribArray(0);
-
-    // vertex col
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE,
-                            8 * sizeof(float),
-                            (void*)(3*sizeof(float)));
-    glEnableVertexAttribArray(1);
-
-    // tex coord
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE,
-                            8 * sizeof(float),
-                            (void*)(6*sizeof(float)));
-    glEnableVertexAttribArray(2);
-
     initialized = true;
 }
 
-void Rect::draw(Shader& defaultShader, const Mat& viewMat, const Mat& projMat) {
+void LightSource::draw(Shader& defaultShader, const Mat& viewMat, const Mat& projMat) {
+    if (vertices.empty()) { return; }
     if (!initialized) init();
 
     if (shader == nullptr) {
         defaultShader.use();
         defaultShader.setColor(SHADER_COLOR_UNIFORM, color);
-        defaultShader.setBool(SHADER_TEX_SET_UNIFORM, texs.size() > 0);
         defaultShader.setMat4(SHADER_MODEL_SET_UNIFORM, getModelMat());
         defaultShader.setMat4(SHADER_VIEW_SET_UNIFORM, viewMat);
         defaultShader.setMat4(SHADER_PROJECTION_SET_UNIFORM, projMat);
@@ -62,17 +60,18 @@ void Rect::draw(Shader& defaultShader, const Mat& viewMat, const Mat& projMat) {
         shader->setMat4(SHADER_PROJECTION_SET_UNIFORM, projMat);
     }
 
+    /* TODO: support textures
     for(int i = 0; i < texs.size(); i++) {
         texs[i]->bind(i); 
-    }
+    }*/
     
     glBindVertexArray(VAO);
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
 
-    // Unbind textures
+    /* Unbind textures
     for(int i = 0; i < texs.size(); i++) {
         glActiveTexture(GL_TEXTURE0 + i);
-        //glBindTexture(GL_TEXTURE_2D, 0);
-    }
+        glBindTexture(GL_TEXTURE_2D, 0);
+    }*/
 }

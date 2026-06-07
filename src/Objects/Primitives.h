@@ -56,7 +56,6 @@ class Cube : public Drawable {
         void draw(Shader& defaultShader, const Mat& viewMat, const Mat& projMat);
         void init();
     
-    private:
         static const std::vector<VertexAttribute> _defaultVerts;
         static const std::vector<u32> _defaultIndices;
 };

@@ -14,7 +14,8 @@ struct Window {
     u32 width, height;
     std::string windowName;
 
-    Shader defaultShader;
+    Shader objectShader;
+    Shader lightShader;
 
     Camera cam;
     Mouse mouse;

@@ -27,7 +27,9 @@ class Drawable {
 
         size_t startingId;
         std::vector<Texture*> texs;
-        Shader* shader;
+        Shader* shader = nullptr;
+
+        bool isLightSource = false;
 
         u32 VAO, VBO;
 

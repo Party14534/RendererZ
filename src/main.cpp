@@ -1,4 +1,5 @@
 #include "main.h"
+#include <Objects/LightSource.h>
 
 Cube r;
 Cube r2;
@@ -16,11 +17,13 @@ int main() {
     Window win(800, 600, "Test");
     win.captureMouse();
 
-    Shader customShader("../src/Shaders/vertex.vert", "../src/Shaders/multiTex.frag");
+    Shader customShader("../src/Shaders/objectVertex.vert", "../src/Shaders/multiTex.frag");
     customShader.use();
     customShader.setInt("tex1", 0);
     customShader.setInt("tex2", 1);
     r.setShader(customShader);
+
+    LightSource l(Cube::_defaultVerts, Cube::_defaultIndices);
 
     Texture tex("../src/res/textures/zari.jpg");
     Texture tex2("../src/res/textures/cat.jpg");
@@ -63,6 +66,7 @@ int main() {
     armadillo.setPos(Vec3(0, -10, -15));
     homer.setPos(Vec3(0, -10, 15));
     cow.setPos(Vec3(0, 10, 20));
+    l.setPos(Vec3(5, 5, 5));
 
     r2.setScale(Vec3(1.f, 1.f, 1.f));
     r3.setScale(Vec3(2.f, 2.f, 2.f));
@@ -71,6 +75,7 @@ int main() {
     r6.setScale(Vec3(30000.f, 30000.f, 30000.f));
     bunny.setScale(Vec3(50, 50, 50));
     armadillo.setScale(Vec3(.01f, .01f, .01f));
+    l.setScale(Vec3(12, 12, 12));
 
     while(win.isOpen())
     {
@@ -117,6 +122,7 @@ int main() {
         win.draw(armadillo);
         win.draw(homer);
         win.draw(cow);
+        win.draw(l);
 
         win.display();
     }

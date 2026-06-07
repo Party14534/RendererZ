@@ -32,7 +32,8 @@ Window::Window(u32 width, u32 height, std::string windowName) :
     // Update window size with window update
     glfwSetFramebufferSizeCallback(win, framebuffer_size_callback);
 
-    defaultShader = Shader("../src/Shaders/vertex.vert", "../src/Shaders/frag.frag");
+    objectShader = Shader("../src/Shaders/objectVertex.vert", "../src/Shaders/objectFrag.frag");
+    lightShader = Shader("../src/Shaders/lightVertex.vert", "../src/Shaders/lightFrag.frag");
 
     // Create perspective matrices
     cam.BuildPerspectiveMatrices(width, height);
@@ -67,7 +68,8 @@ void Window::clear(Color c) {
 }
 
 void Window::draw(Drawable& d) {
-    d.draw(defaultShader, cam.GetViewMatrix(), cam.GetProjectionMatrix());
+    d.draw(d.isLightSource ? lightShader : objectShader,
+            cam.GetViewMatrix(), cam.GetProjectionMatrix());
 }
 
 /*
