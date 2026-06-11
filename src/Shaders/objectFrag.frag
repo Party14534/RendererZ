@@ -21,8 +21,6 @@ in vec3 Normal;
 in vec3 FragPos;
 in vec2 TexCoord;
 
-uniform vec4 color_z;
-
 uniform vec3 view_pos_z;
 
 uniform bool usingTex_z;
@@ -34,24 +32,24 @@ uniform Light light_z;
 
 void main()
 {
-    vec4 objCol = usingTex_z ? texture(tex, TexCoord) * color_z : color_z;
+    vec4 objCol = usingTex_z ? texture(tex, TexCoord) : vec4(1.);
 
     // LIGHT CODE
-    vec3 ambient = light_z.ambient * material_z.ambient;
+    vec3 ambient = light_z.ambient * (material_z.ambient * objCol.xyz);
 
     vec3 norm = normalize(Normal);
     vec3 lightDir = normalize(light_z.pos - FragPos);
     float diff = max(dot(norm, lightDir), 0.0);
-    vec3 diffuse = light_z.diffuse * (diff * material_z.diffuse);
+    vec3 diffuse = light_z.diffuse * (diff * material_z.diffuse * objCol.xyz);
 
     vec3 viewDir = normalize(view_pos_z - FragPos);
     vec3 reflectDir = reflect(-lightDir, norm);
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), material_z.shininess);
-    vec3 specular = light_z.specular * (spec * material_z.specular);
+    vec3 specular = light_z.specular * (spec * material_z.specular * objCol.xyz);
 
     // Create smaller light coming from camera
     //float vDiff = max(dot(norm, viewDir), 0.0) * .2;
-    //vec3 vDiffuse = light_z.diffuse * (vDiff * material_z.diffuse);
+    //vec3 vDiffuse = light_z.diffuse * (vDiff * material_z.diffuse * objCol.xyz);
 
     vec3 result = ambient + diffuse + specular;
     //result += vDiffuse;
