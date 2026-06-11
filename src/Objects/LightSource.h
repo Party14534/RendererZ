@@ -2,10 +2,13 @@
 #define LIGHT_SOURCE
 
 #include "Drawable.h"
+#include "Shaders/shaders.h"
 
 class LightSource : public Drawable {
     public:
         u32 EBO;
+
+        LightProperties properties;
 
         LightSource();
         LightSource(std::vector<VertexAttribute> verts, std::vector<u32> indices);

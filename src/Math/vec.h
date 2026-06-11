@@ -5,6 +5,7 @@ struct Vec2 {
     float x, y;
     
     Vec2();
+    Vec2(float v);
     Vec2(const float x, const float y);
 
     Vec2 operator+(const Vec2& other) const;
@@ -16,6 +17,7 @@ struct Vec3 {
     float x, y, z;
     
     Vec3();
+    Vec3(float v);
     Vec3(float x, float y, float z);
 
     Vec3 operator+(const Vec3& other) const;
@@ -26,6 +28,7 @@ struct Vec3 {
     float dot(const Vec3& other) const;
     Vec3 normalize() const;
     Vec3 cross(const Vec3& other) const;
+    Vec3 multiplyComponents(Vec3) const;
 };
 
 struct Color;
@@ -34,6 +37,7 @@ struct Vec4 {
     float x, y, z, w;
 
     Vec4();
+    Vec4(float v);
     Vec4(float x, float y, float z, float w);
 
     Vec4 operator+(const Vec4& other) const;
@@ -51,6 +55,8 @@ struct Color {
     Color();
     Color(const float val);
     Color(float r, float g, float b, float a);
+
+    Vec3 toRGB() const;
 };
 
 Vec3 CalculateFaceNormal(Vec3 x, Vec3 y, Vec3 z);

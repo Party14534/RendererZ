@@ -92,3 +92,31 @@ const void Shader::setMat4(const std::string& name, const Mat& m) const {
         std::cerr << "open gl error " << err << "\n";
     }
 }
+
+const void Shader::setMaterial(const Material& m) const {
+    Vec3 c = m.color.toRGB();
+    Vec3 ambient = c * m.ambient;
+    Vec3 diffuse = c * m.diffuse;
+    Vec3 specular = c * m.specular;
+
+    glUniform3f(glGetUniformLocation(ID, SHADER_MATERIAL_AMBIENT_UNIFORM),
+            ambient.x, ambient.y, ambient.z);
+    glUniform3f(glGetUniformLocation(ID, SHADER_MATERIAL_DIFFUSE_UNIFORM),
+            diffuse.x, diffuse.y, diffuse.z);
+    glUniform3f(glGetUniformLocation(ID, SHADER_MATERIAL_SPECULAR_UNIFORM),
+            specular.x, specular.y, specular.z);
+    glUniform1f(glGetUniformLocation(ID, SHADER_MATERIAL_SHININESS_UNIFORM),
+            m.shininess);
+}
+
+const void Shader::setLight(const Vec3& pos, const Vec3& ambient, const Vec3& diffuse,
+            const Vec3& specular) const {
+    glUniform3f(glGetUniformLocation(ID, SHADER_LIGHT_POSITION_UNIFORM),
+            pos.x, pos.y, pos.z);
+    glUniform3f(glGetUniformLocation(ID, SHADER_LIGHT_AMBIENT_UNIFORM),
+            ambient.x, ambient.y, ambient.z);
+    glUniform3f(glGetUniformLocation(ID, SHADER_LIGHT_DIFFUSE_UNIFORM),
+            diffuse.x, diffuse.y, diffuse.z);
+    glUniform3f(glGetUniformLocation(ID, SHADER_LIGHT_SPECULAR_UNIFORM),
+            specular.x, specular.y, specular.z);
+}

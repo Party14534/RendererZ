@@ -6,12 +6,12 @@
 
 LightSource::LightSource() : Drawable() { 
     isLightSource = true; 
-    color = Color(1.);
+    material.color = Color(1.);
 }
 LightSource::LightSource(std::vector<VertexAttribute> verts,
         std::vector<u32> indices) : Drawable(verts, indices) {
     isLightSource = true; 
-    color = Color(1.);
+    material.color = Color(1.);
 }
 
 void LightSource::init() {
@@ -48,7 +48,7 @@ void LightSource::draw(Shader& defaultShader, const Mat& viewMat, const Mat& pro
 
     if (shader == nullptr) {
         defaultShader.use();
-        defaultShader.setColor(SHADER_COLOR_UNIFORM, color);
+        defaultShader.setColor(SHADER_COLOR_UNIFORM, material.color);
         defaultShader.setMat4(SHADER_MODEL_SET_UNIFORM, getModelMat());
         defaultShader.setMat4(SHADER_VIEW_SET_UNIFORM, viewMat);
         defaultShader.setMat4(SHADER_PROJECTION_SET_UNIFORM, projMat);

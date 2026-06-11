@@ -1,4 +1,6 @@
 #include "Drawable.h"
+#include "Shaders/shaders.h"
+#include "global.h"
 
 Drawable::Drawable() : modelMat(Mat(4, 4)) { }
 
@@ -10,14 +12,17 @@ Drawable::Drawable(std::vector<VertexAttribute> _vertices, std::vector<u32> _ind
 
 Drawable::~Drawable() { }
 
-void Drawable::setColor(Color c) { color = c; }
-Color Drawable::getColor() { return color; }
+void Drawable::setColor(Color c) { material.color = c; }
+Color Drawable::getColor() const { return material.color; }
 
 void Drawable::setPos(Vec3 v) { pos = v; }
-Vec3 Drawable::getPos() { return pos; }
+Vec3 Drawable::getPos() const { return pos; }
 
 void Drawable::setScale(Vec3 s) { scale = s; }
-Vec3 Drawable::getScale() { return scale; }
+Vec3 Drawable::getScale() const { return scale; }
+
+void Drawable::setMaterial(Material m) { material = m; }
+Material Drawable::getMaterial() const { return material; }
 
 void Drawable::rotateX(float angle) { 
     rotation.x = angle;
@@ -48,14 +53,15 @@ void Drawable::setShader(Shader& _shader) {
 }
 
 void Drawable::setDefaultUniforms(Shader& shader, const Mat& viewMat, const Mat& projMat, const Vec3& viewPos) {
-        shader.setColor(SHADER_COLOR_UNIFORM, color);
-        shader.setVec4(SHADER_LIGHT_COLOR_UNIFORM, lightCol);
-        shader.setVec3(SHADER_LIGHT_POSITION_UNIFORM, lightPos);
-        shader.setBool(SHADER_TEX_SET_UNIFORM, texs.size() > 0);
-        shader.setMat4(SHADER_MODEL_SET_UNIFORM, getModelMat());
-        shader.setMat4(SHADER_VIEW_SET_UNIFORM, viewMat);
-        shader.setMat4(SHADER_PROJECTION_SET_UNIFORM, projMat);
-        shader.setVec3(SHADER_VIEW_POSITION_UNIFORM, viewPos);
+    Vec3 lc = Vec3(lightCol.r, lightCol.g, lightCol.b);
+    shader.setLight(lightPos, lc * lightProp.ambient,
+                    lc * lightProp.diffuse, lc * lightProp.specular);
+    shader.setBool(SHADER_TEX_SET_UNIFORM, texs.size() > 0);
+    shader.setMat4(SHADER_MODEL_SET_UNIFORM, getModelMat());
+    shader.setMat4(SHADER_VIEW_SET_UNIFORM, viewMat);
+    shader.setMat4(SHADER_PROJECTION_SET_UNIFORM, projMat);
+    shader.setVec3(SHADER_VIEW_POSITION_UNIFORM, viewPos);
+    shader.setMaterial(material);
 }
 
 Mat Drawable::getModelMat() {

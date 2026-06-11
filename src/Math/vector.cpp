@@ -6,6 +6,8 @@
 
 Vec2::Vec2() : x(0), y(0) {}
 
+Vec2::Vec2(float v) : x(v), y(v) {}
+
 Vec2::Vec2(float x, float y) : x(x), y(y) {}
 
 
@@ -26,6 +28,8 @@ Vec2 Vec2::operator*(const float scalar) const {
  */
 
 Vec3::Vec3() : x(0), y(0), z(0) {}
+
+Vec3::Vec3(float v) : x(v), y(v), z(v) {}
 
 Vec3::Vec3(float x, float y, float z) : x(x), y(y), z(z) {}
 
@@ -63,6 +67,10 @@ Vec3 Vec3::cross(const Vec3& other) const {
     );
 }
 
+Vec3 Vec3::multiplyComponents(Vec3 v2) const {
+    return Vec3(x * v2.x, y * v2.y, z * v2.z);
+}
+
 Vec3 CalculateFaceNormal(Vec3 x, Vec3 y, Vec3 z) {
     return (y - x).cross(z - x);
 }
@@ -72,6 +80,8 @@ Vec3 CalculateFaceNormal(Vec3 x, Vec3 y, Vec3 z) {
  */
 
 Vec4::Vec4() : x(0), y(0), z(0), w(0) {}
+
+Vec4::Vec4(float v) : x(v), y(v), z(v), w(v) {}
 
 Vec4::Vec4(float x, float y, float z, float w) : x(x), y(y), z(z), w(w) {}
 
@@ -115,3 +125,5 @@ Vec4 Vec4::normalize() const {
 Color::Color() : r(0.), g(0.), b(0.), a(0.) {}
 Color::Color(const float val) : r(val), g(val), b(val), a(val) {}
 Color::Color(float r, float g, float b, float a) : r(r), g(g), b(b), a(a) {}
+
+Vec3 Color::toRGB() const { return Vec3(r, g, b); }

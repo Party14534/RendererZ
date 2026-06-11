@@ -28,6 +28,13 @@ class Drawable {
         size_t startingId;
         std::vector<Texture*> texs;
         Shader* shader = nullptr;
+        Material material = Material {
+            Color(1.f),
+            .2f,
+            .5f,
+            .5f,
+            32.f
+        };
 
         bool isLightSource = false;
 
@@ -45,11 +52,13 @@ class Drawable {
         virtual void draw(Shader& defaultShader, const Mat& viewMat, const Mat& projMat, const Vec3& viewPos) = 0;
 
         void setColor(Color c);
-        Color getColor();
+        Color getColor() const;
         void setPos(Vec3 v);
-        Vec3 getPos();
+        Vec3 getPos() const;
         void setScale(Vec3 v);
-        Vec3 getScale();
+        Vec3 getScale() const;
+        void setMaterial(Material m);
+        Material getMaterial() const;
 
         void rotateX(float angle);
         void rotateY(float angle);
@@ -61,7 +70,6 @@ class Drawable {
         void setDefaultUniforms(Shader& shader, const Mat& viewMat, const Mat& projMat, const Vec3& viewPos);
 
     protected:
-        Color color;
         Vec3 pos, rotation;
         Vec3 scale = Vec3(1.f, 1.f, 1.f);
         Mat getModelMat();
