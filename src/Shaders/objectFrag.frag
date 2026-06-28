@@ -105,5 +105,4 @@ void main()
     //vec3 vDiffuse = light.diffuse * (vDiff * material_z.diffuse * objCol.xyz);
 
     FragColor = vec4(result, 1.0);
-    FragColor = vec4(dirLight_z.diffuse, 1.0);
 }
