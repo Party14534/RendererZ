@@ -1,6 +1,7 @@
 #ifndef DRAWABLE_H
 #define DRAWABLE_H
 
+#include "LightSource.h"
 #include <optional>
 #include <vector>
 #include <cstdlib>
@@ -36,6 +37,7 @@ class Drawable {
             32.f
         };
 
+        // TODO: Remove
         bool isLightSource = false;
 
         u32 VAO, VBO;
@@ -49,7 +51,11 @@ class Drawable {
         virtual ~Drawable();
 
         virtual void init() = 0;
-        virtual void draw(Shader& defaultShader, const Mat& viewMat, const Mat& projMat, const Vec3& viewPos) = 0;
+        virtual void draw(Shader* shader, Shader& defaultShader,
+                const Mat& viewMat,
+                const Mat& projMat, const Vec3& viewPos,
+                const DirLight& dLight,
+                const std::vector<PointLight>& pLights) = 0;
 
         void setColor(Color c);
         Color getColor() const;
@@ -67,7 +73,10 @@ class Drawable {
         void addTexture(Texture& _tex);
         void removeTexture(u32 id);
         void setShader(Shader& _shader);
-        void setDefaultUniforms(Shader& shader, const Mat& viewMat, const Mat& projMat, const Vec3& viewPos);
+        void setDefaultUniforms(Shader& shader, const Mat& viewMat,
+                const Mat& projMat, const Vec3& viewPos,
+                const DirLight& dLight, const std::vector<PointLight>& pLights);
+        void setPointLightUniforms(const Shader& shader, const std::vector<PointLight>& pLights);
 
     protected:
         Vec3 pos, rotation;

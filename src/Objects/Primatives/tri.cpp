@@ -38,12 +38,17 @@ void Tri::init() {
     initialized = true;
 }
 
-void Tri::draw(Shader& defaultShader, const Mat& viewMat, const Mat& projMat, const Vec3& viewPos) {
+void Tri::draw(Shader* shader, Shader& defaultShader,
+                const Mat& viewMat,
+                const Mat& projMat, const Vec3& viewPos,
+                const DirLight& dLight,
+                const std::vector<PointLight>& pLights) {
     if (!initialized) init();
 
     if (shader == nullptr) {
         defaultShader.use();
-        setDefaultUniforms(defaultShader, viewMat, projMat, viewPos);
+        setDefaultUniforms(defaultShader, viewMat, projMat,
+                viewPos, dLight, pLights);
     } else {
         shader->use();
         shader->setMat4(SHADER_MODEL_SET_UNIFORM, getModelMat());

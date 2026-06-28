@@ -109,14 +109,33 @@ const void Shader::setMaterial(const Material& m) const {
             m.shininess);
 }
 
-const void Shader::setLight(const Vec3& pos, const Vec3& ambient, const Vec3& diffuse,
-            const Vec3& specular) const {
-    glUniform3f(glGetUniformLocation(ID, SHADER_LIGHT_POSITION_UNIFORM),
-            pos.x, pos.y, pos.z);
-    glUniform3f(glGetUniformLocation(ID, SHADER_LIGHT_AMBIENT_UNIFORM),
+const void Shader::setDirLight(const Vec3& dir, const Vec3& ambient,
+        const Vec3& diffuse, const Vec3& specular) const {
+    std::string name = SHADER_DIRECTIONAL_LIGHT;
+    glUniform3f(glGetUniformLocation(ID, (name + ".direction").c_str()),
+            dir.x, dir.y, dir.z);
+    glUniform3f(glGetUniformLocation(ID, (name + ".ambient").c_str()),
             ambient.x, ambient.y, ambient.z);
-    glUniform3f(glGetUniformLocation(ID, SHADER_LIGHT_DIFFUSE_UNIFORM),
+    glUniform3f(glGetUniformLocation(ID, (name + ".diffuse").c_str()),
             diffuse.x, diffuse.y, diffuse.z);
-    glUniform3f(glGetUniformLocation(ID, SHADER_LIGHT_SPECULAR_UNIFORM),
+    glUniform3f(glGetUniformLocation(ID, (name + ".specular").c_str()),
             specular.x, specular.y, specular.z);
+}
+
+const void Shader::setPointLight(const std::string& name, const Vec3& pos, const Vec3& ambient, const Vec3& diffuse,
+            const Vec3& specular, const Vec3& attenuation) const {
+    glUniform3f(glGetUniformLocation(ID, (name + ".pos").c_str()),
+            pos.x, pos.y, pos.z);
+    glUniform3f(glGetUniformLocation(ID, (name + ".ambient").c_str()),
+            ambient.x, ambient.y, ambient.z);
+    glUniform3f(glGetUniformLocation(ID, (name + ".diffuse").c_str()),
+            diffuse.x, diffuse.y, diffuse.z);
+    glUniform3f(glGetUniformLocation(ID, (name + ".specular").c_str()),
+            specular.x, specular.y, specular.z);
+    glUniform3f(glGetUniformLocation(ID,(name + ".attenuation").c_str()),
+            attenuation.x, attenuation.y, attenuation.z);
+}
+
+std::string GetPointLightName(int i) {
+    return "pointLights_z[" + std::to_string(i) + "]";
 }

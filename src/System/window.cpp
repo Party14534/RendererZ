@@ -1,10 +1,12 @@
 #include "Window.h"
+#include <vector>
 
 Window::Window(u32 width, u32 height, std::string windowName) :
     width(width),
     height(height),
     windowName(windowName),
-    mouse((float)width / 2.f, (float)height / 2.f)
+    mouse((float)width / 2.f, (float)height / 2.f),
+    dLight(Vec3(0., -1, 0.), DirLightProperties())
 {
     initializeGL(); // Initialize GLFW
 
@@ -48,6 +50,9 @@ Window::Window(u32 width, u32 height, std::string windowName) :
     glfwGetCursorPos(win, &mouse.x, &mouse.y);
 
     //glEnable(GL_CULL_FACE);
+
+    // Initialize Lights
+    pLights = std::vector<PointLight>(0);
 }
 
 Window::~Window() {
@@ -68,9 +73,9 @@ void Window::clear(Color c) {
 }
 
 void Window::draw(Drawable& d) {
-    d.draw(d.isLightSource ? lightShader : objectShader,
+    d.draw(d.shader, objectShader,
             cam.GetViewMatrix(), cam.GetProjectionMatrix(),
-            cam.GetPos());
+            cam.GetPos(), dLight, pLights);
 }
 
 /*
@@ -116,6 +121,19 @@ void Window::uncaptureMouse() {
 
 bool Window::isKeyPressed(u32 keycode) {
     return glfwGetKey(win, keycode);
+}
+
+/*
+ * Lighting
+ */
+void Window::addPointLight(PointLight p) {
+    pLights.emplace_back(p);
+    // TODO: Update shader stuff
+}
+
+void Window::removePointLight(u32 i) {
+    pLights.erase(pLights.begin() + i);
+    // TODO: Update shader stuff
 }
 
 /*

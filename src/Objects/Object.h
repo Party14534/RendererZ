@@ -16,7 +16,11 @@ class Object : public Drawable {
         Object(std::string filePath, bool genNormals = false);
         //Object(std::vector<float> _verts, std::vector<u32> _indices); // TODO
 
-        void draw(Shader& defaultShader, const Mat& viewMat, const Mat& projMat, const Vec3& viewPos);
+        void draw(Shader* shader, Shader& defaultShader,
+                const Mat& viewMat,
+                const Mat& projMat, const Vec3& viewPos,
+                const DirLight& dLight,
+                const std::vector<PointLight>& pLights);
         void init();
 
         void generateNormals();

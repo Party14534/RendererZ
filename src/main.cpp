@@ -1,6 +1,4 @@
 #include "main.h"
-#include "global.h"
-#include <Objects/LightSource.h>
 
 Cube r2;
 Cube r3;
@@ -15,7 +13,7 @@ int main() {
     Window win(800, 600, "Test");
     win.captureMouse();
 
-    LightSource l(Cube::_defaultVerts, Cube::_defaultIndices);
+    PointLight l(Vec3(5, 5, 5), PointLightProperties());
 
     Texture tex("../src/res/textures/zari.jpg");
     Texture tex2("../src/res/textures/cat.jpg");
@@ -47,7 +45,6 @@ int main() {
     armadillo.setPos(Vec3(0, -10, -15));
     homer.setPos(Vec3(0, -10, 15));
     cow.setPos(Vec3(0, 10, 20));
-    l.setPos(Vec3(5, 5, 5));
     r7.setPos(Vec3(9, 5, 9));
 
     r2.setScale(Vec3(1.f));
@@ -75,12 +72,21 @@ int main() {
     });
     cow.setMaterial(bunny.getMaterial());
 
+    //win.addPointLight(l);
+
+    l.properties.attenuation = Vec3(1.0, 0.007, 0.0002);
+    l.setColor(Color(1., 0., .2, 1.));
+    l.setPos(teapot.getPos());
+
+    //win.addPointLight(l);
+
+    win.dLight.setColor(Color(1.));
+    win.dLight.properties = DirLightProperties {
+        .1, .3, .1,
+    };
+
     while(win.isOpen())
     {
-        lightPos = l.getPos();
-        lightCol = l.getColor();
-        lightProp = l.properties;
-
         // Poll events
         win.pollEvents();
         processInput(win);        
@@ -106,7 +112,6 @@ int main() {
         win.draw(armadillo);
         win.draw(homer);
         win.draw(cow);
-        win.draw(l);
         win.draw(r7);
 
         win.display();

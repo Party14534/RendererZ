@@ -1,6 +1,4 @@
 #include "Drawable.h"
-#include "Shaders/shaders.h"
-#include "global.h"
 
 Drawable::Drawable() : modelMat(Mat(4, 4)) { }
 
@@ -52,16 +50,39 @@ void Drawable::setShader(Shader& _shader) {
     shader = &_shader;
 }
 
-void Drawable::setDefaultUniforms(Shader& shader, const Mat& viewMat, const Mat& projMat, const Vec3& viewPos) {
-    Vec3 lc = Vec3(lightCol.r, lightCol.g, lightCol.b);
-    shader.setLight(lightPos, lc * lightProp.ambient,
-                    lc * lightProp.diffuse, lc * lightProp.specular);
+void Drawable::setDefaultUniforms(Shader& shader, const Mat& viewMat,
+        const Mat& projMat, const Vec3& viewPos,
+        const DirLight& dLight,
+        const std::vector<PointLight>& pLights) {
+    setPointLightUniforms(shader, pLights);
+
+    Vec3 lc = Vec3(dLight.getColor().toRGB());
+    shader.setDirLight(dLight.getDir(), 
+                lc * dLight.properties.ambient,
+                lc * dLight.properties.diffuse,
+                lc * dLight.properties.specular);
+
+    shader.setInt(SHADER_POINT_LIGHT_COUNT, pLights.size());
     shader.setBool(SHADER_TEX_SET_UNIFORM, texs.size() > 0);
     shader.setMat4(SHADER_MODEL_SET_UNIFORM, getModelMat());
     shader.setMat4(SHADER_VIEW_SET_UNIFORM, viewMat);
     shader.setMat4(SHADER_PROJECTION_SET_UNIFORM, projMat);
     shader.setVec3(SHADER_VIEW_POSITION_UNIFORM, viewPos);
     shader.setMaterial(material);
+}
+
+void Drawable::setPointLightUniforms(const Shader& shader, const std::vector<PointLight>& pLights) {
+    for (u32 i = 0; i < pLights.size(); i++) {
+        const PointLight& l = pLights[i];
+        Vec3 lc = Vec3(l.getColor().toRGB());
+        shader.setPointLight(
+                GetPointLightName(i),
+                l.getPos(),
+                lc * l.properties.ambient,
+                lc * l.properties.diffuse,
+                lc * l.properties.specular,
+                l.properties.attenuation);
+    }
 }
 
 Mat Drawable::getModelMat() {

@@ -14,16 +14,14 @@
 #define SHADER_MATERIAL_DIFFUSE_UNIFORM "material_z.diffuse"
 #define SHADER_MATERIAL_SPECULAR_UNIFORM "material_z.specular"
 #define SHADER_MATERIAL_SHININESS_UNIFORM "material_z.shininess"
-#define SHADER_LIGHT_POSITION_UNIFORM "light_z.pos"
-#define SHADER_LIGHT_AMBIENT_UNIFORM "light_z.ambient"
-#define SHADER_LIGHT_DIFFUSE_UNIFORM "light_z.diffuse"
-#define SHADER_LIGHT_SPECULAR_UNIFORM "light_z.specular"
 #define SHADER_COLOR_UNIFORM "color_z"
 #define SHADER_TEX_SET_UNIFORM "usingTex_z"
 #define SHADER_MODEL_SET_UNIFORM "model_z"
 #define SHADER_VIEW_SET_UNIFORM "view_z"
 #define SHADER_PROJECTION_SET_UNIFORM "projection_z"
 #define SHADER_VIEW_POSITION_UNIFORM "view_pos_z"
+#define SHADER_DIRECTIONAL_LIGHT "dirLight_z"
+#define SHADER_POINT_LIGHT_COUNT "pointLightCnt_z"
 
 struct Material {
     Color color;
@@ -33,10 +31,17 @@ struct Material {
     float shininess = 32.f;
 };
 
-struct LightProperties {
+struct DirLightProperties {
     float ambient = 1.f;
     float diffuse = 1.f;
     float specular = 1.f;
+};
+
+struct PointLightProperties {
+    float ambient = 1.f;
+    float diffuse = 1.f;
+    float specular = 1.f;
+    Vec3 attenuation = Vec3(1.f, .09f, .032f);
 };
 
 struct Shader {
@@ -61,10 +66,16 @@ struct Shader {
     const void setMat4(const std::string& name, const Mat& m) const;
 
     const void setMaterial(const Material& m) const;
-    const void setLight(const Vec3& pos, const Vec3& ambient,
+
+    const void setDirLight(const Vec3& dir, const Vec3& ambient,
             const Vec3& diffuse, const Vec3& specular) const;
+    const void setPointLight(const std::string& name, const Vec3& pos, const Vec3& ambient,
+            const Vec3& diffuse, const Vec3& specular,
+            const Vec3& attenuation) const;
 };
 
 unsigned int loadShader(std::string path, int shaderType);
+
+std::string GetPointLightName(int i);
 
 #endif

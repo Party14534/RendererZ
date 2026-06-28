@@ -44,12 +44,17 @@ void Cube::init() {
     initialized = true;
 }
 
-void Cube::draw(Shader& defaultShader, const Mat& viewMat, const Mat& projMat, const Vec3& viewPos) {
+void Cube::draw(Shader* shader, Shader& defaultShader,
+                const Mat& viewMat,
+                const Mat& projMat, const Vec3& viewPos,
+                const DirLight& dLight,
+                const std::vector<PointLight>& pLights) {
     if (!initialized) init();
 
     if (shader == nullptr) {
         defaultShader.use();
-        setDefaultUniforms(defaultShader, viewMat, projMat, viewPos);
+        setDefaultUniforms(defaultShader, viewMat, projMat,
+                viewPos, dLight, pLights);
     } else {
         shader->use();
         Mat m = getModelMat();

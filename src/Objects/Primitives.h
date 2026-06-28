@@ -6,7 +6,11 @@
 class Tri : public Drawable {
     public: 
         Tri();
-        void draw(Shader& defaultShader, const Mat& viewMat, const Mat& projMat, const Vec3& viewPos);
+        void draw(Shader* shader, Shader& defaultShader,
+                const Mat& viewMat,
+                const Mat& projMat, const Vec3& viewPos,
+                const DirLight& dLight,
+                const std::vector<PointLight>& pLights);
         void init();
     
     private:
@@ -26,7 +30,11 @@ class Rect : public Drawable {
         u32 EBO;
 
         Rect();
-        void draw(Shader& defaultShader, const Mat& viewMat, const Mat& projMat, const Vec3& viewPos);
+        void draw(Shader* shader, Shader& defaultShader,
+                const Mat& viewMat,
+                const Mat& projMat, const Vec3& viewPos,
+                const DirLight& dLight,
+                const std::vector<PointLight>& pLights);
         void init();
     
     private:
@@ -53,7 +61,11 @@ class Cube : public Drawable {
         u32 EBO;
 
         Cube();
-        void draw(Shader& defaultShader, const Mat& viewMat, const Mat& projMat, const Vec3& viewPos);
+        void draw(Shader* shader, Shader& defaultShader,
+                const Mat& viewMat,
+                const Mat& projMat, const Vec3& viewPos,
+                const DirLight& dLight,
+                const std::vector<PointLight>& pLights);
         void init();
     
         static const std::vector<VertexAttribute> _defaultVerts;

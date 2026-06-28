@@ -1,20 +1,36 @@
 #ifndef LIGHT_SOURCE
 #define LIGHT_SOURCE
 
-#include "Drawable.h"
-#include "Shaders/shaders.h"
+#include "../Shaders/shaders.h"
 
-class LightSource : public Drawable {
+class LightSource {
     public:
-        u32 EBO;
+        LightSource(Vec3 _pos);
+        void setColor(Color c);
+        Color getColor() const;
+        void setPos(Vec3 v);
+        Vec3 getPos() const;
 
-        LightProperties properties;
+    protected:
+        Vec3 pos;
+        Color color;
+};
 
-        LightSource();
-        LightSource(std::vector<VertexAttribute> verts, std::vector<u32> indices);
+class DirLight : public LightSource {
+    public:
+        DirLightProperties properties;
 
-        void draw(Shader& defaultShader, const Mat& viewMat, const Mat& projMat, const Vec3& viewPos);
-        void init(); 
+        DirLight(Vec3 _pos, DirLightProperties _prop);
+        void setDir(Vec3 v);
+        Vec3 getDir() const;
+};
+
+class PointLight : public LightSource {
+    public:
+        PointLightProperties properties;
+
+        PointLight();
+        PointLight(Vec3 _pos, PointLightProperties _prop);
 };
 
 #endif

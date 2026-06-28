@@ -10,9 +10,6 @@
 #include <iostream>
 
 inline GLFWwindow* win;
-inline Vec3 lightPos;
-inline Color lightCol;
-inline LightProperties lightProp;
 
 inline bool frameCallbackFlag = false;
 inline uint32_t frameCallbackWidth = 0;

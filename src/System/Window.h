@@ -2,12 +2,14 @@
 #define WINDOW_H
 
 #include <string>
+#include <vector>
 
 #include "../Objects/Drawable.h"
 #include "../Math/math.h"
 #include "../Shaders/shaders.h"
 #include "Camera.h"
 #include "../Input/Input.h"
+#include "../Objects/LightSource.h"
 
 struct Window {
     // Window variables
@@ -19,6 +21,10 @@ struct Window {
 
     Camera cam;
     Mouse mouse;
+
+    // Lighting
+    DirLight dLight;
+    std::vector<PointLight> pLights;
 
     bool wasMouseMoved;
     Vec2 mouseChange;
@@ -38,6 +44,10 @@ struct Window {
     bool isKeyPressed(u32 keycode);
     void createKeyReleaseCallback(u32 keycode);
     Vec2 GetMouseChange();
+
+    // Lighting
+    void addPointLight(PointLight p);
+    void removePointLight(u32 i);
 
     // Callbacks
     static void mouseCallback(GLFWwindow* win, double xPos, double yPos);

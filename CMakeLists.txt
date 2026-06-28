@@ -100,14 +100,15 @@ if(APPLE)
         "-framework OpenGL"
         ${CMAKE_DL_LIBS}
     )
+
+    # experimental and its libdispatch backend lives in libc++experimental.a.
+    # For std::execution::par on macOS. libc++'s Parallel STL is still
+    # -fexperimental-library enables the headers at compile time AND, when passed
+    # to the linker, pulls in libc++experimental.a so the PSTL backend symbols
+    # (__libdispatch::__dispatch_apply, __partition_chunks, ...) resolve.
+    target_compile_options(renderer PRIVATE -fexperimental-library)
+    target_link_options(renderer PRIVATE -fexperimental-library)
 else()
     target_link_libraries(renderer PRIVATE ${CMAKE_DL_LIBS})
 endif()
 
-# For std::execution::par on macOS. libc++'s Parallel STL is still
-# experimental and its libdispatch backend lives in libc++experimental.a.
-# -fexperimental-library enables the headers at compile time AND, when passed
-# to the linker, pulls in libc++experimental.a so the PSTL backend symbols
-# (__libdispatch::__dispatch_apply, __partition_chunks, ...) resolve.
-target_compile_options(renderer PRIVATE -fexperimental-library)
-target_link_options(renderer PRIVATE -fexperimental-library)
