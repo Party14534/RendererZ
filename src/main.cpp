@@ -1,7 +1,8 @@
 #include "main.h"
 
-Cube r2;
-Cube r3;
+Cube redCube;
+Cube blueCube;
+Cube greenCube;
 Cube r7;
 Object bunny("../src/res/objects/bunny.obj", true);
 Object teapot("../src/res/objects/teapot.obj", true);
@@ -19,18 +20,17 @@ int main() {
     Texture tex2("../src/res/textures/cat.jpg");
 
 
-    r2.setTexture(tex);
-    r3.setTexture(tex);
+    redCube.setTexture(tex);
+    blueCube.setTexture(tex);
+    greenCube.setTexture(tex);
 
-    r2.setColor(Color(1.f));
-    r3.setColor(Color(1.f, 0.f, 0.f, 1.f));
     r7.setColor(Color(.5f, .5f, .5f, 1.f));
     bunny.setColor(Color(.87f, .85f, 1.f, 1.f));
     teapot.setColor(Color(1.f - .87f, 1.f - .85f, 1.f - 1.f, 1.f));
     armadillo.setColor(Color(1.f));
     homer.setColor(Color(float(248)/255,float(219)/255,(float)39/255, 1.));
     cow.setColor(Color(1.f));
-    l.setColor(Color(.88, .85, 1., 1.));
+    l.setColor(Color(1, 1, 1, 1));
 
     /*Mat m = generateRandomMatrix(4096, 4096);
     Mat m2 = generateRandomMatrix(4096, 4096);
@@ -38,8 +38,6 @@ int main() {
     Mat o = m * m2;*/
 
 
-    r2.setPos(Vec3(5.5, 3.5, -5.));
-    r3.setPos(Vec3(-5.5, -3.5, -5.));
     bunny.setPos(Vec3(0, 10, 10));
     teapot.setPos(Vec3(0, -10, -10));
     armadillo.setPos(Vec3(0, -10, -15));
@@ -47,8 +45,9 @@ int main() {
     cow.setPos(Vec3(0, 10, 20));
     r7.setPos(Vec3(9, 5, 9));
 
-    r2.setScale(Vec3(1.f));
-    r3.setScale(Vec3(2.f));
+    redCube.setScale(Vec3(.5f));
+    blueCube.setScale(Vec3(.5f));
+    greenCube.setScale(Vec3(.5f));
     bunny.setScale(Vec3(50));
     armadillo.setScale(Vec3(.01f));
     r7.setScale(Vec3(2.f));
@@ -74,13 +73,20 @@ int main() {
 
     win.addPointLight(l);
 
-    l.properties.attenuation = Vec3(1.0, 0.007, 0.0002);
-    l.setColor(Color(1., 0., .2, 1.));
-    l.setPos(teapot.getPos() + Vec3(100, 0, 0));
+    l.properties.attenuation = Vec3(1.0, 0.014, 0.0007);
+    l.setColor(Color(1, 0, 0, 1));
+    l.setPos(teapot.getPos() + Vec3(10, 0, 0));
+    redCube.setPos(l.getPos() + Vec3(0, -1, 0));
     win.addPointLight(l);
 
     l.setColor(Color(0., 0., 1., 1.));
-    l.setPos(homer.getPos() + Vec3(0, 0, 150));
+    l.setPos(homer.getPos() + Vec3(0, 0, 15));
+    blueCube.setPos(l.getPos() + Vec3(0, -1, 0));
+    win.addPointLight(l);
+
+    l.setColor(Color(0., 1., 0., 1.));
+    l.setPos(homer.getPos() + Vec3(0, 60, 0));
+    greenCube.setPos(l.getPos() + Vec3(0, 1, 0));
     win.addPointLight(l);
 
     win.dLight.setColor(Color(1.));
@@ -95,10 +101,10 @@ int main() {
         processInput(win);        
 
         double dt = glfwGetTime();
-        r2.rotateY(dt);
-        r2.rotateX(dt * 0.5f);
-        r3.rotateY(dt);
-        r3.rotateX(dt * 0.5f);
+        redCube.rotateY(dt);
+        redCube.rotateX(dt * 0.5f);
+        blueCube.rotateY(dt);
+        blueCube.rotateX(dt * 0.5f);
         r7.rotateY(-dt * .25f);
 
         bunny.rotateY(dt * 2);
@@ -108,8 +114,9 @@ int main() {
         // Handle rendering
         win.clear(Color(0.f));
 
-        win.draw(r2);
-        win.draw(r3);
+        win.draw(redCube);
+        win.draw(blueCube);
+        win.draw(greenCube);
         win.draw(bunny);
         win.draw(teapot);
         win.draw(armadillo);
