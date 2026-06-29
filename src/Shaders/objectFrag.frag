@@ -49,8 +49,9 @@ vec3 calcDirLight(DirLight light, vec3 normal, vec3 viewDir) {
     float diff = max(dot(normal, lightDir), 0.);
 
     // Specular
-    vec3 reflectDir = reflect(-lightDir, normal);
-    float spec = pow(max(dot(viewDir, reflectDir), 0.), material_z.shininess);
+    vec3 halfwayDir = normalize(lightDir + viewDir); // Blinn-Phong
+    //vec3 reflectDir = reflect(-lightDir, normal); // Phong
+    float spec = pow(max(dot(normal, halfwayDir), 0.), material_z.shininess);
 
     vec4 objCol = usingTex_z ? texture(tex, TexCoord) : vec4(1.);
     vec3 ambient = light.ambient * (material_z.ambient * objCol.xyz);
@@ -65,8 +66,10 @@ vec3 calcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir) {
 
     float diff = max(dot(normal, lightDir), 0.);
 
-    vec3 reflectDir = reflect(-lightDir, normal);
-    float spec = pow(max(dot(viewDir, reflectDir), 0.), material_z.shininess);
+    // Specular
+    vec3 halfwayDir = normalize(lightDir + viewDir); // Blinn-Phong
+    //vec3 reflectDir = reflect(-lightDir, normal); // Phong
+    float spec = pow(max(dot(normal, halfwayDir), 0.), material_z.shininess);
 
     float distance = length(light.pos - fragPos);
     float attenuation = 1.0 / (light.attenuation.x

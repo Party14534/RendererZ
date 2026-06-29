@@ -72,13 +72,16 @@ int main() {
     });
     cow.setMaterial(bunny.getMaterial());
 
-    //win.addPointLight(l);
+    win.addPointLight(l);
 
     l.properties.attenuation = Vec3(1.0, 0.007, 0.0002);
     l.setColor(Color(1., 0., .2, 1.));
-    l.setPos(teapot.getPos());
+    l.setPos(teapot.getPos() + Vec3(100, 0, 0));
+    win.addPointLight(l);
 
-    //win.addPointLight(l);
+    l.setColor(Color(0., 0., 1., 1.));
+    l.setPos(homer.getPos() + Vec3(0, 0, 150));
+    win.addPointLight(l);
 
     win.dLight.setColor(Color(1.));
     win.dLight.properties = DirLightProperties {
