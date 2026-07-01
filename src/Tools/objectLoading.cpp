@@ -46,7 +46,9 @@ void loadObjectFileFromFilePath(Drawable* d, std::filesystem::path filePath) {
             va.z = std::stof(words[3]);
 
             d->vertices.push_back(va);
-        } else if (words[0] == "f") {
+        } 
+        else if (words[0] == "f") 
+        {
             if (words.size() != 4) {
                 std::cerr << "Expected face to have 3 coords but had " << words.size() - 1 << "\n";
                 exit(1);

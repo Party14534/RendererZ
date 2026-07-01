@@ -1,4 +1,5 @@
 #include "main.h"
+#include "Math/math.h"
 
 Cube redCube;
 Cube blueCube;
@@ -16,16 +17,20 @@ int main() {
     win.captureMouse();
 
     PointLight l(Vec3(5, 5, 5), PointLightProperties());
+    
+    Shader s = Shader("../src/Shaders/objectVertex.vert", "../src/Shaders/multiTex.frag");
 
     Texture tex("../src/res/textures/zari.jpg");
     Texture tex2("../src/res/textures/cat.jpg");
     Texture tungTex("../src/res/textures/tung.png");
 
+    tung.setShader(s);
 
     redCube.setTexture(tex);
     blueCube.setTexture(tex);
     greenCube.setTexture(tex);
     tung.setTexture(tungTex);
+    tung.addTexture(tungTex);
 
     r7.setColor(Color(.5f, .5f, .5f, 1.f));
     bunny.setColor(Color(.87f, .85f, 1.f, 1.f));
@@ -33,7 +38,6 @@ int main() {
     armadillo.setColor(Color(1.f));
     homer.setColor(Color(float(248)/255,float(219)/255,(float)39/255, 1.));
     cow.setColor(Color(1.f));
-    l.setColor(Color(1, 1, 1, 1));
 
     /*Mat m = generateRandomMatrix(4096, 4096);
     Mat m2 = generateRandomMatrix(4096, 4096);
@@ -47,7 +51,7 @@ int main() {
     homer.setPos(Vec3(0, -10, 15));
     cow.setPos(Vec3(0, 10, 20));
     r7.setPos(Vec3(9, 5, 9));
-    tung.setPos(Vec3(0, 10, 0));
+    tung.setPos({0, -1000, 1000});
 
     redCube.setScale(Vec3(.5f));
     blueCube.setScale(Vec3(.5f));
@@ -55,6 +59,7 @@ int main() {
     bunny.setScale(Vec3(50));
     armadillo.setScale(Vec3(.01f));
     r7.setScale(Vec3(2.f));
+    tung.setScale(Vec3(100.f));
 
     armadillo.setMaterial(Material {
         Color(1.f),
@@ -74,8 +79,6 @@ int main() {
             32.f
     });
     cow.setMaterial(bunny.getMaterial());
-
-    win.addPointLight(l);
 
     l.properties.attenuation = Vec3(1.0, 0.014, 0.0007);
     l.setColor(Color(1, 0, 0, 1));
@@ -98,22 +101,24 @@ int main() {
         .1, .3, .1,
     };
 
+    tung.rotateY(radians(180));
+
     while(win.isOpen())
     {
         // Poll events
         win.pollEvents();
         processInput(win);        
 
-        double dt = glfwGetTime();
-        redCube.rotateY(dt);
-        redCube.rotateX(dt * 0.5f);
-        blueCube.rotateY(dt);
-        blueCube.rotateX(dt * 0.5f);
-        r7.rotateY(-dt * .25f);
+        double t = glfwGetTime();
+        redCube.rotateY(t);
+        redCube.rotateX(t * 0.5f);
+        blueCube.rotateY(t);
+        blueCube.rotateX(t * 0.5f);
+        r7.rotateY(-t * .25f);
 
-        bunny.rotateY(dt * 2);
+        bunny.rotateY(t * 2);
         Vec3 p = bunny.getPos();
-        bunny.setPos(Vec3(p.x, p.y + .05f * cos(3 * dt), p.z));
+        bunny.setPos(Vec3(p.x, p.y + .05f * cos(3 * t), p.z));
         
         // Handle rendering
         win.clear(Color(0.f));
@@ -127,6 +132,10 @@ int main() {
         win.draw(homer);
         win.draw(cow);
         win.draw(r7);
+
+        tung.shader->use();
+        tung.shader->setColor("color", Color(1.f));
+        tung.shader->setFloat("t", t);
         win.draw(tung);
 
         win.display();
