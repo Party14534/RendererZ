@@ -76,7 +76,6 @@ void Object::draw(Shader* shader, Shader& defaultShader,
 
     // Unbind textures
     for(int i = 0; i < texs.size(); i++) {
-        std::cout << "HERE\n";
         glActiveTexture(GL_TEXTURE0 + i);
         //glBindTexture(GL_TEXTURE_2D, 0);
     }

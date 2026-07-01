@@ -9,6 +9,7 @@ Object teapot("../src/res/objects/teapot.obj", true);
 Object armadillo("../src/res/objects/armadillo.obj", true);
 Object homer("../src/res/objects/homer.obj", true);
 Object cow("../src/res/objects/cow.obj", true);
+Object tung("../src/res/objects/tung.obj", false);
 
 int main() {
     Window win(800, 600, "Test");
@@ -18,11 +19,13 @@ int main() {
 
     Texture tex("../src/res/textures/zari.jpg");
     Texture tex2("../src/res/textures/cat.jpg");
+    Texture tungTex("../src/res/textures/tung.png");
 
 
     redCube.setTexture(tex);
     blueCube.setTexture(tex);
     greenCube.setTexture(tex);
+    tung.setTexture(tungTex);
 
     r7.setColor(Color(.5f, .5f, .5f, 1.f));
     bunny.setColor(Color(.87f, .85f, 1.f, 1.f));
@@ -44,6 +47,7 @@ int main() {
     homer.setPos(Vec3(0, -10, 15));
     cow.setPos(Vec3(0, 10, 20));
     r7.setPos(Vec3(9, 5, 9));
+    tung.setPos(Vec3(0, 10, 0));
 
     redCube.setScale(Vec3(.5f));
     blueCube.setScale(Vec3(.5f));
@@ -123,6 +127,7 @@ int main() {
         win.draw(homer);
         win.draw(cow);
         win.draw(r7);
+        win.draw(tung);
 
         win.display();
     }
