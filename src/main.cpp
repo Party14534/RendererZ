@@ -1,6 +1,11 @@
 #include "main.h"
-#include "Math/math.h"
 
+Rect bottom;
+Rect top;
+Rect front;
+Rect back;
+Rect left;
+Rect right;
 Cube whiteCube;
 Cube redCube;
 Cube blueCube;
@@ -27,6 +32,22 @@ int main() {
     blueCube.setTexture(tex);
     greenCube.setTexture(tex);
     tung.setTexture(tungTex);
+
+    bottom.rotateX(radians(90));
+    bottom.setPos(Vec3(0, -20, 0));
+    bottom.setScale(Vec3(1000));
+    bottom.setColor(Color(0.1f));
+    top.rotateX(radians(-90));
+    top.setPos(Vec3(0, 60, 0));
+    top.setScale(Vec3(1000));
+    top.setColor(Color(0.1f));
+    front.setPos(Vec3(0, 0, 50));
+    front.setScale(Vec3(1000));
+    front.setColor(Color(0.1f));
+    back.rotateY(radians(180));
+    back.setPos(Vec3(0, 0, -50));
+    back.setScale(Vec3(1000));
+    back.setColor(Color(0.1f));
 
     r7.setColor(Color(.5f, .5f, .5f, 1.f));
     bunny.setColor(Color(.87f, .85f, 1.f, 1.f));
@@ -80,10 +101,10 @@ int main() {
 
     l.setColor(Color(1.f));
     l.setPos(tung.getPos() + Vec3(0, 4, 0));
-    l.properties.attenuation = Vec3(1.0, 0.056, 0.0028);
+    l.properties.attenuation = Vec3(1.0, 0.35, .44);
     win.addPointLight(l);
 
-    l.properties.attenuation = Vec3(1.0, 0.014, 0.0007);
+    l.properties.attenuation = Vec3(1.0, 0.045, 0.0075);
     l.setColor(Color(1, 0, 0, 1));
     l.setPos(teapot.getPos() + Vec3(10, 0, 0));
     redCube.setPos(l.getPos() + Vec3(0, -1, 0));
@@ -101,9 +122,10 @@ int main() {
 
     win.dLight.setColor(Color(1.));
     win.dLight.properties = DirLightProperties {
-        .1, .3, .1,
+        .1, .1, .1,
     };
 
+    glEnable(GL_FRAMEBUFFER_SRGB);
 
     while(win.isOpen())
     {
@@ -134,6 +156,11 @@ int main() {
         
         // Handle rendering
         win.clear(Color(0.f));
+
+        win.draw(bottom);
+        win.draw(top);
+        win.draw(front);
+        win.draw(back);
 
         win.draw(whiteCube);
         win.draw(redCube);
