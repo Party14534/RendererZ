@@ -60,7 +60,6 @@ void Object::draw(Shader* shader, Shader& defaultShader,
                 viewPos, dLight, pLights);
     } else {
         shader->use();
-        Mat m = getModelMat();
         shader->setMat4(SHADER_MODEL_SET_UNIFORM, getModelMat());
         shader->setMat4(SHADER_VIEW_SET_UNIFORM, viewMat);
         shader->setMat4(SHADER_PROJECTION_SET_UNIFORM, projMat);

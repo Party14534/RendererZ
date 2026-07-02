@@ -1,6 +1,7 @@
 #include "main.h"
 #include "Math/math.h"
 
+Cube whiteCube;
 Cube redCube;
 Cube blueCube;
 Cube greenCube;
@@ -18,19 +19,14 @@ int main() {
 
     PointLight l(Vec3(5, 5, 5), PointLightProperties());
     
-    Shader s = Shader("../src/Shaders/objectVertex.vert", "../src/Shaders/multiTex.frag");
-
     Texture tex("../src/res/textures/zari.jpg");
     Texture tex2("../src/res/textures/cat.jpg");
     Texture tungTex("../src/res/textures/tung.png");
-
-    tung.setShader(s);
 
     redCube.setTexture(tex);
     blueCube.setTexture(tex);
     greenCube.setTexture(tex);
     tung.setTexture(tungTex);
-    tung.addTexture(tungTex);
 
     r7.setColor(Color(.5f, .5f, .5f, 1.f));
     bunny.setColor(Color(.87f, .85f, 1.f, 1.f));
@@ -38,6 +34,7 @@ int main() {
     armadillo.setColor(Color(1.f));
     homer.setColor(Color(float(248)/255,float(219)/255,(float)39/255, 1.));
     cow.setColor(Color(1.f));
+    whiteCube.setColor(Color(1000.f));
 
     /*Mat m = generateRandomMatrix(4096, 4096);
     Mat m2 = generateRandomMatrix(4096, 4096);
@@ -51,15 +48,16 @@ int main() {
     homer.setPos(Vec3(0, -10, 15));
     cow.setPos(Vec3(0, 10, 20));
     r7.setPos(Vec3(9, 5, 9));
-    tung.setPos({0, -1000, 1000});
+    tung.setPos({0, 0, -10});
 
+    whiteCube.setScale(Vec3(.5f));
     redCube.setScale(Vec3(.5f));
     blueCube.setScale(Vec3(.5f));
     greenCube.setScale(Vec3(.5f));
     bunny.setScale(Vec3(50));
     armadillo.setScale(Vec3(.01f));
     r7.setScale(Vec3(2.f));
-    tung.setScale(Vec3(100.f));
+    tung.setScale(Vec3(.3f));
 
     armadillo.setMaterial(Material {
         Color(1.f),
@@ -79,6 +77,11 @@ int main() {
             32.f
     });
     cow.setMaterial(bunny.getMaterial());
+
+    l.setColor(Color(1.f));
+    l.setPos(tung.getPos() + Vec3(0, 4, 0));
+    l.properties.attenuation = Vec3(1.0, 0.056, 0.0028);
+    win.addPointLight(l);
 
     l.properties.attenuation = Vec3(1.0, 0.014, 0.0007);
     l.setColor(Color(1, 0, 0, 1));
@@ -101,7 +104,6 @@ int main() {
         .1, .3, .1,
     };
 
-    tung.rotateY(radians(180));
 
     while(win.isOpen())
     {
@@ -110,6 +112,8 @@ int main() {
         processInput(win);        
 
         double t = glfwGetTime();
+        whiteCube.rotateY(t);
+        whiteCube.rotateX(t * 0.5f);
         redCube.rotateY(t);
         redCube.rotateX(t * 0.5f);
         blueCube.rotateY(t);
@@ -119,10 +123,19 @@ int main() {
         bunny.rotateY(t * 2);
         Vec3 p = bunny.getPos();
         bunny.setPos(Vec3(p.x, p.y + .05f * cos(3 * t), p.z));
+
+        float theta = t;
+        float r = 4;
+        p = tung.getPos() + Vec3(0, 5, 0);
+        p.x += r*cos(theta);
+        p.z += r*sin(theta);
+        win.pLights[0].setPos(p);
+        whiteCube.setPos(p);
         
         // Handle rendering
         win.clear(Color(0.f));
 
+        win.draw(whiteCube);
         win.draw(redCube);
         win.draw(blueCube);
         win.draw(greenCube);
@@ -133,9 +146,6 @@ int main() {
         win.draw(cow);
         win.draw(r7);
 
-        tung.shader->use();
-        tung.shader->setColor("color", Color(1.f));
-        tung.shader->setFloat("t", t);
         win.draw(tung);
 
         win.display();
