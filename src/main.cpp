@@ -104,8 +104,8 @@ int main() {
 
     bunny.setMaterial(Material {
             Color(1.f),
-            .2f,
-            .4f,
+            .0f,
+            .0f,
             .0f,
             32.f,
             1.f

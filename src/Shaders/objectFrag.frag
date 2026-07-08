@@ -113,7 +113,7 @@ void main()
 
     // Add in skybox
     vec3 I = normalize(FragPos - view_pos_z);
-    vec3 R = reflect(I, norm);
+    vec3 R = refract(I, norm, 1.00 / 1.52);
     result += (usingSkyBox_z) ? texture(skyBox_z, R).rgb * material_z.reflectivity : vec3(0.f);
 
     FragColor = vec4(result, 1.0);
