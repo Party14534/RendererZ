@@ -14,8 +14,16 @@
 #define SHADER_MATERIAL_DIFFUSE_UNIFORM "material_z.diffuse"
 #define SHADER_MATERIAL_SPECULAR_UNIFORM "material_z.specular"
 #define SHADER_MATERIAL_SHININESS_UNIFORM "material_z.shininess"
+#define SHADER_MATERIAL_REFLECTIVITY_UNIFORM "material_z.reflectivity"
 #define SHADER_COLOR_UNIFORM "color_z"
 #define SHADER_TEX_SET_UNIFORM "usingTex_z"
+#define SHADER_SKYBOX_SET_UNIFORM "usingSkyBox_z"
+#define SHADER_TEX_UNIFORM "tex"
+#define SHADER_SKYBOX_UNIFORM "skyBox_z"
+// Cube map lives on a high, dedicated unit so it never collides with the
+// sampler2D `tex` (which uses unit 0). Two different sampler types sharing a
+// unit is a GL_INVALID_OPERATION (1282) at draw time.
+#define SKYBOX_TEXTURE_UNIT 8
 #define SHADER_MODEL_SET_UNIFORM "model_z"
 #define SHADER_VIEW_SET_UNIFORM "view_z"
 #define SHADER_PROJECTION_SET_UNIFORM "projection_z"
@@ -29,6 +37,7 @@ struct Material {
     float diffuse = 1.f;
     float specular = 1.f;
     float shininess = 32.f;
+    float reflectivity = 0.f;
 };
 
 struct DirLightProperties {

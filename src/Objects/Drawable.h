@@ -55,7 +55,8 @@ class Drawable {
                 const Mat& viewMat,
                 const Mat& projMat, const Vec3& viewPos,
                 const DirLight& dLight,
-                const std::vector<PointLight>& pLights) = 0;
+                const std::vector<PointLight>& pLights,
+                const CubeMap* skyBox) = 0;
 
         void setColor(Color c);
         Color getColor() const;
@@ -75,7 +76,8 @@ class Drawable {
         void setShader(Shader& _shader);
         void setDefaultUniforms(Shader& shader, const Mat& viewMat,
                 const Mat& projMat, const Vec3& viewPos,
-                const DirLight& dLight, const std::vector<PointLight>& pLights);
+                const DirLight& dLight, const std::vector<PointLight>& pLights,
+                const CubeMap* skyBox);
         void setPointLightUniforms(const Shader& shader, const std::vector<PointLight>& pLights);
 
     protected:

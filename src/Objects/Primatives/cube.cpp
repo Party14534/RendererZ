@@ -48,19 +48,25 @@ void Cube::draw(Shader* shader, Shader& defaultShader,
                 const Mat& viewMat,
                 const Mat& projMat, const Vec3& viewPos,
                 const DirLight& dLight,
-                const std::vector<PointLight>& pLights) {
+                const std::vector<PointLight>& pLights,
+                const CubeMap* skyBox) {
     if (!initialized) init();
 
     if (shader == nullptr) {
         defaultShader.use();
         setDefaultUniforms(defaultShader, viewMat, projMat,
-                viewPos, dLight, pLights);
+                viewPos, dLight, pLights, skyBox);
     } else {
         shader->use();
         Mat m = getModelMat();
         shader->setMat4(SHADER_MODEL_SET_UNIFORM, getModelMat());
         shader->setMat4(SHADER_VIEW_SET_UNIFORM, viewMat);
         shader->setMat4(SHADER_PROJECTION_SET_UNIFORM, projMat);
+    }
+
+    if (skyBox != nullptr) {
+        glActiveTexture(GL_TEXTURE0 + SKYBOX_TEXTURE_UNIT);
+        skyBox->bind();
     }
 
     for(int i = 0; i < texs.size(); i++) {

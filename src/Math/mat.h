@@ -29,6 +29,8 @@ struct Mat {
     Vec4 operator*(const Vec4& other) const;
 
     Mat transpose() const;
+    Mat scaleDown() const;
+    Mat scaleUp() const;
     
     static Mat getIdentity(size_t s);
 

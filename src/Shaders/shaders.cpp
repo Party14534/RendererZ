@@ -107,6 +107,8 @@ const void Shader::setMaterial(const Material& m) const {
             specular.x, specular.y, specular.z);
     glUniform1f(glGetUniformLocation(ID, SHADER_MATERIAL_SHININESS_UNIFORM),
             m.shininess);
+    glUniform1f(glGetUniformLocation(ID, SHADER_MATERIAL_REFLECTIVITY_UNIFORM),
+            m.reflectivity);
 }
 
 const void Shader::setDirLight(const Vec3& dir, const Vec3& ambient,

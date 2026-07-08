@@ -1,10 +1,13 @@
 #version 330 core
 
+out vec4 FragColor;
+
 struct Material {
     vec3 ambient;
     vec3 diffuse;
     vec3 specular;
     float shininess;
+    float reflectivity;
 };
 
 struct PointLight {
@@ -28,8 +31,6 @@ struct DirLight {
 };
 uniform DirLight dirLight_z;
 
-out vec4 FragColor;
-
 in vec3 Normal;
 in vec3 FragPos;
 in vec2 TexCoord;
@@ -41,6 +42,9 @@ uniform bool usingTex_z;
 uniform sampler2D tex;
 
 uniform Material material_z;
+
+uniform samplerCube skyBox_z;
+uniform bool usingSkyBox_z;
 
 vec3 calcDirLight(DirLight light, vec3 normal, vec3 viewDir) {
     vec3 lightDir = normalize(-light.direction);
@@ -106,6 +110,11 @@ void main()
     // Create smaller light coming from camera
     //float vDiff = max(dot(norm, viewDir), 0.0) * .2;
     //vec3 vDiffuse = light.diffuse * (vDiff * material_z.diffuse * objCol.xyz);
+
+    // Add in skybox
+    vec3 I = normalize(FragPos - view_pos_z);
+    vec3 R = reflect(I, norm);
+    result += (usingSkyBox_z) ? texture(skyBox_z, R).rgb * material_z.reflectivity : vec3(0.f);
 
     FragColor = vec4(result, 1.0);
 }

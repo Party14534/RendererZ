@@ -26,30 +26,41 @@ enum MipMapFilterOption {
     LINEAR_LINEAR
 };
 
-struct Texture {
-    unsigned char* data;
-    int width, height, nrChannels;
-    std::string path;
+class Texture {
+    public:
+        unsigned char* data;
+        int width, height, nrChannels;
+        std::string path;
 
-    u32 ID;
+        u32 ID;
 
-    TextureParameterOption texParameter = TextureParameterOption::REPEAT;
-    TextureFilterOption texFilter = TextureFilterOption::NEAREST;
-    MipMapFilterOption mmFilter = MipMapFilterOption::NEAREST_NEAREST;
-    Color texBorderColor;
+        Color texBorderColor;
 
-    bool loaded = false;
+        bool loaded = false;
 
-    Texture();
-    Texture(std::string _path);
+        Texture();
+        Texture(std::string _path);
 
-    void loadImage(std::string _path);
+        void loadImage(std::string _path);
 
-    void setTextureParameter(TextureParameterOption _texParameter);
-    void setTextureFilter(TextureFilterOption _texFilter);
-    void setMipMapFilter(MipMapFilterOption _mmFilter);
+        void setTextureParameter(TextureParameterOption _texParameter);
+        void setTextureFilter(TextureFilterOption _texFilter);
+        void setMipMapFilter(MipMapFilterOption _mmFilter);
 
-    void bind(u32 texNum);
+        void bind(u32 texNum);
+    private:
+        TextureParameterOption texParameter = TextureParameterOption::REPEAT;
+        TextureFilterOption texFilter = TextureFilterOption::NEAREST;
+        MipMapFilterOption mmFilter = MipMapFilterOption::NEAREST_NEAREST;
+};
+
+class CubeMap : public Texture {
+    public:
+        std::vector<std::string> fileNames;
+
+        CubeMap(std::vector<std::string> _fileNames);
+        
+        void bind() const;
 };
 
 #endif

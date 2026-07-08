@@ -133,6 +133,30 @@ Mat Mat::transpose() const {
     return Mat(cols, rows, vals);
 }
 
+Mat Mat::scaleDown() const {
+    Mat m(rows - 1, cols - 1);
+    
+    for (u32 i = 0; i < rows - 1; i++) {
+        for (u32 j = 0; j < cols - 1; j++) {
+            m.set(i, j, get(i, j));
+        }
+    } 
+
+    return m;
+}
+
+Mat Mat::scaleUp() const {
+    Mat m(rows + 1, cols + 1);
+    
+    for (u32 i = 0; i < rows; i++) {
+        for (u32 j = 0; j < cols; j++) {
+            m.set(i, j, get(i, j));
+        }
+    } 
+
+    return m;
+}
+
 /*
  * Helper functions
  */

@@ -10,6 +10,7 @@
 #include "Camera.h"
 #include "../Input/Input.h"
 #include "../Objects/LightSource.h"
+#include "Objects/SkyBox.h"
 
 struct Window {
     // Window variables
@@ -18,6 +19,9 @@ struct Window {
 
     Shader objectShader;
     Shader lightShader;
+    Shader skyBoxShader;
+
+    SkyBox* skyBox = nullptr;
 
     Camera cam;
     Mouse mouse;
@@ -36,6 +40,8 @@ struct Window {
     bool isOpen();
     void clear(Color c);
     void draw(Drawable& d);
+
+    void setSkyBox(SkyBox& skyBox);
 
     // Events
     void pollEvents();

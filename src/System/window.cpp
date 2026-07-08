@@ -36,6 +36,7 @@ Window::Window(u32 width, u32 height, std::string windowName) :
 
     objectShader = Shader("../src/Shaders/objectVertex.vert", "../src/Shaders/objectFrag.frag");
     lightShader = Shader("../src/Shaders/lightVertex.vert", "../src/Shaders/lightFrag.frag");
+    skyBoxShader = Shader("../src/Shaders/skyBoxVertex.vert", "../src/Shaders/skyBoxFrag.frag");
 
     // Create perspective matrices
     cam.BuildPerspectiveMatrices(width, height);
@@ -60,6 +61,15 @@ Window::~Window() {
 }
 
 void Window::display() {
+    // If a sky box is set draw that now
+    if (skyBox != nullptr) {
+        Mat view = cam.GetViewMatrix().scaleDown().scaleUp();
+        view.set(3, 3, 1.f);
+        skyBox->draw(nullptr, skyBoxShader, view,
+                cam.GetProjectionMatrix(), cam.GetPos(), dLight, pLights,
+                nullptr);
+    }
+
     glfwSwapBuffers(win);
 }
 
@@ -75,7 +85,12 @@ void Window::clear(Color c) {
 void Window::draw(Drawable& d) {
     d.draw(d.shader, objectShader,
             cam.GetViewMatrix(), cam.GetProjectionMatrix(),
-            cam.GetPos(), dLight, pLights);
+            cam.GetPos(), dLight, pLights, 
+            skyBox == nullptr ? nullptr : &skyBox->map);
+}
+
+void Window::setSkyBox(SkyBox& _skyBox) {
+    skyBox = &_skyBox;
 }
 
 /*

@@ -53,7 +53,8 @@ void Drawable::setShader(Shader& _shader) {
 void Drawable::setDefaultUniforms(Shader& shader, const Mat& viewMat,
         const Mat& projMat, const Vec3& viewPos,
         const DirLight& dLight,
-        const std::vector<PointLight>& pLights) {
+        const std::vector<PointLight>& pLights,
+        const CubeMap* skyBox) {
     setPointLightUniforms(shader, pLights);
 
     Vec3 lc = Vec3(dLight.getColor().toRGB());
@@ -62,12 +63,22 @@ void Drawable::setDefaultUniforms(Shader& shader, const Mat& viewMat,
                 lc * dLight.properties.diffuse,
                 lc * dLight.properties.specular);
 
-    shader.setInt(SHADER_POINT_LIGHT_COUNT, pLights.size());
     shader.setBool(SHADER_TEX_SET_UNIFORM, texs.size() > 0);
+    shader.setBool(SHADER_SKYBOX_SET_UNIFORM, skyBox != nullptr);
+
+    // Assign each sampler its own texture unit. Without this both default to
+    // unit 0, which is illegal for differing sampler types and triggers 1282.
+    shader.setInt(SHADER_TEX_UNIFORM, 0);
+    shader.setInt(SHADER_SKYBOX_UNIFORM, SKYBOX_TEXTURE_UNIT);
+
+    shader.setInt(SHADER_POINT_LIGHT_COUNT, pLights.size());
+
+    shader.setVec3(SHADER_VIEW_POSITION_UNIFORM, viewPos);
+
     shader.setMat4(SHADER_MODEL_SET_UNIFORM, getModelMat());
     shader.setMat4(SHADER_VIEW_SET_UNIFORM, viewMat);
     shader.setMat4(SHADER_PROJECTION_SET_UNIFORM, projMat);
-    shader.setVec3(SHADER_VIEW_POSITION_UNIFORM, viewPos);
+
     shader.setMaterial(material);
 }
 

@@ -28,6 +28,17 @@ int main() {
     Texture tex2("../src/res/textures/cat.jpg");
     Texture tungTex("../src/res/textures/tung.png");
 
+    SkyBox sBox({
+            "../src/res/textures/squareKitty.jpg",
+            "../src/res/textures/squareKitty.jpg",
+            "../src/res/textures/squareKitty.jpg",
+            "../src/res/textures/squareKitty.jpg",
+            "../src/res/textures/squareKitty.jpg",
+            "../src/res/textures/squareKitty.jpg"
+    });
+
+    win.setSkyBox(sBox);
+
     redCube.setTexture(tex);
     blueCube.setTexture(tex);
     greenCube.setTexture(tex);
@@ -85,7 +96,8 @@ int main() {
         0.f,
         0.f,
         1.f,
-        0.f
+        0.f,
+        1.f
     });
 
     homer.setMaterial(armadillo.getMaterial());
@@ -95,9 +107,19 @@ int main() {
             .2f,
             .4f,
             .0f,
-            32.f
+            32.f,
+            1.f
     });
     cow.setMaterial(bunny.getMaterial());
+
+    r7.setMaterial(Material {
+        Color(1.f),
+        .2f,
+        .4f,
+        .0f,
+        32.f,
+        0.05f
+    });
 
     l.setColor(Color(1.f));
     l.setPos(tung.getPos() + Vec3(0, 4, 0));
@@ -122,7 +144,7 @@ int main() {
 
     win.dLight.setColor(Color(1.));
     win.dLight.properties = DirLightProperties {
-        .1, .1, .1,
+        .4, .4, .4,
     };
 
     glEnable(GL_FRAMEBUFFER_SRGB);
@@ -157,10 +179,12 @@ int main() {
         // Handle rendering
         win.clear(Color(0.f));
 
+        /*
         win.draw(bottom);
         win.draw(top);
         win.draw(front);
         win.draw(back);
+        */
 
         win.draw(whiteCube);
         win.draw(redCube);

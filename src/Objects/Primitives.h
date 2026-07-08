@@ -10,7 +10,8 @@ class Tri : public Drawable {
                 const Mat& viewMat,
                 const Mat& projMat, const Vec3& viewPos,
                 const DirLight& dLight,
-                const std::vector<PointLight>& pLights);
+                const std::vector<PointLight>& pLights,
+                const CubeMap* skyBox);
         void init();
     
     private:
@@ -34,7 +35,8 @@ class Rect : public Drawable {
                 const Mat& viewMat,
                 const Mat& projMat, const Vec3& viewPos,
                 const DirLight& dLight,
-                const std::vector<PointLight>& pLights);
+                const std::vector<PointLight>& pLights,
+                const CubeMap* skyBox);
         void init();
     
     private:
@@ -65,7 +67,8 @@ class Cube : public Drawable {
                 const Mat& viewMat,
                 const Mat& projMat, const Vec3& viewPos,
                 const DirLight& dLight,
-                const std::vector<PointLight>& pLights);
+                const std::vector<PointLight>& pLights,
+                const CubeMap* skyBox);
         void init();
     
         static const std::vector<VertexAttribute> _defaultVerts;
