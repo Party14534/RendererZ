@@ -176,6 +176,10 @@ int main() {
         win.pLights[0].setPos(p);
         whiteCube.setPos(p);
         
+        p = tung.getPos();
+        Vec3 p2 = win.cam.GetPos();
+        tung.rotateY(std::atan2(p2.x - p.x, p2.z - p.z));
+        
         // Handle rendering
         win.clear(Color(0.f));
 
