@@ -18,9 +18,10 @@ anything a graphics team cares about. No bullet here — it's the price of entry
 - [X] Move transforms to the GPU — upload model/view/projection as uniforms instead of
       multiplying vertices on the CPU. (Your CPU `Mat` library stays for camera/scene math.)
 - [X] Enable the depth buffer (`glEnable(GL_DEPTH_TEST)`).
-- [/] Load real meshes: an OBJ loader first, then glTF 2.0 (glTF gets you PBR materials,
-      normals, and tangents for free later — worth doing).
-- [ ] Index buffers (EBO) and a real `Mesh` abstraction.
+- [/] Load real meshes: OBJ loader done; glTF 2.0 not started (glTF gets you PBR
+      materials, normals, and tangents for free later — worth doing).
+- [/] Index buffers (EBO) done and used everywhere; a real `Mesh` abstraction still
+      pending (see MESH_REFACTOR.md — this is Milestone 0's last blocker for M3/M5).
 
 When this works (a textured 3D model spinning with a real camera), you can already
 upgrade the current bullets to past tense and add:
@@ -34,7 +35,8 @@ upgrade the current bullets to past tense and add:
 This is table stakes. Without PBR a "renderer" reads as a tutorial; with it, it reads
 as a graphics engineer's project.
 
-- [ ] Blinn-Phong first (fast win, proves the lighting loop works).
+- [X] Blinn-Phong first (fast win, proves the lighting loop works). Directional + up to
+      4 point lights with attenuation and materials; skybox reflection/refraction too.
 - [ ] Normal mapping in tangent space (compute/load tangents, TBN matrix in the shader).
 - [ ] Cook-Torrance PBR: metallic/roughness workflow, GGX distribution, Smith geometry,
       Fresnel-Schlick.
@@ -79,7 +81,7 @@ Shows you understand the engine *as a system*, not just shaders.
 ## Milestone 4 — HDR + post-processing
 
 - [ ] Render to a floating-point HDR framebuffer.
-- [ ] Tonemapping (ACES or Reinhard) + gamma correction.
+- [/] Gamma correction done (GL_FRAMEBUFFER_SRGB); ACES/Reinhard tonemapping not started.
 - [ ] Bloom (bright-pass + Gaussian/dual-filter downsample-upsample).
 - [ ] Anti-aliasing: FXAA (easy) or TAA (impressive, harder).
 

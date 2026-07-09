@@ -142,9 +142,9 @@ int main() {
     greenCube.setPos(l.getPos() + Vec3(0, 1, 0));
     win.addPointLight(l);
 
-    win.dLight.setColor(Color(1.));
+    win.dLight.setColor(Color(.99f, .56f, .38f, 1));
     win.dLight.properties = DirLightProperties {
-        .4, .4, .4,
+        .1, .7, .9,
     };
 
     glEnable(GL_FRAMEBUFFER_SRGB);
