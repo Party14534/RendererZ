@@ -1,15 +1,15 @@
-#include "Object.h"
+#include "Mesh.h"
+#include "Objects/Primitives.h"
+#include "Shaders/shaders.h"
+#include "Tools/ObjectLoading.h"
+#include "global.h"
 
-/*
- * Object
- */
+Mesh::Mesh(std::vector<VertexAttribute> vertices, std::vector<u32> indices) :
+    vertices(vertices),
+    indices(indices)
+{ }
 
-Object::Object(std::string filePath, bool genNormals) {
-    LoadObjectFromFilePath(this, filePath);
-    if (genNormals) generateNormals();
-}
-
-void Object::init() {
+void Mesh::init() {
     // Generate VAO and VBO and EBO
     glGenBuffers(1, &VBO);
     glGenBuffers(1, &EBO);
@@ -47,46 +47,39 @@ void Object::init() {
     initialized = true;
 }
 
-void Object::draw(Shader* shader, Shader& defaultShader,
-        const Mat& viewMat,
-        const Mat& projMat, const Vec3& viewPos,
-        const DirLight& dLight,
-        const std::vector<PointLight>& pLights,
-        const CubeMap* skyBox) {
-    if (!initialized) init();
-
-    if (shader == nullptr) {
-        defaultShader.use();
-        setDefaultUniforms(defaultShader, viewMat, projMat,
-                viewPos, dLight, pLights, skyBox);
-    } else {
-        shader->use();
-        shader->setMat4(SHADER_MODEL_SET_UNIFORM, getModelMat());
-        shader->setMat4(SHADER_VIEW_SET_UNIFORM, viewMat);
-        shader->setMat4(SHADER_PROJECTION_SET_UNIFORM, projMat);
-    }
-
-    if (skyBox != nullptr) {
-        glActiveTexture(GL_TEXTURE0 + SKYBOX_TEXTURE_UNIT);
-        skyBox->bind();
-    }
-
-    for(int i = 0; i < texs.size(); i++) {
-        texs[i]->bind(i); 
-    }
-    
-    glBindVertexArray(VAO);
-    glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
-    glBindVertexArray(0);
-
-    // Unbind textures
-    for(int i = 0; i < texs.size(); i++) {
-        glActiveTexture(GL_TEXTURE0 + i);
-        //glBindTexture(GL_TEXTURE_2D, 0);
-    }
+Mesh::~Mesh() {
+    glDeleteBuffers(1, &VBO);
+    glDeleteBuffers(1, &EBO);
+    glDeleteVertexArrays(1, &VAO);
 }
 
-void Object::generateNormals() {
+std::shared_ptr<Mesh> Mesh::tri() {
+    std::shared_ptr<Mesh> m = std::make_shared<Mesh>(triDefaultVerts, triDefaultIndices);
+    return m;
+}
+
+std::shared_ptr<Mesh> Mesh::plane() {
+    std::shared_ptr<Mesh> m = std::make_shared<Mesh>(planeDefaultVerts, planeDefaultIndices);
+    return m;
+}
+
+std::shared_ptr<Mesh> Mesh::cube() {
+    std::shared_ptr<Mesh> m = std::make_shared<Mesh>(cubeDefaultVerts, cubeDefaultIndices);
+    return m;
+}
+
+std::shared_ptr<Mesh> Mesh::skyBox() {
+    std::shared_ptr<Mesh> m = std::make_shared<Mesh>(skyBoxDefaultVerts, skyBoxDefaultIndices);
+    return m;
+}
+
+std::shared_ptr<Mesh> Mesh::fromOBJ(const std::filesystem::path &path, bool genNormals) {
+    std::shared_ptr<Mesh> m = LoadMeshFromFilePath(path);
+    if (genNormals) m->generateNormals();
+    return m;
+}
+
+void Mesh::generateNormals() {
     std::for_each(
         std::execution::par,
         vertices.begin(),
@@ -124,4 +117,11 @@ void Object::generateNormals() {
             vertices[index].zn = normal.z;
         }
     );
+}
+
+void Mesh::draw() {
+    if (!initialized) init();
+    glBindVertexArray(VAO);
+    glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+    glBindVertexArray(0);
 }

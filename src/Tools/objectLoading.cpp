@@ -1,7 +1,4 @@
 #include "ObjectLoading.h"
-#include <fstream>
-#include <sstream>
-#include <string>
 
 std::vector<std::string> splitBySpace(const std::string& str) {
     std::istringstream iss(str);
@@ -15,7 +12,10 @@ std::vector<std::string> splitBySpace(const std::string& str) {
     return words;
 }
 
-void loadObjectFileFromFilePath(Drawable* d, std::filesystem::path filePath) {
+std::shared_ptr<Mesh> loadObjectFileFromFilePath(std::filesystem::path filePath) {
+    std::vector<VertexAttribute> vertices;
+    std::vector<u32> indices;
+
     std::string content;
     std::ifstream file(filePath);
     u32 uvIndex = 0;
@@ -45,7 +45,7 @@ void loadObjectFileFromFilePath(Drawable* d, std::filesystem::path filePath) {
             va.y = std::stof(words[2]);
             va.z = std::stof(words[3]);
 
-            d->vertices.push_back(va);
+            vertices.push_back(va);
         } 
         else if (words[0] == "f") 
         {
@@ -56,31 +56,31 @@ void loadObjectFileFromFilePath(Drawable* d, std::filesystem::path filePath) {
             
             // OBJ face indices are 1-based; OpenGL wants 0-based
             u32 val = std::stoul(words[1]) - 1;
-            d->indices.push_back(val);
+            indices.push_back(val);
 
             val = std::stoul(words[2]) - 1;
-            d->indices.push_back(val);
+            indices.push_back(val);
 
             val = std::stoul(words[3]) - 1;
-            d->indices.push_back(val);
+            indices.push_back(val);
         } 
         else if (words[0] == "vt") 
         {
             float val = std::stof(words[1]);
-            d->vertices[uvIndex].u = val;
+            vertices[uvIndex].u = val;
             val = std::stof(words[2]);
-            d->vertices[uvIndex].v = val;
+            vertices[uvIndex].v = val;
 
             uvIndex++;
         } 
         else if (words[0] == "vn") 
         {
             float val = std::stof(words[1]);
-            d->vertices[normalIndex].xn = val;
+            vertices[normalIndex].xn = val;
             val = std::stof(words[2]);
-            d->vertices[normalIndex].yn = val;
+            vertices[normalIndex].yn = val;
             val = std::stof(words[3]);
-            d->vertices[normalIndex].zn = val;
+            vertices[normalIndex].zn = val;
 
             normalIndex++;
         }
@@ -94,12 +94,15 @@ void loadObjectFileFromFilePath(Drawable* d, std::filesystem::path filePath) {
             exit(1);
         }
     }
+
+    std::shared_ptr<Mesh> m = std::make_shared<Mesh>(vertices, indices);
+    return m;
 }
 
-void LoadObjectFromFilePath(Drawable* d, std::filesystem::path filePath) {
+std::shared_ptr<Mesh> LoadMeshFromFilePath(std::filesystem::path filePath) {
     std::string extension = filePath.extension().string();
     if (extension == ".obj") {
-        loadObjectFileFromFilePath(d, filePath);
+        return loadObjectFileFromFilePath(filePath);
     } else {
         std::cerr << "Uncompatible object file type\n";
         exit(1);

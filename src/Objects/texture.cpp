@@ -1,4 +1,5 @@
 #include "Texture.h"
+#include "Shaders/shaders.h"
 #include <algorithm>
 #include <iterator>
 
@@ -80,6 +81,7 @@ CubeMap::CubeMap(std::vector<std::string> _fileNames) {
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 }
 
-void CubeMap::bind() const {
+void CubeMap::bind(u32 texNum) const {
+    glActiveTexture(GL_TEXTURE0 + texNum);
     glBindTexture(GL_TEXTURE_CUBE_MAP, ID);
 }

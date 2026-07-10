@@ -34,9 +34,9 @@ Window::Window(u32 width, u32 height, std::string windowName) :
     // Update window size with window update
     glfwSetFramebufferSizeCallback(win, framebuffer_size_callback);
 
-    objectShader = Shader("../src/Shaders/objectVertex.vert", "../src/Shaders/objectFrag.frag");
-    lightShader = Shader("../src/Shaders/lightVertex.vert", "../src/Shaders/lightFrag.frag");
-    skyBoxShader = Shader("../src/Shaders/skyBoxVertex.vert", "../src/Shaders/skyBoxFrag.frag");
+    objectShader = std::make_shared<Shader>("../src/Shaders/objectVertex.vert", "../src/Shaders/objectFrag.frag");
+    lightShader = std::make_shared<Shader>("../src/Shaders/lightVertex.vert", "../src/Shaders/lightFrag.frag");
+    skyBoxShader = std::make_shared<Shader>("../src/Shaders/skyBoxVertex.vert", "../src/Shaders/skyBoxFrag.frag");
 
     // Create perspective matrices
     cam.BuildPerspectiveMatrices(width, height);
@@ -53,7 +53,7 @@ Window::Window(u32 width, u32 height, std::string windowName) :
     glEnable(GL_CULL_FACE);
 
     // Initialize Lights
-    pLights = std::vector<PointLight>(0);
+    pLights = std::vector<std::shared_ptr<PointLight>>(0);
 }
 
 Window::~Window() {
@@ -65,9 +65,11 @@ void Window::display() {
     if (skyBox != nullptr) {
         Mat view = cam.GetViewMatrix().scaleDown().scaleUp();
         view.set(3, 3, 1.f);
-        skyBox->draw(nullptr, skyBoxShader, view,
-                cam.GetProjectionMatrix(), cam.GetPos(), dLight, pLights,
-                nullptr);
+        glDepthFunc(GL_LEQUAL);
+        skyBoxShader->use(); 
+        skyBoxShader->setMat4(SHADER_VIEW_SET_UNIFORM, view);
+        skyBox->draw(skyBoxShader);
+        glDepthFunc(GL_LESS);
     }
 
     glfwSwapBuffers(win);
@@ -80,18 +82,61 @@ bool Window::isOpen() {
 void Window::clear(Color c) {
     glClearColor(c.r, c.g, c.b, c.a);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    setDefaultUniforms(objectShader);
+    setDefaultUniforms(skyBoxShader);
+    if (skyBox != nullptr) skyBox->map.bind(SKYBOX_TEXTURE_UNIT);
 }
 
 void Window::draw(Drawable& d) {
-    d.draw(d.shader, objectShader,
-            cam.GetViewMatrix(), cam.GetProjectionMatrix(),
-            cam.GetPos(), dLight, pLights, 
-            skyBox == nullptr ? nullptr : &skyBox->map);
+    d.draw(objectShader);
 }
 
-void Window::setSkyBox(SkyBox& _skyBox) {
-    skyBox = &_skyBox;
+void Window::setSkyBox(std::shared_ptr<SkyBox> _skyBox) {
+    skyBox = _skyBox;
 }
+
+/*
+ * Uniforms
+ */
+void Window::setDefaultUniforms(std::shared_ptr<Shader> shader) {
+    shader->use();
+    setPointLightUniforms(shader);
+
+    Vec3 lc = Vec3(dLight.getColor().toRGB());
+    shader->setDirLight(dLight.getDir(), 
+                lc * dLight.properties.ambient,
+                lc * dLight.properties.diffuse,
+                lc * dLight.properties.specular);
+
+    shader->setBool(SHADER_SKYBOX_SET_UNIFORM, skyBox != nullptr);
+
+    // Assign each sampler its own texture unit. Without this both default to
+    // unit 0, which is illegal for differing sampler types and triggers 1282.
+    shader->setInt(SHADER_TEX_UNIFORM, 0);
+    shader->setInt(SHADER_SKYBOX_UNIFORM, SKYBOX_TEXTURE_UNIT);
+
+    shader->setInt(SHADER_POINT_LIGHT_COUNT, pLights.size());
+
+    shader->setVec3(SHADER_VIEW_POSITION_UNIFORM, cam.GetPos());
+
+    shader->setMat4(SHADER_VIEW_SET_UNIFORM, cam.GetViewMatrix());
+    shader->setMat4(SHADER_PROJECTION_SET_UNIFORM, cam.GetProjectionMatrix());
+}
+
+void Window::setPointLightUniforms(std::shared_ptr<Shader> shader) {
+    for (u32 i = 0; i < pLights.size(); i++) {
+        const std::shared_ptr<PointLight> l = pLights[i];
+        Vec3 lc = Vec3(l->getColor().toRGB());
+        shader->setPointLight(
+                GetPointLightName(i),
+                l->getPos(),
+                lc * l->properties.ambient,
+                lc * l->properties.diffuse,
+                lc * l->properties.specular,
+                l->properties.attenuation);
+    }
+}
+
 
 /*
  * Events
@@ -142,7 +187,7 @@ bool Window::isKeyPressed(u32 keycode) {
  * Lighting
  */
 void Window::addPointLight(PointLight p) {
-    pLights.emplace_back(p);
+    pLights.emplace_back(std::make_shared<PointLight>(p));
     // TODO: Update shader stuff
 }
 

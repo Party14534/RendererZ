@@ -60,7 +60,7 @@ class CubeMap : public Texture {
 
         CubeMap(std::vector<std::string> _fileNames);
         
-        void bind() const;
+        void bind(u32 texNum) const;
 };
 
 #endif

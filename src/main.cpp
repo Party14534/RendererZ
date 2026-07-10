@@ -1,22 +1,23 @@
 #include "main.h"
+#include <memory>
 
-Rect bottom;
-Rect top;
-Rect front;
-Rect back;
-Rect left;
-Rect right;
-Cube whiteCube;
-Cube redCube;
-Cube blueCube;
-Cube greenCube;
-Cube r7;
-Object bunny("../src/res/objects/bunny.obj", true);
-Object teapot("../src/res/objects/teapot.obj", true);
-Object armadillo("../src/res/objects/armadillo.obj", true);
-Object homer("../src/res/objects/homer.obj", true);
-Object cow("../src/res/objects/cow.obj", true);
-Object tung("../src/res/objects/tung.obj", false);
+Drawable bottom = Drawable::Plane();
+Drawable top  = Drawable::Plane();
+Drawable front = Drawable::Plane();
+Drawable back = Drawable::Plane();
+Drawable left = Drawable::Plane();
+Drawable right = Drawable::Plane();
+Drawable whiteCube = Drawable::Cube();
+Drawable redCube = Drawable::Cube();
+Drawable blueCube = Drawable::Cube();
+Drawable greenCube = Drawable::Cube();
+Drawable r7 = Drawable::Cube();
+Drawable bunny = Drawable::Object("../src/res/objects/bunny.obj", true);
+Drawable teapot = Drawable::Object("../src/res/objects/teapot.obj", true);
+Drawable armadillo = Drawable::Object("../src/res/objects/armadillo.obj", true);
+Drawable homer = Drawable::Object("../src/res/objects/homer.obj", true);
+Drawable cow = Drawable::Object("../src/res/objects/cow.obj", true);
+Drawable tung = Drawable::Object("../src/res/objects/tung.obj", false);
 
 int main() {
     Window win(800, 600, "Test");
@@ -24,9 +25,8 @@ int main() {
 
     PointLight l(Vec3(5, 5, 5), PointLightProperties());
     
-    Texture tex("../src/res/textures/zari.jpg");
-    Texture tex2("../src/res/textures/cat.jpg");
-    Texture tungTex("../src/res/textures/tung.png");
+    std::shared_ptr<Texture> tex = std::make_shared<Texture>("../src/res/textures/zari.jpg");
+    std::shared_ptr<Texture> tungTex = std::make_shared<Texture>("../src/res/textures/tung.png");
 
     SkyBox sBox({
             "../src/res/textures/squareKitty.jpg",
@@ -37,7 +37,7 @@ int main() {
             "../src/res/textures/squareKitty.jpg"
     });
 
-    win.setSkyBox(sBox);
+    win.setSkyBox(std::make_shared<SkyBox>(sBox));
 
     redCube.setTexture(tex);
     blueCube.setTexture(tex);
@@ -173,7 +173,7 @@ int main() {
         p = tung.getPos() + Vec3(0, 5, 0);
         p.x += r*cos(theta);
         p.z += r*sin(theta);
-        win.pLights[0].setPos(p);
+        win.pLights[0]->setPos(p);
         whiteCube.setPos(p);
         
         p = tung.getPos();
@@ -183,8 +183,9 @@ int main() {
         // Handle rendering
         win.clear(Color(0.f));
 
-        /*
+        
         win.draw(bottom);
+        /*
         win.draw(top);
         win.draw(front);
         win.draw(back);
@@ -194,11 +195,11 @@ int main() {
         win.draw(redCube);
         win.draw(blueCube);
         win.draw(greenCube);
+        win.draw(cow);
         win.draw(bunny);
         win.draw(teapot);
         win.draw(armadillo);
         win.draw(homer);
-        win.draw(cow);
         win.draw(r7);
 
         win.draw(tung);

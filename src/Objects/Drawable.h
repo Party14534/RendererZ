@@ -2,33 +2,26 @@
 #define DRAWABLE_H
 
 #include "LightSource.h"
+#include <memory>
 #include <optional>
 #include <vector>
 #include <cstdlib>
 
 #include "../global.h"
 #include "../Shaders/shaders.h"
-
+#include "../Tools/ObjectLoading.h"
+#include "Mesh.h"
 #include "Texture.h"
 
-struct VertexAttribute {
-    float x, y, z, xn, yn, zn, u, v;
-
-    VertexAttribute();
-    VertexAttribute(float x, float y, float z, float xn, float yn, float zn,
-            float u, float v);
+struct Transform {
+    Vec3 pos, rotation;
+    Vec3 scale = Vec3(1.f);
+    Mat GetModelMat();
 };
 
-class Drawable {
-    public:
-        std::vector<VertexAttribute> vertices;
-        std::vector<u32> indices;
-
-        Mat modelMat;
-
-        size_t startingId;
-        std::vector<Texture*> texs;
-        Shader* shader = nullptr;
+struct Drawable {
+        std::shared_ptr<Shader> shader = nullptr;
+        std::shared_ptr<Mesh> mesh = nullptr;
         Material material = Material {
             Color(1.f),
             .2f,
@@ -36,27 +29,12 @@ class Drawable {
             .5f,
             32.f
         };
+        std::vector<std::shared_ptr<Texture>> textures;
+        Transform transform;
 
-        // TODO: Remove
-        bool isLightSource = false;
+        Drawable(std::shared_ptr<Mesh> m);
 
-        u32 VAO, VBO;
-
-        bool initialized = false;
-
-        Drawable();
-        Drawable(std::vector<VertexAttribute> _vertices);
-        Drawable(std::vector<VertexAttribute> _vertices, std::vector<u32> indices);
-
-        virtual ~Drawable();
-
-        virtual void init() = 0;
-        virtual void draw(Shader* shader, Shader& defaultShader,
-                const Mat& viewMat,
-                const Mat& projMat, const Vec3& viewPos,
-                const DirLight& dLight,
-                const std::vector<PointLight>& pLights,
-                const CubeMap* skyBox) = 0;
+        void draw(std::shared_ptr<Shader> defaultShader);
 
         void setColor(Color c);
         Color getColor() const;
@@ -70,20 +48,28 @@ class Drawable {
         void rotateX(float angle);
         void rotateY(float angle);
         void rotateZ(float angle);
-        void setTexture(Texture& _tex);
-        void addTexture(Texture& _tex);
+        void setTexture(std::shared_ptr<Texture> _tex);
+        void addTexture(std::shared_ptr<Texture> _tex);
         void removeTexture(u32 id);
-        void setShader(Shader& _shader);
-        void setDefaultUniforms(Shader& shader, const Mat& viewMat,
-                const Mat& projMat, const Vec3& viewPos,
-                const DirLight& dLight, const std::vector<PointLight>& pLights,
-                const CubeMap* skyBox);
-        void setPointLightUniforms(const Shader& shader, const std::vector<PointLight>& pLights);
+        void setShader(std::shared_ptr<Shader> _shader);
 
-    protected:
-        Vec3 pos, rotation;
-        Vec3 scale = Vec3(1.f, 1.f, 1.f);
-        Mat getModelMat();
+        // Primitives
+        static Drawable Tri();
+        static Drawable Plane();
+        static Drawable Cube();
+        static Drawable Object(std::string filePath, bool genNormals = false);
+        static Drawable SkyBox(std::vector<std::string> textures);
+};
+
+struct ComplexDrawable {
+    public:
+        std::vector<Drawable> targets;
+
+        ComplexDrawable(std::vector<Drawable>& targets);
+
+        virtual ~ComplexDrawable();
+
+        void draw(std::shared_ptr<Shader> defaultShader);
 };
 
 #endif

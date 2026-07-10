@@ -1,102 +1,76 @@
 #include "Drawable.h"
 
-Drawable::Drawable() : modelMat(Mat(4, 4)) { }
+/*
+ * Complex Drawable
+ */
 
-Drawable::Drawable(std::vector<VertexAttribute> _vertices) :
-    vertices(_vertices), modelMat(Mat(4, 4)) { }
+ComplexDrawable::ComplexDrawable(std::vector<Drawable>& targets) : targets(targets) { }
 
-Drawable::Drawable(std::vector<VertexAttribute> _vertices, std::vector<u32> _indices) :
-    vertices(_vertices), indices(_indices), modelMat(Mat(4, 4)) { }
+ComplexDrawable::~ComplexDrawable() { }
 
-Drawable::~Drawable() { }
+void ComplexDrawable::draw(std::shared_ptr<Shader> defaultShader) {
+    for(auto& target : targets) {
+        target.draw(defaultShader);
+    }
+}
+
+/*
+ * Drawable
+ */
+
+Drawable::Drawable(std::shared_ptr<Mesh> m) : 
+    mesh(m) { }
 
 void Drawable::setColor(Color c) { material.color = c; }
 Color Drawable::getColor() const { return material.color; }
 
-void Drawable::setPos(Vec3 v) { pos = v; }
-Vec3 Drawable::getPos() const { return pos; }
+void Drawable::setPos(Vec3 v) { transform.pos = v; }
+Vec3 Drawable::getPos() const { return transform.pos; }
 
-void Drawable::setScale(Vec3 s) { scale = s; }
-Vec3 Drawable::getScale() const { return scale; }
+void Drawable::setScale(Vec3 s) { transform.scale = s; }
+Vec3 Drawable::getScale() const { return transform.scale; }
 
 void Drawable::setMaterial(Material m) { material = m; }
 Material Drawable::getMaterial() const { return material; }
 
 void Drawable::rotateX(float angle) { 
-    rotation.x = angle;
+    transform.rotation.x = angle;
 }
 
 void Drawable::rotateY(float angle) { 
-    rotation.y = angle;
+    transform.rotation.y = angle;
 }
 
 void Drawable::rotateZ(float angle) { 
-    rotation.z = angle;
+    transform.rotation.z = angle;
 }
 
-void Drawable::setTexture(Texture& _tex) {
-    if (texs.size() == 0) {
-        texs.push_back(&_tex);
+void Drawable::setTexture(std::shared_ptr<Texture> _tex) {
+    if (textures.size() == 0) {
+        textures.push_back(_tex);
     } else {
-        texs[0] = &_tex;
+        textures[0] = _tex;
     }
 }
 
-void Drawable::addTexture(Texture& _tex) {
-    texs.push_back(&_tex);
+void Drawable::addTexture(std::shared_ptr<Texture> _tex) {
+    textures.push_back(_tex);
 }
 
-void Drawable::setShader(Shader& _shader) {
-    shader = &_shader;
+void Drawable::setShader(std::shared_ptr<Shader> _shader) {
+    shader = _shader;
 }
 
-void Drawable::setDefaultUniforms(Shader& shader, const Mat& viewMat,
-        const Mat& projMat, const Vec3& viewPos,
-        const DirLight& dLight,
-        const std::vector<PointLight>& pLights,
-        const CubeMap* skyBox) {
-    setPointLightUniforms(shader, pLights);
-
-    Vec3 lc = Vec3(dLight.getColor().toRGB());
-    shader.setDirLight(dLight.getDir(), 
-                lc * dLight.properties.ambient,
-                lc * dLight.properties.diffuse,
-                lc * dLight.properties.specular);
-
-    shader.setBool(SHADER_TEX_SET_UNIFORM, texs.size() > 0);
-    shader.setBool(SHADER_SKYBOX_SET_UNIFORM, skyBox != nullptr);
-
-    // Assign each sampler its own texture unit. Without this both default to
-    // unit 0, which is illegal for differing sampler types and triggers 1282.
-    shader.setInt(SHADER_TEX_UNIFORM, 0);
-    shader.setInt(SHADER_SKYBOX_UNIFORM, SKYBOX_TEXTURE_UNIT);
-
-    shader.setInt(SHADER_POINT_LIGHT_COUNT, pLights.size());
-
-    shader.setVec3(SHADER_VIEW_POSITION_UNIFORM, viewPos);
-
-    shader.setMat4(SHADER_MODEL_SET_UNIFORM, getModelMat());
-    shader.setMat4(SHADER_VIEW_SET_UNIFORM, viewMat);
-    shader.setMat4(SHADER_PROJECTION_SET_UNIFORM, projMat);
-
-    shader.setMaterial(material);
+void Drawable::draw(std::shared_ptr<Shader> defaultShader) {
+    defaultShader->use();
+    defaultShader->setMat4(SHADER_MODEL_SET_UNIFORM, transform.GetModelMat());
+    defaultShader->setMaterial(material);
+    defaultShader->setBool(SHADER_TEX_SET_UNIFORM, !textures.empty());
+    for(u32 i = 0; i < textures.size(); i++) { textures[i]->bind(i); }
+    mesh->draw();
 }
 
-void Drawable::setPointLightUniforms(const Shader& shader, const std::vector<PointLight>& pLights) {
-    for (u32 i = 0; i < pLights.size(); i++) {
-        const PointLight& l = pLights[i];
-        Vec3 lc = Vec3(l.getColor().toRGB());
-        shader.setPointLight(
-                GetPointLightName(i),
-                l.getPos(),
-                lc * l.properties.ambient,
-                lc * l.properties.diffuse,
-                lc * l.properties.specular,
-                l.properties.attenuation);
-    }
-}
-
-Mat Drawable::getModelMat() {
+Mat Transform::GetModelMat() {
     // Build scale matrix
     Mat scaleMat = Mat::getIdentity(4);
     scaleMat.set(0, 0, scale.x);

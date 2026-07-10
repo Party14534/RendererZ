@@ -17,18 +17,18 @@ struct Window {
     u32 width, height;
     std::string windowName;
 
-    Shader objectShader;
-    Shader lightShader;
-    Shader skyBoxShader;
+    std::shared_ptr<Shader> objectShader = nullptr;
+    std::shared_ptr<Shader> lightShader = nullptr;
+    std::shared_ptr<Shader> skyBoxShader = nullptr;
 
-    SkyBox* skyBox = nullptr;
+    std::shared_ptr<SkyBox> skyBox = nullptr;
 
     Camera cam;
     Mouse mouse;
 
     // Lighting
     DirLight dLight;
-    std::vector<PointLight> pLights;
+    std::vector<std::shared_ptr<PointLight>> pLights;
 
     bool wasMouseMoved;
     Vec2 mouseChange;
@@ -41,7 +41,11 @@ struct Window {
     void clear(Color c);
     void draw(Drawable& d);
 
-    void setSkyBox(SkyBox& skyBox);
+    void setSkyBox(std::shared_ptr<SkyBox> skyBox);
+    
+    // Uniforms
+    void setDefaultUniforms(std::shared_ptr<Shader> shader);
+    void setPointLightUniforms(std::shared_ptr<Shader> shader);
 
     // Events
     void pollEvents();
