@@ -47,7 +47,7 @@ int main() {
     bottom.rotateX(radians(90));
     bottom.setPos(Vec3(0, -20, 0));
     bottom.setScale(Vec3(1000));
-    bottom.setColor(Color(0.1f));
+    bottom.setColor(Color(1.f));
     top.rotateX(radians(-90));
     top.setPos(Vec3(0, 60, 0));
     top.setScale(Vec3(1000));
