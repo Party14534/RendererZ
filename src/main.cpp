@@ -1,5 +1,6 @@
 #include "main.h"
-#include <memory>
+
+std::vector<PointVertexAttribute> points = makeTestPointCloud();
 
 Drawable bottom = Drawable::Plane();
 Drawable top  = Drawable::Plane();
@@ -27,6 +28,7 @@ int main() {
     
     std::shared_ptr<Texture> tex = std::make_shared<Texture>("../src/res/textures/zari.jpg");
     std::shared_ptr<Texture> tungTex = std::make_shared<Texture>("../src/res/textures/tung.png");
+    std::shared_ptr<PointMesh> pMesh = std::make_shared<PointMesh>(PointMesh(points));
 
     SkyBox sBox({
             "../src/res/textures/squareKitty.jpg",
@@ -36,6 +38,8 @@ int main() {
             "../src/res/textures/squareKitty.jpg",
             "../src/res/textures/squareKitty.jpg"
     });
+
+    Drawable cloud = Drawable(pMesh);
 
     win.setSkyBox(std::make_shared<SkyBox>(sBox));
 
@@ -147,15 +151,30 @@ int main() {
         .1, .7, .9,
     };
 
+    cloud.setShader(win.pointShader);
+
     glEnable(GL_FRAMEBUFFER_SRGB);
+
+    int frameCount = 0;
+    double fpsTimer = glfwGetTime();
 
     while(win.isOpen())
     {
         // Poll events
         win.pollEvents();
-        processInput(win);        
+        processInput(win);
+
+        applyGravity(pMesh->points);
+        pMesh->updateBuffer();
 
         double t = glfwGetTime();
+
+        frameCount++;
+        if (t - fpsTimer >= 1.0) {
+            std::cout << "FPS: " << frameCount << "\n";
+            frameCount = 0;
+            fpsTimer = t;
+        }
         whiteCube.rotateY(t);
         whiteCube.rotateX(t * 0.5f);
         redCube.rotateY(t);
@@ -182,7 +201,6 @@ int main() {
         
         // Handle rendering
         win.clear(Color(0.f));
-
         
         win.draw(bottom);
         /*
@@ -201,6 +219,7 @@ int main() {
         win.draw(armadillo);
         win.draw(homer);
         win.draw(r7);
+        win.draw(cloud);
 
         win.draw(tung);
 
@@ -247,4 +266,65 @@ void processInput(Window& win) {
         win.mouseChange.y *= -1;
         win.cam.MoveDirection(win.mouseChange * 0.1f);
     }
+}
+
+std::vector<PointVertexAttribute> makeTestPointCloud() {
+    std::vector<PointVertexAttribute> pts;
+    const int size = 10;
+    const float spacing = 1.5f;
+
+    pts.reserve(size * size);
+
+    for (int x = 0; x < size; x++) {
+        for (int y = 0; y < size; y++) {
+            for (int z = 0; z < size; z++) {
+                float px = (float)(x - size / 2) * spacing;
+                float py = (float)(y - size / 2) * spacing;
+                float pz = (float)(z - size / 2) * spacing - 6.f; // sit in front of the starting camera
+
+                float r = (float)x / (size - 1);
+                float g = (float)y / (size - 1);
+                float b = (float)z / (size - 1);
+
+                pts.push_back(PointVertexAttribute(px, py, pz, r, g, b));
+            }
+        }
+    }
+
+    return pts;
+}
+
+void applyGravity(std::vector<PointVertexAttribute>& points) {
+    const float G = .1f;          // scaled way up for visibility - real G (6.674e-11) is imperceptible at this scale
+    const float softening = 0.75f; // keeps 1/r^2 bounded when points coincide or share an axis (a grid has plenty of both)
+    std::vector<PointVertexAttribute> snapshot = points; // stable positions to read while we write to the live array
+
+    std::for_each(
+        std::execution::par,
+        points.begin(),
+        points.end(),
+        [&points, &snapshot, G, softening](PointVertexAttribute& p) {
+            u32 selfIndex = (u32)(&p - points.data());
+            Vec3 v;
+            Vec3 pos(p.x, p.y, p.z);
+            for (u32 i = 0; i < snapshot.size(); i++) {
+                if (i == selfIndex) continue;
+                const PointVertexAttribute& p2 = snapshot[i];
+                Vec3 pos2(p2.x, p2.y, p2.z);
+
+                Vec3 d = pos2 - pos;
+                float r2 = d.dot(d) + softening * softening;
+                float r = sqrt(r2);
+                Vec3 dir = d * (1.f / r);  // unit vector pointing toward the other point
+                float accel = G / r2;      // inverse-square law, assuming unit mass
+
+                v = v + dir * accel;
+            }
+
+            pos = pos + v * 0.00167f;
+            p.x = pos.x;
+            p.y = pos.y;
+            p.z = pos.z;
+        }
+    );
 }

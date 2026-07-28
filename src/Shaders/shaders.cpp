@@ -1,4 +1,4 @@
-#include "shaders.h"
+#include "Shaders.h"
 
 std::string loadFile(std::string path) {
     std::ifstream file (path, std::ios::binary);
@@ -36,6 +36,30 @@ unsigned int loadShader(std::string path, int shaderType) {
     return shader;
 }
 
+unsigned int loadShaderFromString(std::string shaderCode, int shaderType) {
+    if (shaderCode.length() <= 10) { 
+        std::cout << "Failed to load shader from string\n";
+        return 0;
+    }
+
+    unsigned int shader = glCreateShader(shaderType);
+    const char *source = shaderCode.data();
+
+    glShaderSource(shader, 1, &source, NULL);
+    glCompileShader(shader);
+
+    // Check for error
+    int success;
+    char log[512];
+    glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+    if (!success) {
+         glGetShaderInfoLog(shader, 512, NULL, log);
+        std::cout << "ERROR::SHADER::COMPILATION_FAILED\n" << log << std::endl;
+    }
+
+    return shader;
+}
+
 Shader::Shader() {}
 
 Shader::Shader(const std::string& vertPath, const std::string& fragPath) {
@@ -47,6 +71,21 @@ Shader::Shader(const std::string& vertPath, const std::string& fragPath) {
     glAttachShader(ID, vID);
     glAttachShader(ID, fID);
     glLinkProgram(ID);
+}
+
+Shader Shader::fromStrings(const std::string &vert, const std::string &frag) {
+    Shader s;
+
+    s.vID = loadShaderFromString(vert, GL_VERTEX_SHADER);
+    s.fID = loadShaderFromString(frag, GL_FRAGMENT_SHADER);
+
+    // Link shaders
+    s.ID = glCreateProgram();
+    glAttachShader(s.ID, s.vID);
+    glAttachShader(s.ID, s.fID);
+    glLinkProgram(s.ID);
+
+    return s;
 }
 
 const void Shader::use() {

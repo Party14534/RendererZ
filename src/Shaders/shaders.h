@@ -30,6 +30,7 @@
 #define SHADER_VIEW_POSITION_UNIFORM "view_pos_z"
 #define SHADER_DIRECTIONAL_LIGHT "dirLight_z"
 #define SHADER_POINT_LIGHT_COUNT "pointLightCnt_z"
+#define SHADER_POINT_SIZE_UNIFORM "pointSize_z"
 
 struct Material {
     Color color;
@@ -81,9 +82,12 @@ struct Shader {
     const void setPointLight(const std::string& name, const Vec3& pos, const Vec3& ambient,
             const Vec3& diffuse, const Vec3& specular,
             const Vec3& attenuation) const;
+
+    static Shader fromStrings(const std::string& vert, const std::string& frag);
 };
 
 unsigned int loadShader(std::string path, int shaderType);
+unsigned int loadShaderFromString(std::string code, int shaderType);
 
 std::string GetPointLightName(int i);
 

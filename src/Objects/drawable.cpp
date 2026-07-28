@@ -62,10 +62,12 @@ void Drawable::setShader(std::shared_ptr<Shader> _shader) {
 }
 
 void Drawable::draw(std::shared_ptr<Shader> defaultShader) {
-    defaultShader->use();
-    defaultShader->setMat4(SHADER_MODEL_SET_UNIFORM, transform.GetModelMat());
-    defaultShader->setMaterial(material);
-    defaultShader->setBool(SHADER_TEX_SET_UNIFORM, !textures.empty());
+    if (shader == nullptr) {
+        defaultShader->use();
+        defaultShader->setMat4(SHADER_MODEL_SET_UNIFORM, transform.GetModelMat());
+        defaultShader->setMaterial(material);
+        defaultShader->setBool(SHADER_TEX_SET_UNIFORM, !textures.empty());
+    } else { shader->use(); }
     for(u32 i = 0; i < textures.size(); i++) { textures[i]->bind(i); }
     mesh->draw();
 }
@@ -111,17 +113,3 @@ Mat Transform::GetModelMat() {
     
     return m;
 }
-
-/*
- * Helper types
- */
-
-VertexAttribute::VertexAttribute() 
-    : x(0), y(0), z(0), xn(0), yn(0), zn(0), u(0), v(0) {}
-
-VertexAttribute::VertexAttribute(
-        float x, float y, float z, 
-        float xn,float yn,float zn,
-        float u, float v)
-    : x(x), y(y), z(z), xn(xn), yn(yn), zn(zn), u(u), v(v) {}
-

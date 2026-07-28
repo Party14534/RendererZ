@@ -1,6 +1,5 @@
 #include "Mesh.h"
 #include "Objects/Primitives.h"
-#include "Shaders/shaders.h"
 #include "Tools/ObjectLoading.h"
 #include "global.h"
 
@@ -8,6 +7,8 @@ Mesh::Mesh(std::vector<VertexAttribute> vertices, std::vector<u32> indices) :
     vertices(vertices),
     indices(indices)
 { }
+
+Mesh::Mesh() { }
 
 void Mesh::init() {
     // Generate VAO and VBO and EBO
@@ -122,6 +123,106 @@ void Mesh::generateNormals() {
 void Mesh::draw() {
     if (!initialized) init();
     glBindVertexArray(VAO);
-    glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+    glDrawElements(drawType, indices.size(), GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
 }
+
+
+/*
+ * Point Mesh
+ */
+PointMesh::PointMesh(std::vector<PointVertexAttribute> _points) :
+    points(_points)
+{ }
+
+PointMesh::PointMesh(PointMesh&& other) noexcept :
+    points(std::move(other.points)),
+    VAO(other.VAO), VBO(other.VBO), EBO(other.EBO),
+    initialized(other.initialized)
+{
+    other.VAO = other.VBO = other.EBO = 0;
+    other.initialized = false;
+}
+
+PointMesh& PointMesh::operator=(PointMesh&& other) noexcept {
+    if (this != &other) {
+        glDeleteBuffers(1, &VBO);
+        glDeleteVertexArrays(1, &VAO);
+
+        points = std::move(other.points);
+        VAO = other.VAO;
+        VBO = other.VBO;
+        EBO = other.EBO;
+        initialized = other.initialized;
+
+        other.VAO = other.VBO = other.EBO = 0;
+        other.initialized = false;
+    }
+    return *this;
+}
+
+void PointMesh::init() {
+    // Generate VAO and VBO
+    glGenBuffers(1, &VBO);
+    glGenVertexArrays(1, &VAO);
+
+    // Bind and set up buffers
+    glBindVertexArray(VAO); // MUST BIND VAO FIRST
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, points.size() * sizeof(PointVertexAttribute),
+            points.data(), GL_DYNAMIC_DRAW);
+
+    // Set attribs
+    // point pos
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE,
+                            6 * sizeof(float), (void*)(0));
+    glEnableVertexAttribArray(0);
+
+    // point color
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE,
+                            6 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+
+    initialized = true;
+}
+
+PointMesh::~PointMesh() {
+    glDeleteBuffers(1, &VBO);
+    glDeleteVertexArrays(1, &VAO);
+}
+
+void PointMesh::draw() {
+    if (!initialized) init();
+    glBindVertexArray(VAO);
+    glDrawArrays(drawType, 0, points.size());
+    glBindVertexArray(0);
+}
+
+void PointMesh::updateBuffer() {
+    if (!initialized) { init(); return; }
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferSubData(GL_ARRAY_BUFFER, 0,
+            points.size() * sizeof(PointVertexAttribute), points.data());
+}
+
+/*
+ * Helper types
+ */
+
+VertexAttribute::VertexAttribute() 
+    : x(0), y(0), z(0), xn(0), yn(0), zn(0), u(0), v(0) {}
+
+VertexAttribute::VertexAttribute(
+        float x, float y, float z, 
+        float xn,float yn,float zn,
+        float u, float v)
+    : x(x), y(y), z(z), xn(xn), yn(yn), zn(zn), u(u), v(v) {}
+
+PointVertexAttribute::PointVertexAttribute() 
+    : x(0), y(0), z(0), r(0), g(0), b(0) {}
+
+PointVertexAttribute::PointVertexAttribute(
+        float x, float y, float z, float r, float g, float b)
+    : x(x), y(y), z(z), r(r), g(g), b(b) {}
+

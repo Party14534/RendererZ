@@ -1,4 +1,5 @@
 #include "math.h"
+#include <cmath>
 
 /*
  * Vec2
@@ -57,6 +58,19 @@ float Vec3::dot(const Vec3& other) const {
 Vec3 Vec3::normalize() const {
     float len = length();
     return Vec3(x / len, y / len, z / len);
+}
+
+Vec3 Vec3::abs() const {
+    return Vec3((float)((u32)x & 0x7FFFFFFF),
+            (float)((u32)y & 0x7FFFFFFF),
+            (float)((u32)y & 0x7FFFFFFF));
+}
+
+float Vec3::distance(const Vec3& other) const {
+    float diffX = other.x-x;
+    float diffY = other.y-y;
+    float diffZ = other.z-z;
+    return sqrt(diffX*diffX + diffY*diffY + diffZ*diffZ);
 }
 
 Vec3 Vec3::cross(const Vec3& other) const {

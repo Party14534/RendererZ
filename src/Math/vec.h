@@ -26,7 +26,9 @@ struct Vec3 {
 
     float length() const;
     float dot(const Vec3& other) const;
+    float distance(const Vec3& other) const;
     Vec3 normalize() const;
+    Vec3 abs() const;
     Vec3 cross(const Vec3& other) const;
     Vec3 multiplyComponents(Vec3) const;
 };

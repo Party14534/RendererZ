@@ -1,7 +1,7 @@
 #ifndef LIGHT_SOURCE
 #define LIGHT_SOURCE
 
-#include "../Shaders/shaders.h"
+#include "../Shaders/Shaders.h"
 
 class LightSource {
     public:

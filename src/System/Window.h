@@ -6,7 +6,7 @@
 
 #include "../Objects/Drawable.h"
 #include "../Math/math.h"
-#include "../Shaders/shaders.h"
+#include "../Shaders/Shaders.h"
 #include "Camera.h"
 #include "../Input/Input.h"
 #include "../Objects/LightSource.h"
@@ -20,6 +20,7 @@ struct Window {
     std::shared_ptr<Shader> objectShader = nullptr;
     std::shared_ptr<Shader> lightShader = nullptr;
     std::shared_ptr<Shader> skyBoxShader = nullptr;
+    std::shared_ptr<Shader> pointShader = nullptr;
 
     std::shared_ptr<SkyBox> skyBox = nullptr;
 

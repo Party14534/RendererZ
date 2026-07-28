@@ -1,5 +1,4 @@
 #include "Texture.h"
-#include "Shaders/shaders.h"
 #include <algorithm>
 #include <iterator>
 

@@ -1,4 +1,5 @@
 #include "Window.h"
+#include "Shaders/ShaderCode.h"
 #include <vector>
 
 Window::Window(u32 width, u32 height, std::string windowName) :
@@ -34,9 +35,15 @@ Window::Window(u32 width, u32 height, std::string windowName) :
     // Update window size with window update
     glfwSetFramebufferSizeCallback(win, framebuffer_size_callback);
 
-    objectShader = std::make_shared<Shader>("../src/Shaders/objectVertex.vert", "../src/Shaders/objectFrag.frag");
-    lightShader = std::make_shared<Shader>("../src/Shaders/lightVertex.vert", "../src/Shaders/lightFrag.frag");
-    skyBoxShader = std::make_shared<Shader>("../src/Shaders/skyBoxVertex.vert", "../src/Shaders/skyBoxFrag.frag");
+    objectShader = std::make_shared<Shader>(Shader::fromStrings(objectVertex, objectFrag));
+    lightShader = std::make_shared<Shader>(Shader::fromStrings(lightVertex, lightFrag));
+    skyBoxShader = std::make_shared<Shader>(Shader::fromStrings(skyBoxVertex, skyBoxFrag));
+    pointShader = std::make_shared<Shader>(Shader::fromStrings(pointVertex, pointFrag));
+
+    // gl_PointSize in the vertex shader is ignored unless this is enabled.
+    glEnable(GL_PROGRAM_POINT_SIZE);
+    pointShader->use();
+    pointShader->setFloat(SHADER_POINT_SIZE_UNIFORM, 8.f);
 
     // Create perspective matrices
     cam.BuildPerspectiveMatrices(width, height);
@@ -84,6 +91,7 @@ void Window::clear(Color c) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     setDefaultUniforms(objectShader);
     setDefaultUniforms(skyBoxShader);
+    setDefaultUniforms(pointShader);
     if (skyBox != nullptr) skyBox->map.bind(SKYBOX_TEXTURE_UNIT);
 }
 
