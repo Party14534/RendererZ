@@ -108,3 +108,21 @@ std::shared_ptr<Mesh> LoadMeshFromFilePath(std::filesystem::path filePath) {
         exit(1);
     }
 }
+
+using json = nlohmann::json;
+std::shared_ptr<ComplexDrawable> loadGLTFFileFromFilePath(std::filesystem::path filePath) {
+    std::vector<Drawable> targets;
+    std::ifstream f(filePath);
+    json file = json::parse(f);
+
+}
+
+std::shared_ptr<ComplexDrawable> LoadComplexDrawableFromFilePath(std::filesystem::path filePath) {
+    std::string extension = filePath.extension().string();
+    if (extension == ".gltf") {
+        return loadGLTFFileFromFilePath(filePath);
+    } else {
+        std::cerr << "Uncompatible object file type\n";
+        exit(1);
+    }
+}

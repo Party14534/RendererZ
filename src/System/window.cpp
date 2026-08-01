@@ -58,6 +58,7 @@ Window::Window(u32 width, u32 height, std::string windowName) :
     glfwGetCursorPos(win, &mouse.x, &mouse.y);
 
     glEnable(GL_CULL_FACE);
+    glEnable(GL_FRAMEBUFFER_SRGB);
 
     // Initialize Lights
     pLights = std::vector<std::shared_ptr<PointLight>>(0);

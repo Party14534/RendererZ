@@ -1,4 +1,5 @@
 #include "main.h"
+#include "Shaders/Shaders.h"
 
 std::vector<PointVertexAttribute> points = makeTestPointCloud();
 
@@ -152,8 +153,6 @@ int main() {
     };
 
     cloud.setShader(win.pointShader);
-
-    glEnable(GL_FRAMEBUFFER_SRGB);
 
     int frameCount = 0;
     double fpsTimer = glfwGetTime();

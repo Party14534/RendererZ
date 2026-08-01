@@ -43,3 +43,4 @@
 build/*
 include/glad.zip
 .cache
+.DS_STORE

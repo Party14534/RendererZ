@@ -20,7 +20,7 @@ anything a graphics team cares about. No bullet here — it's the price of entry
 - [X] Enable the depth buffer (`glEnable(GL_DEPTH_TEST)`).
 - [/] Load real meshes: OBJ loader done; glTF 2.0 not started (glTF gets you PBR
       materials, normals, and tangents for free later — worth doing).
-- [/] Index buffers (EBO) done and used everywhere; a real `Mesh` abstraction still
+- [X] Index buffers (EBO) done and used everywhere; a real `Mesh` abstraction still
       pending (see MESH_REFACTOR.md — this is Milestone 0's last blocker for M3/M5).
 
 When this works (a textured 3D model spinning with a real camera), you can already

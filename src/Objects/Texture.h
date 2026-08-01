@@ -39,9 +39,9 @@ class Texture {
         bool loaded = false;
 
         Texture();
-        Texture(std::string _path);
+        Texture(std::string _path, bool sRGB = true);
 
-        void loadImage(std::string _path);
+        void loadImage(std::string _path, bool sRGB);
 
         void setTextureParameter(TextureParameterOption _texParameter);
         void setTextureFilter(TextureFilterOption _texFilter);

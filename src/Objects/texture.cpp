@@ -1,14 +1,15 @@
 #include "Texture.h"
+#include "Shaders/Shaders.h"
 #include <algorithm>
 #include <iterator>
 
 Texture::Texture() { }
 
-Texture::Texture(std::string _path) : path(_path) {
-    loadImage(_path);
+Texture::Texture(std::string _path, bool sRGB) : path(_path) {
+    loadImage(_path, sRGB);
 }
 
-void Texture::loadImage(std::string _path) {
+void Texture::loadImage(std::string _path, bool sRGB) {
     path = _path;
     stbi_set_flip_vertically_on_load(true);
     data = stbi_load(path.c_str(), &width, &height, &nrChannels, 3);
@@ -22,7 +23,9 @@ void Texture::loadImage(std::string _path) {
 
     glBindTexture(GL_TEXTURE_2D, ID);
 
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB, width, height,
+    u32 format = (sRGB) ? GL_SRGB : GL_RGB;
+
+    glTexImage2D(GL_TEXTURE_2D, 0, format, width, height,
             0, GL_RGB, GL_UNSIGNED_BYTE, data);
 
     glGenerateMipmap(GL_TEXTURE_2D);
@@ -33,6 +36,7 @@ void Texture::loadImage(std::string _path) {
 }
 
 void Texture::bind(u32 texNum) {
+    if(!loaded) { std::cerr << "Binding unloaded texture\n"; exit(1); }
     glActiveTexture(GL_TEXTURE0 + texNum);
     glBindTexture(GL_TEXTURE_2D, ID);
 }
