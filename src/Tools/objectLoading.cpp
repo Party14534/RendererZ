@@ -1,4 +1,5 @@
 #include "ObjectLoading.h"
+#include <memory>
 
 std::vector<std::string> splitBySpace(const std::string& str) {
     std::istringstream iss(str);
@@ -115,6 +116,23 @@ std::shared_ptr<ComplexDrawable> loadGLTFFileFromFilePath(std::filesystem::path 
     std::ifstream f(filePath);
     json file = json::parse(f);
 
+    std::string pathToFolder = filePath.remove_filename();
+
+    std::vector<std::shared_ptr<Texture>> textures;
+    textures.reserve(file["textures"].size());
+    // TODO: use samplers
+    for (u32 i = 0; i < textures.capacity(); i++) {
+        u32 source = file["textures"][i]["source"];
+        std::string pathToImage = file["images"][source]["uri"];
+        textures.push_back(Texture::fromFile(pathToFolder + pathToImage));
+    }
+
+    // Build meshes
+    /*for(u32 i = 0; i < file["meshes"].size(); i++) {
+        
+    }*/
+
+    return std::make_shared<ComplexDrawable>(targets);
 }
 
 std::shared_ptr<ComplexDrawable> LoadComplexDrawableFromFilePath(std::filesystem::path filePath) {

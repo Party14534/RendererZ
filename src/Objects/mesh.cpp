@@ -2,6 +2,7 @@
 #include "Objects/Primitives.h"
 #include "Tools/ObjectLoading.h"
 #include "global.h"
+#include <memory>
 
 Mesh::Mesh(std::vector<VertexAttribute> vertices, std::vector<u32> indices) :
     vertices(vertices),
@@ -131,9 +132,13 @@ void Mesh::draw() {
 /*
  * Point Mesh
  */
-PointMesh::PointMesh(std::vector<PointVertexAttribute> _points) :
+PointMesh::PointMesh(std::vector<PointVertexAttribute>& _points) :
     points(_points)
 { }
+
+std::shared_ptr<PointMesh> PointMesh::fromPoints(std::vector<PointVertexAttribute> &points) {
+    return std::make_shared<PointMesh>(PointMesh(points));
+}
 
 PointMesh::PointMesh(PointMesh&& other) noexcept :
     points(std::move(other.points)),

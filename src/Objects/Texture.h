@@ -46,8 +46,9 @@ class Texture {
         void setTextureParameter(TextureParameterOption _texParameter);
         void setTextureFilter(TextureFilterOption _texFilter);
         void setMipMapFilter(MipMapFilterOption _mmFilter);
-
         void bind(u32 texNum);
+
+        static std::shared_ptr<Texture> fromFile(std::string path, bool sRGB = true);
     private:
         TextureParameterOption texParameter = TextureParameterOption::REPEAT;
         TextureFilterOption texFilter = TextureFilterOption::NEAREST;

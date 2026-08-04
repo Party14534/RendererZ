@@ -59,13 +59,15 @@ class PointMesh : public Mesh {
         std::vector<PointVertexAttribute> points;
         u32 drawType = GL_POINTS;
 
-        PointMesh(std::vector<PointVertexAttribute> verts);
+        PointMesh(std::vector<PointVertexAttribute>& verts);
         ~PointMesh() override;                                   // glDeleteBuffers / glDeleteVertexArrays
 
         PointMesh(const PointMesh&)            = delete;      // GL handles aren't copyable...
         PointMesh& operator=(const PointMesh&) = delete;
         PointMesh(PointMesh&&) noexcept;                      // ...but they're movable (RAII)
         PointMesh& operator=(PointMesh&&) noexcept;
+
+        static std::shared_ptr<PointMesh> fromPoints(std::vector<PointVertexAttribute>& verts);
 
         void draw() override;                          // bind VAO + glDrawElements(indexCount)
         void init() override;

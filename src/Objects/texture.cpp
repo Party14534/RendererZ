@@ -2,11 +2,17 @@
 #include "Shaders/Shaders.h"
 #include <algorithm>
 #include <iterator>
+#include <memory>
 
 Texture::Texture() { }
 
 Texture::Texture(std::string _path, bool sRGB) : path(_path) {
     loadImage(_path, sRGB);
+}
+
+std::shared_ptr<Texture> Texture::fromFile(std::string path, bool sRGB) {
+    Texture t(path, sRGB);
+    return std::make_shared<Texture>(t);
 }
 
 void Texture::loadImage(std::string _path, bool sRGB) {

@@ -1,5 +1,7 @@
 #include "main.h"
+#include "Objects/Drawable.h"
 #include "Shaders/Shaders.h"
+#include "Tools/ObjectLoading.h"
 
 std::vector<PointVertexAttribute> points = makeTestPointCloud();
 
@@ -27,9 +29,9 @@ int main() {
 
     PointLight l(Vec3(5, 5, 5), PointLightProperties());
     
-    std::shared_ptr<Texture> tex = std::make_shared<Texture>("../src/res/textures/zari.jpg");
-    std::shared_ptr<Texture> tungTex = std::make_shared<Texture>("../src/res/textures/tung.png");
-    std::shared_ptr<PointMesh> pMesh = std::make_shared<PointMesh>(PointMesh(points));
+    std::shared_ptr<Texture> tex = Texture::fromFile("../src/res/textures/zari.jpg");
+    std::shared_ptr<Texture> tungTex = Texture::fromFile("../src/res/textures/tung.png");
+    std::shared_ptr<PointMesh> pMesh = PointMesh::fromPoints(points);
 
     SkyBox sBox({
             "../src/res/textures/squareKitty.jpg",
@@ -39,6 +41,8 @@ int main() {
             "../src/res/textures/squareKitty.jpg",
             "../src/res/textures/squareKitty.jpg"
     });
+
+    std::shared_ptr<ComplexDrawable> c = LoadComplexDrawableFromFilePath("../src/res/objects/car/scene.gltf");
 
     Drawable cloud = Drawable(pMesh);
 
