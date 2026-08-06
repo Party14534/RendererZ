@@ -1,0 +1,3 @@
+/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/renderer.dir
+/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/edit_cache.dir
+/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/rebuild_cache.dir

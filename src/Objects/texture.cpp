@@ -6,18 +6,18 @@
 
 Texture::Texture() { }
 
-Texture::Texture(std::string _path, bool sRGB) : path(_path) {
-    loadImage(_path, sRGB);
+Texture::Texture(std::string _path, bool sRGB, bool flipVertically) : path(_path) {
+    loadImage(_path, sRGB, flipVertically);
 }
 
-std::shared_ptr<Texture> Texture::fromFile(std::string path, bool sRGB) {
-    Texture t(path, sRGB);
+std::shared_ptr<Texture> Texture::fromFile(std::string path, bool sRGB, bool flipVertically) {
+    Texture t(path, sRGB, flipVertically);
     return std::make_shared<Texture>(t);
 }
 
-void Texture::loadImage(std::string _path, bool sRGB) {
+void Texture::loadImage(std::string _path, bool sRGB, bool flipVertically) {
     path = _path;
-    stbi_set_flip_vertically_on_load(true);
+    stbi_set_flip_vertically_on_load(flipVertically);
     data = stbi_load(path.c_str(), &width, &height, &nrChannels, 3);
 
     if (data == nullptr) { 

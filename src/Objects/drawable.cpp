@@ -1,5 +1,4 @@
 #include "Drawable.h"
-#include "../Tools/ObjectLoading.h"
 
 /*
  * Complex Drawable

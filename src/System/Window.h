@@ -10,7 +10,8 @@
 #include "Camera.h"
 #include "../Input/Input.h"
 #include "../Objects/LightSource.h"
-#include "Objects/SkyBox.h"
+#include "../Objects/SkyBox.h"
+#include "../Objects/Scene.h"
 
 struct Window {
     // Window variables
@@ -41,6 +42,8 @@ struct Window {
     bool isOpen();
     void clear(Color c);
     void draw(Drawable& d);
+    void draw(ComplexDrawable& d);
+    void draw(Scene& scene);
 
     void setSkyBox(std::shared_ptr<SkyBox> skyBox);
     

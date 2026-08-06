@@ -2,6 +2,7 @@
 #include "Objects/Drawable.h"
 #include "Shaders/Shaders.h"
 #include "Tools/ObjectLoading.h"
+#include "global.h"
 
 std::vector<PointVertexAttribute> points = makeTestPointCloud();
 
@@ -27,12 +28,6 @@ int main() {
     Window win(800, 600, "Test");
     win.captureMouse();
 
-    PointLight l(Vec3(5, 5, 5), PointLightProperties());
-    
-    std::shared_ptr<Texture> tex = Texture::fromFile("../src/res/textures/zari.jpg");
-    std::shared_ptr<Texture> tungTex = Texture::fromFile("../src/res/textures/tung.png");
-    std::shared_ptr<PointMesh> pMesh = PointMesh::fromPoints(points);
-
     SkyBox sBox({
             "../src/res/textures/squareKitty.jpg",
             "../src/res/textures/squareKitty.jpg",
@@ -41,12 +36,78 @@ int main() {
             "../src/res/textures/squareKitty.jpg",
             "../src/res/textures/squareKitty.jpg"
     });
-
-    std::shared_ptr<ComplexDrawable> c = LoadComplexDrawableFromFilePath("../src/res/objects/car/scene.gltf");
-
-    Drawable cloud = Drawable(pMesh);
-
     win.setSkyBox(std::make_shared<SkyBox>(sBox));
+
+    Scene s1 = testSceneOne();
+    std::shared_ptr<ComplexDrawable> car = LoadComplexDrawableFromFilePath("../src/res/objects/car/scene.gltf");
+
+    std::shared_ptr<PointMesh> pMesh = PointMesh::fromPoints(points);
+    pMesh->drawType = GL_POINTS;
+    Drawable cloud = Drawable(pMesh);
+    cloud.setShader(win.pointShader);
+    s1.addToList(&cloud);
+
+    setUpLighting(win);
+
+    int frameCount = 0;
+    double fpsTimer = glfwGetTime();
+
+    while(win.isOpen())
+    {
+        // Poll events
+        win.pollEvents();
+        processInput(win);
+
+        //applyGravity(pMesh->points);
+        //pMesh->updateBuffer();
+
+        double t = glfwGetTime();
+
+        frameCount++;
+        if (t - fpsTimer >= 1.0) {
+            std::cout << "FPS: " << frameCount << "\n";
+            frameCount = 0;
+            fpsTimer = t;
+        }
+        whiteCube.rotateY(t);
+        whiteCube.rotateX(t * 0.5f);
+        redCube.rotateY(t);
+        redCube.rotateX(t * 0.5f);
+        blueCube.rotateY(t);
+        blueCube.rotateX(t * 0.5f);
+        r7.rotateY(-t * .25f);
+
+        bunny.rotateY(t * 2);
+        Vec3 p = bunny.getPos();
+        bunny.setPos(Vec3(p.x, p.y + .05f * cos(3 * t), p.z));
+
+        float theta = t;
+        float r = 4;
+        p = tung.getPos() + Vec3(0, 5, 0);
+        p.x += r*cos(theta);
+        p.z += r*sin(theta);
+        win.pLights[0]->setPos(p);
+        whiteCube.setPos(p);
+        
+        p = tung.getPos();
+        Vec3 p2 = win.cam.GetPos();
+        tung.rotateY(std::atan2(p2.x - p.x, p2.z - p.z));
+        
+        // Handle rendering
+        win.clear(Color(0.f));
+        
+        //win.draw(s1);
+        win.draw(*car);
+
+        win.display();
+    }
+
+    return 0;
+}
+
+Scene testSceneOne() {
+    std::shared_ptr<Texture> tex = Texture::fromFile("../src/res/textures/zari.jpg");
+    std::shared_ptr<Texture> tungTex = Texture::fromFile("../src/res/textures/tung.png");
 
     redCube.setTexture(tex);
     blueCube.setTexture(tex);
@@ -76,12 +137,6 @@ int main() {
     homer.setColor(Color(float(248)/255,float(219)/255,(float)39/255, 1.));
     cow.setColor(Color(1.f));
     whiteCube.setColor(Color(1000.f));
-
-    /*Mat m = generateRandomMatrix(4096, 4096);
-    Mat m2 = generateRandomMatrix(4096, 4096);
-
-    Mat o = m * m2;*/
-
 
     bunny.setPos(Vec3(0, 10, 10));
     teapot.setPos(Vec3(0, -10, -10));
@@ -130,6 +185,13 @@ int main() {
         0.05f
     });
 
+    return Scene({ &bottom, &whiteCube, &redCube,
+                &blueCube, &greenCube, &r7, &bunny, &teapot, &armadillo,
+                &homer, &cow, &tung });
+}
+
+void setUpLighting(Window &win) {
+    PointLight l(Vec3(5, 5, 5), PointLightProperties());
     l.setColor(Color(1.f));
     l.setPos(tung.getPos() + Vec3(0, 4, 0));
     l.properties.attenuation = Vec3(1.0, 0.35, .44);
@@ -156,80 +218,6 @@ int main() {
         .1, .7, .9,
     };
 
-    cloud.setShader(win.pointShader);
-
-    int frameCount = 0;
-    double fpsTimer = glfwGetTime();
-
-    while(win.isOpen())
-    {
-        // Poll events
-        win.pollEvents();
-        processInput(win);
-
-        applyGravity(pMesh->points);
-        pMesh->updateBuffer();
-
-        double t = glfwGetTime();
-
-        frameCount++;
-        if (t - fpsTimer >= 1.0) {
-            std::cout << "FPS: " << frameCount << "\n";
-            frameCount = 0;
-            fpsTimer = t;
-        }
-        whiteCube.rotateY(t);
-        whiteCube.rotateX(t * 0.5f);
-        redCube.rotateY(t);
-        redCube.rotateX(t * 0.5f);
-        blueCube.rotateY(t);
-        blueCube.rotateX(t * 0.5f);
-        r7.rotateY(-t * .25f);
-
-        bunny.rotateY(t * 2);
-        Vec3 p = bunny.getPos();
-        bunny.setPos(Vec3(p.x, p.y + .05f * cos(3 * t), p.z));
-
-        float theta = t;
-        float r = 4;
-        p = tung.getPos() + Vec3(0, 5, 0);
-        p.x += r*cos(theta);
-        p.z += r*sin(theta);
-        win.pLights[0]->setPos(p);
-        whiteCube.setPos(p);
-        
-        p = tung.getPos();
-        Vec3 p2 = win.cam.GetPos();
-        tung.rotateY(std::atan2(p2.x - p.x, p2.z - p.z));
-        
-        // Handle rendering
-        win.clear(Color(0.f));
-        
-        win.draw(bottom);
-        /*
-        win.draw(top);
-        win.draw(front);
-        win.draw(back);
-        */
-
-        win.draw(whiteCube);
-        win.draw(redCube);
-        win.draw(blueCube);
-        win.draw(greenCube);
-        win.draw(cow);
-        win.draw(bunny);
-        win.draw(teapot);
-        win.draw(armadillo);
-        win.draw(homer);
-        win.draw(r7);
-        win.draw(cloud);
-
-        win.draw(tung);
-
-        win.display();
-    }
-
-    return 0;
 }
 
 void processInput(Window& win) {
@@ -274,16 +262,21 @@ void processInput(Window& win) {
 std::vector<PointVertexAttribute> makeTestPointCloud() {
     std::vector<PointVertexAttribute> pts;
     const int size = 10;
+    const float sizeF = size;
     const float spacing = 1.5f;
+    srand(time(NULL));
 
     pts.reserve(size * size);
 
     for (int x = 0; x < size; x++) {
         for (int y = 0; y < size; y++) {
             for (int z = 0; z < size; z++) {
-                float px = (float)(x - size / 2) * spacing;
-                float py = (float)(y - size / 2) * spacing;
-                float pz = (float)(z - size / 2) * spacing - 6.f; // sit in front of the starting camera
+                float offsetX = rand() % (size >> 1);
+                float offsetY = rand() % (size >> 1);
+                float offsetZ = rand() % (size >> 1);
+                float px = (float)(x - sizeF / 2) * spacing + offsetX;
+                float py = (float)(y - sizeF / 2) * spacing - offsetY;
+                float pz = (float)(z - sizeF / 2) * spacing - 6.f + offsetZ; // sit in front of the starting camera
 
                 float r = (float)x / (size - 1);
                 float g = (float)y / (size - 1);

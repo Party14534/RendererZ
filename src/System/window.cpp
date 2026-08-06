@@ -100,6 +100,14 @@ void Window::draw(Drawable& d) {
     d.draw(objectShader);
 }
 
+void Window::draw(ComplexDrawable& d) {
+    d.draw(objectShader);
+}
+
+void Window::draw(Scene& s) {
+    s.draw(objectShader);
+}
+
 void Window::setSkyBox(std::shared_ptr<SkyBox> _skyBox) {
     skyBox = _skyBox;
 }

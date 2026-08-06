@@ -39,16 +39,16 @@ class Texture {
         bool loaded = false;
 
         Texture();
-        Texture(std::string _path, bool sRGB = true);
+        Texture(std::string _path, bool sRGB = true, bool flipVertically = true);
 
-        void loadImage(std::string _path, bool sRGB);
+        void loadImage(std::string _path, bool sRGB, bool flipVertically = true);
 
         void setTextureParameter(TextureParameterOption _texParameter);
         void setTextureFilter(TextureFilterOption _texFilter);
         void setMipMapFilter(MipMapFilterOption _mmFilter);
         void bind(u32 texNum);
 
-        static std::shared_ptr<Texture> fromFile(std::string path, bool sRGB = true);
+        static std::shared_ptr<Texture> fromFile(std::string path, bool sRGB = true, bool flipVertically = true);
     private:
         TextureParameterOption texParameter = TextureParameterOption::REPEAT;
         TextureFilterOption texFilter = TextureFilterOption::NEAREST;
