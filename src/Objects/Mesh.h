@@ -3,9 +3,11 @@
 
 #include <filesystem>
 #include <vector>
+#include <execution>
+#include <memory>
 
 #include "../global.h"
-#include "Math/math.h"
+#include "../Math/math.h"
 
 struct VertexAttribute {
     float x, y, z, xn, yn, zn, u, v, xt, yt, zt, xbt, ybt, zbt;

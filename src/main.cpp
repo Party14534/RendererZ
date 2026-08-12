@@ -1,7 +1,7 @@
 #include "main.h"
 #include "Objects/Drawable.h"
 #include "Objects/Texture.h"
-#include "Shaders/Shaders.h"
+#include "Shaders/shaders.h"
 #include "Tools/ObjectLoading.h"
 #include "global.h"
 
@@ -98,8 +98,8 @@ int main() {
         // Handle rendering
         win.clear(Color(0.f));
         
-        //win.draw(s1);
-        win.draw(*car);
+        win.draw(s1);
+        win.draw(*phoenix);
 
         win.display();
     }

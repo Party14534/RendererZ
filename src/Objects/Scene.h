@@ -5,7 +5,7 @@
 #include <memory>
 
 #include "Drawable.h"
-#include "../Shaders/Shaders.h"
+#include "../Shaders/shaders.h"
 
 struct Scene {
     std::list<Drawable*> sceneObjects;

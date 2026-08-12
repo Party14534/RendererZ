@@ -1,4 +1,4 @@
-#include "Shaders.h"
+#include "shaders.h"
 
 std::string loadFile(std::string path) {
     std::ifstream file (path, std::ios::binary);

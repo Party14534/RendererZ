@@ -4,7 +4,7 @@
 #include "Objects/Scene.h"
 #include "System/Window.h"
 #include "Objects/Primitives.h"
-#include "Shaders/Shaders.h"
+#include "Shaders/shaders.h"
 #include "Input/Input.h"
 
 

@@ -1,6 +1,6 @@
 #include "SkyBox.h"
-#include "Objects/Texture.h"
-#include "Shaders/Shaders.h"
+#include "../Objects/Texture.h"
+#include "../Shaders/shaders.h"
 #include <memory>
 
 SkyBox::SkyBox(std::vector<std::string> textures) :

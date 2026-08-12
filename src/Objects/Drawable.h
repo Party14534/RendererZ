@@ -8,7 +8,7 @@
 #include <cstdlib>
 
 #include "../global.h"
-#include "../Shaders/Shaders.h"
+#include "../Shaders/shaders.h"
 #include "Mesh.h"
 #include "Texture.h"
 

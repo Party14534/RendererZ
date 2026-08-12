@@ -6,7 +6,7 @@
 
 #include "../Objects/Drawable.h"
 #include "../Math/math.h"
-#include "../Shaders/Shaders.h"
+#include "../Shaders/shaders.h"
 #include "Camera.h"
 #include "../Input/Input.h"
 #include "../Objects/LightSource.h"

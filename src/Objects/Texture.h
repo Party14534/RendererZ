@@ -2,10 +2,14 @@
 #define TEXTURE_H
 
 #include <string>
+#include <algorithm>
+#include <iterator>
+#include <memory>
 
 #include "../../include/stb_image.h"
 #include "../global.h"
 #include "../Math/math.h"
+#include "../Shaders/shaders.h"
 
 enum TextureParameterOption {
     REPEAT,

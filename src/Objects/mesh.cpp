@@ -1,7 +1,8 @@
 #include "Mesh.h"
-#include "Objects/Primitives.h"
-#include "Tools/ObjectLoading.h"
+#include "Primitives.h"
+#include "../Tools/ObjectLoading.h"
 #include "global.h"
+#include <execution>
 #include <memory>
 
 Mesh::Mesh(std::vector<VertexAttribute> vertices, std::vector<u32> indices) :

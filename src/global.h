@@ -5,7 +5,7 @@
 
 #include <GLFW/glfw3.h>
 #include "Math/vec.h"
-#include "Shaders/Shaders.h"
+#include "Shaders/shaders.h"
 #include <cstdint>
 #include <iostream>
 
