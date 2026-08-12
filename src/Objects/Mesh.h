@@ -8,11 +8,14 @@
 #include "Math/math.h"
 
 struct VertexAttribute {
-    float x, y, z, xn, yn, zn, u, v;
+    float x, y, z, xn, yn, zn, u, v, xt, yt, zt, xbt, ybt, zbt;
 
     VertexAttribute();
     VertexAttribute(float x, float y, float z, float xn, float yn, float zn,
             float u, float v);
+    VertexAttribute(float x, float y, float z, float xn, float yn, float zn,
+            float u, float v, float xt, float yt, float zt,
+            float xbt, float ybt, float zbt);
 };
 
 struct PointVertexAttribute {
@@ -40,6 +43,7 @@ class Mesh {
 
         virtual void draw();                          // bind VAO + glDrawElements(indexCount)
         virtual void generateNormals();
+        virtual void generateTangents();
         virtual void init();
 
         static std::shared_ptr<Mesh> tri();

@@ -1,5 +1,6 @@
 #include "main.h"
 #include "Objects/Drawable.h"
+#include "Objects/Texture.h"
 #include "Shaders/Shaders.h"
 #include "Tools/ObjectLoading.h"
 #include "global.h"
@@ -40,6 +41,7 @@ int main() {
 
     Scene s1 = testSceneOne();
     std::shared_ptr<ComplexDrawable> car = LoadComplexDrawableFromFilePath("../src/res/objects/car/scene.gltf");
+    std::shared_ptr<ComplexDrawable> phoenix = LoadComplexDrawableFromFilePath("../src/res/objects/phoenix_bird/scene.gltf");
 
     std::shared_ptr<PointMesh> pMesh = PointMesh::fromPoints(points);
     pMesh->drawType = GL_POINTS;
@@ -106,18 +108,25 @@ int main() {
 }
 
 Scene testSceneOne() {
-    std::shared_ptr<Texture> tex = Texture::fromFile("../src/res/textures/zari.jpg");
+    std::shared_ptr<Texture> zariTex = Texture::fromFile("../src/res/textures/zari.jpg");
     std::shared_ptr<Texture> tungTex = Texture::fromFile("../src/res/textures/tung.png");
+    std::shared_ptr<Texture> wallTex = Texture::fromFile("../src/res/textures/wall/wall_diffuse.png");
+    std::shared_ptr<Texture> wallNormalTex = Texture::fromFile("../src/res/textures/wall/wall_normal.png");
 
-    redCube.setTexture(tex);
-    blueCube.setTexture(tex);
-    greenCube.setTexture(tex);
-    tung.setTexture(tungTex);
+    redCube.setDiffuseTexture(zariTex);
+    blueCube.setDiffuseTexture(zariTex);
+    greenCube.setDiffuseTexture(zariTex);
+    tung.setDiffuseTexture(tungTex);
+    bottom.setDiffuseTexture(wallTex);
+    bottom.setNormalTexture(wallNormalTex);
+    r7.setDiffuseTexture(wallTex);
+    r7.setNormalTexture(wallNormalTex);
 
     bottom.rotateX(radians(90));
     bottom.setPos(Vec3(0, -20, 0));
     bottom.setScale(Vec3(1000));
     bottom.setColor(Color(1.f));
+    bottom.setUVScale(Vec2(100, 100));
     top.rotateX(radians(-90));
     top.setPos(Vec3(0, 60, 0));
     top.setScale(Vec3(1000));
@@ -130,7 +139,7 @@ Scene testSceneOne() {
     back.setScale(Vec3(1000));
     back.setColor(Color(0.1f));
 
-    r7.setColor(Color(.5f, .5f, .5f, 1.f));
+    r7.setColor(Color(1.f, 1.f, 1.f, 1.f));
     bunny.setColor(Color(.87f, .85f, 1.f, 1.f));
     teapot.setColor(Color(1.f - .87f, 1.f - .85f, 1.f - 1.f, 1.f));
     armadillo.setColor(Color(1.f));
@@ -176,15 +185,6 @@ Scene testSceneOne() {
     });
     cow.setMaterial(bunny.getMaterial());
 
-    r7.setMaterial(Material {
-        Color(1.f),
-        .2f,
-        .4f,
-        .0f,
-        32.f,
-        0.05f
-    });
-
     return Scene({ &bottom, &whiteCube, &redCube,
                 &blueCube, &greenCube, &r7, &bunny, &teapot, &armadillo,
                 &homer, &cow, &tung });
@@ -194,7 +194,7 @@ void setUpLighting(Window &win) {
     PointLight l(Vec3(5, 5, 5), PointLightProperties());
     l.setColor(Color(1.f));
     l.setPos(tung.getPos() + Vec3(0, 4, 0));
-    l.properties.attenuation = Vec3(1.0, 0.35, .44);
+    l.properties.attenuation = Vec3(1.0, 0.045, .0075);
     win.addPointLight(l);
 
     l.properties.attenuation = Vec3(1.0, 0.045, 0.0075);
@@ -215,7 +215,7 @@ void setUpLighting(Window &win) {
 
     win.dLight.setColor(Color(.99f, .56f, .38f, 1));
     win.dLight.properties = DirLightProperties {
-        .1, .7, .9,
+        .2, .7, .9,
     };
 
 }

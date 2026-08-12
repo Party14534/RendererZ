@@ -17,12 +17,11 @@
 #define SHADER_MATERIAL_REFLECTIVITY_UNIFORM "material_z.reflectivity"
 #define SHADER_COLOR_UNIFORM "color_z"
 #define SHADER_TEX_SET_UNIFORM "usingTex_z"
-#define SHADER_SKYBOX_SET_UNIFORM "usingSkyBox_z"
 #define SHADER_TEX_UNIFORM "tex"
+#define SHADER_NORMAL_MAP_SET_UNIFORM "usingNormalMap_z"
+#define SHADER_NORMAL_MAP_UNIFORM "normalMap"
+#define SHADER_SKYBOX_SET_UNIFORM "usingSkyBox_z"
 #define SHADER_SKYBOX_UNIFORM "skyBox_z"
-// Cube map lives on a high, dedicated unit so it never collides with the
-// sampler2D `tex` (which uses unit 0). Two different sampler types sharing a
-// unit is a GL_INVALID_OPERATION (1282) at draw time.
 #define SKYBOX_TEXTURE_UNIT 8
 #define SHADER_MODEL_SET_UNIFORM "model_z"
 #define SHADER_VIEW_SET_UNIFORM "view_z"
@@ -31,6 +30,7 @@
 #define SHADER_DIRECTIONAL_LIGHT "dirLight_z"
 #define SHADER_POINT_LIGHT_COUNT "pointLightCnt_z"
 #define SHADER_POINT_SIZE_UNIFORM "pointSize_z"
+#define SHADER_UV_SCALE_UNIFORM "uvScale_z"
 
 struct Material {
     Color color;
@@ -69,6 +69,7 @@ struct Shader {
     const void setInt(const std::string& name, int val) const;
     const void setFloat(const std::string& name, float val) const;
 
+    const void setVec2(const std::string& name, Vec2 val) const;
     const void setVec3(const std::string& name, Vec3 val) const;
     const void setVec4(const std::string& name, Vec4 val) const;
     const void setColor(const std::string& name, Color val) const;

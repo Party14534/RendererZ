@@ -169,13 +169,14 @@ static std::vector<std::shared_ptr<Texture>> loadGLTFTextures(
     return textures;
 }
 
-void appendPrimitiveValues(cgltf_primitive& prim,
+bool appendPrimitiveValues(cgltf_primitive& prim,
         std::vector<VertexAttribute>& vertices,
-        std::vector<u32>& indices) 
+        std::vector<u32>& indices)
 {
     cgltf_accessor* posAcc = nullptr;
     cgltf_accessor* normAcc = nullptr;
     cgltf_accessor* uvAcc = nullptr;
+    cgltf_accessor* tangentAcc = nullptr;
 
     for (u32 i = 0; i < prim.attributes_count; i++) {
         const cgltf_attribute& attr = prim.attributes[i];
@@ -188,6 +189,9 @@ void appendPrimitiveValues(cgltf_primitive& prim,
                 break;
             case cgltf_attribute_type_texcoord:
                 uvAcc = attr.data;
+                break;
+            case cgltf_attribute_type_tangent:
+                tangentAcc = attr.data;
                 break;
             default:
                 break;
@@ -224,6 +228,21 @@ void appendPrimitiveValues(cgltf_primitive& prim,
             v.u = uv[0];
             v.v = uv[1];
         }
+
+        // glTF tangent is vec4: xyz tangent + w handedness sign for the bitangent
+        if (tangentAcc) {
+            float tangent[4] = {0};
+            cgltf_accessor_read_float(tangentAcc, i, tangent, 4);
+            v.xt = tangent[0];
+            v.yt = tangent[1];
+            v.zt = tangent[2];
+
+            Vec3 bitangent = Vec3(v.xn, v.yn, v.zn)
+                .cross(Vec3(tangent[0], tangent[1], tangent[2])) * tangent[3];
+            v.xbt = bitangent.x;
+            v.ybt = bitangent.y;
+            v.zbt = bitangent.z;
+        }
     }
 
     if (prim.indices) {
@@ -235,6 +254,8 @@ void appendPrimitiveValues(cgltf_primitive& prim,
             indices.push_back(baseVertex + (u32)i);
         }
     }
+
+    return tangentAcc != nullptr;
 }
 
 static void applyNodeWorldTransform(std::vector<VertexAttribute>& vertices, const cgltf_node& node) {
@@ -251,6 +272,16 @@ static void applyNodeWorldTransform(std::vector<VertexAttribute>& vertices, cons
         v.xn = m[0]*nx + m[4]*ny + m[8]*nz;
         v.yn = m[1]*nx + m[5]*ny + m[9]*nz;
         v.zn = m[2]*nx + m[6]*ny + m[10]*nz;
+
+        float tx = v.xt, ty = v.yt, tz = v.zt;
+        v.xt = m[0]*tx + m[4]*ty + m[8]*tz;
+        v.yt = m[1]*tx + m[5]*ty + m[9]*tz;
+        v.zt = m[2]*tx + m[6]*ty + m[10]*tz;
+
+        float btx = v.xbt, bty = v.ybt, btz = v.zbt;
+        v.xbt = m[0]*btx + m[4]*bty + m[8]*btz;
+        v.ybt = m[1]*btx + m[5]*bty + m[9]*btz;
+        v.zbt = m[2]*btx + m[6]*bty + m[10]*btz;
     }
 }
 
@@ -278,18 +309,23 @@ std::shared_ptr<ComplexDrawable> loadGLTFFileFromFilePath(std::filesystem::path 
 
         std::vector<VertexAttribute> vertices;
         std::vector<u32> indices;
+        bool allPrimitivesHadTangents = true;
         for (u32 j = 0; j < node.mesh->primitives_count; j++) {
-            appendPrimitiveValues(node.mesh->primitives[j], vertices, indices);
+            bool hadTangents = appendPrimitiveValues(node.mesh->primitives[j], vertices, indices);
+            allPrimitivesHadTangents = allPrimitivesHadTangents && hadTangents;
         }
 
         applyNodeWorldTransform(vertices, node);
 
-        Drawable d(std::make_shared<Mesh>(vertices, indices));
+        std::shared_ptr<Mesh> mesh = std::make_shared<Mesh>(vertices, indices);
+        if (!allPrimitivesHadTangents) mesh->generateTangents();
+
+        Drawable d(mesh);
 
         d.setMaterial(materialFromGLTF(node.mesh->primitives->material));
 
         std::shared_ptr<Texture> tex = getBaseColorTexture(node.mesh->primitives->material, data, textures);
-        if (tex) d.setTexture(tex);
+        if (tex) d.setDiffuseTexture(tex);
 
         nodes.push_back(d);
     }

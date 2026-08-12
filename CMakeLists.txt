@@ -40,9 +40,45 @@ file(GLOB_RECURSE RENDERER_SOURCES CONFIGURE_DEPENDS
 # renderer (it duplicates symbols from the real sources). Filter it out.
 list(FILTER RENDERER_SOURCES EXCLUDE REGEX "${CMAKE_SOURCE_DIR}/src/temp/")
 
+# --- Shader embedding ----------------------------------------------------------
+# Shaders live as plain .frag/.vert files, but the renderer needs them baked
+# into the binary as strings (so consumers of this project don't have to carry
+# loose shader files around). Instead of hand-copying each one into a
+# std::string literal, generate that .cpp from the real shader file at build
+# time - the .frag/.vert file is the only copy anyone ever edits.
+file(GLOB_RECURSE SHADER_SOURCE_FILES CONFIGURE_DEPENDS
+    ${CMAKE_SOURCE_DIR}/src/Shaders/*.frag
+    ${CMAKE_SOURCE_DIR}/src/Shaders/*.vert
+)
+
+set(SHADER_GEN_DIR ${CMAKE_BINARY_DIR}/generated/ShaderCode)
+file(MAKE_DIRECTORY ${SHADER_GEN_DIR})
+
+set(GENERATED_SHADER_SOURCES)
+foreach(SHADER_FILE ${SHADER_SOURCE_FILES})
+    # The variable name embedded in ShaderCode.h always matches the shader's
+    # file stem (objectFrag.frag -> objectFrag), so it can be derived here
+    # instead of maintained as a separate list.
+    get_filename_component(SHADER_VAR ${SHADER_FILE} NAME_WE)
+    set(GENERATED_FILE ${SHADER_GEN_DIR}/${SHADER_VAR}.gen.cpp)
+    add_custom_command(
+        OUTPUT ${GENERATED_FILE}
+        COMMAND ${CMAKE_COMMAND}
+            -DIN_FILE=${SHADER_FILE}
+            -DVAR_NAME=${SHADER_VAR}
+            -DOUT_FILE=${GENERATED_FILE}
+            -P ${CMAKE_SOURCE_DIR}/cmake/EmbedShader.cmake
+        DEPENDS ${SHADER_FILE} ${CMAKE_SOURCE_DIR}/cmake/EmbedShader.cmake
+        COMMENT "Embedding shader ${SHADER_VAR}"
+        VERBATIM
+    )
+    list(APPEND GENERATED_SHADER_SOURCES ${GENERATED_FILE})
+endforeach()
+
 add_executable(renderer
     include/glad.c
     ${RENDERER_SOURCES}
+    ${GENERATED_SHADER_SOURCES}
 )
 
 target_include_directories(renderer PRIVATE

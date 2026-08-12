@@ -28,7 +28,9 @@ struct Drawable {
             .5f,
             32.f
         };
-        std::vector<std::shared_ptr<Texture>> textures;
+        std::shared_ptr<Texture> diffuseTexture;
+        std::shared_ptr<Texture> normalTexture;
+        Vec2 uvScale = Vec2(1.f, 1.f);
         Transform transform;
 
         Drawable(std::shared_ptr<Mesh> m);
@@ -47,10 +49,11 @@ struct Drawable {
         void rotateX(float angle);
         void rotateY(float angle);
         void rotateZ(float angle);
-        void setTexture(std::shared_ptr<Texture> _tex);
-        void addTexture(std::shared_ptr<Texture> _tex);
-        void removeTexture(u32 id);
+        void setDiffuseTexture(std::shared_ptr<Texture> _tex);
+        void setNormalTexture(std::shared_ptr<Texture> _tex);
         void setShader(std::shared_ptr<Shader> _shader);
+        void setUVScale(Vec2 scale);
+        Vec2 getUVScale() const;
 
         // Primitives
         static Drawable Tri();

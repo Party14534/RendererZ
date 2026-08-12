@@ -130,6 +130,7 @@ void Window::setDefaultUniforms(std::shared_ptr<Shader> shader) {
     // Assign each sampler its own texture unit. Without this both default to
     // unit 0, which is illegal for differing sampler types and triggers 1282.
     shader->setInt(SHADER_TEX_UNIFORM, 0);
+    shader->setInt(SHADER_NORMAL_MAP_UNIFORM, 1);
     shader->setInt(SHADER_SKYBOX_UNIFORM, SKYBOX_TEXTURE_UNIT);
 
     shader->setInt(SHADER_POINT_LIGHT_COUNT, pLights.size());

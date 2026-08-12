@@ -1,0 +1,9 @@
+# Hashes of file build rules.
+3c1b9dd39752ffac9b4023195d4f8421 generated/ShaderCode/lightFrag.gen.cpp
+3b970f8d2b5d016f33b98d04a899df08 generated/ShaderCode/lightVertex.gen.cpp
+fbf3b0e8ba71cdbf4a27d3ea18b967c9 generated/ShaderCode/objectFrag.gen.cpp
+3a6c51b228b5c4af26faee2e57abea2b generated/ShaderCode/objectVertex.gen.cpp
+9f306de0f84aa2a857a90efb6552b204 generated/ShaderCode/pointFrag.gen.cpp
+8d055043ccbfb19c8f84797b23facf3c generated/ShaderCode/pointVertex.gen.cpp
+f4a2a180b4fe3dd28449ceb781ce9678 generated/ShaderCode/skyBoxFrag.gen.cpp
+309983869c9f834a0242d90672cd1366 generated/ShaderCode/skyBoxVertex.gen.cpp

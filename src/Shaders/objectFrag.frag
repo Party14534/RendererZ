@@ -31,7 +31,7 @@ struct DirLight {
 };
 uniform DirLight dirLight_z;
 
-in vec3 Normal;
+in mat3 TBN;
 in vec3 FragPos;
 in vec2 TexCoord;
 
@@ -42,6 +42,9 @@ uniform bool usingTex_z;
 uniform sampler2D tex;
 
 uniform Material material_z;
+
+uniform bool usingNormalMap_z;
+uniform sampler2D normalMap;
 
 uniform samplerCube skyBox_z;
 uniform bool usingSkyBox_z;
@@ -97,7 +100,9 @@ vec3 calcSpotLight() {
 
 void main()
 {
-    vec3 norm = normalize(Normal);
+    vec3 norm = usingNormalMap_z
+        ? normalize(TBN * (texture(normalMap, TexCoord).rgb * 2.0 - 1.0))
+        : normalize(TBN[2]);
     vec3 viewDir = normalize(view_pos_z - FragPos);
     // LIGHT CODE
 

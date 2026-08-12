@@ -18,7 +18,7 @@ anything a graphics team cares about. No bullet here — it's the price of entry
 - [X] Move transforms to the GPU — upload model/view/projection as uniforms instead of
       multiplying vertices on the CPU. (Your CPU `Mat` library stays for camera/scene math.)
 - [X] Enable the depth buffer (`glEnable(GL_DEPTH_TEST)`).
-- [/] Load real meshes: OBJ loader done; glTF 2.0 not started (glTF gets you PBR
+- [X] Load real meshes: OBJ loader done; glTF 2.0 not started (glTF gets you PBR
       materials, normals, and tangents for free later — worth doing).
 - [X] Index buffers (EBO) done and used everywhere; a real `Mesh` abstraction still
       pending (see MESH_REFACTOR.md — this is Milestone 0's last blocker for M3/M5).

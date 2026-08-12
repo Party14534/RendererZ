@@ -45,30 +45,33 @@ void Drawable::rotateZ(float angle) {
     transform.rotation.z = angle;
 }
 
-void Drawable::setTexture(std::shared_ptr<Texture> _tex) {
-    if (textures.size() == 0) {
-        textures.push_back(_tex);
-    } else {
-        textures[0] = _tex;
-    }
+void Drawable::setDiffuseTexture(std::shared_ptr<Texture> _tex) {
+    diffuseTexture = _tex;
 }
 
-void Drawable::addTexture(std::shared_ptr<Texture> _tex) {
-    textures.push_back(_tex);
+void Drawable::setNormalTexture(std::shared_ptr<Texture> _tex) {
+    normalTexture = _tex;
 }
 
 void Drawable::setShader(std::shared_ptr<Shader> _shader) {
     shader = _shader;
 }
 
+void Drawable::setUVScale(Vec2 scale) { uvScale = scale; }
+Vec2 Drawable::getUVScale() const { return uvScale; }
+
 void Drawable::draw(std::shared_ptr<Shader> defaultShader) {
     if (shader == nullptr) {
         defaultShader->use();
         defaultShader->setMat4(SHADER_MODEL_SET_UNIFORM, transform.GetModelMat());
         defaultShader->setMaterial(material);
-        defaultShader->setBool(SHADER_TEX_SET_UNIFORM, !textures.empty());
+        defaultShader->setBool(SHADER_TEX_SET_UNIFORM, diffuseTexture != nullptr);
+        defaultShader->setBool(SHADER_NORMAL_MAP_SET_UNIFORM, normalTexture != nullptr);
+        defaultShader->setVec2(SHADER_UV_SCALE_UNIFORM, uvScale);
     } else { shader->use(); }
-    for(u32 i = 0; i < textures.size(); i++) { textures[i]->bind(i); }
+
+    if (diffuseTexture != nullptr) { diffuseTexture->bind(0); }
+    if (normalTexture != nullptr) { normalTexture->bind(1); }
     mesh->draw();
 }
 

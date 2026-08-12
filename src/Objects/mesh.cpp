@@ -31,20 +31,32 @@ void Mesh::init() {
     // Set attribs
     // vertex pos
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE,
-                            8 * sizeof(float), (void*)(0));
+                            14 * sizeof(float), (void*)(0));
     glEnableVertexAttribArray(0);
 
     // vertex normal
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE,
-                            8 * sizeof(float),
+                            14 * sizeof(float),
                             (void*)(3*sizeof(float)));
     glEnableVertexAttribArray(1);
 
     // tex coord
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE,
-                            8 * sizeof(float),
+                            14 * sizeof(float),
                             (void*)(6*sizeof(float)));
     glEnableVertexAttribArray(2);
+
+    // tangent
+    glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE,
+                            14 * sizeof(float),
+                            (void*)(8*sizeof(float)));
+    glEnableVertexAttribArray(3);
+
+    // bitangent
+    glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE,
+                            14 * sizeof(float),
+                            (void*)(11*sizeof(float)));
+    glEnableVertexAttribArray(4);
 
     initialized = true;
 }
@@ -57,16 +69,19 @@ Mesh::~Mesh() {
 
 std::shared_ptr<Mesh> Mesh::tri() {
     std::shared_ptr<Mesh> m = std::make_shared<Mesh>(triDefaultVerts, triDefaultIndices);
+    m->generateTangents();
     return m;
 }
 
 std::shared_ptr<Mesh> Mesh::plane() {
     std::shared_ptr<Mesh> m = std::make_shared<Mesh>(planeDefaultVerts, planeDefaultIndices);
+    m->generateTangents();
     return m;
 }
 
 std::shared_ptr<Mesh> Mesh::cube() {
     std::shared_ptr<Mesh> m = std::make_shared<Mesh>(cubeDefaultVerts, cubeDefaultIndices);
+    m->generateTangents();
     return m;
 }
 
@@ -77,7 +92,10 @@ std::shared_ptr<Mesh> Mesh::skyBox() {
 
 std::shared_ptr<Mesh> Mesh::fromOBJ(const std::filesystem::path &path, bool genNormals) {
     std::shared_ptr<Mesh> m = LoadMeshFromFilePath(path);
-    if (genNormals) m->generateNormals();
+    if (genNormals) {
+        m->generateNormals();
+        m->generateTangents();
+    }
     return m;
 }
 
@@ -119,6 +137,45 @@ void Mesh::generateNormals() {
             vertices[index].zn = normal.z;
         }
     );
+}
+
+void Mesh::generateTangents() {
+    for (VertexAttribute& v : vertices) {
+        v.xt = v.yt = v.zt = 0.f;
+        v.xbt = v.ybt = v.zbt = 0.f;
+    }
+
+    for (u32 i = 0; i + 2 < indices.size(); i += 3) {
+        VertexAttribute& v0 = vertices[indices[i]];
+        VertexAttribute& v1 = vertices[indices[i+1]];
+        VertexAttribute& v2 = vertices[indices[i+2]];
+
+        Vec3 edge1(v1.x - v0.x, v1.y - v0.y, v1.z - v0.z);
+        Vec3 edge2(v2.x - v0.x, v2.y - v0.y, v2.z - v0.z);
+        float du1 = v1.u - v0.u, dv1 = v1.v - v0.v;
+        float du2 = v2.u - v0.u, dv2 = v2.v - v0.v;
+
+        float det = du1 * dv2 - du2 * dv1;
+        if (det > -1e-8f && det < 1e-8f) continue;
+        float f = 1.f / det;
+
+        Vec3 tangent = edge1 * (dv2 * f) - edge2 * (dv1 * f);
+        Vec3 bitangent = edge2 * (du1 * f) - edge1 * (du2 * f);
+
+        for (VertexAttribute* v : { &v0, &v1, &v2 }) {
+            v->xt += tangent.x; v->yt += tangent.y; v->zt += tangent.z;
+            v->xbt += bitangent.x; v->ybt += bitangent.y; v->zbt += bitangent.z;
+        }
+    }
+
+    for (VertexAttribute& v : vertices) {
+        Vec3 t(v.xt, v.yt, v.zt);
+        Vec3 b(v.xbt, v.ybt, v.zbt);
+        if (t.length() > 1e-8f) t = t.normalize();
+        if (b.length() > 1e-8f) b = b.normalize();
+        v.xt = t.x; v.yt = t.y; v.zt = t.z;
+        v.xbt = b.x; v.ybt = b.y; v.zbt = b.z;
+    }
 }
 
 void Mesh::draw() {
@@ -215,14 +272,25 @@ void PointMesh::updateBuffer() {
  * Helper types
  */
 
-VertexAttribute::VertexAttribute() 
-    : x(0), y(0), z(0), xn(0), yn(0), zn(0), u(0), v(0) {}
+VertexAttribute::VertexAttribute()
+    : x(0), y(0), z(0), xn(0), yn(0), zn(0), u(0), v(0),
+      xt(0), yt(0), zt(0), xbt(0), ybt(0), zbt(0) {}
 
 VertexAttribute::VertexAttribute(
-        float x, float y, float z, 
+        float x, float y, float z,
         float xn,float yn,float zn,
         float u, float v)
-    : x(x), y(y), z(z), xn(xn), yn(yn), zn(zn), u(u), v(v) {}
+    : x(x), y(y), z(z), xn(xn), yn(yn), zn(zn), u(u), v(v),
+      xt(0), yt(0), zt(0), xbt(0), ybt(0), zbt(0) {}
+
+VertexAttribute::VertexAttribute(
+        float x, float y, float z,
+        float xn, float yn, float zn,
+        float u, float v,
+        float xt, float yt, float zt,
+        float xbt, float ybt, float zbt)
+    : x(x), y(y), z(z), xn(xn), yn(yn), zn(zn), u(u), v(v),
+      xt(xt), yt(yt), zt(zt), xbt(xbt), ybt(ybt), zbt(zbt) {}
 
 PointVertexAttribute::PointVertexAttribute() 
     : x(0), y(0), z(0), r(0), g(0), b(0) {}
