@@ -11,7 +11,5 @@
 void processInput(Window& win);
 std::vector<PointVertexAttribute> makeTestPointCloud();
 void applyGravity(std::vector<PointVertexAttribute>& points);
-Scene testSceneOne();
-void setUpLighting(Window& win);
 
 #endif

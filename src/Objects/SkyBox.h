@@ -9,7 +9,7 @@ class SkyBox : Drawable {
 
         SkyBox(std::vector<std::string> textures);
 
-        void draw(std::shared_ptr<Shader> defaultShader);
+        void draw(std::shared_ptr<ShaderProgram> defaultShader);
         void init();
 };
 

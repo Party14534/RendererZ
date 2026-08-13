@@ -3755,3 +3755,251 @@ events:
         
       exitCode: 2
 ...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/FindOpenMP.cmake:333 (try_compile)"
+      - "/opt/homebrew/share/cmake/Modules/FindOpenMP.cmake:640 (_OPENMP_GET_FLAGS)"
+      - "CMakeLists.txt:107 (find_package)"
+    description: "Detecting C OpenMP compiler info"
+    directories:
+      source: "/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-qqERYL"
+      binary: "/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-qqERYL"
+    cmakeVariables:
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: ""
+    buildResult:
+      variable: "OpenMP_COMPILE_RESULT_C_Xclang fopenmp"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-qqERYL'
+        
+        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /opt/homebrew/bin/gmake -f Makefile cmTC_b120e/fast
+        gmake[1]: Entering directory '/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-qqERYL'
+        /opt/homebrew/bin/gmake  -f CMakeFiles/cmTC_b120e.dir/build.make CMakeFiles/cmTC_b120e.dir/build
+        gmake[2]: Entering directory '/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-qqERYL'
+        Building C object CMakeFiles/cmTC_b120e.dir/OpenMPTryFlag.c.o
+        /usr/bin/cc   -Xclang -fopenmp -arch arm64 -MD -MT CMakeFiles/cmTC_b120e.dir/OpenMPTryFlag.c.o -MF CMakeFiles/cmTC_b120e.dir/OpenMPTryFlag.c.o.d -o CMakeFiles/cmTC_b120e.dir/OpenMPTryFlag.c.o -c /Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-qqERYL/OpenMPTryFlag.c
+        /Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-qqERYL/OpenMPTryFlag.c:2:10: fatal error: 'omp.h' file not found
+            2 | #include <omp.h>
+              |          ^~~~~~~
+        1 error generated.
+        gmake[2]: *** [CMakeFiles/cmTC_b120e.dir/build.make:82: CMakeFiles/cmTC_b120e.dir/OpenMPTryFlag.c.o] Error 1
+        gmake[2]: Leaving directory '/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-qqERYL'
+        gmake[1]: *** [Makefile:134: cmTC_b120e/fast] Error 2
+        gmake[1]: Leaving directory '/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-qqERYL'
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/FindOpenMP.cmake:333 (try_compile)"
+      - "/opt/homebrew/share/cmake/Modules/FindOpenMP.cmake:640 (_OPENMP_GET_FLAGS)"
+      - "CMakeLists.txt:107 (find_package)"
+    description: "Detecting CXX OpenMP compiler info"
+    directories:
+      source: "/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-vvGz1L"
+      binary: "/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-vvGz1L"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: ""
+    buildResult:
+      variable: "OpenMP_COMPILE_RESULT_CXX_Xclang fopenmp"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-vvGz1L'
+        
+        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /opt/homebrew/bin/gmake -f Makefile cmTC_18809/fast
+        gmake[1]: Entering directory '/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-vvGz1L'
+        /opt/homebrew/bin/gmake  -f CMakeFiles/cmTC_18809.dir/build.make CMakeFiles/cmTC_18809.dir/build
+        gmake[2]: Entering directory '/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-vvGz1L'
+        Building CXX object CMakeFiles/cmTC_18809.dir/OpenMPTryFlag.cpp.o
+        /usr/bin/clang++   -Xclang -fopenmp -std=gnu++17 -arch arm64 -MD -MT CMakeFiles/cmTC_18809.dir/OpenMPTryFlag.cpp.o -MF CMakeFiles/cmTC_18809.dir/OpenMPTryFlag.cpp.o.d -o CMakeFiles/cmTC_18809.dir/OpenMPTryFlag.cpp.o -c /Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-vvGz1L/OpenMPTryFlag.cpp
+        /Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-vvGz1L/OpenMPTryFlag.cpp:2:10: fatal error: 'omp.h' file not found
+            2 | #include <omp.h>
+              |          ^~~~~~~
+        1 error generated.
+        gmake[2]: *** [CMakeFiles/cmTC_18809.dir/build.make:82: CMakeFiles/cmTC_18809.dir/OpenMPTryFlag.cpp.o] Error 1
+        gmake[2]: Leaving directory '/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-vvGz1L'
+        gmake[1]: *** [Makefile:134: cmTC_18809/fast] Error 2
+        gmake[1]: Leaving directory '/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-vvGz1L'
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/FindOpenMP.cmake:333 (try_compile)"
+      - "/opt/homebrew/share/cmake/Modules/FindOpenMP.cmake:640 (_OPENMP_GET_FLAGS)"
+      - "CMakeLists.txt:117 (find_package)"
+    description: "Detecting C OpenMP compiler info"
+    directories:
+      source: "/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-KdEIQG"
+      binary: "/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-KdEIQG"
+    cmakeVariables:
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: ""
+    buildResult:
+      variable: "OpenMP_COMPILE_RESULT_C_Xclang fopenmp"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-KdEIQG'
+        
+        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /opt/homebrew/bin/gmake -f Makefile cmTC_3f6ae/fast
+        gmake[1]: Entering directory '/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-KdEIQG'
+        /opt/homebrew/bin/gmake  -f CMakeFiles/cmTC_3f6ae.dir/build.make CMakeFiles/cmTC_3f6ae.dir/build
+        gmake[2]: Entering directory '/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-KdEIQG'
+        Building C object CMakeFiles/cmTC_3f6ae.dir/OpenMPTryFlag.c.o
+        /usr/bin/cc   -Xclang -fopenmp -arch arm64 -MD -MT CMakeFiles/cmTC_3f6ae.dir/OpenMPTryFlag.c.o -MF CMakeFiles/cmTC_3f6ae.dir/OpenMPTryFlag.c.o.d -o CMakeFiles/cmTC_3f6ae.dir/OpenMPTryFlag.c.o -c /Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-KdEIQG/OpenMPTryFlag.c
+        /Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-KdEIQG/OpenMPTryFlag.c:2:10: fatal error: 'omp.h' file not found
+            2 | #include <omp.h>
+              |          ^~~~~~~
+        1 error generated.
+        gmake[2]: *** [CMakeFiles/cmTC_3f6ae.dir/build.make:82: CMakeFiles/cmTC_3f6ae.dir/OpenMPTryFlag.c.o] Error 1
+        gmake[2]: Leaving directory '/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-KdEIQG'
+        gmake[1]: *** [Makefile:134: cmTC_3f6ae/fast] Error 2
+        gmake[1]: Leaving directory '/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-KdEIQG'
+        
+      exitCode: 2
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/FindOpenMP.cmake:333 (try_compile)"
+      - "/opt/homebrew/share/cmake/Modules/FindOpenMP.cmake:640 (_OPENMP_GET_FLAGS)"
+      - "CMakeLists.txt:107 (find_package)"
+    description: "Detecting C OpenMP compiler info"
+    directories:
+      source: "/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-9LsWhp"
+      binary: "/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-9LsWhp"
+    cmakeVariables:
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: ""
+    buildResult:
+      variable: "OpenMP_COMPILE_RESULT_C_Xclang fopenmp"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-9LsWhp'
+        
+        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /opt/homebrew/bin/gmake -f Makefile cmTC_b384e/fast
+        gmake[1]: Entering directory '/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-9LsWhp'
+        /opt/homebrew/bin/gmake  -f CMakeFiles/cmTC_b384e.dir/build.make CMakeFiles/cmTC_b384e.dir/build
+        gmake[2]: Entering directory '/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-9LsWhp'
+        Building C object CMakeFiles/cmTC_b384e.dir/OpenMPTryFlag.c.o
+        /usr/bin/cc   -Xclang -fopenmp -arch arm64 -MD -MT CMakeFiles/cmTC_b384e.dir/OpenMPTryFlag.c.o -MF CMakeFiles/cmTC_b384e.dir/OpenMPTryFlag.c.o.d -o CMakeFiles/cmTC_b384e.dir/OpenMPTryFlag.c.o -c /Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-9LsWhp/OpenMPTryFlag.c
+        /Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-9LsWhp/OpenMPTryFlag.c:2:10: fatal error: 'omp.h' file not found
+            2 | #include <omp.h>
+              |          ^~~~~~~
+        1 error generated.
+        gmake[2]: *** [CMakeFiles/cmTC_b384e.dir/build.make:82: CMakeFiles/cmTC_b384e.dir/OpenMPTryFlag.c.o] Error 1
+        gmake[2]: Leaving directory '/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-9LsWhp'
+        gmake[1]: *** [Makefile:134: cmTC_b384e/fast] Error 2
+        gmake[1]: Leaving directory '/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-9LsWhp'
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/FindOpenMP.cmake:333 (try_compile)"
+      - "/opt/homebrew/share/cmake/Modules/FindOpenMP.cmake:640 (_OPENMP_GET_FLAGS)"
+      - "CMakeLists.txt:107 (find_package)"
+    description: "Detecting CXX OpenMP compiler info"
+    directories:
+      source: "/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-I3mgWt"
+      binary: "/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-I3mgWt"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: ""
+    buildResult:
+      variable: "OpenMP_COMPILE_RESULT_CXX_Xclang fopenmp"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-I3mgWt'
+        
+        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /opt/homebrew/bin/gmake -f Makefile cmTC_939bc/fast
+        gmake[1]: Entering directory '/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-I3mgWt'
+        /opt/homebrew/bin/gmake  -f CMakeFiles/cmTC_939bc.dir/build.make CMakeFiles/cmTC_939bc.dir/build
+        gmake[2]: Entering directory '/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-I3mgWt'
+        Building CXX object CMakeFiles/cmTC_939bc.dir/OpenMPTryFlag.cpp.o
+        /usr/bin/clang++   -Xclang -fopenmp -std=gnu++17 -arch arm64 -MD -MT CMakeFiles/cmTC_939bc.dir/OpenMPTryFlag.cpp.o -MF CMakeFiles/cmTC_939bc.dir/OpenMPTryFlag.cpp.o.d -o CMakeFiles/cmTC_939bc.dir/OpenMPTryFlag.cpp.o -c /Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-I3mgWt/OpenMPTryFlag.cpp
+        /Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-I3mgWt/OpenMPTryFlag.cpp:2:10: fatal error: 'omp.h' file not found
+            2 | #include <omp.h>
+              |          ^~~~~~~
+        1 error generated.
+        gmake[2]: *** [CMakeFiles/cmTC_939bc.dir/build.make:82: CMakeFiles/cmTC_939bc.dir/OpenMPTryFlag.cpp.o] Error 1
+        gmake[2]: Leaving directory '/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-I3mgWt'
+        gmake[1]: *** [Makefile:134: cmTC_939bc/fast] Error 2
+        gmake[1]: Leaving directory '/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-I3mgWt'
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/FindOpenMP.cmake:333 (try_compile)"
+      - "/opt/homebrew/share/cmake/Modules/FindOpenMP.cmake:640 (_OPENMP_GET_FLAGS)"
+      - "CMakeLists.txt:117 (find_package)"
+    description: "Detecting C OpenMP compiler info"
+    directories:
+      source: "/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-rIxfE3"
+      binary: "/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-rIxfE3"
+    cmakeVariables:
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: ""
+    buildResult:
+      variable: "OpenMP_COMPILE_RESULT_C_Xclang fopenmp"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-rIxfE3'
+        
+        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /opt/homebrew/bin/gmake -f Makefile cmTC_4d6b6/fast
+        gmake[1]: Entering directory '/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-rIxfE3'
+        /opt/homebrew/bin/gmake  -f CMakeFiles/cmTC_4d6b6.dir/build.make CMakeFiles/cmTC_4d6b6.dir/build
+        gmake[2]: Entering directory '/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-rIxfE3'
+        Building C object CMakeFiles/cmTC_4d6b6.dir/OpenMPTryFlag.c.o
+        /usr/bin/cc   -Xclang -fopenmp -arch arm64 -MD -MT CMakeFiles/cmTC_4d6b6.dir/OpenMPTryFlag.c.o -MF CMakeFiles/cmTC_4d6b6.dir/OpenMPTryFlag.c.o.d -o CMakeFiles/cmTC_4d6b6.dir/OpenMPTryFlag.c.o -c /Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-rIxfE3/OpenMPTryFlag.c
+        /Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-rIxfE3/OpenMPTryFlag.c:2:10: fatal error: 'omp.h' file not found
+            2 | #include <omp.h>
+              |          ^~~~~~~
+        1 error generated.
+        gmake[2]: *** [CMakeFiles/cmTC_4d6b6.dir/build.make:82: CMakeFiles/cmTC_4d6b6.dir/OpenMPTryFlag.c.o] Error 1
+        gmake[2]: Leaving directory '/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-rIxfE3'
+        gmake[1]: *** [Makefile:134: cmTC_4d6b6/fast] Error 2
+        gmake[1]: Leaving directory '/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/CMakeScratch/TryCompile-rIxfE3'
+        
+      exitCode: 2
+...

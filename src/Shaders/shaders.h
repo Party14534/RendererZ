@@ -31,6 +31,13 @@
 #define SHADER_POINT_LIGHT_COUNT "pointLightCnt_z"
 #define SHADER_POINT_SIZE_UNIFORM "pointSize_z"
 #define SHADER_UV_SCALE_UNIFORM "uvScale_z"
+#define SHADER_SPECULAR_UNIFORM "specular_z"
+#define SHADER_GPOSITION_UNIFORM "gPosition"
+#define SHADER_GNORMAL_UNIFORM "gNormal"
+#define SHADER_GALBEDO_SPEC_UNIFORM "gAlbedoSpec"
+#define SHADER_POINT_LIGHT_BLOCK "PointLightBlock"
+#define POINT_LIGHT_UBO_BINDING 0
+#define MAX_POINT_LIGHTS 800 // keep in sync with lightPassFrag.frag; 65536-byte UBO limit / 80 bytes per light = 819 max
 
 struct Material {
     Color color;
@@ -54,12 +61,32 @@ struct PointLightProperties {
     Vec3 attenuation = Vec3(1.f, .09f, .032f);
 };
 
-struct Shader {
-    // Shader program id
-    u32 ID, vID, fID;
+class Shader {
+    public:
+        u32 ID;
+};
 
-    Shader();
-    Shader(const std::string& vertPath, const std::string& fragPath);
+class VertexShader : public Shader {
+    public:
+        static VertexShader fromPath(std::string path);
+        static VertexShader fromString(std::string data);
+};
+
+class FragmentShader : public Shader {
+    public:
+        static FragmentShader fromPath(std::string path);
+        static FragmentShader fromString(std::string data);
+};
+
+struct ShaderProgram {
+    // Shader program id
+    u32 ID;
+    VertexShader vert;
+    FragmentShader frag;
+
+    ShaderProgram();
+    ShaderProgram(VertexShader vert, FragmentShader frag);
+    ShaderProgram(const std::string& vertPath, const std::string& fragPath);
 
     // Use the shader
     const void use();
@@ -80,16 +107,10 @@ struct Shader {
 
     const void setDirLight(const Vec3& dir, const Vec3& ambient,
             const Vec3& diffuse, const Vec3& specular) const;
-    const void setPointLight(const std::string& name, const Vec3& pos, const Vec3& ambient,
-            const Vec3& diffuse, const Vec3& specular,
-            const Vec3& attenuation) const;
 
-    static Shader fromStrings(const std::string& vert, const std::string& frag);
+    const void bindUniformBlock(const std::string& name, u32 bindingPoint) const;
+
+    static ShaderProgram fromStrings(const std::string& vert, const std::string& frag);
 };
-
-unsigned int loadShader(std::string path, int shaderType);
-unsigned int loadShaderFromString(std::string code, int shaderType);
-
-std::string GetPointLightName(int i);
 
 #endif

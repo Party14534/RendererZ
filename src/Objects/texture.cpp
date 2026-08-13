@@ -1,10 +1,19 @@
 #include "Texture.h"
 #include "../Shaders/shaders.h"
+#include "global.h"
 #include <algorithm>
 #include <iterator>
 #include <memory>
 
 Texture::Texture() { }
+
+Texture::Texture(TextureFormat internal, u32 width, u32 height,
+        TextureFormat format, TexturePixelDataType type) { 
+    glGenTextures(1, &ID);
+    loaded = true;
+    bind();
+    glTexImage2D(GL_TEXTURE_2D, 0, internal, width, height, 0, format, type, 0);
+}
 
 Texture::Texture(std::string _path, bool sRGB, bool flipVertically) : path(_path) {
     loadImage(_path, sRGB, flipVertically);
@@ -41,22 +50,25 @@ void Texture::loadImage(std::string _path, bool sRGB, bool flipVertically) {
     loaded = true;
 }
 
-void Texture::bind(u32 texNum) {
+void Texture::bind() {
+    if(!loaded) { std::cerr << "Binding unloaded texture\n"; exit(1); }
+    glBindTexture(GL_TEXTURE_2D, ID);
+}
+
+void Texture::setActive(u32 texNum) {
     if(!loaded) { std::cerr << "Binding unloaded texture\n"; exit(1); }
     glActiveTexture(GL_TEXTURE0 + texNum);
     glBindTexture(GL_TEXTURE_2D, ID);
 }
 
-void Texture::setTextureParameter(TextureParameterOption _texParameter) {
-    texParameter = _texParameter;
+void Texture::setTextureParameter(TextureFilter filter, TextureFilterOption opt) {
+    glTexParameteri(GL_TEXTURE_2D, filter, opt);
 }
 
-void Texture::setTextureFilter(TextureFilterOption _texFilter) {
-    texFilter = _texFilter;
+void Texture::attachToFramebuffer2D(u32 i) {
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, GL_TEXTURE_2D, ID, 0);
 }
-void Texture::setMipMapFilter(MipMapFilterOption _mmFilter) {
-    mmFilter = _mmFilter;
-}
+
 
 /*
  * Cube Map

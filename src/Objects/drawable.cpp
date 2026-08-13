@@ -8,7 +8,7 @@ ComplexDrawable::ComplexDrawable(std::vector<Drawable>& targets) : targets(targe
 
 ComplexDrawable::~ComplexDrawable() { }
 
-void ComplexDrawable::draw(std::shared_ptr<Shader> defaultShader) {
+void ComplexDrawable::draw(std::shared_ptr<ShaderProgram> defaultShader) {
     for(auto& target : targets) {
         target.draw(defaultShader);
     }
@@ -53,25 +53,29 @@ void Drawable::setNormalTexture(std::shared_ptr<Texture> _tex) {
     normalTexture = _tex;
 }
 
-void Drawable::setShader(std::shared_ptr<Shader> _shader) {
+/*void Drawable::setShader(std::shared_ptr<Shader> _shader) {
     shader = _shader;
-}
+}*/
 
 void Drawable::setUVScale(Vec2 scale) { uvScale = scale; }
 Vec2 Drawable::getUVScale() const { return uvScale; }
 
-void Drawable::draw(std::shared_ptr<Shader> defaultShader) {
-    if (shader == nullptr) {
-        defaultShader->use();
-        defaultShader->setMat4(SHADER_MODEL_SET_UNIFORM, transform.GetModelMat());
-        defaultShader->setMaterial(material);
-        defaultShader->setBool(SHADER_TEX_SET_UNIFORM, diffuseTexture != nullptr);
-        defaultShader->setBool(SHADER_NORMAL_MAP_SET_UNIFORM, normalTexture != nullptr);
-        defaultShader->setVec2(SHADER_UV_SCALE_UNIFORM, uvScale);
-    } else { shader->use(); }
+void Drawable::draw(std::shared_ptr<ShaderProgram> shader) {
+    shader->setMat4(SHADER_MODEL_SET_UNIFORM, transform.GetModelMat());
+    shader->setVec3(SHADER_COLOR_UNIFORM, material.color.toRGB());
+    shader->setFloat(SHADER_SPECULAR_UNIFORM, material.specular);
+    shader->setBool(SHADER_TEX_SET_UNIFORM, diffuseTexture != nullptr);
+    shader->setBool(SHADER_NORMAL_MAP_SET_UNIFORM, normalTexture != nullptr);
+    shader->setVec2(SHADER_UV_SCALE_UNIFORM, uvScale);
 
-    if (diffuseTexture != nullptr) { diffuseTexture->bind(0); }
-    if (normalTexture != nullptr) { normalTexture->bind(1); }
+    if (diffuseTexture != nullptr) { diffuseTexture->setActive(0); }
+    if (normalTexture != nullptr) { normalTexture->setActive(1); }
+    mesh->draw();
+}
+
+void Drawable::drawLightPass(std::shared_ptr<ShaderProgram> shader) {
+    shader->setMat4(SHADER_MODEL_SET_UNIFORM, transform.GetModelMat());
+
     mesh->draw();
 }
 

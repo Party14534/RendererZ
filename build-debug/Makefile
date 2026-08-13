@@ -130,6 +130,54 @@ renderer/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/renderer.dir/build.make CMakeFiles/renderer.dir/build
 .PHONY : renderer/fast
 
+generated/ShaderCode/gBufferFrag.gen.o: generated/ShaderCode/gBufferFrag.gen.cpp.o
+.PHONY : generated/ShaderCode/gBufferFrag.gen.o
+
+# target to build an object file
+generated/ShaderCode/gBufferFrag.gen.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/renderer.dir/build.make CMakeFiles/renderer.dir/generated/ShaderCode/gBufferFrag.gen.cpp.o
+.PHONY : generated/ShaderCode/gBufferFrag.gen.cpp.o
+
+generated/ShaderCode/gBufferFrag.gen.i: generated/ShaderCode/gBufferFrag.gen.cpp.i
+.PHONY : generated/ShaderCode/gBufferFrag.gen.i
+
+# target to preprocess a source file
+generated/ShaderCode/gBufferFrag.gen.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/renderer.dir/build.make CMakeFiles/renderer.dir/generated/ShaderCode/gBufferFrag.gen.cpp.i
+.PHONY : generated/ShaderCode/gBufferFrag.gen.cpp.i
+
+generated/ShaderCode/gBufferFrag.gen.s: generated/ShaderCode/gBufferFrag.gen.cpp.s
+.PHONY : generated/ShaderCode/gBufferFrag.gen.s
+
+# target to generate assembly for a file
+generated/ShaderCode/gBufferFrag.gen.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/renderer.dir/build.make CMakeFiles/renderer.dir/generated/ShaderCode/gBufferFrag.gen.cpp.s
+.PHONY : generated/ShaderCode/gBufferFrag.gen.cpp.s
+
+generated/ShaderCode/gBufferVertex.gen.o: generated/ShaderCode/gBufferVertex.gen.cpp.o
+.PHONY : generated/ShaderCode/gBufferVertex.gen.o
+
+# target to build an object file
+generated/ShaderCode/gBufferVertex.gen.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/renderer.dir/build.make CMakeFiles/renderer.dir/generated/ShaderCode/gBufferVertex.gen.cpp.o
+.PHONY : generated/ShaderCode/gBufferVertex.gen.cpp.o
+
+generated/ShaderCode/gBufferVertex.gen.i: generated/ShaderCode/gBufferVertex.gen.cpp.i
+.PHONY : generated/ShaderCode/gBufferVertex.gen.i
+
+# target to preprocess a source file
+generated/ShaderCode/gBufferVertex.gen.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/renderer.dir/build.make CMakeFiles/renderer.dir/generated/ShaderCode/gBufferVertex.gen.cpp.i
+.PHONY : generated/ShaderCode/gBufferVertex.gen.cpp.i
+
+generated/ShaderCode/gBufferVertex.gen.s: generated/ShaderCode/gBufferVertex.gen.cpp.s
+.PHONY : generated/ShaderCode/gBufferVertex.gen.s
+
+# target to generate assembly for a file
+generated/ShaderCode/gBufferVertex.gen.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/renderer.dir/build.make CMakeFiles/renderer.dir/generated/ShaderCode/gBufferVertex.gen.cpp.s
+.PHONY : generated/ShaderCode/gBufferVertex.gen.cpp.s
+
 generated/ShaderCode/lightFrag.gen.o: generated/ShaderCode/lightFrag.gen.cpp.o
 .PHONY : generated/ShaderCode/lightFrag.gen.o
 
@@ -153,6 +201,54 @@ generated/ShaderCode/lightFrag.gen.s: generated/ShaderCode/lightFrag.gen.cpp.s
 generated/ShaderCode/lightFrag.gen.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/renderer.dir/build.make CMakeFiles/renderer.dir/generated/ShaderCode/lightFrag.gen.cpp.s
 .PHONY : generated/ShaderCode/lightFrag.gen.cpp.s
+
+generated/ShaderCode/lightPassFrag.gen.o: generated/ShaderCode/lightPassFrag.gen.cpp.o
+.PHONY : generated/ShaderCode/lightPassFrag.gen.o
+
+# target to build an object file
+generated/ShaderCode/lightPassFrag.gen.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/renderer.dir/build.make CMakeFiles/renderer.dir/generated/ShaderCode/lightPassFrag.gen.cpp.o
+.PHONY : generated/ShaderCode/lightPassFrag.gen.cpp.o
+
+generated/ShaderCode/lightPassFrag.gen.i: generated/ShaderCode/lightPassFrag.gen.cpp.i
+.PHONY : generated/ShaderCode/lightPassFrag.gen.i
+
+# target to preprocess a source file
+generated/ShaderCode/lightPassFrag.gen.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/renderer.dir/build.make CMakeFiles/renderer.dir/generated/ShaderCode/lightPassFrag.gen.cpp.i
+.PHONY : generated/ShaderCode/lightPassFrag.gen.cpp.i
+
+generated/ShaderCode/lightPassFrag.gen.s: generated/ShaderCode/lightPassFrag.gen.cpp.s
+.PHONY : generated/ShaderCode/lightPassFrag.gen.s
+
+# target to generate assembly for a file
+generated/ShaderCode/lightPassFrag.gen.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/renderer.dir/build.make CMakeFiles/renderer.dir/generated/ShaderCode/lightPassFrag.gen.cpp.s
+.PHONY : generated/ShaderCode/lightPassFrag.gen.cpp.s
+
+generated/ShaderCode/lightPassVertex.gen.o: generated/ShaderCode/lightPassVertex.gen.cpp.o
+.PHONY : generated/ShaderCode/lightPassVertex.gen.o
+
+# target to build an object file
+generated/ShaderCode/lightPassVertex.gen.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/renderer.dir/build.make CMakeFiles/renderer.dir/generated/ShaderCode/lightPassVertex.gen.cpp.o
+.PHONY : generated/ShaderCode/lightPassVertex.gen.cpp.o
+
+generated/ShaderCode/lightPassVertex.gen.i: generated/ShaderCode/lightPassVertex.gen.cpp.i
+.PHONY : generated/ShaderCode/lightPassVertex.gen.i
+
+# target to preprocess a source file
+generated/ShaderCode/lightPassVertex.gen.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/renderer.dir/build.make CMakeFiles/renderer.dir/generated/ShaderCode/lightPassVertex.gen.cpp.i
+.PHONY : generated/ShaderCode/lightPassVertex.gen.cpp.i
+
+generated/ShaderCode/lightPassVertex.gen.s: generated/ShaderCode/lightPassVertex.gen.cpp.s
+.PHONY : generated/ShaderCode/lightPassVertex.gen.s
+
+# target to generate assembly for a file
+generated/ShaderCode/lightPassVertex.gen.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/renderer.dir/build.make CMakeFiles/renderer.dir/generated/ShaderCode/lightPassVertex.gen.cpp.s
+.PHONY : generated/ShaderCode/lightPassVertex.gen.cpp.s
 
 generated/ShaderCode/lightVertex.gen.o: generated/ShaderCode/lightVertex.gen.cpp.o
 .PHONY : generated/ShaderCode/lightVertex.gen.o
@@ -610,6 +706,54 @@ src/Objects/texture.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/renderer.dir/build.make CMakeFiles/renderer.dir/src/Objects/texture.cpp.s
 .PHONY : src/Objects/texture.cpp.s
 
+src/Scenes/ManyLightsScene.o: src/Scenes/ManyLightsScene.cpp.o
+.PHONY : src/Scenes/ManyLightsScene.o
+
+# target to build an object file
+src/Scenes/ManyLightsScene.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/renderer.dir/build.make CMakeFiles/renderer.dir/src/Scenes/ManyLightsScene.cpp.o
+.PHONY : src/Scenes/ManyLightsScene.cpp.o
+
+src/Scenes/ManyLightsScene.i: src/Scenes/ManyLightsScene.cpp.i
+.PHONY : src/Scenes/ManyLightsScene.i
+
+# target to preprocess a source file
+src/Scenes/ManyLightsScene.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/renderer.dir/build.make CMakeFiles/renderer.dir/src/Scenes/ManyLightsScene.cpp.i
+.PHONY : src/Scenes/ManyLightsScene.cpp.i
+
+src/Scenes/ManyLightsScene.s: src/Scenes/ManyLightsScene.cpp.s
+.PHONY : src/Scenes/ManyLightsScene.s
+
+# target to generate assembly for a file
+src/Scenes/ManyLightsScene.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/renderer.dir/build.make CMakeFiles/renderer.dir/src/Scenes/ManyLightsScene.cpp.s
+.PHONY : src/Scenes/ManyLightsScene.cpp.s
+
+src/Scenes/TestSceneOne.o: src/Scenes/TestSceneOne.cpp.o
+.PHONY : src/Scenes/TestSceneOne.o
+
+# target to build an object file
+src/Scenes/TestSceneOne.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/renderer.dir/build.make CMakeFiles/renderer.dir/src/Scenes/TestSceneOne.cpp.o
+.PHONY : src/Scenes/TestSceneOne.cpp.o
+
+src/Scenes/TestSceneOne.i: src/Scenes/TestSceneOne.cpp.i
+.PHONY : src/Scenes/TestSceneOne.i
+
+# target to preprocess a source file
+src/Scenes/TestSceneOne.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/renderer.dir/build.make CMakeFiles/renderer.dir/src/Scenes/TestSceneOne.cpp.i
+.PHONY : src/Scenes/TestSceneOne.cpp.i
+
+src/Scenes/TestSceneOne.s: src/Scenes/TestSceneOne.cpp.s
+.PHONY : src/Scenes/TestSceneOne.s
+
+# target to generate assembly for a file
+src/Scenes/TestSceneOne.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/renderer.dir/build.make CMakeFiles/renderer.dir/src/Scenes/TestSceneOne.cpp.s
+.PHONY : src/Scenes/TestSceneOne.cpp.s
+
 src/Shaders/shaders.o: src/Shaders/shaders.cpp.o
 .PHONY : src/Shaders/shaders.o
 
@@ -657,6 +801,30 @@ src/System/camera.s: src/System/camera.cpp.s
 src/System/camera.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/renderer.dir/build.make CMakeFiles/renderer.dir/src/System/camera.cpp.s
 .PHONY : src/System/camera.cpp.s
+
+src/System/gBuffer.o: src/System/gBuffer.cpp.o
+.PHONY : src/System/gBuffer.o
+
+# target to build an object file
+src/System/gBuffer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/renderer.dir/build.make CMakeFiles/renderer.dir/src/System/gBuffer.cpp.o
+.PHONY : src/System/gBuffer.cpp.o
+
+src/System/gBuffer.i: src/System/gBuffer.cpp.i
+.PHONY : src/System/gBuffer.i
+
+# target to preprocess a source file
+src/System/gBuffer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/renderer.dir/build.make CMakeFiles/renderer.dir/src/System/gBuffer.cpp.i
+.PHONY : src/System/gBuffer.cpp.i
+
+src/System/gBuffer.s: src/System/gBuffer.cpp.s
+.PHONY : src/System/gBuffer.s
+
+# target to generate assembly for a file
+src/System/gBuffer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/renderer.dir/build.make CMakeFiles/renderer.dir/src/System/gBuffer.cpp.s
+.PHONY : src/System/gBuffer.cpp.s
 
 src/System/window.o: src/System/window.cpp.o
 .PHONY : src/System/window.o
@@ -763,9 +931,21 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... renderer"
+	@echo "... generated/ShaderCode/gBufferFrag.gen.o"
+	@echo "... generated/ShaderCode/gBufferFrag.gen.i"
+	@echo "... generated/ShaderCode/gBufferFrag.gen.s"
+	@echo "... generated/ShaderCode/gBufferVertex.gen.o"
+	@echo "... generated/ShaderCode/gBufferVertex.gen.i"
+	@echo "... generated/ShaderCode/gBufferVertex.gen.s"
 	@echo "... generated/ShaderCode/lightFrag.gen.o"
 	@echo "... generated/ShaderCode/lightFrag.gen.i"
 	@echo "... generated/ShaderCode/lightFrag.gen.s"
+	@echo "... generated/ShaderCode/lightPassFrag.gen.o"
+	@echo "... generated/ShaderCode/lightPassFrag.gen.i"
+	@echo "... generated/ShaderCode/lightPassFrag.gen.s"
+	@echo "... generated/ShaderCode/lightPassVertex.gen.o"
+	@echo "... generated/ShaderCode/lightPassVertex.gen.i"
+	@echo "... generated/ShaderCode/lightPassVertex.gen.s"
 	@echo "... generated/ShaderCode/lightVertex.gen.o"
 	@echo "... generated/ShaderCode/lightVertex.gen.i"
 	@echo "... generated/ShaderCode/lightVertex.gen.s"
@@ -823,12 +1003,21 @@ help:
 	@echo "... src/Objects/texture.o"
 	@echo "... src/Objects/texture.i"
 	@echo "... src/Objects/texture.s"
+	@echo "... src/Scenes/ManyLightsScene.o"
+	@echo "... src/Scenes/ManyLightsScene.i"
+	@echo "... src/Scenes/ManyLightsScene.s"
+	@echo "... src/Scenes/TestSceneOne.o"
+	@echo "... src/Scenes/TestSceneOne.i"
+	@echo "... src/Scenes/TestSceneOne.s"
 	@echo "... src/Shaders/shaders.o"
 	@echo "... src/Shaders/shaders.i"
 	@echo "... src/Shaders/shaders.s"
 	@echo "... src/System/camera.o"
 	@echo "... src/System/camera.i"
 	@echo "... src/System/camera.s"
+	@echo "... src/System/gBuffer.o"
+	@echo "... src/System/gBuffer.i"
+	@echo "... src/System/gBuffer.s"
 	@echo "... src/System/window.o"
 	@echo "... src/System/window.i"
 	@echo "... src/System/window.s"

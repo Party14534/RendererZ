@@ -1,0 +1,47 @@
+#include "GBuffer.h"
+#include "Objects/Texture.h"
+#include "global.h"
+
+GBuffer::GBuffer() { }
+
+void GBuffer::init(u32 width, u32 height) {
+    glGenFramebuffers(1, &ID);
+    glBindFramebuffer(GL_FRAMEBUFFER, ID);
+
+    pos = Texture(RGBA16, width, height, RGBA, FLOAT);
+    pos.setTextureParameter(MIN_FILTER, NEAREST);
+    pos.setTextureParameter(MAG_FILTER, NEAREST);
+    pos.attachToFramebuffer2D(0);
+
+    norm = Texture(RGBA16, width, height, RGBA, FLOAT);
+    norm.setTextureParameter(MIN_FILTER, NEAREST);
+    norm.setTextureParameter(MAG_FILTER, NEAREST);
+    norm.attachToFramebuffer2D(1);
+
+    color = Texture(RGBA, width, height, RGBA, UNSIGNED_BYTE);
+    color.setTextureParameter(MIN_FILTER, NEAREST);
+    color.setTextureParameter(MAG_FILTER, NEAREST);
+    color.attachToFramebuffer2D(2);
+
+    u32 attachments[3] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2 };
+    glDrawBuffers(3, attachments);
+
+    glGenRenderbuffers(1, &depthRBO);
+    glBindRenderbuffer(GL_RENDERBUFFER, depthRBO);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRBO);
+}
+
+void GBuffer::bind() {
+    glBindFramebuffer(GL_FRAMEBUFFER, ID);
+}
+
+void GBuffer::bindTextures() {
+    pos.setActive(0);
+    norm.setActive(1);
+    color.setActive(2);
+}
+
+void GBuffer::unbind() {
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}

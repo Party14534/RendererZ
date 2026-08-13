@@ -18,9 +18,20 @@ enum TextureParameterOption {
     CLAMP_TO_BORDER
 };
 
+enum TextureFilter {
+    MIN_FILTER = GL_TEXTURE_MIN_FILTER,
+    MAG_FILTER = GL_TEXTURE_MAG_FILTER
+};
+
 enum TextureFilterOption {
-    NEAREST,
-    LINEAR
+    NEAREST = GL_NEAREST,
+    LINEAR = GL_LINEAR
+};
+
+enum TextureFormat {
+    RGB = GL_RGB,
+    RGBA = GL_RGBA,
+    RGBA16 = GL_RGBA16F
 };
 
 enum MipMapFilterOption {
@@ -28,6 +39,11 @@ enum MipMapFilterOption {
     LINEAR_NEAREST,
     NEAREST_LINEAR,
     LINEAR_LINEAR
+};
+
+enum TexturePixelDataType {
+    FLOAT = GL_FLOAT,
+    UNSIGNED_BYTE = GL_UNSIGNED_BYTE
 };
 
 class Texture {
@@ -43,20 +59,17 @@ class Texture {
         bool loaded = false;
 
         Texture();
+        Texture(TextureFormat internal, u32 width, u32 height, TextureFormat format, TexturePixelDataType type);
         Texture(std::string _path, bool sRGB = true, bool flipVertically = true);
 
         void loadImage(std::string _path, bool sRGB, bool flipVertically = true);
 
-        void setTextureParameter(TextureParameterOption _texParameter);
-        void setTextureFilter(TextureFilterOption _texFilter);
-        void setMipMapFilter(MipMapFilterOption _mmFilter);
-        void bind(u32 texNum);
+        void setTextureParameter(TextureFilter filter, TextureFilterOption opt);
+        void attachToFramebuffer2D(u32 i);
+        void setActive(u32 texNum);
+        void bind();
 
         static std::shared_ptr<Texture> fromFile(std::string path, bool sRGB = true, bool flipVertically = true);
-    private:
-        TextureParameterOption texParameter = TextureParameterOption::REPEAT;
-        TextureFilterOption texFilter = TextureFilterOption::NEAREST;
-        MipMapFilterOption mmFilter = MipMapFilterOption::NEAREST_NEAREST;
 };
 
 class CubeMap : public Texture {

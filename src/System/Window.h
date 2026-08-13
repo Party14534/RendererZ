@@ -1,6 +1,7 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
+#include <list>
 #include <string>
 #include <vector>
 
@@ -12,16 +13,19 @@
 #include "../Objects/LightSource.h"
 #include "../Objects/SkyBox.h"
 #include "../Objects/Scene.h"
+#include "System/GBuffer.h"
 
 struct Window {
     // Window variables
     u32 width, height;
     std::string windowName;
 
-    std::shared_ptr<Shader> objectShader = nullptr;
-    std::shared_ptr<Shader> lightShader = nullptr;
-    std::shared_ptr<Shader> skyBoxShader = nullptr;
-    std::shared_ptr<Shader> pointShader = nullptr;
+    std::shared_ptr<ShaderProgram> gBufferShader = nullptr;
+    std::shared_ptr<ShaderProgram> lightPassShader = nullptr;
+
+    GBuffer gBuffer;
+    Drawable screen;
+    u32 pointLightUBO;
 
     std::shared_ptr<SkyBox> skyBox = nullptr;
 
@@ -48,8 +52,9 @@ struct Window {
     void setSkyBox(std::shared_ptr<SkyBox> skyBox);
     
     // Uniforms
-    void setDefaultUniforms(std::shared_ptr<Shader> shader);
-    void setPointLightUniforms(std::shared_ptr<Shader> shader);
+    void setGBufferUniforms();
+    void setLightPassUniforms();
+    void setPointLightUniforms();
 
     // Events
     void pollEvents();

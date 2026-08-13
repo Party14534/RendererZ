@@ -1,5 +1,9 @@
 # Hashes of file build rules.
+ef864f3b13cc2cb3c631673b13870b17 generated/ShaderCode/gBufferFrag.gen.cpp
+3c3278ed06c8ea9c4289257a668b30b1 generated/ShaderCode/gBufferVertex.gen.cpp
 3c1b9dd39752ffac9b4023195d4f8421 generated/ShaderCode/lightFrag.gen.cpp
+78a4a160db5a9b360aa2ded4fe6f7442 generated/ShaderCode/lightPassFrag.gen.cpp
+adead02098299fa797f76ecccaa5fa67 generated/ShaderCode/lightPassVertex.gen.cpp
 3b970f8d2b5d016f33b98d04a899df08 generated/ShaderCode/lightVertex.gen.cpp
 fbf3b0e8ba71cdbf4a27d3ea18b967c9 generated/ShaderCode/objectFrag.gen.cpp
 3a6c51b228b5c4af26faee2e57abea2b generated/ShaderCode/objectVertex.gen.cpp

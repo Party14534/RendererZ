@@ -19,7 +19,7 @@ struct Transform {
 };
 
 struct Drawable {
-        std::shared_ptr<Shader> shader = nullptr;
+        //std::shared_ptr<Shader> shader = nullptr;
         std::shared_ptr<Mesh> mesh = nullptr;
         Material material = Material {
             Color(1.f),
@@ -35,7 +35,8 @@ struct Drawable {
 
         Drawable(std::shared_ptr<Mesh> m);
 
-        void draw(std::shared_ptr<Shader> defaultShader);
+        void draw(std::shared_ptr<ShaderProgram> defaultShader);
+        void drawLightPass(std::shared_ptr<ShaderProgram> shader);
 
         void setColor(Color c);
         Color getColor() const;
@@ -51,7 +52,7 @@ struct Drawable {
         void rotateZ(float angle);
         void setDiffuseTexture(std::shared_ptr<Texture> _tex);
         void setNormalTexture(std::shared_ptr<Texture> _tex);
-        void setShader(std::shared_ptr<Shader> _shader);
+        //void setShader(std::shared_ptr<Shader> _shader);
         void setUVScale(Vec2 scale);
         Vec2 getUVScale() const;
 
@@ -71,7 +72,7 @@ struct ComplexDrawable {
 
         virtual ~ComplexDrawable();
 
-        void draw(std::shared_ptr<Shader> defaultShader);
+        void draw(std::shared_ptr<ShaderProgram> defaultShader);
 };
 
 #endif

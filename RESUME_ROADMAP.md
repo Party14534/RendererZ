@@ -20,8 +20,8 @@ anything a graphics team cares about. No bullet here — it's the price of entry
 - [X] Enable the depth buffer (`glEnable(GL_DEPTH_TEST)`).
 - [X] Load real meshes: OBJ loader done; glTF 2.0 not started (glTF gets you PBR
       materials, normals, and tangents for free later — worth doing).
-- [X] Index buffers (EBO) done and used everywhere; a real `Mesh` abstraction still
-      pending (see MESH_REFACTOR.md — this is Milestone 0's last blocker for M3/M5).
+- [X] Index buffers (EBO) done and used everywhere; a real `Mesh` abstraction done too
+      (lazy VAO/VBO/EBO init, shared ownership via `shared_ptr<Mesh>`).
 
 When this works (a textured 3D model spinning with a real camera), you can already
 upgrade the current bullets to past tense and add:
@@ -36,8 +36,9 @@ This is table stakes. Without PBR a "renderer" reads as a tutorial; with it, it 
 as a graphics engineer's project.
 
 - [X] Blinn-Phong first (fast win, proves the lighting loop works). Directional + up to
-      4 point lights with attenuation and materials; skybox reflection/refraction too.
-- [ ] Normal mapping in tangent space (compute/load tangents, TBN matrix in the shader).
+      800 point lights (see Milestone 3) with attenuation and materials; skybox
+      reflection/refraction too.
+- [X] Normal mapping in tangent space (compute/load tangents, TBN matrix in the shader).
 - [ ] Cook-Torrance PBR: metallic/roughness workflow, GGX distribution, Smith geometry,
       Fresnel-Schlick.
 - [ ] Image-Based Lighting: irradiance map (diffuse) + prefiltered env map & BRDF LUT
@@ -68,13 +69,18 @@ as a graphics engineer's project.
 
 Shows you understand the engine *as a system*, not just shaders.
 
-- [ ] Deferred renderer: a G-buffer pass (albedo, normal, position/depth, material) then
-      a lighting pass. (Or Forward+ if you'd rather — pick one and know the tradeoff.)
-- [ ] Support many lights efficiently — the whole point of going deferred.
+- [X] Deferred renderer: G-buffer pass (world position, normal, albedo+specular) then a
+      screen-space lighting pass.
+- [X] Support many lights efficiently — point lights moved from plain uniforms to a UBO
+      (plain arrays capped out around ~200 lights on this GPU's uniform-component limit;
+      the UBO's much larger block-size budget lifted that to 800). Dedicated stress-test
+      scene (dynamic, randomly-colored, orbiting point lights) with a runtime toggle to
+      compare against the normal scene's frame time live.
 
 **Earned bullet:**
 > Architected a deferred rendering pipeline (G-buffer + screen-space lighting pass)
-> supporting hundreds of dynamic lights; documented the forward-vs-deferred tradeoff.
+> supporting 800 dynamic point lights via a UBO-backed light buffer, after diagnosing
+> and working around GPU uniform-component/block-size limits.
 
 ---
 

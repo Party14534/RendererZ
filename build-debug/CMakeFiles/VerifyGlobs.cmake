@@ -15,8 +15,11 @@ set(OLD_GLOB
   "/Users/zachariahdellimore/Code/RendererZ/src/Objects/scene.cpp"
   "/Users/zachariahdellimore/Code/RendererZ/src/Objects/skyBox.cpp"
   "/Users/zachariahdellimore/Code/RendererZ/src/Objects/texture.cpp"
+  "/Users/zachariahdellimore/Code/RendererZ/src/Scenes/ManyLightsScene.cpp"
+  "/Users/zachariahdellimore/Code/RendererZ/src/Scenes/TestSceneOne.cpp"
   "/Users/zachariahdellimore/Code/RendererZ/src/Shaders/shaders.cpp"
   "/Users/zachariahdellimore/Code/RendererZ/src/System/camera.cpp"
+  "/Users/zachariahdellimore/Code/RendererZ/src/System/gBuffer.cpp"
   "/Users/zachariahdellimore/Code/RendererZ/src/System/window.cpp"
   "/Users/zachariahdellimore/Code/RendererZ/src/Tools/objectLoading.cpp"
   "/Users/zachariahdellimore/Code/RendererZ/src/global.cpp"
@@ -46,7 +49,9 @@ endif()
 # SHADER_SOURCE_FILES at CMakeLists.txt:49 (file)
 file(GLOB_RECURSE NEW_GLOB LIST_DIRECTORIES false "/Users/zachariahdellimore/Code/RendererZ/src/Shaders/*.frag")
 set(OLD_GLOB
+  "/Users/zachariahdellimore/Code/RendererZ/src/Shaders/gBufferFrag.frag"
   "/Users/zachariahdellimore/Code/RendererZ/src/Shaders/lightFrag.frag"
+  "/Users/zachariahdellimore/Code/RendererZ/src/Shaders/lightPassFrag.frag"
   "/Users/zachariahdellimore/Code/RendererZ/src/Shaders/objectFrag.frag"
   "/Users/zachariahdellimore/Code/RendererZ/src/Shaders/pointFrag.frag"
   "/Users/zachariahdellimore/Code/RendererZ/src/Shaders/skyBoxFrag.frag"
@@ -75,6 +80,8 @@ endif()
 # SHADER_SOURCE_FILES at CMakeLists.txt:49 (file)
 file(GLOB_RECURSE NEW_GLOB LIST_DIRECTORIES false "/Users/zachariahdellimore/Code/RendererZ/src/Shaders/*.vert")
 set(OLD_GLOB
+  "/Users/zachariahdellimore/Code/RendererZ/src/Shaders/gBufferVertex.vert"
+  "/Users/zachariahdellimore/Code/RendererZ/src/Shaders/lightPassVertex.vert"
   "/Users/zachariahdellimore/Code/RendererZ/src/Shaders/lightVertex.vert"
   "/Users/zachariahdellimore/Code/RendererZ/src/Shaders/objectVertex.vert"
   "/Users/zachariahdellimore/Code/RendererZ/src/Shaders/pointVertex.vert"
