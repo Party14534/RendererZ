@@ -11,24 +11,25 @@
 #include "../Math/math.h"
 #include "../Shaders/shaders.h"
 
-enum TextureParameterOption {
-    REPEAT,
-    MIRRORED_REPEAT,
-    CLAMP_TO_EDGE,
-    CLAMP_TO_BORDER
-};
-
 enum TextureFilter {
     MIN_FILTER = GL_TEXTURE_MIN_FILTER,
-    MAG_FILTER = GL_TEXTURE_MAG_FILTER
+    MAG_FILTER = GL_TEXTURE_MAG_FILTER,
+    WRAP_S = GL_TEXTURE_WRAP_S,
+    WRAP_T = GL_TEXTURE_WRAP_T,
+    WRAP_R = GL_TEXTURE_WRAP_R
 };
 
 enum TextureFilterOption {
     NEAREST = GL_NEAREST,
-    LINEAR = GL_LINEAR
+    LINEAR = GL_LINEAR,
+    REPEAT = GL_REPEAT,
+    MIRRORED_REPEAT = GL_MIRRORED_REPEAT,
+    CLAMP_TO_EDGE = GL_CLAMP_TO_EDGE,
+    CLAMP_TO_BORDER = GL_CLAMP_TO_BORDER
 };
 
 enum TextureFormat {
+    RED = GL_RED,
     RGB = GL_RGB,
     RGBA = GL_RGBA,
     RGBA16 = GL_RGBA16F

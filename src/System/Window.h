@@ -22,9 +22,15 @@ struct Window {
 
     std::shared_ptr<ShaderProgram> gBufferShader = nullptr;
     std::shared_ptr<ShaderProgram> lightPassShader = nullptr;
+    std::shared_ptr<ShaderProgram> saoPassShader = nullptr;
+    std::shared_ptr<ShaderProgram> saoBlurPassShader = nullptr;
 
     GBuffer gBuffer;
-    Drawable screen;
+    Framebuffer saoBuffer;
+    Framebuffer saoBlurBuffer;
+    Drawable lightPassScreen;
+    Drawable saoPassScreen;
+    Drawable saoBlurPassScreen;
     u32 pointLightUBO;
 
     std::shared_ptr<SkyBox> skyBox = nullptr;
@@ -54,6 +60,8 @@ struct Window {
     // Uniforms
     void setGBufferUniforms();
     void setLightPassUniforms();
+    void setSAOPassUniforms();
+    void setSAOBlurPassUniforms();
     void setPointLightUniforms();
 
     // Events

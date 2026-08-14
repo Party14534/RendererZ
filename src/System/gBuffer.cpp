@@ -2,6 +2,32 @@
 #include "Objects/Texture.h"
 #include "global.h"
 
+Framebuffer::Framebuffer() { }
+
+void Framebuffer::init(u32 width, u32 height) {
+    glGenFramebuffers(1, &ID);
+    glBindFramebuffer(GL_FRAMEBUFFER, ID);
+
+    tex = Texture(RED, width, height, RED, FLOAT);
+    tex.setTextureParameter(MIN_FILTER, NEAREST);
+    tex.setTextureParameter(MAG_FILTER, NEAREST);
+    tex.attachToFramebuffer2D(0);
+
+    //glDrawBuffer(1);
+}
+
+void Framebuffer::bind() {
+    glBindFramebuffer(GL_FRAMEBUFFER, ID);
+}
+
+void Framebuffer::bindTexture(u32 n) {
+    tex.setActive(n);
+}
+
+void Framebuffer::unbind() {
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
 GBuffer::GBuffer() { }
 
 void GBuffer::init(u32 width, u32 height) {
@@ -11,6 +37,8 @@ void GBuffer::init(u32 width, u32 height) {
     pos = Texture(RGBA16, width, height, RGBA, FLOAT);
     pos.setTextureParameter(MIN_FILTER, NEAREST);
     pos.setTextureParameter(MAG_FILTER, NEAREST);
+    pos.setTextureParameter(WRAP_S, CLAMP_TO_EDGE);
+    pos.setTextureParameter(WRAP_T, CLAMP_TO_EDGE);
     pos.attachToFramebuffer2D(0);
 
     norm = Texture(RGBA16, width, height, RGBA, FLOAT);

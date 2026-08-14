@@ -24,6 +24,7 @@
 #define SHADER_SKYBOX_UNIFORM "skyBox_z"
 #define SKYBOX_TEXTURE_UNIT 8
 #define SHADER_MODEL_SET_UNIFORM "model_z"
+#define SHADER_RESOLUTION_UNIFORM "resolution_z"
 #define SHADER_VIEW_SET_UNIFORM "view_z"
 #define SHADER_PROJECTION_SET_UNIFORM "projection_z"
 #define SHADER_VIEW_POSITION_UNIFORM "view_pos_z"
@@ -35,6 +36,8 @@
 #define SHADER_GPOSITION_UNIFORM "gPosition"
 #define SHADER_GNORMAL_UNIFORM "gNormal"
 #define SHADER_GALBEDO_SPEC_UNIFORM "gAlbedoSpec"
+#define SHADER_GSAO_UNIFORM "gSAO"
+#define SHADER_GSAO_BLUR_UNIFORM "gSAOBlur"
 #define SHADER_POINT_LIGHT_BLOCK "PointLightBlock"
 #define POINT_LIGHT_UBO_BINDING 0
 #define MAX_POINT_LIGHTS 800 // keep in sync with lightPassFrag.frag; 65536-byte UBO limit / 80 bytes per light = 819 max

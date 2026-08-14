@@ -1,5 +1,6 @@
 #include "Window.h"
 #include "Shaders/ShaderCode.h"
+#include "Shaders/shaders.h"
 #include <vector>
 
 // Mirrors PointLightBlock's std140 layout in lightPassFrag.frag.
@@ -21,7 +22,9 @@ Window::Window(u32 width, u32 height, std::string windowName) :
     windowName(windowName),
     mouse((float)width / 2.f, (float)height / 2.f),
     dLight(Vec3(0., -1, 0.), DirLightProperties()),
-    screen(Drawable::Plane())
+    lightPassScreen(Drawable::Plane()),
+    saoPassScreen(Drawable::Plane()),
+    saoBlurPassScreen(Drawable::Plane())
 {
     initializeGL(); // Initialize GLFW
 
@@ -46,15 +49,17 @@ Window::Window(u32 width, u32 height, std::string windowName) :
     glfwGetFramebufferSize(win, &fbWidth, &fbHeight);
     glViewport(0, 0, fbWidth, fbHeight);
 
-    // GBuffer textures must match the viewport's pixel size, not the
-    // logical window size, or the geometry pass only fills a quarter of them.
     gBuffer.init(fbWidth, fbHeight);
+    saoBuffer.init(fbWidth, fbHeight);
+    saoBlurBuffer.init(fbWidth, fbHeight);
 
     // Update window size with window update
     glfwSetFramebufferSizeCallback(win, framebuffer_size_callback);
 
     gBufferShader = std::make_shared<ShaderProgram>(ShaderProgram::fromStrings(gBufferVertex, gBufferFrag));
     lightPassShader = std::make_shared<ShaderProgram>(ShaderProgram::fromStrings(lightPassVertex, lightPassFrag));
+    saoPassShader = std::make_shared<ShaderProgram>(ShaderProgram::fromStrings(lightPassVertex, saoPassFrag));
+    saoBlurPassShader = std::make_shared<ShaderProgram>(ShaderProgram::fromStrings(lightPassVertex, saoBlurPassFrag));
 
     glGenBuffers(1, &pointLightUBO);
     glBindBuffer(GL_UNIFORM_BUFFER, pointLightUBO);
@@ -86,7 +91,9 @@ Window::Window(u32 width, u32 height, std::string windowName) :
     // Initialize Lights
     pLights = std::vector<std::shared_ptr<PointLight>>(0);
 
-    screen.setScale(Vec3(2., 2., 0.));
+    lightPassScreen.setScale(Vec3(2., 2., 0.));
+    saoPassScreen.setScale(Vec3(2., 2., 0.));
+    saoBlurPassScreen.setScale(Vec3(2., 2., 0.));
 }
 
 Window::~Window() {
@@ -107,14 +114,37 @@ void Window::display() {
 
     // Everything drawn to GBuffer, now run the light pass to the screen
     gBuffer.unbind();
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     gBuffer.bindTextures();
+
+    // SAO rendering
+    saoBuffer.bind();
+    glClear(GL_COLOR_BUFFER_BIT);
+    saoPassShader->use();
+    setSAOPassUniforms();
+    glDisable(GL_CULL_FACE);
+    saoPassScreen.drawLightPass(saoPassShader);
+
+    saoBuffer.unbind();
+
+    // BLUR SAO
+    saoBlurBuffer.bind();
+    saoBuffer.bindTexture(3);
+    glClear(GL_COLOR_BUFFER_BIT);
+    saoBlurPassShader->use();
+    setSAOBlurPassUniforms();
+    saoBlurPassScreen.drawLightPass(saoBlurPassShader);
+
+    saoBlurBuffer.unbind();
+
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    saoBlurBuffer.bindTexture(4);
+
+    // Render lighting
     lightPassShader->use();
     setLightPassUniforms();
 
     // Quad is drawn in clip space directly, so its winding can be back-facing.
-    glDisable(GL_CULL_FACE);
-    screen.drawLightPass(lightPassShader);
+    lightPassScreen.drawLightPass(lightPassShader);
     glEnable(GL_CULL_FACE);
 
     glfwSwapBuffers(win);
@@ -175,6 +205,7 @@ void Window::setLightPassUniforms() {
     lightPassShader->setInt(SHADER_GPOSITION_UNIFORM, 0);
     lightPassShader->setInt(SHADER_GNORMAL_UNIFORM, 1);
     lightPassShader->setInt(SHADER_GALBEDO_SPEC_UNIFORM, 2);
+    lightPassShader->setInt(SHADER_GSAO_BLUR_UNIFORM, 4);
 
     setPointLightUniforms();
 
@@ -192,6 +223,28 @@ void Window::setLightPassUniforms() {
 
     lightPassShader->setMat4(SHADER_VIEW_SET_UNIFORM, cam.GetViewMatrix());
     lightPassShader->setMat4(SHADER_PROJECTION_SET_UNIFORM, cam.GetProjectionMatrix());
+}
+
+void Window::setSAOPassUniforms() {
+    saoPassShader->use();
+
+    // Assign each G-buffer sampler its own texture unit, matching the units
+    // bound in GBuffer::bindTextures().
+    saoPassShader->setInt(SHADER_GPOSITION_UNIFORM, 0);
+    saoPassShader->setInt(SHADER_GNORMAL_UNIFORM, 1);
+    saoPassShader->setInt(SHADER_GALBEDO_SPEC_UNIFORM, 2);
+
+    saoPassShader->setVec3(SHADER_VIEW_POSITION_UNIFORM, cam.GetPos());
+
+    saoPassShader->setVec2(SHADER_RESOLUTION_UNIFORM, Vec2(width, height));
+
+    saoPassShader->setMat4(SHADER_VIEW_SET_UNIFORM, cam.GetViewMatrix());
+    saoPassShader->setMat4(SHADER_PROJECTION_SET_UNIFORM, cam.GetProjectionMatrix());
+}
+
+void Window::setSAOBlurPassUniforms() {
+    saoBlurPassShader->use();
+    saoBlurPassShader->setInt(SHADER_GSAO_UNIFORM, 3);
 }
 
 void Window::setPointLightUniforms() {
