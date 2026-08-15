@@ -26,6 +26,7 @@
 #define SHADER_MODEL_SET_UNIFORM "model_z"
 #define SHADER_RESOLUTION_UNIFORM "resolution_z"
 #define SHADER_VIEW_SET_UNIFORM "view_z"
+#define SHADER_MVP_SET_UNIFORM "mvp_z"
 #define SHADER_PROJECTION_SET_UNIFORM "projection_z"
 #define SHADER_VIEW_POSITION_UNIFORM "view_pos_z"
 #define SHADER_DIRECTIONAL_LIGHT "dirLight_z"

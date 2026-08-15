@@ -15,7 +15,7 @@ struct Scene {
 
     void addToList(Drawable* object);
 
-    void draw(std::shared_ptr<ShaderProgram> defaultShader);
+    void draw(std::shared_ptr<ShaderProgram> defaultShader, const MatD& vp);
 };
 
 #endif

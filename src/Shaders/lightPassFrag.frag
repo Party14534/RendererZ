@@ -105,5 +105,6 @@ void main()
         result += calcPointLight(pointLights_z[i], Normal, FragPos, viewDir, Albedo, Specular, sao);
     }
 
-    FragColor = vec4(result, 1.0);
+    FragColor = vec4(result, 1.);
+    //FragColor = vec4(vec3(sao), 1.);
 }

@@ -13,6 +13,7 @@ in vec2 TexCoord;
 
 uniform sampler2D tex;
 uniform bool usingTex_z;
+uniform vec3 color_z;
 
 uniform float specular_z;
 
@@ -31,6 +32,7 @@ void main()
         : normalize(TBN[2]);
 
     gAlbedoSpec.rgb = usingTex_z ? texture(tex, TexCoord).rgb : vec3(1.);
+    gAlbedoSpec.rgb *= color_z;
     gAlbedoSpec.a = specular_z;
 }
 )GLSL";

@@ -16,6 +16,7 @@ struct Transform {
     Vec3 pos, rotation;
     Vec3 scale = Vec3(1.f);
     Mat GetModelMat();
+    MatD GetModelMatD();
 };
 
 struct Drawable {
@@ -35,7 +36,7 @@ struct Drawable {
 
         Drawable(std::shared_ptr<Mesh> m);
 
-        void draw(std::shared_ptr<ShaderProgram> defaultShader);
+        void draw(std::shared_ptr<ShaderProgram> defaultShader, const MatD& vp);
         void drawLightPass(std::shared_ptr<ShaderProgram> shader);
 
         void setColor(Color c);
@@ -72,7 +73,7 @@ struct ComplexDrawable {
 
         virtual ~ComplexDrawable();
 
-        void draw(std::shared_ptr<ShaderProgram> defaultShader);
+        void draw(std::shared_ptr<ShaderProgram> defaultShader, const MatD& vp);
 };
 
 #endif

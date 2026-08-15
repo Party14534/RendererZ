@@ -1,4 +1,4 @@
-// Generated from /Users/zachariahdellimore/Code/RendererZ/src/Shaders/pointVertex.vert by EmbedShader.cmake - do not edit by hand.
+// Generated from /Users/zachariahdellimore/Code/RendererZ/src/Shaders/unused/pointVertex.vert by EmbedShader.cmake - do not edit by hand.
 #include <string>
 
 std::string pointVertex = R"GLSL(#version 330

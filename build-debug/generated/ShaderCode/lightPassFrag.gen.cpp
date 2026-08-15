@@ -13,9 +13,13 @@ struct PointLight {
     vec3 specular;
     vec3 attenuation;
 };
-#define MAX_POINT_LIGHTS 100
+#define MAX_POINT_LIGHTS 800
 uniform int pointLightCnt_z;
-uniform PointLight pointLights_z[MAX_POINT_LIGHTS];
+
+// UBO instead of a plain uniform array: much higher size limit.
+layout(std140) uniform PointLightBlock {
+    PointLight pointLights_z[MAX_POINT_LIGHTS];
+};
 
 struct DirLight {
     vec3 direction;
@@ -31,10 +35,14 @@ in vec2 TexCoord;
 uniform sampler2D gPosition;
 uniform sampler2D gNormal;
 uniform sampler2D gAlbedoSpec;
+uniform sampler2D gSAOBlur;
 
 uniform vec3 view_pos_z;
+uniform vec2 resolution_z;
+uniform mat4 projection_z;
 
-vec3 calcDirLight(DirLight light, vec3 normal, vec3 viewDir, vec3 Albedo, float Specular) {
+vec3 calcDirLight(DirLight light, vec3 normal, vec3 viewDir,
+        vec3 Albedo, float Specular, float sao) {
     vec3 lightDir = normalize(-light.direction);
 
     // Diffuse
@@ -45,14 +53,15 @@ vec3 calcDirLight(DirLight light, vec3 normal, vec3 viewDir, vec3 Albedo, float 
     //vec3 reflectDir = reflect(-lightDir, normal); // Phong
     float spec = pow(max(dot(normal, halfwayDir), 0.), 32.);
 
-    vec3 ambient = light.ambient * Albedo;
+    vec3 ambient = light.ambient * Albedo * sao;
     vec3 diffuse = light.diffuse * (diff * Albedo);
     vec3 specular = light.specular * (spec * Specular * Albedo);
 
     return (ambient + diffuse + specular);
 }
 
-vec3 calcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir, vec3 Albedo, float Specular) {
+vec3 calcPointLight(PointLight light, vec3 normal, vec3 fragPos,
+        vec3 viewDir, vec3 Albedo, float Specular, float sao) {
     vec3 lightDir = normalize(light.pos - fragPos);
 
     float diff = max(dot(normal, lightDir), 0.);
@@ -67,15 +76,15 @@ vec3 calcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir, v
             + light.attenuation.y * distance
             + light.attenuation.z * (distance * distance));
 
-    //vec3 ambient = light.ambient * Albedo;
+    vec3 ambient = light.ambient * Albedo * sao;
 
     vec3 diffuse = light.diffuse * (diff * Albedo);
     vec3 specular = light.specular * (spec * Specular * Albedo);
 
-    //ambient *= attenuation;
+    ambient *= attenuation;
     diffuse *= attenuation;
     specular *= attenuation;
-    return (/*ambient +*/ diffuse + specular);
+    return (ambient + diffuse + specular);
 }
 
 vec3 calcSpotLight() {
@@ -92,12 +101,14 @@ void main()
     vec3 viewDir = normalize(view_pos_z - FragPos);
 
     // LIGHT CODE
-    vec3 result = calcDirLight(dirLight_z, Normal, viewDir, Albedo, Specular);
+    float sao = texture(gSAOBlur, TexCoord).r;
+    vec3 result = calcDirLight(dirLight_z, Normal, viewDir, Albedo, Specular, sao);
 
     for(int i = 0; i < pointLightCnt_z; i++) {
-        result += calcPointLight(pointLights_z[i], Normal, FragPos, viewDir, Albedo, Specular);
+        result += calcPointLight(pointLights_z[i], Normal, FragPos, viewDir, Albedo, Specular, sao);
     }
 
-    FragColor = vec4(result, 1.0);
+    //FragColor = vec4(result, 1.);
+    FragColor = vec4(vec3(sao), 1.);
 }
 )GLSL";

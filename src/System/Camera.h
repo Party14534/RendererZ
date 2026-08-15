@@ -20,8 +20,8 @@ struct Camera {
     Vec3 GetCamFront();
     Vec3 GetCamUp();
     Vec3 GetCamRight();
-    Mat GetViewMatrix();
-    Mat GetProjectionMatrix();
+    MatD GetViewMatrix();
+    MatD GetProjectionMatrix();
 
     void BuildPerspectiveMatrices(u32 width, u32 height);
 
@@ -31,14 +31,13 @@ struct Camera {
     Vec3 camFront;
     Vec3 camUp;
     Vec3 camRight;
-    Mat viewMatrix;
+    MatD viewMatrix;
 
-    Mat orthoMat;
-    Mat perspMat;
-    Mat viewMat;
-    float aspectRatio;
-    float fov;
-    float yaw, pitch;
+    MatD orthoMat;
+    MatD perspMat;
+    double aspectRatio;
+    double fov;
+    double yaw, pitch;
     bool isOrthographic = false;
 
     void calculateViewMatrix();

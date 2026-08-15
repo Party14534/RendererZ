@@ -370,6 +370,78 @@ generated/ShaderCode/pointVertex.gen.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/renderer.dir/build.make CMakeFiles/renderer.dir/generated/ShaderCode/pointVertex.gen.cpp.s
 .PHONY : generated/ShaderCode/pointVertex.gen.cpp.s
 
+generated/ShaderCode/saoBlurPassFrag.gen.o: generated/ShaderCode/saoBlurPassFrag.gen.cpp.o
+.PHONY : generated/ShaderCode/saoBlurPassFrag.gen.o
+
+# target to build an object file
+generated/ShaderCode/saoBlurPassFrag.gen.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/renderer.dir/build.make CMakeFiles/renderer.dir/generated/ShaderCode/saoBlurPassFrag.gen.cpp.o
+.PHONY : generated/ShaderCode/saoBlurPassFrag.gen.cpp.o
+
+generated/ShaderCode/saoBlurPassFrag.gen.i: generated/ShaderCode/saoBlurPassFrag.gen.cpp.i
+.PHONY : generated/ShaderCode/saoBlurPassFrag.gen.i
+
+# target to preprocess a source file
+generated/ShaderCode/saoBlurPassFrag.gen.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/renderer.dir/build.make CMakeFiles/renderer.dir/generated/ShaderCode/saoBlurPassFrag.gen.cpp.i
+.PHONY : generated/ShaderCode/saoBlurPassFrag.gen.cpp.i
+
+generated/ShaderCode/saoBlurPassFrag.gen.s: generated/ShaderCode/saoBlurPassFrag.gen.cpp.s
+.PHONY : generated/ShaderCode/saoBlurPassFrag.gen.s
+
+# target to generate assembly for a file
+generated/ShaderCode/saoBlurPassFrag.gen.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/renderer.dir/build.make CMakeFiles/renderer.dir/generated/ShaderCode/saoBlurPassFrag.gen.cpp.s
+.PHONY : generated/ShaderCode/saoBlurPassFrag.gen.cpp.s
+
+generated/ShaderCode/saoPassFrag.gen.o: generated/ShaderCode/saoPassFrag.gen.cpp.o
+.PHONY : generated/ShaderCode/saoPassFrag.gen.o
+
+# target to build an object file
+generated/ShaderCode/saoPassFrag.gen.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/renderer.dir/build.make CMakeFiles/renderer.dir/generated/ShaderCode/saoPassFrag.gen.cpp.o
+.PHONY : generated/ShaderCode/saoPassFrag.gen.cpp.o
+
+generated/ShaderCode/saoPassFrag.gen.i: generated/ShaderCode/saoPassFrag.gen.cpp.i
+.PHONY : generated/ShaderCode/saoPassFrag.gen.i
+
+# target to preprocess a source file
+generated/ShaderCode/saoPassFrag.gen.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/renderer.dir/build.make CMakeFiles/renderer.dir/generated/ShaderCode/saoPassFrag.gen.cpp.i
+.PHONY : generated/ShaderCode/saoPassFrag.gen.cpp.i
+
+generated/ShaderCode/saoPassFrag.gen.s: generated/ShaderCode/saoPassFrag.gen.cpp.s
+.PHONY : generated/ShaderCode/saoPassFrag.gen.s
+
+# target to generate assembly for a file
+generated/ShaderCode/saoPassFrag.gen.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/renderer.dir/build.make CMakeFiles/renderer.dir/generated/ShaderCode/saoPassFrag.gen.cpp.s
+.PHONY : generated/ShaderCode/saoPassFrag.gen.cpp.s
+
+generated/ShaderCode/saoPassVertex.gen.o: generated/ShaderCode/saoPassVertex.gen.cpp.o
+.PHONY : generated/ShaderCode/saoPassVertex.gen.o
+
+# target to build an object file
+generated/ShaderCode/saoPassVertex.gen.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/renderer.dir/build.make CMakeFiles/renderer.dir/generated/ShaderCode/saoPassVertex.gen.cpp.o
+.PHONY : generated/ShaderCode/saoPassVertex.gen.cpp.o
+
+generated/ShaderCode/saoPassVertex.gen.i: generated/ShaderCode/saoPassVertex.gen.cpp.i
+.PHONY : generated/ShaderCode/saoPassVertex.gen.i
+
+# target to preprocess a source file
+generated/ShaderCode/saoPassVertex.gen.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/renderer.dir/build.make CMakeFiles/renderer.dir/generated/ShaderCode/saoPassVertex.gen.cpp.i
+.PHONY : generated/ShaderCode/saoPassVertex.gen.cpp.i
+
+generated/ShaderCode/saoPassVertex.gen.s: generated/ShaderCode/saoPassVertex.gen.cpp.s
+.PHONY : generated/ShaderCode/saoPassVertex.gen.s
+
+# target to generate assembly for a file
+generated/ShaderCode/saoPassVertex.gen.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/renderer.dir/build.make CMakeFiles/renderer.dir/generated/ShaderCode/saoPassVertex.gen.cpp.s
+.PHONY : generated/ShaderCode/saoPassVertex.gen.cpp.s
+
 generated/ShaderCode/skyBoxFrag.gen.o: generated/ShaderCode/skyBoxFrag.gen.cpp.o
 .PHONY : generated/ShaderCode/skyBoxFrag.gen.o
 
@@ -961,6 +1033,15 @@ help:
 	@echo "... generated/ShaderCode/pointVertex.gen.o"
 	@echo "... generated/ShaderCode/pointVertex.gen.i"
 	@echo "... generated/ShaderCode/pointVertex.gen.s"
+	@echo "... generated/ShaderCode/saoBlurPassFrag.gen.o"
+	@echo "... generated/ShaderCode/saoBlurPassFrag.gen.i"
+	@echo "... generated/ShaderCode/saoBlurPassFrag.gen.s"
+	@echo "... generated/ShaderCode/saoPassFrag.gen.o"
+	@echo "... generated/ShaderCode/saoPassFrag.gen.i"
+	@echo "... generated/ShaderCode/saoPassFrag.gen.s"
+	@echo "... generated/ShaderCode/saoPassVertex.gen.o"
+	@echo "... generated/ShaderCode/saoPassVertex.gen.i"
+	@echo "... generated/ShaderCode/saoPassVertex.gen.s"
 	@echo "... generated/ShaderCode/skyBoxFrag.gen.o"
 	@echo "... generated/ShaderCode/skyBoxFrag.gen.i"
 	@echo "... generated/ShaderCode/skyBoxFrag.gen.s"

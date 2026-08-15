@@ -1,4 +1,7 @@
-#version 330 core
+// Generated from /Users/zachariahdellimore/Code/RendererZ/src/Shaders/saoBlurPassFrag.frag by EmbedShader.cmake - do not edit by hand.
+#include <string>
+
+std::string saoBlurPassFrag = R"GLSL(#version 330 core
 
 layout (location = 0) out float gSAOBlur;
 
@@ -19,5 +22,5 @@ void main()
         }
     }
     gSAOBlur = result / (4.0 * 4.0);
-    //gSAOBlur = texture(gSAO, TexCoord).r;
 }
+)GLSL";

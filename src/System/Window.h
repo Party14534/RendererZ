@@ -32,6 +32,7 @@ struct Window {
     Drawable saoPassScreen;
     Drawable saoBlurPassScreen;
     u32 pointLightUBO;
+    MatD gBufferVP;
 
     std::shared_ptr<SkyBox> skyBox = nullptr;
 

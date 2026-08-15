@@ -8,9 +8,9 @@ ComplexDrawable::ComplexDrawable(std::vector<Drawable>& targets) : targets(targe
 
 ComplexDrawable::~ComplexDrawable() { }
 
-void ComplexDrawable::draw(std::shared_ptr<ShaderProgram> defaultShader) {
+void ComplexDrawable::draw(std::shared_ptr<ShaderProgram> defaultShader, const MatD& vp) {
     for(auto& target : targets) {
-        target.draw(defaultShader);
+        target.draw(defaultShader, vp);
     }
 }
 
@@ -60,8 +60,10 @@ void Drawable::setNormalTexture(std::shared_ptr<Texture> _tex) {
 void Drawable::setUVScale(Vec2 scale) { uvScale = scale; }
 Vec2 Drawable::getUVScale() const { return uvScale; }
 
-void Drawable::draw(std::shared_ptr<ShaderProgram> shader) {
+void Drawable::draw(std::shared_ptr<ShaderProgram> shader, const MatD& vp) {
+    MatD mvp = vp * transform.GetModelMatD();
     shader->setMat4(SHADER_MODEL_SET_UNIFORM, transform.GetModelMat());
+    shader->setMat4(SHADER_MVP_SET_UNIFORM, mvp);
     shader->setVec3(SHADER_COLOR_UNIFORM, material.color.toRGB());
     shader->setFloat(SHADER_SPECULAR_UNIFORM, material.specular);
     shader->setBool(SHADER_TEX_SET_UNIFORM, diffuseTexture != nullptr);
@@ -112,6 +114,48 @@ Mat Transform::GetModelMat() {
     
     // Combine scale and rotation
     Mat m = rotMat * scaleMat;
+    
+    // Apply translation
+    m.set(0, 3, pos.x);
+    m.set(1, 3, pos.y);
+    m.set(2, 3, pos.z);
+    
+    return m;
+}
+
+MatD Transform::GetModelMatD() {
+    // Build scale matrix
+    MatD scaleMat = MatD::getIdentity(4);
+    scaleMat.set(0, 0, scale.x);
+    scaleMat.set(1, 1, scale.y);
+    scaleMat.set(2, 2, scale.z);
+    
+    // Build rotation matrix
+    MatD rotMat = MatD::getIdentity(4);
+    
+    // Rotations
+    float cx = cos(rotation.x);
+    float sx = sin(rotation.x);
+    float cy = cos(rotation.y);
+    float sy = sin(rotation.y);
+    float cz = cos(rotation.z);
+    float sz = sin(rotation.z);
+    
+    // Combined rotation matrix (Z * Y * X)
+    rotMat.set(0, 0, cy * cz);
+    rotMat.set(0, 1, -cy * sz);
+    rotMat.set(0, 2, sy);
+    
+    rotMat.set(1, 0, cx * sz + cz * sx * sy);
+    rotMat.set(1, 1, cx * cz - sx * sy * sz);
+    rotMat.set(1, 2, -cy * sx);
+    
+    rotMat.set(2, 0, sx * sz - cx * cz * sy);
+    rotMat.set(2, 1, cz * sx + cx * sy * sz);
+    rotMat.set(2, 2, cx * cy);
+    
+    // Combine scale and rotation
+    MatD m = rotMat * scaleMat;
     
     // Apply translation
     m.set(0, 3, pos.x);

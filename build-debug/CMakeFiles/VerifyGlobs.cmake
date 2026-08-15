@@ -50,11 +50,13 @@ endif()
 file(GLOB_RECURSE NEW_GLOB LIST_DIRECTORIES false "/Users/zachariahdellimore/Code/RendererZ/src/Shaders/*.frag")
 set(OLD_GLOB
   "/Users/zachariahdellimore/Code/RendererZ/src/Shaders/gBufferFrag.frag"
-  "/Users/zachariahdellimore/Code/RendererZ/src/Shaders/lightFrag.frag"
   "/Users/zachariahdellimore/Code/RendererZ/src/Shaders/lightPassFrag.frag"
-  "/Users/zachariahdellimore/Code/RendererZ/src/Shaders/objectFrag.frag"
-  "/Users/zachariahdellimore/Code/RendererZ/src/Shaders/pointFrag.frag"
-  "/Users/zachariahdellimore/Code/RendererZ/src/Shaders/skyBoxFrag.frag"
+  "/Users/zachariahdellimore/Code/RendererZ/src/Shaders/saoBlurPassFrag.frag"
+  "/Users/zachariahdellimore/Code/RendererZ/src/Shaders/saoPassFrag.frag"
+  "/Users/zachariahdellimore/Code/RendererZ/src/Shaders/unused/lightFrag.frag"
+  "/Users/zachariahdellimore/Code/RendererZ/src/Shaders/unused/objectFrag.frag"
+  "/Users/zachariahdellimore/Code/RendererZ/src/Shaders/unused/pointFrag.frag"
+  "/Users/zachariahdellimore/Code/RendererZ/src/Shaders/unused/skyBoxFrag.frag"
   )
 if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
   message("-- GLOB mismatch!")
@@ -82,10 +84,11 @@ file(GLOB_RECURSE NEW_GLOB LIST_DIRECTORIES false "/Users/zachariahdellimore/Cod
 set(OLD_GLOB
   "/Users/zachariahdellimore/Code/RendererZ/src/Shaders/gBufferVertex.vert"
   "/Users/zachariahdellimore/Code/RendererZ/src/Shaders/lightPassVertex.vert"
-  "/Users/zachariahdellimore/Code/RendererZ/src/Shaders/lightVertex.vert"
-  "/Users/zachariahdellimore/Code/RendererZ/src/Shaders/objectVertex.vert"
-  "/Users/zachariahdellimore/Code/RendererZ/src/Shaders/pointVertex.vert"
-  "/Users/zachariahdellimore/Code/RendererZ/src/Shaders/skyBoxVertex.vert"
+  "/Users/zachariahdellimore/Code/RendererZ/src/Shaders/saoPassVertex.vert"
+  "/Users/zachariahdellimore/Code/RendererZ/src/Shaders/unused/lightVertex.vert"
+  "/Users/zachariahdellimore/Code/RendererZ/src/Shaders/unused/objectVertex.vert"
+  "/Users/zachariahdellimore/Code/RendererZ/src/Shaders/unused/pointVertex.vert"
+  "/Users/zachariahdellimore/Code/RendererZ/src/Shaders/unused/skyBoxVertex.vert"
   )
 if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
   message("-- GLOB mismatch!")

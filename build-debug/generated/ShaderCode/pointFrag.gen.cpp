@@ -1,4 +1,4 @@
-// Generated from /Users/zachariahdellimore/Code/RendererZ/src/Shaders/pointFrag.frag by EmbedShader.cmake - do not edit by hand.
+// Generated from /Users/zachariahdellimore/Code/RendererZ/src/Shaders/unused/pointFrag.frag by EmbedShader.cmake - do not edit by hand.
 #include <string>
 
 std::string pointFrag = R"GLSL(#version 330 core

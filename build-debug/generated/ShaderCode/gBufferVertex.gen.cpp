@@ -14,13 +14,12 @@ out vec3 FragPos;
 out mat3 TBN;
 
 uniform mat4 model_z;
-uniform mat4 view_z;
-uniform mat4 projection_z;
+uniform mat4 mvp_z;
 uniform vec2 uvScale_z;
 
 void main()
 {
-    gl_Position = projection_z * view_z * model_z * vec4(aPos, 1.0);
+    gl_Position = mvp_z * vec4(aPos, 1.0);
     FragPos = vec3(model_z * vec4(aPos, 1.0));
     TexCoord = aTexCoord * uvScale_z;
 

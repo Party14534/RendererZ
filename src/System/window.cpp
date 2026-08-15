@@ -24,7 +24,8 @@ Window::Window(u32 width, u32 height, std::string windowName) :
     dLight(Vec3(0., -1, 0.), DirLightProperties()),
     lightPassScreen(Drawable::Plane()),
     saoPassScreen(Drawable::Plane()),
-    saoBlurPassScreen(Drawable::Plane())
+    saoBlurPassScreen(Drawable::Plane()),
+    gBufferVP(4, 4)
 {
     initializeGL(); // Initialize GLFW
 
@@ -48,6 +49,8 @@ Window::Window(u32 width, u32 height, std::string windowName) :
     int fbWidth, fbHeight;
     glfwGetFramebufferSize(win, &fbWidth, &fbHeight);
     glViewport(0, 0, fbWidth, fbHeight);
+    this->width = fbWidth;
+    this->height = fbHeight;
 
     gBuffer.init(fbWidth, fbHeight);
     saoBuffer.init(fbWidth, fbHeight);
@@ -94,6 +97,7 @@ Window::Window(u32 width, u32 height, std::string windowName) :
     lightPassScreen.setScale(Vec3(2., 2., 0.));
     saoPassScreen.setScale(Vec3(2., 2., 0.));
     saoBlurPassScreen.setScale(Vec3(2., 2., 0.));
+    std::cout << width << "x" << height << " vs fb " << fbWidth << "x" << fbHeight << "\n";
 }
 
 Window::~Window() {
@@ -168,15 +172,15 @@ void Window::clear(Color c) {
 }
 
 void Window::draw(Drawable& d) {
-    d.draw(gBufferShader);
+    d.draw(gBufferShader, gBufferVP);
 }
 
 void Window::draw(ComplexDrawable& d) {
-    d.draw(gBufferShader);
+    d.draw(gBufferShader, gBufferVP);
 }
 
 void Window::draw(Scene& s) {
-    s.draw(gBufferShader);
+    s.draw(gBufferShader, gBufferVP);
 }
 
 void Window::setSkyBox(std::shared_ptr<SkyBox> _skyBox) {
@@ -193,8 +197,7 @@ void Window::setGBufferUniforms() {
     gBufferShader->setInt(SHADER_NORMAL_MAP_UNIFORM, 1);
     gBufferShader->setInt(SHADER_SKYBOX_UNIFORM, SKYBOX_TEXTURE_UNIT);
 
-    gBufferShader->setMat4(SHADER_VIEW_SET_UNIFORM, cam.GetViewMatrix());
-    gBufferShader->setMat4(SHADER_PROJECTION_SET_UNIFORM, cam.GetProjectionMatrix());
+    gBufferVP = cam.GetProjectionMatrix() * cam.GetViewMatrix();
 }
 
 void Window::setLightPassUniforms() {

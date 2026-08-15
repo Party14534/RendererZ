@@ -79,55 +79,70 @@ generated/ShaderCode/gBufferVertex.gen.cpp: /Users/zachariahdellimore/Code/Rende
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Embedding shader gBufferVertex"
 	/opt/homebrew/bin/cmake -DIN_FILE=/Users/zachariahdellimore/Code/RendererZ/src/Shaders/gBufferVertex.vert -DVAR_NAME=gBufferVertex -DOUT_FILE=/Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/gBufferVertex.gen.cpp -P /Users/zachariahdellimore/Code/RendererZ/cmake/EmbedShader.cmake
 
-generated/ShaderCode/lightFrag.gen.cpp: /Users/zachariahdellimore/Code/RendererZ/src/Shaders/lightFrag.frag
-generated/ShaderCode/lightFrag.gen.cpp: /Users/zachariahdellimore/Code/RendererZ/cmake/EmbedShader.cmake
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Embedding shader lightFrag"
-	/opt/homebrew/bin/cmake -DIN_FILE=/Users/zachariahdellimore/Code/RendererZ/src/Shaders/lightFrag.frag -DVAR_NAME=lightFrag -DOUT_FILE=/Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/lightFrag.gen.cpp -P /Users/zachariahdellimore/Code/RendererZ/cmake/EmbedShader.cmake
-
 generated/ShaderCode/lightPassFrag.gen.cpp: /Users/zachariahdellimore/Code/RendererZ/src/Shaders/lightPassFrag.frag
 generated/ShaderCode/lightPassFrag.gen.cpp: /Users/zachariahdellimore/Code/RendererZ/cmake/EmbedShader.cmake
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Embedding shader lightPassFrag"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Embedding shader lightPassFrag"
 	/opt/homebrew/bin/cmake -DIN_FILE=/Users/zachariahdellimore/Code/RendererZ/src/Shaders/lightPassFrag.frag -DVAR_NAME=lightPassFrag -DOUT_FILE=/Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/lightPassFrag.gen.cpp -P /Users/zachariahdellimore/Code/RendererZ/cmake/EmbedShader.cmake
 
 generated/ShaderCode/lightPassVertex.gen.cpp: /Users/zachariahdellimore/Code/RendererZ/src/Shaders/lightPassVertex.vert
 generated/ShaderCode/lightPassVertex.gen.cpp: /Users/zachariahdellimore/Code/RendererZ/cmake/EmbedShader.cmake
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Embedding shader lightPassVertex"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Embedding shader lightPassVertex"
 	/opt/homebrew/bin/cmake -DIN_FILE=/Users/zachariahdellimore/Code/RendererZ/src/Shaders/lightPassVertex.vert -DVAR_NAME=lightPassVertex -DOUT_FILE=/Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/lightPassVertex.gen.cpp -P /Users/zachariahdellimore/Code/RendererZ/cmake/EmbedShader.cmake
 
-generated/ShaderCode/lightVertex.gen.cpp: /Users/zachariahdellimore/Code/RendererZ/src/Shaders/lightVertex.vert
+generated/ShaderCode/saoBlurPassFrag.gen.cpp: /Users/zachariahdellimore/Code/RendererZ/src/Shaders/saoBlurPassFrag.frag
+generated/ShaderCode/saoBlurPassFrag.gen.cpp: /Users/zachariahdellimore/Code/RendererZ/cmake/EmbedShader.cmake
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Embedding shader saoBlurPassFrag"
+	/opt/homebrew/bin/cmake -DIN_FILE=/Users/zachariahdellimore/Code/RendererZ/src/Shaders/saoBlurPassFrag.frag -DVAR_NAME=saoBlurPassFrag -DOUT_FILE=/Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/saoBlurPassFrag.gen.cpp -P /Users/zachariahdellimore/Code/RendererZ/cmake/EmbedShader.cmake
+
+generated/ShaderCode/saoPassFrag.gen.cpp: /Users/zachariahdellimore/Code/RendererZ/src/Shaders/saoPassFrag.frag
+generated/ShaderCode/saoPassFrag.gen.cpp: /Users/zachariahdellimore/Code/RendererZ/cmake/EmbedShader.cmake
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Embedding shader saoPassFrag"
+	/opt/homebrew/bin/cmake -DIN_FILE=/Users/zachariahdellimore/Code/RendererZ/src/Shaders/saoPassFrag.frag -DVAR_NAME=saoPassFrag -DOUT_FILE=/Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/saoPassFrag.gen.cpp -P /Users/zachariahdellimore/Code/RendererZ/cmake/EmbedShader.cmake
+
+generated/ShaderCode/saoPassVertex.gen.cpp: /Users/zachariahdellimore/Code/RendererZ/src/Shaders/saoPassVertex.vert
+generated/ShaderCode/saoPassVertex.gen.cpp: /Users/zachariahdellimore/Code/RendererZ/cmake/EmbedShader.cmake
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Embedding shader saoPassVertex"
+	/opt/homebrew/bin/cmake -DIN_FILE=/Users/zachariahdellimore/Code/RendererZ/src/Shaders/saoPassVertex.vert -DVAR_NAME=saoPassVertex -DOUT_FILE=/Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/saoPassVertex.gen.cpp -P /Users/zachariahdellimore/Code/RendererZ/cmake/EmbedShader.cmake
+
+generated/ShaderCode/lightFrag.gen.cpp: /Users/zachariahdellimore/Code/RendererZ/src/Shaders/unused/lightFrag.frag
+generated/ShaderCode/lightFrag.gen.cpp: /Users/zachariahdellimore/Code/RendererZ/cmake/EmbedShader.cmake
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Embedding shader lightFrag"
+	/opt/homebrew/bin/cmake -DIN_FILE=/Users/zachariahdellimore/Code/RendererZ/src/Shaders/unused/lightFrag.frag -DVAR_NAME=lightFrag -DOUT_FILE=/Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/lightFrag.gen.cpp -P /Users/zachariahdellimore/Code/RendererZ/cmake/EmbedShader.cmake
+
+generated/ShaderCode/lightVertex.gen.cpp: /Users/zachariahdellimore/Code/RendererZ/src/Shaders/unused/lightVertex.vert
 generated/ShaderCode/lightVertex.gen.cpp: /Users/zachariahdellimore/Code/RendererZ/cmake/EmbedShader.cmake
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Embedding shader lightVertex"
-	/opt/homebrew/bin/cmake -DIN_FILE=/Users/zachariahdellimore/Code/RendererZ/src/Shaders/lightVertex.vert -DVAR_NAME=lightVertex -DOUT_FILE=/Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/lightVertex.gen.cpp -P /Users/zachariahdellimore/Code/RendererZ/cmake/EmbedShader.cmake
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Embedding shader lightVertex"
+	/opt/homebrew/bin/cmake -DIN_FILE=/Users/zachariahdellimore/Code/RendererZ/src/Shaders/unused/lightVertex.vert -DVAR_NAME=lightVertex -DOUT_FILE=/Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/lightVertex.gen.cpp -P /Users/zachariahdellimore/Code/RendererZ/cmake/EmbedShader.cmake
 
-generated/ShaderCode/objectFrag.gen.cpp: /Users/zachariahdellimore/Code/RendererZ/src/Shaders/objectFrag.frag
+generated/ShaderCode/objectFrag.gen.cpp: /Users/zachariahdellimore/Code/RendererZ/src/Shaders/unused/objectFrag.frag
 generated/ShaderCode/objectFrag.gen.cpp: /Users/zachariahdellimore/Code/RendererZ/cmake/EmbedShader.cmake
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Embedding shader objectFrag"
-	/opt/homebrew/bin/cmake -DIN_FILE=/Users/zachariahdellimore/Code/RendererZ/src/Shaders/objectFrag.frag -DVAR_NAME=objectFrag -DOUT_FILE=/Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/objectFrag.gen.cpp -P /Users/zachariahdellimore/Code/RendererZ/cmake/EmbedShader.cmake
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Embedding shader objectFrag"
+	/opt/homebrew/bin/cmake -DIN_FILE=/Users/zachariahdellimore/Code/RendererZ/src/Shaders/unused/objectFrag.frag -DVAR_NAME=objectFrag -DOUT_FILE=/Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/objectFrag.gen.cpp -P /Users/zachariahdellimore/Code/RendererZ/cmake/EmbedShader.cmake
 
-generated/ShaderCode/objectVertex.gen.cpp: /Users/zachariahdellimore/Code/RendererZ/src/Shaders/objectVertex.vert
+generated/ShaderCode/objectVertex.gen.cpp: /Users/zachariahdellimore/Code/RendererZ/src/Shaders/unused/objectVertex.vert
 generated/ShaderCode/objectVertex.gen.cpp: /Users/zachariahdellimore/Code/RendererZ/cmake/EmbedShader.cmake
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Embedding shader objectVertex"
-	/opt/homebrew/bin/cmake -DIN_FILE=/Users/zachariahdellimore/Code/RendererZ/src/Shaders/objectVertex.vert -DVAR_NAME=objectVertex -DOUT_FILE=/Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/objectVertex.gen.cpp -P /Users/zachariahdellimore/Code/RendererZ/cmake/EmbedShader.cmake
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Embedding shader objectVertex"
+	/opt/homebrew/bin/cmake -DIN_FILE=/Users/zachariahdellimore/Code/RendererZ/src/Shaders/unused/objectVertex.vert -DVAR_NAME=objectVertex -DOUT_FILE=/Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/objectVertex.gen.cpp -P /Users/zachariahdellimore/Code/RendererZ/cmake/EmbedShader.cmake
 
-generated/ShaderCode/pointFrag.gen.cpp: /Users/zachariahdellimore/Code/RendererZ/src/Shaders/pointFrag.frag
+generated/ShaderCode/pointFrag.gen.cpp: /Users/zachariahdellimore/Code/RendererZ/src/Shaders/unused/pointFrag.frag
 generated/ShaderCode/pointFrag.gen.cpp: /Users/zachariahdellimore/Code/RendererZ/cmake/EmbedShader.cmake
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Embedding shader pointFrag"
-	/opt/homebrew/bin/cmake -DIN_FILE=/Users/zachariahdellimore/Code/RendererZ/src/Shaders/pointFrag.frag -DVAR_NAME=pointFrag -DOUT_FILE=/Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/pointFrag.gen.cpp -P /Users/zachariahdellimore/Code/RendererZ/cmake/EmbedShader.cmake
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Embedding shader pointFrag"
+	/opt/homebrew/bin/cmake -DIN_FILE=/Users/zachariahdellimore/Code/RendererZ/src/Shaders/unused/pointFrag.frag -DVAR_NAME=pointFrag -DOUT_FILE=/Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/pointFrag.gen.cpp -P /Users/zachariahdellimore/Code/RendererZ/cmake/EmbedShader.cmake
 
-generated/ShaderCode/pointVertex.gen.cpp: /Users/zachariahdellimore/Code/RendererZ/src/Shaders/pointVertex.vert
+generated/ShaderCode/pointVertex.gen.cpp: /Users/zachariahdellimore/Code/RendererZ/src/Shaders/unused/pointVertex.vert
 generated/ShaderCode/pointVertex.gen.cpp: /Users/zachariahdellimore/Code/RendererZ/cmake/EmbedShader.cmake
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Embedding shader pointVertex"
-	/opt/homebrew/bin/cmake -DIN_FILE=/Users/zachariahdellimore/Code/RendererZ/src/Shaders/pointVertex.vert -DVAR_NAME=pointVertex -DOUT_FILE=/Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/pointVertex.gen.cpp -P /Users/zachariahdellimore/Code/RendererZ/cmake/EmbedShader.cmake
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Embedding shader pointVertex"
+	/opt/homebrew/bin/cmake -DIN_FILE=/Users/zachariahdellimore/Code/RendererZ/src/Shaders/unused/pointVertex.vert -DVAR_NAME=pointVertex -DOUT_FILE=/Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/pointVertex.gen.cpp -P /Users/zachariahdellimore/Code/RendererZ/cmake/EmbedShader.cmake
 
-generated/ShaderCode/skyBoxFrag.gen.cpp: /Users/zachariahdellimore/Code/RendererZ/src/Shaders/skyBoxFrag.frag
+generated/ShaderCode/skyBoxFrag.gen.cpp: /Users/zachariahdellimore/Code/RendererZ/src/Shaders/unused/skyBoxFrag.frag
 generated/ShaderCode/skyBoxFrag.gen.cpp: /Users/zachariahdellimore/Code/RendererZ/cmake/EmbedShader.cmake
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Embedding shader skyBoxFrag"
-	/opt/homebrew/bin/cmake -DIN_FILE=/Users/zachariahdellimore/Code/RendererZ/src/Shaders/skyBoxFrag.frag -DVAR_NAME=skyBoxFrag -DOUT_FILE=/Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/skyBoxFrag.gen.cpp -P /Users/zachariahdellimore/Code/RendererZ/cmake/EmbedShader.cmake
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Embedding shader skyBoxFrag"
+	/opt/homebrew/bin/cmake -DIN_FILE=/Users/zachariahdellimore/Code/RendererZ/src/Shaders/unused/skyBoxFrag.frag -DVAR_NAME=skyBoxFrag -DOUT_FILE=/Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/skyBoxFrag.gen.cpp -P /Users/zachariahdellimore/Code/RendererZ/cmake/EmbedShader.cmake
 
-generated/ShaderCode/skyBoxVertex.gen.cpp: /Users/zachariahdellimore/Code/RendererZ/src/Shaders/skyBoxVertex.vert
+generated/ShaderCode/skyBoxVertex.gen.cpp: /Users/zachariahdellimore/Code/RendererZ/src/Shaders/unused/skyBoxVertex.vert
 generated/ShaderCode/skyBoxVertex.gen.cpp: /Users/zachariahdellimore/Code/RendererZ/cmake/EmbedShader.cmake
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Embedding shader skyBoxVertex"
-	/opt/homebrew/bin/cmake -DIN_FILE=/Users/zachariahdellimore/Code/RendererZ/src/Shaders/skyBoxVertex.vert -DVAR_NAME=skyBoxVertex -DOUT_FILE=/Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/skyBoxVertex.gen.cpp -P /Users/zachariahdellimore/Code/RendererZ/cmake/EmbedShader.cmake
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Embedding shader skyBoxVertex"
+	/opt/homebrew/bin/cmake -DIN_FILE=/Users/zachariahdellimore/Code/RendererZ/src/Shaders/unused/skyBoxVertex.vert -DVAR_NAME=skyBoxVertex -DOUT_FILE=/Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/skyBoxVertex.gen.cpp -P /Users/zachariahdellimore/Code/RendererZ/cmake/EmbedShader.cmake
 
 CMakeFiles/renderer.dir/codegen:
 .PHONY : CMakeFiles/renderer.dir/codegen
@@ -135,7 +150,7 @@ CMakeFiles/renderer.dir/codegen:
 CMakeFiles/renderer.dir/include/glad.c.o: CMakeFiles/renderer.dir/flags.make
 CMakeFiles/renderer.dir/include/glad.c.o: /Users/zachariahdellimore/Code/RendererZ/include/glad.c
 CMakeFiles/renderer.dir/include/glad.c.o: CMakeFiles/renderer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building C object CMakeFiles/renderer.dir/include/glad.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building C object CMakeFiles/renderer.dir/include/glad.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/renderer.dir/include/glad.c.o -MF CMakeFiles/renderer.dir/include/glad.c.o.d -o CMakeFiles/renderer.dir/include/glad.c.o -c /Users/zachariahdellimore/Code/RendererZ/include/glad.c
 
 CMakeFiles/renderer.dir/include/glad.c.i: cmake_force
@@ -149,7 +164,7 @@ CMakeFiles/renderer.dir/include/glad.c.s: cmake_force
 CMakeFiles/renderer.dir/src/Input/input.cpp.o: CMakeFiles/renderer.dir/flags.make
 CMakeFiles/renderer.dir/src/Input/input.cpp.o: /Users/zachariahdellimore/Code/RendererZ/src/Input/input.cpp
 CMakeFiles/renderer.dir/src/Input/input.cpp.o: CMakeFiles/renderer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/renderer.dir/src/Input/input.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/renderer.dir/src/Input/input.cpp.o"
 	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/renderer.dir/src/Input/input.cpp.o -MF CMakeFiles/renderer.dir/src/Input/input.cpp.o.d -o CMakeFiles/renderer.dir/src/Input/input.cpp.o -c /Users/zachariahdellimore/Code/RendererZ/src/Input/input.cpp
 
 CMakeFiles/renderer.dir/src/Input/input.cpp.i: cmake_force
@@ -163,7 +178,7 @@ CMakeFiles/renderer.dir/src/Input/input.cpp.s: cmake_force
 CMakeFiles/renderer.dir/src/Math/math.cpp.o: CMakeFiles/renderer.dir/flags.make
 CMakeFiles/renderer.dir/src/Math/math.cpp.o: /Users/zachariahdellimore/Code/RendererZ/src/Math/math.cpp
 CMakeFiles/renderer.dir/src/Math/math.cpp.o: CMakeFiles/renderer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/renderer.dir/src/Math/math.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/renderer.dir/src/Math/math.cpp.o"
 	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/renderer.dir/src/Math/math.cpp.o -MF CMakeFiles/renderer.dir/src/Math/math.cpp.o.d -o CMakeFiles/renderer.dir/src/Math/math.cpp.o -c /Users/zachariahdellimore/Code/RendererZ/src/Math/math.cpp
 
 CMakeFiles/renderer.dir/src/Math/math.cpp.i: cmake_force
@@ -177,7 +192,7 @@ CMakeFiles/renderer.dir/src/Math/math.cpp.s: cmake_force
 CMakeFiles/renderer.dir/src/Math/matrix.cpp.o: CMakeFiles/renderer.dir/flags.make
 CMakeFiles/renderer.dir/src/Math/matrix.cpp.o: /Users/zachariahdellimore/Code/RendererZ/src/Math/matrix.cpp
 CMakeFiles/renderer.dir/src/Math/matrix.cpp.o: CMakeFiles/renderer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/renderer.dir/src/Math/matrix.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/renderer.dir/src/Math/matrix.cpp.o"
 	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/renderer.dir/src/Math/matrix.cpp.o -MF CMakeFiles/renderer.dir/src/Math/matrix.cpp.o.d -o CMakeFiles/renderer.dir/src/Math/matrix.cpp.o -c /Users/zachariahdellimore/Code/RendererZ/src/Math/matrix.cpp
 
 CMakeFiles/renderer.dir/src/Math/matrix.cpp.i: cmake_force
@@ -191,7 +206,7 @@ CMakeFiles/renderer.dir/src/Math/matrix.cpp.s: cmake_force
 CMakeFiles/renderer.dir/src/Math/vector.cpp.o: CMakeFiles/renderer.dir/flags.make
 CMakeFiles/renderer.dir/src/Math/vector.cpp.o: /Users/zachariahdellimore/Code/RendererZ/src/Math/vector.cpp
 CMakeFiles/renderer.dir/src/Math/vector.cpp.o: CMakeFiles/renderer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/renderer.dir/src/Math/vector.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object CMakeFiles/renderer.dir/src/Math/vector.cpp.o"
 	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/renderer.dir/src/Math/vector.cpp.o -MF CMakeFiles/renderer.dir/src/Math/vector.cpp.o.d -o CMakeFiles/renderer.dir/src/Math/vector.cpp.o -c /Users/zachariahdellimore/Code/RendererZ/src/Math/vector.cpp
 
 CMakeFiles/renderer.dir/src/Math/vector.cpp.i: cmake_force
@@ -205,7 +220,7 @@ CMakeFiles/renderer.dir/src/Math/vector.cpp.s: cmake_force
 CMakeFiles/renderer.dir/src/Objects/drawable.cpp.o: CMakeFiles/renderer.dir/flags.make
 CMakeFiles/renderer.dir/src/Objects/drawable.cpp.o: /Users/zachariahdellimore/Code/RendererZ/src/Objects/drawable.cpp
 CMakeFiles/renderer.dir/src/Objects/drawable.cpp.o: CMakeFiles/renderer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/renderer.dir/src/Objects/drawable.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object CMakeFiles/renderer.dir/src/Objects/drawable.cpp.o"
 	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/renderer.dir/src/Objects/drawable.cpp.o -MF CMakeFiles/renderer.dir/src/Objects/drawable.cpp.o.d -o CMakeFiles/renderer.dir/src/Objects/drawable.cpp.o -c /Users/zachariahdellimore/Code/RendererZ/src/Objects/drawable.cpp
 
 CMakeFiles/renderer.dir/src/Objects/drawable.cpp.i: cmake_force
@@ -219,7 +234,7 @@ CMakeFiles/renderer.dir/src/Objects/drawable.cpp.s: cmake_force
 CMakeFiles/renderer.dir/src/Objects/lightSource.cpp.o: CMakeFiles/renderer.dir/flags.make
 CMakeFiles/renderer.dir/src/Objects/lightSource.cpp.o: /Users/zachariahdellimore/Code/RendererZ/src/Objects/lightSource.cpp
 CMakeFiles/renderer.dir/src/Objects/lightSource.cpp.o: CMakeFiles/renderer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/renderer.dir/src/Objects/lightSource.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object CMakeFiles/renderer.dir/src/Objects/lightSource.cpp.o"
 	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/renderer.dir/src/Objects/lightSource.cpp.o -MF CMakeFiles/renderer.dir/src/Objects/lightSource.cpp.o.d -o CMakeFiles/renderer.dir/src/Objects/lightSource.cpp.o -c /Users/zachariahdellimore/Code/RendererZ/src/Objects/lightSource.cpp
 
 CMakeFiles/renderer.dir/src/Objects/lightSource.cpp.i: cmake_force
@@ -233,7 +248,7 @@ CMakeFiles/renderer.dir/src/Objects/lightSource.cpp.s: cmake_force
 CMakeFiles/renderer.dir/src/Objects/mesh.cpp.o: CMakeFiles/renderer.dir/flags.make
 CMakeFiles/renderer.dir/src/Objects/mesh.cpp.o: /Users/zachariahdellimore/Code/RendererZ/src/Objects/mesh.cpp
 CMakeFiles/renderer.dir/src/Objects/mesh.cpp.o: CMakeFiles/renderer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object CMakeFiles/renderer.dir/src/Objects/mesh.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building CXX object CMakeFiles/renderer.dir/src/Objects/mesh.cpp.o"
 	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/renderer.dir/src/Objects/mesh.cpp.o -MF CMakeFiles/renderer.dir/src/Objects/mesh.cpp.o.d -o CMakeFiles/renderer.dir/src/Objects/mesh.cpp.o -c /Users/zachariahdellimore/Code/RendererZ/src/Objects/mesh.cpp
 
 CMakeFiles/renderer.dir/src/Objects/mesh.cpp.i: cmake_force
@@ -247,7 +262,7 @@ CMakeFiles/renderer.dir/src/Objects/mesh.cpp.s: cmake_force
 CMakeFiles/renderer.dir/src/Objects/primitives.cpp.o: CMakeFiles/renderer.dir/flags.make
 CMakeFiles/renderer.dir/src/Objects/primitives.cpp.o: /Users/zachariahdellimore/Code/RendererZ/src/Objects/primitives.cpp
 CMakeFiles/renderer.dir/src/Objects/primitives.cpp.o: CMakeFiles/renderer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object CMakeFiles/renderer.dir/src/Objects/primitives.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object CMakeFiles/renderer.dir/src/Objects/primitives.cpp.o"
 	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/renderer.dir/src/Objects/primitives.cpp.o -MF CMakeFiles/renderer.dir/src/Objects/primitives.cpp.o.d -o CMakeFiles/renderer.dir/src/Objects/primitives.cpp.o -c /Users/zachariahdellimore/Code/RendererZ/src/Objects/primitives.cpp
 
 CMakeFiles/renderer.dir/src/Objects/primitives.cpp.i: cmake_force
@@ -261,7 +276,7 @@ CMakeFiles/renderer.dir/src/Objects/primitives.cpp.s: cmake_force
 CMakeFiles/renderer.dir/src/Objects/scene.cpp.o: CMakeFiles/renderer.dir/flags.make
 CMakeFiles/renderer.dir/src/Objects/scene.cpp.o: /Users/zachariahdellimore/Code/RendererZ/src/Objects/scene.cpp
 CMakeFiles/renderer.dir/src/Objects/scene.cpp.o: CMakeFiles/renderer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object CMakeFiles/renderer.dir/src/Objects/scene.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building CXX object CMakeFiles/renderer.dir/src/Objects/scene.cpp.o"
 	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/renderer.dir/src/Objects/scene.cpp.o -MF CMakeFiles/renderer.dir/src/Objects/scene.cpp.o.d -o CMakeFiles/renderer.dir/src/Objects/scene.cpp.o -c /Users/zachariahdellimore/Code/RendererZ/src/Objects/scene.cpp
 
 CMakeFiles/renderer.dir/src/Objects/scene.cpp.i: cmake_force
@@ -275,7 +290,7 @@ CMakeFiles/renderer.dir/src/Objects/scene.cpp.s: cmake_force
 CMakeFiles/renderer.dir/src/Objects/skyBox.cpp.o: CMakeFiles/renderer.dir/flags.make
 CMakeFiles/renderer.dir/src/Objects/skyBox.cpp.o: /Users/zachariahdellimore/Code/RendererZ/src/Objects/skyBox.cpp
 CMakeFiles/renderer.dir/src/Objects/skyBox.cpp.o: CMakeFiles/renderer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building CXX object CMakeFiles/renderer.dir/src/Objects/skyBox.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building CXX object CMakeFiles/renderer.dir/src/Objects/skyBox.cpp.o"
 	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/renderer.dir/src/Objects/skyBox.cpp.o -MF CMakeFiles/renderer.dir/src/Objects/skyBox.cpp.o.d -o CMakeFiles/renderer.dir/src/Objects/skyBox.cpp.o -c /Users/zachariahdellimore/Code/RendererZ/src/Objects/skyBox.cpp
 
 CMakeFiles/renderer.dir/src/Objects/skyBox.cpp.i: cmake_force
@@ -289,7 +304,7 @@ CMakeFiles/renderer.dir/src/Objects/skyBox.cpp.s: cmake_force
 CMakeFiles/renderer.dir/src/Objects/texture.cpp.o: CMakeFiles/renderer.dir/flags.make
 CMakeFiles/renderer.dir/src/Objects/texture.cpp.o: /Users/zachariahdellimore/Code/RendererZ/src/Objects/texture.cpp
 CMakeFiles/renderer.dir/src/Objects/texture.cpp.o: CMakeFiles/renderer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object CMakeFiles/renderer.dir/src/Objects/texture.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building CXX object CMakeFiles/renderer.dir/src/Objects/texture.cpp.o"
 	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/renderer.dir/src/Objects/texture.cpp.o -MF CMakeFiles/renderer.dir/src/Objects/texture.cpp.o.d -o CMakeFiles/renderer.dir/src/Objects/texture.cpp.o -c /Users/zachariahdellimore/Code/RendererZ/src/Objects/texture.cpp
 
 CMakeFiles/renderer.dir/src/Objects/texture.cpp.i: cmake_force
@@ -303,7 +318,7 @@ CMakeFiles/renderer.dir/src/Objects/texture.cpp.s: cmake_force
 CMakeFiles/renderer.dir/src/Scenes/ManyLightsScene.cpp.o: CMakeFiles/renderer.dir/flags.make
 CMakeFiles/renderer.dir/src/Scenes/ManyLightsScene.cpp.o: /Users/zachariahdellimore/Code/RendererZ/src/Scenes/ManyLightsScene.cpp
 CMakeFiles/renderer.dir/src/Scenes/ManyLightsScene.cpp.o: CMakeFiles/renderer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building CXX object CMakeFiles/renderer.dir/src/Scenes/ManyLightsScene.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building CXX object CMakeFiles/renderer.dir/src/Scenes/ManyLightsScene.cpp.o"
 	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/renderer.dir/src/Scenes/ManyLightsScene.cpp.o -MF CMakeFiles/renderer.dir/src/Scenes/ManyLightsScene.cpp.o.d -o CMakeFiles/renderer.dir/src/Scenes/ManyLightsScene.cpp.o -c /Users/zachariahdellimore/Code/RendererZ/src/Scenes/ManyLightsScene.cpp
 
 CMakeFiles/renderer.dir/src/Scenes/ManyLightsScene.cpp.i: cmake_force
@@ -317,7 +332,7 @@ CMakeFiles/renderer.dir/src/Scenes/ManyLightsScene.cpp.s: cmake_force
 CMakeFiles/renderer.dir/src/Scenes/TestSceneOne.cpp.o: CMakeFiles/renderer.dir/flags.make
 CMakeFiles/renderer.dir/src/Scenes/TestSceneOne.cpp.o: /Users/zachariahdellimore/Code/RendererZ/src/Scenes/TestSceneOne.cpp
 CMakeFiles/renderer.dir/src/Scenes/TestSceneOne.cpp.o: CMakeFiles/renderer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building CXX object CMakeFiles/renderer.dir/src/Scenes/TestSceneOne.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building CXX object CMakeFiles/renderer.dir/src/Scenes/TestSceneOne.cpp.o"
 	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/renderer.dir/src/Scenes/TestSceneOne.cpp.o -MF CMakeFiles/renderer.dir/src/Scenes/TestSceneOne.cpp.o.d -o CMakeFiles/renderer.dir/src/Scenes/TestSceneOne.cpp.o -c /Users/zachariahdellimore/Code/RendererZ/src/Scenes/TestSceneOne.cpp
 
 CMakeFiles/renderer.dir/src/Scenes/TestSceneOne.cpp.i: cmake_force
@@ -331,7 +346,7 @@ CMakeFiles/renderer.dir/src/Scenes/TestSceneOne.cpp.s: cmake_force
 CMakeFiles/renderer.dir/src/Shaders/shaders.cpp.o: CMakeFiles/renderer.dir/flags.make
 CMakeFiles/renderer.dir/src/Shaders/shaders.cpp.o: /Users/zachariahdellimore/Code/RendererZ/src/Shaders/shaders.cpp
 CMakeFiles/renderer.dir/src/Shaders/shaders.cpp.o: CMakeFiles/renderer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building CXX object CMakeFiles/renderer.dir/src/Shaders/shaders.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building CXX object CMakeFiles/renderer.dir/src/Shaders/shaders.cpp.o"
 	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/renderer.dir/src/Shaders/shaders.cpp.o -MF CMakeFiles/renderer.dir/src/Shaders/shaders.cpp.o.d -o CMakeFiles/renderer.dir/src/Shaders/shaders.cpp.o -c /Users/zachariahdellimore/Code/RendererZ/src/Shaders/shaders.cpp
 
 CMakeFiles/renderer.dir/src/Shaders/shaders.cpp.i: cmake_force
@@ -345,7 +360,7 @@ CMakeFiles/renderer.dir/src/Shaders/shaders.cpp.s: cmake_force
 CMakeFiles/renderer.dir/src/System/camera.cpp.o: CMakeFiles/renderer.dir/flags.make
 CMakeFiles/renderer.dir/src/System/camera.cpp.o: /Users/zachariahdellimore/Code/RendererZ/src/System/camera.cpp
 CMakeFiles/renderer.dir/src/System/camera.cpp.o: CMakeFiles/renderer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building CXX object CMakeFiles/renderer.dir/src/System/camera.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building CXX object CMakeFiles/renderer.dir/src/System/camera.cpp.o"
 	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/renderer.dir/src/System/camera.cpp.o -MF CMakeFiles/renderer.dir/src/System/camera.cpp.o.d -o CMakeFiles/renderer.dir/src/System/camera.cpp.o -c /Users/zachariahdellimore/Code/RendererZ/src/System/camera.cpp
 
 CMakeFiles/renderer.dir/src/System/camera.cpp.i: cmake_force
@@ -359,7 +374,7 @@ CMakeFiles/renderer.dir/src/System/camera.cpp.s: cmake_force
 CMakeFiles/renderer.dir/src/System/gBuffer.cpp.o: CMakeFiles/renderer.dir/flags.make
 CMakeFiles/renderer.dir/src/System/gBuffer.cpp.o: /Users/zachariahdellimore/Code/RendererZ/src/System/gBuffer.cpp
 CMakeFiles/renderer.dir/src/System/gBuffer.cpp.o: CMakeFiles/renderer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building CXX object CMakeFiles/renderer.dir/src/System/gBuffer.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Building CXX object CMakeFiles/renderer.dir/src/System/gBuffer.cpp.o"
 	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/renderer.dir/src/System/gBuffer.cpp.o -MF CMakeFiles/renderer.dir/src/System/gBuffer.cpp.o.d -o CMakeFiles/renderer.dir/src/System/gBuffer.cpp.o -c /Users/zachariahdellimore/Code/RendererZ/src/System/gBuffer.cpp
 
 CMakeFiles/renderer.dir/src/System/gBuffer.cpp.i: cmake_force
@@ -373,7 +388,7 @@ CMakeFiles/renderer.dir/src/System/gBuffer.cpp.s: cmake_force
 CMakeFiles/renderer.dir/src/System/window.cpp.o: CMakeFiles/renderer.dir/flags.make
 CMakeFiles/renderer.dir/src/System/window.cpp.o: /Users/zachariahdellimore/Code/RendererZ/src/System/window.cpp
 CMakeFiles/renderer.dir/src/System/window.cpp.o: CMakeFiles/renderer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building CXX object CMakeFiles/renderer.dir/src/System/window.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Building CXX object CMakeFiles/renderer.dir/src/System/window.cpp.o"
 	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/renderer.dir/src/System/window.cpp.o -MF CMakeFiles/renderer.dir/src/System/window.cpp.o.d -o CMakeFiles/renderer.dir/src/System/window.cpp.o -c /Users/zachariahdellimore/Code/RendererZ/src/System/window.cpp
 
 CMakeFiles/renderer.dir/src/System/window.cpp.i: cmake_force
@@ -387,7 +402,7 @@ CMakeFiles/renderer.dir/src/System/window.cpp.s: cmake_force
 CMakeFiles/renderer.dir/src/Tools/objectLoading.cpp.o: CMakeFiles/renderer.dir/flags.make
 CMakeFiles/renderer.dir/src/Tools/objectLoading.cpp.o: /Users/zachariahdellimore/Code/RendererZ/src/Tools/objectLoading.cpp
 CMakeFiles/renderer.dir/src/Tools/objectLoading.cpp.o: CMakeFiles/renderer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building CXX object CMakeFiles/renderer.dir/src/Tools/objectLoading.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_34) "Building CXX object CMakeFiles/renderer.dir/src/Tools/objectLoading.cpp.o"
 	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/renderer.dir/src/Tools/objectLoading.cpp.o -MF CMakeFiles/renderer.dir/src/Tools/objectLoading.cpp.o.d -o CMakeFiles/renderer.dir/src/Tools/objectLoading.cpp.o -c /Users/zachariahdellimore/Code/RendererZ/src/Tools/objectLoading.cpp
 
 CMakeFiles/renderer.dir/src/Tools/objectLoading.cpp.i: cmake_force
@@ -401,7 +416,7 @@ CMakeFiles/renderer.dir/src/Tools/objectLoading.cpp.s: cmake_force
 CMakeFiles/renderer.dir/src/global.cpp.o: CMakeFiles/renderer.dir/flags.make
 CMakeFiles/renderer.dir/src/global.cpp.o: /Users/zachariahdellimore/Code/RendererZ/src/global.cpp
 CMakeFiles/renderer.dir/src/global.cpp.o: CMakeFiles/renderer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Building CXX object CMakeFiles/renderer.dir/src/global.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_35) "Building CXX object CMakeFiles/renderer.dir/src/global.cpp.o"
 	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/renderer.dir/src/global.cpp.o -MF CMakeFiles/renderer.dir/src/global.cpp.o.d -o CMakeFiles/renderer.dir/src/global.cpp.o -c /Users/zachariahdellimore/Code/RendererZ/src/global.cpp
 
 CMakeFiles/renderer.dir/src/global.cpp.i: cmake_force
@@ -415,7 +430,7 @@ CMakeFiles/renderer.dir/src/global.cpp.s: cmake_force
 CMakeFiles/renderer.dir/src/main.cpp.o: CMakeFiles/renderer.dir/flags.make
 CMakeFiles/renderer.dir/src/main.cpp.o: /Users/zachariahdellimore/Code/RendererZ/src/main.cpp
 CMakeFiles/renderer.dir/src/main.cpp.o: CMakeFiles/renderer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Building CXX object CMakeFiles/renderer.dir/src/main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_36) "Building CXX object CMakeFiles/renderer.dir/src/main.cpp.o"
 	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/renderer.dir/src/main.cpp.o -MF CMakeFiles/renderer.dir/src/main.cpp.o.d -o CMakeFiles/renderer.dir/src/main.cpp.o -c /Users/zachariahdellimore/Code/RendererZ/src/main.cpp
 
 CMakeFiles/renderer.dir/src/main.cpp.i: cmake_force
@@ -429,7 +444,7 @@ CMakeFiles/renderer.dir/src/main.cpp.s: cmake_force
 CMakeFiles/renderer.dir/generated/ShaderCode/gBufferFrag.gen.cpp.o: CMakeFiles/renderer.dir/flags.make
 CMakeFiles/renderer.dir/generated/ShaderCode/gBufferFrag.gen.cpp.o: generated/ShaderCode/gBufferFrag.gen.cpp
 CMakeFiles/renderer.dir/generated/ShaderCode/gBufferFrag.gen.cpp.o: CMakeFiles/renderer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_34) "Building CXX object CMakeFiles/renderer.dir/generated/ShaderCode/gBufferFrag.gen.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_37) "Building CXX object CMakeFiles/renderer.dir/generated/ShaderCode/gBufferFrag.gen.cpp.o"
 	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/renderer.dir/generated/ShaderCode/gBufferFrag.gen.cpp.o -MF CMakeFiles/renderer.dir/generated/ShaderCode/gBufferFrag.gen.cpp.o.d -o CMakeFiles/renderer.dir/generated/ShaderCode/gBufferFrag.gen.cpp.o -c /Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/gBufferFrag.gen.cpp
 
 CMakeFiles/renderer.dir/generated/ShaderCode/gBufferFrag.gen.cpp.i: cmake_force
@@ -443,7 +458,7 @@ CMakeFiles/renderer.dir/generated/ShaderCode/gBufferFrag.gen.cpp.s: cmake_force
 CMakeFiles/renderer.dir/generated/ShaderCode/gBufferVertex.gen.cpp.o: CMakeFiles/renderer.dir/flags.make
 CMakeFiles/renderer.dir/generated/ShaderCode/gBufferVertex.gen.cpp.o: generated/ShaderCode/gBufferVertex.gen.cpp
 CMakeFiles/renderer.dir/generated/ShaderCode/gBufferVertex.gen.cpp.o: CMakeFiles/renderer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_35) "Building CXX object CMakeFiles/renderer.dir/generated/ShaderCode/gBufferVertex.gen.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_38) "Building CXX object CMakeFiles/renderer.dir/generated/ShaderCode/gBufferVertex.gen.cpp.o"
 	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/renderer.dir/generated/ShaderCode/gBufferVertex.gen.cpp.o -MF CMakeFiles/renderer.dir/generated/ShaderCode/gBufferVertex.gen.cpp.o.d -o CMakeFiles/renderer.dir/generated/ShaderCode/gBufferVertex.gen.cpp.o -c /Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/gBufferVertex.gen.cpp
 
 CMakeFiles/renderer.dir/generated/ShaderCode/gBufferVertex.gen.cpp.i: cmake_force
@@ -454,24 +469,10 @@ CMakeFiles/renderer.dir/generated/ShaderCode/gBufferVertex.gen.cpp.s: cmake_forc
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/renderer.dir/generated/ShaderCode/gBufferVertex.gen.cpp.s"
 	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/gBufferVertex.gen.cpp -o CMakeFiles/renderer.dir/generated/ShaderCode/gBufferVertex.gen.cpp.s
 
-CMakeFiles/renderer.dir/generated/ShaderCode/lightFrag.gen.cpp.o: CMakeFiles/renderer.dir/flags.make
-CMakeFiles/renderer.dir/generated/ShaderCode/lightFrag.gen.cpp.o: generated/ShaderCode/lightFrag.gen.cpp
-CMakeFiles/renderer.dir/generated/ShaderCode/lightFrag.gen.cpp.o: CMakeFiles/renderer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_36) "Building CXX object CMakeFiles/renderer.dir/generated/ShaderCode/lightFrag.gen.cpp.o"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/renderer.dir/generated/ShaderCode/lightFrag.gen.cpp.o -MF CMakeFiles/renderer.dir/generated/ShaderCode/lightFrag.gen.cpp.o.d -o CMakeFiles/renderer.dir/generated/ShaderCode/lightFrag.gen.cpp.o -c /Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/lightFrag.gen.cpp
-
-CMakeFiles/renderer.dir/generated/ShaderCode/lightFrag.gen.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/renderer.dir/generated/ShaderCode/lightFrag.gen.cpp.i"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/lightFrag.gen.cpp > CMakeFiles/renderer.dir/generated/ShaderCode/lightFrag.gen.cpp.i
-
-CMakeFiles/renderer.dir/generated/ShaderCode/lightFrag.gen.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/renderer.dir/generated/ShaderCode/lightFrag.gen.cpp.s"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/lightFrag.gen.cpp -o CMakeFiles/renderer.dir/generated/ShaderCode/lightFrag.gen.cpp.s
-
 CMakeFiles/renderer.dir/generated/ShaderCode/lightPassFrag.gen.cpp.o: CMakeFiles/renderer.dir/flags.make
 CMakeFiles/renderer.dir/generated/ShaderCode/lightPassFrag.gen.cpp.o: generated/ShaderCode/lightPassFrag.gen.cpp
 CMakeFiles/renderer.dir/generated/ShaderCode/lightPassFrag.gen.cpp.o: CMakeFiles/renderer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_37) "Building CXX object CMakeFiles/renderer.dir/generated/ShaderCode/lightPassFrag.gen.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_39) "Building CXX object CMakeFiles/renderer.dir/generated/ShaderCode/lightPassFrag.gen.cpp.o"
 	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/renderer.dir/generated/ShaderCode/lightPassFrag.gen.cpp.o -MF CMakeFiles/renderer.dir/generated/ShaderCode/lightPassFrag.gen.cpp.o.d -o CMakeFiles/renderer.dir/generated/ShaderCode/lightPassFrag.gen.cpp.o -c /Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/lightPassFrag.gen.cpp
 
 CMakeFiles/renderer.dir/generated/ShaderCode/lightPassFrag.gen.cpp.i: cmake_force
@@ -485,7 +486,7 @@ CMakeFiles/renderer.dir/generated/ShaderCode/lightPassFrag.gen.cpp.s: cmake_forc
 CMakeFiles/renderer.dir/generated/ShaderCode/lightPassVertex.gen.cpp.o: CMakeFiles/renderer.dir/flags.make
 CMakeFiles/renderer.dir/generated/ShaderCode/lightPassVertex.gen.cpp.o: generated/ShaderCode/lightPassVertex.gen.cpp
 CMakeFiles/renderer.dir/generated/ShaderCode/lightPassVertex.gen.cpp.o: CMakeFiles/renderer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_38) "Building CXX object CMakeFiles/renderer.dir/generated/ShaderCode/lightPassVertex.gen.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_40) "Building CXX object CMakeFiles/renderer.dir/generated/ShaderCode/lightPassVertex.gen.cpp.o"
 	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/renderer.dir/generated/ShaderCode/lightPassVertex.gen.cpp.o -MF CMakeFiles/renderer.dir/generated/ShaderCode/lightPassVertex.gen.cpp.o.d -o CMakeFiles/renderer.dir/generated/ShaderCode/lightPassVertex.gen.cpp.o -c /Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/lightPassVertex.gen.cpp
 
 CMakeFiles/renderer.dir/generated/ShaderCode/lightPassVertex.gen.cpp.i: cmake_force
@@ -496,10 +497,66 @@ CMakeFiles/renderer.dir/generated/ShaderCode/lightPassVertex.gen.cpp.s: cmake_fo
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/renderer.dir/generated/ShaderCode/lightPassVertex.gen.cpp.s"
 	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/lightPassVertex.gen.cpp -o CMakeFiles/renderer.dir/generated/ShaderCode/lightPassVertex.gen.cpp.s
 
+CMakeFiles/renderer.dir/generated/ShaderCode/saoBlurPassFrag.gen.cpp.o: CMakeFiles/renderer.dir/flags.make
+CMakeFiles/renderer.dir/generated/ShaderCode/saoBlurPassFrag.gen.cpp.o: generated/ShaderCode/saoBlurPassFrag.gen.cpp
+CMakeFiles/renderer.dir/generated/ShaderCode/saoBlurPassFrag.gen.cpp.o: CMakeFiles/renderer.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_41) "Building CXX object CMakeFiles/renderer.dir/generated/ShaderCode/saoBlurPassFrag.gen.cpp.o"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/renderer.dir/generated/ShaderCode/saoBlurPassFrag.gen.cpp.o -MF CMakeFiles/renderer.dir/generated/ShaderCode/saoBlurPassFrag.gen.cpp.o.d -o CMakeFiles/renderer.dir/generated/ShaderCode/saoBlurPassFrag.gen.cpp.o -c /Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/saoBlurPassFrag.gen.cpp
+
+CMakeFiles/renderer.dir/generated/ShaderCode/saoBlurPassFrag.gen.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/renderer.dir/generated/ShaderCode/saoBlurPassFrag.gen.cpp.i"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/saoBlurPassFrag.gen.cpp > CMakeFiles/renderer.dir/generated/ShaderCode/saoBlurPassFrag.gen.cpp.i
+
+CMakeFiles/renderer.dir/generated/ShaderCode/saoBlurPassFrag.gen.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/renderer.dir/generated/ShaderCode/saoBlurPassFrag.gen.cpp.s"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/saoBlurPassFrag.gen.cpp -o CMakeFiles/renderer.dir/generated/ShaderCode/saoBlurPassFrag.gen.cpp.s
+
+CMakeFiles/renderer.dir/generated/ShaderCode/saoPassFrag.gen.cpp.o: CMakeFiles/renderer.dir/flags.make
+CMakeFiles/renderer.dir/generated/ShaderCode/saoPassFrag.gen.cpp.o: generated/ShaderCode/saoPassFrag.gen.cpp
+CMakeFiles/renderer.dir/generated/ShaderCode/saoPassFrag.gen.cpp.o: CMakeFiles/renderer.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_42) "Building CXX object CMakeFiles/renderer.dir/generated/ShaderCode/saoPassFrag.gen.cpp.o"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/renderer.dir/generated/ShaderCode/saoPassFrag.gen.cpp.o -MF CMakeFiles/renderer.dir/generated/ShaderCode/saoPassFrag.gen.cpp.o.d -o CMakeFiles/renderer.dir/generated/ShaderCode/saoPassFrag.gen.cpp.o -c /Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/saoPassFrag.gen.cpp
+
+CMakeFiles/renderer.dir/generated/ShaderCode/saoPassFrag.gen.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/renderer.dir/generated/ShaderCode/saoPassFrag.gen.cpp.i"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/saoPassFrag.gen.cpp > CMakeFiles/renderer.dir/generated/ShaderCode/saoPassFrag.gen.cpp.i
+
+CMakeFiles/renderer.dir/generated/ShaderCode/saoPassFrag.gen.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/renderer.dir/generated/ShaderCode/saoPassFrag.gen.cpp.s"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/saoPassFrag.gen.cpp -o CMakeFiles/renderer.dir/generated/ShaderCode/saoPassFrag.gen.cpp.s
+
+CMakeFiles/renderer.dir/generated/ShaderCode/saoPassVertex.gen.cpp.o: CMakeFiles/renderer.dir/flags.make
+CMakeFiles/renderer.dir/generated/ShaderCode/saoPassVertex.gen.cpp.o: generated/ShaderCode/saoPassVertex.gen.cpp
+CMakeFiles/renderer.dir/generated/ShaderCode/saoPassVertex.gen.cpp.o: CMakeFiles/renderer.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_43) "Building CXX object CMakeFiles/renderer.dir/generated/ShaderCode/saoPassVertex.gen.cpp.o"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/renderer.dir/generated/ShaderCode/saoPassVertex.gen.cpp.o -MF CMakeFiles/renderer.dir/generated/ShaderCode/saoPassVertex.gen.cpp.o.d -o CMakeFiles/renderer.dir/generated/ShaderCode/saoPassVertex.gen.cpp.o -c /Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/saoPassVertex.gen.cpp
+
+CMakeFiles/renderer.dir/generated/ShaderCode/saoPassVertex.gen.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/renderer.dir/generated/ShaderCode/saoPassVertex.gen.cpp.i"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/saoPassVertex.gen.cpp > CMakeFiles/renderer.dir/generated/ShaderCode/saoPassVertex.gen.cpp.i
+
+CMakeFiles/renderer.dir/generated/ShaderCode/saoPassVertex.gen.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/renderer.dir/generated/ShaderCode/saoPassVertex.gen.cpp.s"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/saoPassVertex.gen.cpp -o CMakeFiles/renderer.dir/generated/ShaderCode/saoPassVertex.gen.cpp.s
+
+CMakeFiles/renderer.dir/generated/ShaderCode/lightFrag.gen.cpp.o: CMakeFiles/renderer.dir/flags.make
+CMakeFiles/renderer.dir/generated/ShaderCode/lightFrag.gen.cpp.o: generated/ShaderCode/lightFrag.gen.cpp
+CMakeFiles/renderer.dir/generated/ShaderCode/lightFrag.gen.cpp.o: CMakeFiles/renderer.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_44) "Building CXX object CMakeFiles/renderer.dir/generated/ShaderCode/lightFrag.gen.cpp.o"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/renderer.dir/generated/ShaderCode/lightFrag.gen.cpp.o -MF CMakeFiles/renderer.dir/generated/ShaderCode/lightFrag.gen.cpp.o.d -o CMakeFiles/renderer.dir/generated/ShaderCode/lightFrag.gen.cpp.o -c /Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/lightFrag.gen.cpp
+
+CMakeFiles/renderer.dir/generated/ShaderCode/lightFrag.gen.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/renderer.dir/generated/ShaderCode/lightFrag.gen.cpp.i"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/lightFrag.gen.cpp > CMakeFiles/renderer.dir/generated/ShaderCode/lightFrag.gen.cpp.i
+
+CMakeFiles/renderer.dir/generated/ShaderCode/lightFrag.gen.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/renderer.dir/generated/ShaderCode/lightFrag.gen.cpp.s"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/lightFrag.gen.cpp -o CMakeFiles/renderer.dir/generated/ShaderCode/lightFrag.gen.cpp.s
+
 CMakeFiles/renderer.dir/generated/ShaderCode/lightVertex.gen.cpp.o: CMakeFiles/renderer.dir/flags.make
 CMakeFiles/renderer.dir/generated/ShaderCode/lightVertex.gen.cpp.o: generated/ShaderCode/lightVertex.gen.cpp
 CMakeFiles/renderer.dir/generated/ShaderCode/lightVertex.gen.cpp.o: CMakeFiles/renderer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_39) "Building CXX object CMakeFiles/renderer.dir/generated/ShaderCode/lightVertex.gen.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_45) "Building CXX object CMakeFiles/renderer.dir/generated/ShaderCode/lightVertex.gen.cpp.o"
 	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/renderer.dir/generated/ShaderCode/lightVertex.gen.cpp.o -MF CMakeFiles/renderer.dir/generated/ShaderCode/lightVertex.gen.cpp.o.d -o CMakeFiles/renderer.dir/generated/ShaderCode/lightVertex.gen.cpp.o -c /Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/lightVertex.gen.cpp
 
 CMakeFiles/renderer.dir/generated/ShaderCode/lightVertex.gen.cpp.i: cmake_force
@@ -513,7 +570,7 @@ CMakeFiles/renderer.dir/generated/ShaderCode/lightVertex.gen.cpp.s: cmake_force
 CMakeFiles/renderer.dir/generated/ShaderCode/objectFrag.gen.cpp.o: CMakeFiles/renderer.dir/flags.make
 CMakeFiles/renderer.dir/generated/ShaderCode/objectFrag.gen.cpp.o: generated/ShaderCode/objectFrag.gen.cpp
 CMakeFiles/renderer.dir/generated/ShaderCode/objectFrag.gen.cpp.o: CMakeFiles/renderer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_40) "Building CXX object CMakeFiles/renderer.dir/generated/ShaderCode/objectFrag.gen.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_46) "Building CXX object CMakeFiles/renderer.dir/generated/ShaderCode/objectFrag.gen.cpp.o"
 	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/renderer.dir/generated/ShaderCode/objectFrag.gen.cpp.o -MF CMakeFiles/renderer.dir/generated/ShaderCode/objectFrag.gen.cpp.o.d -o CMakeFiles/renderer.dir/generated/ShaderCode/objectFrag.gen.cpp.o -c /Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/objectFrag.gen.cpp
 
 CMakeFiles/renderer.dir/generated/ShaderCode/objectFrag.gen.cpp.i: cmake_force
@@ -527,7 +584,7 @@ CMakeFiles/renderer.dir/generated/ShaderCode/objectFrag.gen.cpp.s: cmake_force
 CMakeFiles/renderer.dir/generated/ShaderCode/objectVertex.gen.cpp.o: CMakeFiles/renderer.dir/flags.make
 CMakeFiles/renderer.dir/generated/ShaderCode/objectVertex.gen.cpp.o: generated/ShaderCode/objectVertex.gen.cpp
 CMakeFiles/renderer.dir/generated/ShaderCode/objectVertex.gen.cpp.o: CMakeFiles/renderer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_41) "Building CXX object CMakeFiles/renderer.dir/generated/ShaderCode/objectVertex.gen.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_47) "Building CXX object CMakeFiles/renderer.dir/generated/ShaderCode/objectVertex.gen.cpp.o"
 	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/renderer.dir/generated/ShaderCode/objectVertex.gen.cpp.o -MF CMakeFiles/renderer.dir/generated/ShaderCode/objectVertex.gen.cpp.o.d -o CMakeFiles/renderer.dir/generated/ShaderCode/objectVertex.gen.cpp.o -c /Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/objectVertex.gen.cpp
 
 CMakeFiles/renderer.dir/generated/ShaderCode/objectVertex.gen.cpp.i: cmake_force
@@ -541,7 +598,7 @@ CMakeFiles/renderer.dir/generated/ShaderCode/objectVertex.gen.cpp.s: cmake_force
 CMakeFiles/renderer.dir/generated/ShaderCode/pointFrag.gen.cpp.o: CMakeFiles/renderer.dir/flags.make
 CMakeFiles/renderer.dir/generated/ShaderCode/pointFrag.gen.cpp.o: generated/ShaderCode/pointFrag.gen.cpp
 CMakeFiles/renderer.dir/generated/ShaderCode/pointFrag.gen.cpp.o: CMakeFiles/renderer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_42) "Building CXX object CMakeFiles/renderer.dir/generated/ShaderCode/pointFrag.gen.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_48) "Building CXX object CMakeFiles/renderer.dir/generated/ShaderCode/pointFrag.gen.cpp.o"
 	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/renderer.dir/generated/ShaderCode/pointFrag.gen.cpp.o -MF CMakeFiles/renderer.dir/generated/ShaderCode/pointFrag.gen.cpp.o.d -o CMakeFiles/renderer.dir/generated/ShaderCode/pointFrag.gen.cpp.o -c /Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/pointFrag.gen.cpp
 
 CMakeFiles/renderer.dir/generated/ShaderCode/pointFrag.gen.cpp.i: cmake_force
@@ -555,7 +612,7 @@ CMakeFiles/renderer.dir/generated/ShaderCode/pointFrag.gen.cpp.s: cmake_force
 CMakeFiles/renderer.dir/generated/ShaderCode/pointVertex.gen.cpp.o: CMakeFiles/renderer.dir/flags.make
 CMakeFiles/renderer.dir/generated/ShaderCode/pointVertex.gen.cpp.o: generated/ShaderCode/pointVertex.gen.cpp
 CMakeFiles/renderer.dir/generated/ShaderCode/pointVertex.gen.cpp.o: CMakeFiles/renderer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_43) "Building CXX object CMakeFiles/renderer.dir/generated/ShaderCode/pointVertex.gen.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_49) "Building CXX object CMakeFiles/renderer.dir/generated/ShaderCode/pointVertex.gen.cpp.o"
 	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/renderer.dir/generated/ShaderCode/pointVertex.gen.cpp.o -MF CMakeFiles/renderer.dir/generated/ShaderCode/pointVertex.gen.cpp.o.d -o CMakeFiles/renderer.dir/generated/ShaderCode/pointVertex.gen.cpp.o -c /Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/pointVertex.gen.cpp
 
 CMakeFiles/renderer.dir/generated/ShaderCode/pointVertex.gen.cpp.i: cmake_force
@@ -569,7 +626,7 @@ CMakeFiles/renderer.dir/generated/ShaderCode/pointVertex.gen.cpp.s: cmake_force
 CMakeFiles/renderer.dir/generated/ShaderCode/skyBoxFrag.gen.cpp.o: CMakeFiles/renderer.dir/flags.make
 CMakeFiles/renderer.dir/generated/ShaderCode/skyBoxFrag.gen.cpp.o: generated/ShaderCode/skyBoxFrag.gen.cpp
 CMakeFiles/renderer.dir/generated/ShaderCode/skyBoxFrag.gen.cpp.o: CMakeFiles/renderer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_44) "Building CXX object CMakeFiles/renderer.dir/generated/ShaderCode/skyBoxFrag.gen.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_50) "Building CXX object CMakeFiles/renderer.dir/generated/ShaderCode/skyBoxFrag.gen.cpp.o"
 	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/renderer.dir/generated/ShaderCode/skyBoxFrag.gen.cpp.o -MF CMakeFiles/renderer.dir/generated/ShaderCode/skyBoxFrag.gen.cpp.o.d -o CMakeFiles/renderer.dir/generated/ShaderCode/skyBoxFrag.gen.cpp.o -c /Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/skyBoxFrag.gen.cpp
 
 CMakeFiles/renderer.dir/generated/ShaderCode/skyBoxFrag.gen.cpp.i: cmake_force
@@ -583,7 +640,7 @@ CMakeFiles/renderer.dir/generated/ShaderCode/skyBoxFrag.gen.cpp.s: cmake_force
 CMakeFiles/renderer.dir/generated/ShaderCode/skyBoxVertex.gen.cpp.o: CMakeFiles/renderer.dir/flags.make
 CMakeFiles/renderer.dir/generated/ShaderCode/skyBoxVertex.gen.cpp.o: generated/ShaderCode/skyBoxVertex.gen.cpp
 CMakeFiles/renderer.dir/generated/ShaderCode/skyBoxVertex.gen.cpp.o: CMakeFiles/renderer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_45) "Building CXX object CMakeFiles/renderer.dir/generated/ShaderCode/skyBoxVertex.gen.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_51) "Building CXX object CMakeFiles/renderer.dir/generated/ShaderCode/skyBoxVertex.gen.cpp.o"
 	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/renderer.dir/generated/ShaderCode/skyBoxVertex.gen.cpp.o -MF CMakeFiles/renderer.dir/generated/ShaderCode/skyBoxVertex.gen.cpp.o.d -o CMakeFiles/renderer.dir/generated/ShaderCode/skyBoxVertex.gen.cpp.o -c /Users/zachariahdellimore/Code/RendererZ/build-debug/generated/ShaderCode/skyBoxVertex.gen.cpp
 
 CMakeFiles/renderer.dir/generated/ShaderCode/skyBoxVertex.gen.cpp.i: cmake_force
@@ -619,9 +676,12 @@ renderer_OBJECTS = \
 "CMakeFiles/renderer.dir/src/main.cpp.o" \
 "CMakeFiles/renderer.dir/generated/ShaderCode/gBufferFrag.gen.cpp.o" \
 "CMakeFiles/renderer.dir/generated/ShaderCode/gBufferVertex.gen.cpp.o" \
-"CMakeFiles/renderer.dir/generated/ShaderCode/lightFrag.gen.cpp.o" \
 "CMakeFiles/renderer.dir/generated/ShaderCode/lightPassFrag.gen.cpp.o" \
 "CMakeFiles/renderer.dir/generated/ShaderCode/lightPassVertex.gen.cpp.o" \
+"CMakeFiles/renderer.dir/generated/ShaderCode/saoBlurPassFrag.gen.cpp.o" \
+"CMakeFiles/renderer.dir/generated/ShaderCode/saoPassFrag.gen.cpp.o" \
+"CMakeFiles/renderer.dir/generated/ShaderCode/saoPassVertex.gen.cpp.o" \
+"CMakeFiles/renderer.dir/generated/ShaderCode/lightFrag.gen.cpp.o" \
 "CMakeFiles/renderer.dir/generated/ShaderCode/lightVertex.gen.cpp.o" \
 "CMakeFiles/renderer.dir/generated/ShaderCode/objectFrag.gen.cpp.o" \
 "CMakeFiles/renderer.dir/generated/ShaderCode/objectVertex.gen.cpp.o" \
@@ -656,9 +716,12 @@ renderer: CMakeFiles/renderer.dir/src/global.cpp.o
 renderer: CMakeFiles/renderer.dir/src/main.cpp.o
 renderer: CMakeFiles/renderer.dir/generated/ShaderCode/gBufferFrag.gen.cpp.o
 renderer: CMakeFiles/renderer.dir/generated/ShaderCode/gBufferVertex.gen.cpp.o
-renderer: CMakeFiles/renderer.dir/generated/ShaderCode/lightFrag.gen.cpp.o
 renderer: CMakeFiles/renderer.dir/generated/ShaderCode/lightPassFrag.gen.cpp.o
 renderer: CMakeFiles/renderer.dir/generated/ShaderCode/lightPassVertex.gen.cpp.o
+renderer: CMakeFiles/renderer.dir/generated/ShaderCode/saoBlurPassFrag.gen.cpp.o
+renderer: CMakeFiles/renderer.dir/generated/ShaderCode/saoPassFrag.gen.cpp.o
+renderer: CMakeFiles/renderer.dir/generated/ShaderCode/saoPassVertex.gen.cpp.o
+renderer: CMakeFiles/renderer.dir/generated/ShaderCode/lightFrag.gen.cpp.o
 renderer: CMakeFiles/renderer.dir/generated/ShaderCode/lightVertex.gen.cpp.o
 renderer: CMakeFiles/renderer.dir/generated/ShaderCode/objectFrag.gen.cpp.o
 renderer: CMakeFiles/renderer.dir/generated/ShaderCode/objectVertex.gen.cpp.o
@@ -671,7 +734,7 @@ renderer: /opt/homebrew/lib/libglfw.3.4.dylib
 renderer: /opt/homebrew/lib/libtbb.12.18.dylib
 renderer: /opt/homebrew/opt/libomp/lib/libomp.dylib
 renderer: CMakeFiles/renderer.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_46) "Linking CXX executable renderer"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_52) "Linking CXX executable renderer"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/renderer.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -692,6 +755,9 @@ CMakeFiles/renderer.dir/depend: generated/ShaderCode/objectFrag.gen.cpp
 CMakeFiles/renderer.dir/depend: generated/ShaderCode/objectVertex.gen.cpp
 CMakeFiles/renderer.dir/depend: generated/ShaderCode/pointFrag.gen.cpp
 CMakeFiles/renderer.dir/depend: generated/ShaderCode/pointVertex.gen.cpp
+CMakeFiles/renderer.dir/depend: generated/ShaderCode/saoBlurPassFrag.gen.cpp
+CMakeFiles/renderer.dir/depend: generated/ShaderCode/saoPassFrag.gen.cpp
+CMakeFiles/renderer.dir/depend: generated/ShaderCode/saoPassVertex.gen.cpp
 CMakeFiles/renderer.dir/depend: generated/ShaderCode/skyBoxFrag.gen.cpp
 CMakeFiles/renderer.dir/depend: generated/ShaderCode/skyBoxVertex.gen.cpp
 	cd /Users/zachariahdellimore/Code/RendererZ/build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/zachariahdellimore/Code/RendererZ /Users/zachariahdellimore/Code/RendererZ /Users/zachariahdellimore/Code/RendererZ/build-debug /Users/zachariahdellimore/Code/RendererZ/build-debug /Users/zachariahdellimore/Code/RendererZ/build-debug/CMakeFiles/renderer.dir/DependInfo.cmake "--color=$(COLOR)" renderer

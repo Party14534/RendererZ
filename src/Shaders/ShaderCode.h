@@ -3,8 +3,10 @@
 
 #include <string>
 
-extern std::string saoPassFrag;
 extern std::string saoBlurPassFrag;
+
+extern std::string saoPassFrag;
+//extern std::string saoPassVertex;
 
 extern std::string lightPassFrag;
 extern std::string lightPassVertex;

@@ -1,4 +1,4 @@
-// Generated from /Users/zachariahdellimore/Code/RendererZ/src/Shaders/lightVertex.vert by EmbedShader.cmake - do not edit by hand.
+// Generated from /Users/zachariahdellimore/Code/RendererZ/src/Shaders/unused/lightVertex.vert by EmbedShader.cmake - do not edit by hand.
 #include <string>
 
 std::string lightVertex = R"GLSL(#version 330 core
