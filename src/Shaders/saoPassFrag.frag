@@ -111,18 +111,21 @@ float calcSAO(vec3 normal, vec3 fragPos, vec2 uv) {
     // Calculate radius
     float FOV = radians(90.);
     float focalLen = resolution_z.y / (2. * tan(FOV * .5));
-    float wR = 1.5; // World space radius
+    float wR = 1.; // World space radius
     float radius2 = wR * wR;
-    float radius = (wR * focalLen) / -zc; // capped so it can't blow up at close range
-    float tau = 7.;
+    float radius = (wR * focalLen) / -zc;
+    float tau = 7. * 1.5;
 
     //float phi = float( (30 * int(x)) ^ int(y)) + 10.*x*y;
     float phi = hash12(vec2(x, y)) * 2. * M_PI;
+    float radiusJitter = hash12(vec2(x, y) + vec2(91.3, 47.7));
 
     float summation = 0.;
-    float s = 90.;
+    float s = 9. * 1.5;
+    float validCount = 0.;
     for (float i = 0.; i < s; i++) {
-        float a = (1. / s) * (i + .5);
+        //float a = (1. / s) * (i + .5);
+        float a = (1. / s) * (i + radiusJitter);
         float sampleRadius = radius * a;
         float theta = 2. * M_PI * a * tau + phi;
         vec2 u = vec2(cos(theta), sin(theta));
@@ -133,11 +136,11 @@ float calcSAO(vec3 normal, vec3 fragPos, vec2 uv) {
 
         vec3 qPos = (view_z * vec4(texture(gPosition, sampleUv).xyz, 1.)).xyz;
         vec3 vi = qPos - cPos; // Displacement
-        float vv = dot(vi, vi);
         summation += max(0., dot(vi, nc) + zc*beta) / (dot(vi, vi) + epsilon);
+        validCount += 1.;
     }
 
-    float val = 1. - ((2*sigma) / s) * summation;
+    float val = 1. - ((2.*sigma) / validCount) * summation;
 
     return max(0., val); // To the power of k but k is one in Alchemy AO
 }
@@ -179,6 +182,6 @@ void main()
 
     vec3 viewDir = normalize(view_pos_z - FragPos);
 
-    float sao = calcSSAO(Normal, FragPos, TexCoord);
+    float sao = calcSAO(Normal, FragPos, TexCoord);
     gSAO = sao;
 }

@@ -1,10 +1,6 @@
 #include "Camera.h"
 
-Camera::Camera() :
-    viewMatrix(4, 4),
-    orthoMat(4, 4),
-    perspMat(4, 4)
-{
+Camera::Camera() {
     pos = Vec3(0, 0, 3);
     yaw = 90.f;
     pitch = 0.f;
@@ -69,22 +65,22 @@ Vec3 Camera::GetCamFront() { return camFront; }
 Vec3 Camera::GetCamUp() { return camUp; }
 Vec3 Camera::GetCamRight() { return camRight; }
 
-MatD Camera::GetViewMatrix() { return viewMatrix; }
-MatD Camera::GetProjectionMatrix() { return isOrthographic ? orthoMat : perspMat; }
+Mat4D Camera::GetViewMatrix() { return viewMatrix; }
+Mat4D Camera::GetProjectionMatrix() { return isOrthographic ? orthoMat : perspMat; }
 
 /*
  * Private functions
  */
 // Look at matrix
 void Camera::calculateViewMatrix() {
-    MatD m1 = MatD(4, 4, {
+    Mat4D m1({
         camRight.x, camRight.y, camRight.z, 0,
         camUp.x, camUp.y, camUp.z, 0,
         direction.x, direction.y, direction.z, 0,
         0, 0, 0, 1
     });
 
-    MatD m2 = MatD(4, 4, {
+    Mat4D m2({
         1, 0, 0, -pos.x,
         0, 1, 0, -pos.y,
         0, 0, 1, -pos.z,
@@ -107,7 +103,7 @@ void Camera::BuildPerspectiveMatrices(u32 width, u32 height) {
 
     aspectRatio = (float)width / (float)height;
     double aspectRatioD = (double)width / (double)height;
-    orthoMat = MatD(4, 4, {
+    orthoMat = Mat4D({
             2/(right - left), 0, 0, -((right + left) / (right - left)),
             0, 2/(top - bottom), 0, -((top + bottom) / (top - bottom)),
             0, 0, -2/(far - near), -((far + near) / (far - near)),
@@ -116,7 +112,7 @@ void Camera::BuildPerspectiveMatrices(u32 width, u32 height) {
     );
 
     double S = 1. / (tan((fov * 0.5) * (PI * (1. / 180.))));
-    perspMat = MatD(4, 4, {
+    perspMat = Mat4D({
             S / aspectRatio, 0, 0, 0,
             0, S, 0, 0,
             0, 0, -1., -2. * near,

@@ -10,7 +10,7 @@ void Scene::addToList(Drawable* object) {
     sceneObjects.push_back(object);
 }
 
-void Scene::draw(std::shared_ptr<ShaderProgram> defaultShader, const MatD& vp) {
+void Scene::draw(std::shared_ptr<ShaderProgram> defaultShader, const Mat4D& vp) {
     for(auto& o : sceneObjects) {
         o->draw(defaultShader, vp);
     }

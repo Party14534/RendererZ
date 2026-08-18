@@ -24,8 +24,7 @@ Window::Window(u32 width, u32 height, std::string windowName) :
     dLight(Vec3(0., -1, 0.), DirLightProperties()),
     lightPassScreen(Drawable::Plane()),
     saoPassScreen(Drawable::Plane()),
-    saoBlurPassScreen(Drawable::Plane()),
-    gBufferVP(4, 4)
+    saoBlurPassScreen(Drawable::Plane())
 {
     initializeGL(); // Initialize GLFW
 
@@ -226,6 +225,8 @@ void Window::setLightPassUniforms() {
 
     lightPassShader->setMat4(SHADER_VIEW_SET_UNIFORM, cam.GetViewMatrix());
     lightPassShader->setMat4(SHADER_PROJECTION_SET_UNIFORM, cam.GetProjectionMatrix());
+
+    lightPassShader->setBool(SHADER_SHOW_SAO_UNIFORM, showSao);
 }
 
 void Window::setSAOPassUniforms() {

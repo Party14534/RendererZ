@@ -307,27 +307,27 @@ std::shared_ptr<ComplexDrawable> loadGLTFFileFromFilePath(std::filesystem::path 
         const cgltf_node& node = data->nodes[i];
         if (!node.mesh) continue;
 
-        std::vector<VertexAttribute> vertices;
-        std::vector<u32> indices;
-        bool allPrimitivesHadTangents = true;
         for (u32 j = 0; j < node.mesh->primitives_count; j++) {
-            bool hadTangents = appendPrimitiveValues(node.mesh->primitives[j], vertices, indices);
-            allPrimitivesHadTangents = allPrimitivesHadTangents && hadTangents;
+            cgltf_primitive& prim = node.mesh->primitives[j];
+
+            std::vector<VertexAttribute> vertices;
+            std::vector<u32> indices;
+            bool hadTangents = appendPrimitiveValues(prim, vertices, indices);
+
+            applyNodeWorldTransform(vertices, node);
+
+            std::shared_ptr<Mesh> mesh = std::make_shared<Mesh>(vertices, indices);
+            if (!hadTangents) mesh->generateTangents();
+
+            Drawable d(mesh);
+
+            d.setMaterial(materialFromGLTF(prim.material));
+
+            std::shared_ptr<Texture> tex = getBaseColorTexture(prim.material, data, textures);
+            if (tex) d.setDiffuseTexture(tex);
+
+            nodes.push_back(d);
         }
-
-        applyNodeWorldTransform(vertices, node);
-
-        std::shared_ptr<Mesh> mesh = std::make_shared<Mesh>(vertices, indices);
-        if (!allPrimitivesHadTangents) mesh->generateTangents();
-
-        Drawable d(mesh);
-
-        d.setMaterial(materialFromGLTF(node.mesh->primitives->material));
-
-        std::shared_ptr<Texture> tex = getBaseColorTexture(node.mesh->primitives->material, data, textures);
-        if (tex) d.setDiffuseTexture(tex);
-
-        nodes.push_back(d);
     }
 
     cgltf_free(data);

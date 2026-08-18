@@ -8,7 +8,7 @@ ComplexDrawable::ComplexDrawable(std::vector<Drawable>& targets) : targets(targe
 
 ComplexDrawable::~ComplexDrawable() { }
 
-void ComplexDrawable::draw(std::shared_ptr<ShaderProgram> defaultShader, const MatD& vp) {
+void ComplexDrawable::draw(std::shared_ptr<ShaderProgram> defaultShader, const Mat4D& vp) {
     for(auto& target : targets) {
         target.draw(defaultShader, vp);
     }
@@ -60,8 +60,8 @@ void Drawable::setNormalTexture(std::shared_ptr<Texture> _tex) {
 void Drawable::setUVScale(Vec2 scale) { uvScale = scale; }
 Vec2 Drawable::getUVScale() const { return uvScale; }
 
-void Drawable::draw(std::shared_ptr<ShaderProgram> shader, const MatD& vp) {
-    MatD mvp = vp * transform.GetModelMatD();
+void Drawable::draw(std::shared_ptr<ShaderProgram> shader, const Mat4D& vp) {
+    Mat4D mvp = vp * transform.GetModelMatD();
     shader->setMat4(SHADER_MODEL_SET_UNIFORM, transform.GetModelMat());
     shader->setMat4(SHADER_MVP_SET_UNIFORM, mvp);
     shader->setVec3(SHADER_COLOR_UNIFORM, material.color.toRGB());
@@ -81,16 +81,7 @@ void Drawable::drawLightPass(std::shared_ptr<ShaderProgram> shader) {
     mesh->draw();
 }
 
-Mat Transform::GetModelMat() {
-    // Build scale matrix
-    Mat scaleMat = Mat::getIdentity(4);
-    scaleMat.set(0, 0, scale.x);
-    scaleMat.set(1, 1, scale.y);
-    scaleMat.set(2, 2, scale.z);
-    
-    // Build rotation matrix
-    Mat rotMat = Mat::getIdentity(4);
-    
+Mat4 Transform::GetModelMat() {
     // Rotations
     float cx = cos(rotation.x);
     float sx = sin(rotation.x);
@@ -98,41 +89,23 @@ Mat Transform::GetModelMat() {
     float sy = sin(rotation.y);
     float cz = cos(rotation.z);
     float sz = sin(rotation.z);
-    
+
     // Combined rotation matrix (Z * Y * X)
-    rotMat.set(0, 0, cy * cz);
-    rotMat.set(0, 1, -cy * sz);
-    rotMat.set(0, 2, sy);
-    
-    rotMat.set(1, 0, cx * sz + cz * sx * sy);
-    rotMat.set(1, 1, cx * cz - sx * sy * sz);
-    rotMat.set(1, 2, -cy * sx);
-    
-    rotMat.set(2, 0, sx * sz - cx * cz * sy);
-    rotMat.set(2, 1, cz * sx + cx * sy * sz);
-    rotMat.set(2, 2, cx * cy);
-    
-    // Combine scale and rotation
-    Mat m = rotMat * scaleMat;
-    
-    // Apply translation
-    m.set(0, 3, pos.x);
-    m.set(1, 3, pos.y);
-    m.set(2, 3, pos.z);
-    
-    return m;
+    float r00 = cy * cz,                r01 = -cy * sz,               r02 = sy;
+    float r10 = cx * sz + cz * sx * sy, r11 = cx * cz - sx * sy * sz, r12 = -cy * sx;
+    float r20 = sx * sz - cx * cz * sy, r21 = cz * sx + cx * sy * sz, r22 = cx * cy;
+
+    // Combine scale and rotation: scale is diagonal, so rotMat * scaleMat is
+    // just each rotation column scaled by the matching scale component.
+    return Mat4({
+        r00 * scale.x, r01 * scale.y, r02 * scale.z, pos.x,
+        r10 * scale.x, r11 * scale.y, r12 * scale.z, pos.y,
+        r20 * scale.x, r21 * scale.y, r22 * scale.z, pos.z,
+        0.f,           0.f,           0.f,           1.f
+    });
 }
 
-MatD Transform::GetModelMatD() {
-    // Build scale matrix
-    MatD scaleMat = MatD::getIdentity(4);
-    scaleMat.set(0, 0, scale.x);
-    scaleMat.set(1, 1, scale.y);
-    scaleMat.set(2, 2, scale.z);
-    
-    // Build rotation matrix
-    MatD rotMat = MatD::getIdentity(4);
-    
+Mat4D Transform::GetModelMatD() {
     // Rotations
     float cx = cos(rotation.x);
     float sx = sin(rotation.x);
@@ -140,27 +113,18 @@ MatD Transform::GetModelMatD() {
     float sy = sin(rotation.y);
     float cz = cos(rotation.z);
     float sz = sin(rotation.z);
-    
+
     // Combined rotation matrix (Z * Y * X)
-    rotMat.set(0, 0, cy * cz);
-    rotMat.set(0, 1, -cy * sz);
-    rotMat.set(0, 2, sy);
-    
-    rotMat.set(1, 0, cx * sz + cz * sx * sy);
-    rotMat.set(1, 1, cx * cz - sx * sy * sz);
-    rotMat.set(1, 2, -cy * sx);
-    
-    rotMat.set(2, 0, sx * sz - cx * cz * sy);
-    rotMat.set(2, 1, cz * sx + cx * sy * sz);
-    rotMat.set(2, 2, cx * cy);
-    
-    // Combine scale and rotation
-    MatD m = rotMat * scaleMat;
-    
-    // Apply translation
-    m.set(0, 3, pos.x);
-    m.set(1, 3, pos.y);
-    m.set(2, 3, pos.z);
-    
-    return m;
+    float r00 = cy * cz,                r01 = -cy * sz,               r02 = sy;
+    float r10 = cx * sz + cz * sx * sy, r11 = cx * cz - sx * sy * sz, r12 = -cy * sx;
+    float r20 = sx * sz - cx * cz * sy, r21 = cz * sx + cx * sy * sz, r22 = cx * cy;
+
+    // Combine scale and rotation: scale is diagonal, so rotMat * scaleMat is
+    // just each rotation column scaled by the matching scale component.
+    return Mat4D({
+        r00 * scale.x, r01 * scale.y, r02 * scale.z, pos.x,
+        r10 * scale.x, r11 * scale.y, r12 * scale.z, pos.y,
+        r20 * scale.x, r21 * scale.y, r22 * scale.z, pos.z,
+        0.,            0.,            0.,            1.
+    });
 }

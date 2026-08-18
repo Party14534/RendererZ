@@ -392,3 +392,83 @@ MatD MatD::getIdentity(const size_t s) {
 
     return m;
 }
+
+/*
+ * Mat4
+ */
+
+Mat4::Mat4(std::initializer_list<float> _values) {
+    std::copy(_values.begin(), _values.end(), values);
+}
+
+Mat4 Mat4::operator*(const Mat4& other) const {
+    Mat4 result;
+
+    for (size_t r = 0; r < 4; r++) {
+        for (size_t c = 0; c < 4; c++) {
+            float sum = 0.f;
+            for (size_t k = 0; k < 4; k++) {
+                sum += values[r*4+k] * other.values[k*4+c];
+            }
+            result.values[r*4+c] = sum;
+        }
+    }
+
+    return result;
+}
+
+Vec4 Mat4::operator*(const Vec4& vec) const {
+    Vec4 output;
+
+    for (int i = 0; i < 4; i++) {
+        float sum = 0.f;
+        for (int j = 0; j < 4; j++) {
+            sum += values[i*4+j] * (&vec.x)[j];
+        }
+        (&output.x)[i] = sum;
+    }
+
+    return output;
+}
+
+/*
+ * Mat4D
+ */
+
+Mat4D::Mat4D(std::initializer_list<double> _values) {
+    std::copy(_values.begin(), _values.end(), values);
+}
+
+Mat4D Mat4D::operator*(const Mat4D& other) const {
+    Mat4D result;
+
+    for (size_t r = 0; r < 4; r++) {
+        for (size_t c = 0; c < 4; c++) {
+            double sum = 0.;
+            for (size_t k = 0; k < 4; k++) {
+                sum += values[r*4+k] * other.values[k*4+c];
+            }
+            result.values[r*4+c] = sum;
+        }
+    }
+
+    return result;
+}
+
+Vec4 Mat4D::operator*(const Vec4& vec) const {
+    Vec4 output;
+
+    for (int i = 0; i < 4; i++) {
+        float sum = 0.f;
+        for (int j = 0; j < 4; j++) {
+            sum += values[i*4+j] * (&vec.x)[j];
+        }
+        (&output.x)[i] = sum;
+    }
+
+    return output;
+}
+
+MatD Mat4D::toMatD() const {
+    return MatD(4, 4, std::vector<double>(values, values + 16));
+}

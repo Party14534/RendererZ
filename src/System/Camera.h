@@ -20,8 +20,8 @@ struct Camera {
     Vec3 GetCamFront();
     Vec3 GetCamUp();
     Vec3 GetCamRight();
-    MatD GetViewMatrix();
-    MatD GetProjectionMatrix();
+    Mat4D GetViewMatrix();
+    Mat4D GetProjectionMatrix();
 
     void BuildPerspectiveMatrices(u32 width, u32 height);
 
@@ -31,10 +31,10 @@ struct Camera {
     Vec3 camFront;
     Vec3 camUp;
     Vec3 camRight;
-    MatD viewMatrix;
+    Mat4D viewMatrix;
 
-    MatD orthoMat;
-    MatD perspMat;
+    Mat4D orthoMat;
+    Mat4D perspMat;
     double aspectRatio;
     double fov;
     double yaw, pitch;

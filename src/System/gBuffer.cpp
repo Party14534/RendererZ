@@ -37,8 +37,8 @@ void GBuffer::init(u32 width, u32 height) {
     pos = Texture(RGBA16, width, height, RGBA, FLOAT);
     pos.setTextureParameter(MIN_FILTER, NEAREST);
     pos.setTextureParameter(MAG_FILTER, NEAREST);
-    pos.setTextureParameter(WRAP_S, CLAMP_TO_EDGE);
-    pos.setTextureParameter(WRAP_T, CLAMP_TO_EDGE);
+    pos.setTextureParameter(WRAP_S, MIRRORED_REPEAT);
+    pos.setTextureParameter(WRAP_T, MIRRORED_REPEAT);
     pos.attachToFramebuffer2D(0);
 
     norm = Texture(RGBA16, width, height, RGBA, FLOAT);

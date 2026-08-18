@@ -32,7 +32,7 @@ struct Window {
     Drawable saoPassScreen;
     Drawable saoBlurPassScreen;
     u32 pointLightUBO;
-    MatD gBufferVP;
+    Mat4D gBufferVP;
 
     std::shared_ptr<SkyBox> skyBox = nullptr;
 
@@ -45,6 +45,8 @@ struct Window {
 
     bool wasMouseMoved;
     Vec2 mouseChange;
+
+    bool showSao = false;
 
     Window(u32 width, u32 height, std::string windowName);
     ~Window();

@@ -7,6 +7,7 @@
 #include <iterator>
 #include <iostream>
 #include <GLFW/glfw3.h>
+#include <unordered_map>
 
 #include "../Math/math.h"
 
@@ -39,9 +40,12 @@
 #define SHADER_GALBEDO_SPEC_UNIFORM "gAlbedoSpec"
 #define SHADER_GSAO_UNIFORM "gSAO"
 #define SHADER_GSAO_BLUR_UNIFORM "gSAOBlur"
+#define SHADER_SHOW_SAO_UNIFORM "showSao_z"
 #define SHADER_POINT_LIGHT_BLOCK "PointLightBlock"
 #define POINT_LIGHT_UBO_BINDING 0
 #define MAX_POINT_LIGHTS 800 // keep in sync with lightPassFrag.frag; 65536-byte UBO limit / 80 bytes per light = 819 max
+                        
+inline std::unordered_map<std::string, u32> uniformIDs;
 
 struct Material {
     Color color;
@@ -105,7 +109,8 @@ struct ShaderProgram {
     const void setVec4(const std::string& name, Vec4 val) const;
     const void setColor(const std::string& name, Color val) const;
 
-    const void setMat4(const std::string& name, const Mat& m) const;
+    const void setMat4(const std::string& name, const Mat4& m) const;
+    const void setMat4(const std::string& name, const Mat4D& m) const;
 
     const void setMaterial(const Material& m) const;
 
@@ -115,6 +120,8 @@ struct ShaderProgram {
     const void bindUniformBlock(const std::string& name, u32 bindingPoint) const;
 
     static ShaderProgram fromStrings(const std::string& vert, const std::string& frag);
+
+    const friend u32 getUniformLocation(const u32 ID, const std::string& name);
 };
 
 #endif

@@ -5,7 +5,10 @@
 #include "Tools/ObjectLoading.h"
 #include "Scenes/TestSceneOne.h"
 #include "Scenes/ManyLightsScene.h"
+#include "Scenes/SponzaScene.h"
 #include "global.h"
+
+enum class SceneMode { TestScene, ManyLights, Sponza };
 
 std::vector<PointVertexAttribute> points = makeTestPointCloud();
 
@@ -25,6 +28,7 @@ int main() {
 
     Scene sceneOne = testSceneOne();
     Scene lightScene = testManyLightsScene();
+    std::shared_ptr<ComplexDrawable> sponza = loadSponza();
     std::shared_ptr<ComplexDrawable> car = LoadComplexDrawableFromFilePath("../src/res/objects/car/scene.gltf");
     std::shared_ptr<ComplexDrawable> phoenix = LoadComplexDrawableFromFilePath("../src/res/objects/phoenix_bird/scene.gltf");
 
@@ -37,8 +41,9 @@ int main() {
 
     setUpLighting(win);
 
-    bool manyLightsMode = false;
+    SceneMode sceneMode = SceneMode::TestScene;
     bool toggleKeyWasPressed = false;
+    bool saoToggleKeyWasPressed = false;
 
     int frameCount = 0;
     double fpsTimer = glfwGetTime();
@@ -62,21 +67,48 @@ int main() {
         }
 
         if (win.isKeyPressed(GLFW_KEY_M) && !toggleKeyWasPressed) {
-            manyLightsMode = !manyLightsMode;
+            switch (sceneMode) {
+                case SceneMode::TestScene:  sceneMode = SceneMode::ManyLights; break;
+                case SceneMode::ManyLights: sceneMode = SceneMode::Sponza;     break;
+                case SceneMode::Sponza:     sceneMode = SceneMode::TestScene;  break;
+            }
+
             win.pLights.clear();
-            if (manyLightsMode) setUpManyPointLights(win);
-            else setUpLighting(win);
+            switch (sceneMode) {
+                case SceneMode::TestScene:  setUpLighting(win);         break;
+                case SceneMode::ManyLights: setUpManyPointLights(win);  break;
+                case SceneMode::Sponza:     setUpSponzaLighting(win);   break;
+            }
         }
         toggleKeyWasPressed = win.isKeyPressed(GLFW_KEY_M);
 
-        if (!manyLightsMode) updateTestSceneOne(t, win);
-        else updateManyLightsScene(t, win);
+        if (win.isKeyPressed(GLFW_KEY_N) && !saoToggleKeyWasPressed) {
+            win.showSao = !win.showSao;
+        }
+        saoToggleKeyWasPressed = win.isKeyPressed(GLFW_KEY_N);
+
+        switch (sceneMode) {
+            case SceneMode::TestScene:  updateTestSceneOne(t, win);   break;
+            case SceneMode::ManyLights: updateManyLightsScene(t, win); break;
+            case SceneMode::Sponza:     updateSponzaScene(t, win);     break;
+        }
 
         // Handle rendering
         win.clear(Color(0.f));
 
-        win.draw(manyLightsMode ? lightScene : sceneOne);
-        if (!manyLightsMode) win.draw(*phoenix);
+        switch (sceneMode) {
+            case SceneMode::TestScene:
+                win.draw(sceneOne);
+                win.draw(*phoenix);
+                win.draw(*car);
+                break;
+            case SceneMode::ManyLights:
+                win.draw(lightScene);
+                break;
+            case SceneMode::Sponza:
+                win.draw(*sponza);
+                break;
+        }
 
         win.display();
     }

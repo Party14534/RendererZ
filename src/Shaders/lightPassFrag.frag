@@ -37,6 +37,7 @@ uniform sampler2D gSAOBlur;
 uniform vec3 view_pos_z;
 uniform vec2 resolution_z;
 uniform mat4 projection_z;
+uniform bool showSao_z;
 
 vec3 calcDirLight(DirLight light, vec3 normal, vec3 viewDir,
         vec3 Albedo, float Specular, float sao) {
@@ -105,6 +106,5 @@ void main()
         result += calcPointLight(pointLights_z[i], Normal, FragPos, viewDir, Albedo, Specular, sao);
     }
 
-    FragColor = vec4(result, 1.);
-    //FragColor = vec4(vec3(sao), 1.);
+    FragColor = showSao_z ? vec4(vec3(sao), 1.) : vec4(result, 1.);
 }

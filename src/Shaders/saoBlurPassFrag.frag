@@ -19,5 +19,4 @@ void main()
         }
     }
     gSAOBlur = result / (4.0 * 4.0);
-    //gSAOBlur = texture(gSAO, TexCoord).r;
 }

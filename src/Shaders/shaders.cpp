@@ -1,4 +1,5 @@
 #include "shaders.h"
+#include <string>
 
 std::string loadFile(std::string path) {
     std::ifstream file (path, std::ios::binary);
@@ -166,43 +167,63 @@ const void ShaderProgram::use() {
     glUseProgram(ID);
 }
 
+const u32 getUniformLocation(const u32 ID, const std::string& name) {
+    std::string key = std::to_string(ID) + ":" + name;
+    
+    auto index = uniformIDs.find(key);
+    if(index == uniformIDs.end()) {
+        u32 uniformID = glGetUniformLocation(ID, name.c_str());
+        uniformIDs.insert({key, uniformID});
+        return uniformID;
+    }
+
+    return index->second;
+}
+
 const void ShaderProgram::setBool(const std::string& name, bool val) const {
-    glUniform1i(glGetUniformLocation(ID, name.c_str()), (int)val);
+    glUniform1i(getUniformLocation(ID, name), (int)val);
 }
 
 const void ShaderProgram::setInt(const std::string& name, int val) const {
-    glUniform1i(glGetUniformLocation(ID, name.c_str()), val);
+    glUniform1i(getUniformLocation(ID, name), val);
 }
 
 const void ShaderProgram::setFloat(const std::string& name, float val) const {
-    glUniform1f(glGetUniformLocation(ID, name.c_str()), val);
+    glUniform1f(getUniformLocation(ID, name), val);
 }
 
 const void ShaderProgram::setVec2(const std::string& name, Vec2 val) const {
-    glUniform2f(glGetUniformLocation(ID, name.c_str()), val.x, val.y);
+    glUniform2f(getUniformLocation(ID, name), val.x, val.y);
 }
 
 const void ShaderProgram::setVec3(const std::string& name, Vec3 val) const {
-    glUniform3f(glGetUniformLocation(ID, name.c_str()), val.x, val.y, val.z);
+    glUniform3f(getUniformLocation(ID, name), val.x, val.y, val.z);
 }
 
 const void ShaderProgram::setVec4(const std::string& name, Vec4 val) const {
-    glUniform4f(glGetUniformLocation(ID, name.c_str()), val.x, val.y, val.z, val.w);
+    glUniform4f(getUniformLocation(ID, name), val.x, val.y, val.z, val.w);
 }
 
 const void ShaderProgram::setColor(const std::string& name, Color val) const {
-    glUniform4f(glGetUniformLocation(ID, name.c_str()), val.r, val.g, val.b, val.a);
+    glUniform4f(getUniformLocation(ID, name), val.r, val.g, val.b, val.a);
 }
 
-const void ShaderProgram::setMat4(const std::string& name, const Mat& m) const {
-    // TODO: Return number error and don't just exit
-    if (m.cols != m.rows || m.cols != 4) {
-        std::cerr << "Matrix is not 4x4\n";
-        exit(1);
-    }
+const void ShaderProgram::setMat4(const std::string& name, const Mat4& m) const {
+    glUniformMatrix4fv(getUniformLocation(ID, name),
+            1, GL_TRUE, m.values);
 
-    glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()),
-            1, GL_TRUE, m.values.data());
+    GLenum err = glGetError();
+    if (err != GL_NO_ERROR) {
+        std::cerr << "open gl error " << err << "\n";
+    }
+}
+
+const void ShaderProgram::setMat4(const std::string& name, const Mat4D& m) const {
+    float vals[16];
+    for (size_t i = 0; i < 16; i++) vals[i] = (float)m.values[i];
+
+    glUniformMatrix4fv(getUniformLocation(ID, name),
+            1, GL_TRUE, vals);
 
     GLenum err = glGetError();
     if (err != GL_NO_ERROR) {
@@ -216,28 +237,28 @@ const void ShaderProgram::setMaterial(const Material& m) const {
     Vec3 diffuse = c * m.diffuse;
     Vec3 specular = c * m.specular;
 
-    glUniform3f(glGetUniformLocation(ID, SHADER_MATERIAL_AMBIENT_UNIFORM),
+    glUniform3f(getUniformLocation(ID, SHADER_MATERIAL_AMBIENT_UNIFORM),
             ambient.x, ambient.y, ambient.z);
-    glUniform3f(glGetUniformLocation(ID, SHADER_MATERIAL_DIFFUSE_UNIFORM),
+    glUniform3f(getUniformLocation(ID, SHADER_MATERIAL_DIFFUSE_UNIFORM),
             diffuse.x, diffuse.y, diffuse.z);
-    glUniform3f(glGetUniformLocation(ID, SHADER_MATERIAL_SPECULAR_UNIFORM),
+    glUniform3f(getUniformLocation(ID, SHADER_MATERIAL_SPECULAR_UNIFORM),
             specular.x, specular.y, specular.z);
-    glUniform1f(glGetUniformLocation(ID, SHADER_MATERIAL_SHININESS_UNIFORM),
+    glUniform1f(getUniformLocation(ID, SHADER_MATERIAL_SHININESS_UNIFORM),
             m.shininess);
-    glUniform1f(glGetUniformLocation(ID, SHADER_MATERIAL_REFLECTIVITY_UNIFORM),
+    glUniform1f(getUniformLocation(ID, SHADER_MATERIAL_REFLECTIVITY_UNIFORM),
             m.reflectivity);
 }
 
 const void ShaderProgram::setDirLight(const Vec3& dir, const Vec3& ambient,
         const Vec3& diffuse, const Vec3& specular) const {
     std::string name = SHADER_DIRECTIONAL_LIGHT;
-    glUniform3f(glGetUniformLocation(ID, (name + ".direction").c_str()),
+    glUniform3f(getUniformLocation(ID, (name + ".direction").c_str()),
             dir.x, dir.y, dir.z);
-    glUniform3f(glGetUniformLocation(ID, (name + ".ambient").c_str()),
+    glUniform3f(getUniformLocation(ID, (name + ".ambient").c_str()),
             ambient.x, ambient.y, ambient.z);
-    glUniform3f(glGetUniformLocation(ID, (name + ".diffuse").c_str()),
+    glUniform3f(getUniformLocation(ID, (name + ".diffuse").c_str()),
             diffuse.x, diffuse.y, diffuse.z);
-    glUniform3f(glGetUniformLocation(ID, (name + ".specular").c_str()),
+    glUniform3f(getUniformLocation(ID, (name + ".specular").c_str()),
             specular.x, specular.y, specular.z);
 }
 

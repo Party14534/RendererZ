@@ -9,6 +9,7 @@
 #include <iostream>
 #include <algorithm>
 #include <random>
+#include <initializer_list>
 
 struct MatD;
 
@@ -69,6 +70,44 @@ struct MatD {
     friend std::ostream& operator <<(std::ostream& os, const MatD& m);
 };
 
+
+struct Mat4 {
+    float values[16] = {
+        1, 0, 0, 0,
+        0, 1, 0, 0,
+        0, 0, 1, 0,
+        0, 0, 0, 1
+    };
+
+    Mat4() = default;
+    Mat4(std::initializer_list<float> _values);
+
+    float get(size_t i, size_t j) const { return values[i * 4 + j]; }
+    void set(size_t i, size_t j, float val) { values[i * 4 + j] = val; }
+
+    Mat4 operator*(const Mat4& other) const;
+    Vec4 operator*(const Vec4& v) const;
+};
+
+struct Mat4D {
+    double values[16] = {
+        1, 0, 0, 0,
+        0, 1, 0, 0,
+        0, 0, 1, 0,
+        0, 0, 0, 1
+    };
+
+    Mat4D() = default;
+    Mat4D(std::initializer_list<double> _values);
+
+    double get(size_t i, size_t j) const { return values[i * 4 + j]; }
+    void set(size_t i, size_t j, double val) { values[i * 4 + j] = val; }
+
+    Mat4D operator*(const Mat4D& other) const;
+    Vec4 operator*(const Vec4& v) const;
+
+    MatD toMatD() const;
+};
 
 // Non-member function
 Mat generateRandomMatrix(size_t rows, size_t cols);
