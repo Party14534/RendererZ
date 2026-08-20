@@ -2,6 +2,7 @@
 #include "Shaders/ShaderCode.h"
 #include "Shaders/shaders.h"
 #include "global.h"
+#include <cmath>
 #include <vector>
 
 // Mirrors PointLightBlock's std140 layout in lightPassFrag.frag.
@@ -56,7 +57,9 @@ Window::Window(u32 width, u32 height, std::string windowName) :
     saoBlurHBuffer.init(RG16, fbWidth, fbHeight, RG, FLOAT, NEAREST, NEAREST);
     saoBlurBuffer.init(RG16, fbWidth, fbHeight, RG, FLOAT, NEAREST, NEAREST);
 
-    dLightShadowBuffer.init(DEPTH, 1024 * (width / height), 1024, DEPTH, FLOAT, LINEAR, LINEAR);
+    int dBufferWidth = int(2048.f * (float(width) / float(height)));
+
+    dLightShadowBuffer.init(DEPTH, dBufferWidth, 2048, DEPTH, FLOAT, LINEAR, LINEAR);
 
     // Update window size with window update
     glfwSetFramebufferSizeCallback(win, framebuffer_size_callback);
@@ -321,11 +324,35 @@ void Window::calcDLightVP() {
     double shadowDistance = 100.;
     double far = shadowDistance + extent;
 
-    Vec3 target = cam.GetPos();
-    Vec3 eye = target - dLight.getDir().normalize() * shadowDistance;
+    Vec3 lightDir = dLight.getDir().normalize();
+    Vec3 up(0., 1., 0.);
+
+    // Basis matching lookAt()'s internal axes, so the snap below happens
+    // in the same space as the shadow map's texel grid.
+    Vec3 direction = lightDir * -1.f;
+    Vec3 right = up.cross(direction).normalize();
+    Vec3 camUp = direction.cross(right);
+
+    // Snap the shadow camera's position to whole shadow-map texels so it
+    // moves in fixed-size steps instead of drifting continuously as the
+    // camera moves; otherwise each texel covers a different world-space
+    // patch every frame and shadow edges shimmer.
+    double texelSizeX = (extent * 2.) / double(dLightShadowBuffer.width);
+    double texelSizeY = (extent * 2.) / double(dLightShadowBuffer.height);
+
+    Vec3 camPos = cam.GetPos();
+    float u = camPos.dot(right);
+    float w = camPos.dot(camUp);
+    float depth = camPos.dot(direction);
+
+    u = float(std::floor(u / texelSizeX) * texelSizeX);
+    w = float(std::floor(w / texelSizeY) * texelSizeY);
+
+    Vec3 target = right * u + camUp * w + direction * depth;
+    Vec3 eye = target - lightDir * shadowDistance;
 
     Mat4D p = cam.CreateOrthographicMatrix(near, far, extent, -extent, extent, -extent);
-    Mat4D v = lookAt(eye, target, Vec3(0., 1., 0.));
+    Mat4D v = lookAt(eye, target, up);
 
     dLightVP = p * v;
 }

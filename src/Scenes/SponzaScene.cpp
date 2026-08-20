@@ -9,7 +9,7 @@ void setUpSponzaLighting(Window& win) {
     win.dLight.setColor(Color(1.f, .95f, .85f, 1.f));
     win.dLight.setDir(Vec3(-0.5f, -1.f, -0.3f));
     win.dLight.properties = DirLightProperties {
-        .3f, .5f, .4f,
+        .2f, .8f, .4f,
     };
 
     /*PointLightProperties props;
@@ -29,6 +29,19 @@ void setUpSponzaLighting(Window& win) {
 }
 
 void updateSponzaScene(double t, Window& win) {
+    // Sweep the directional light's azimuth around the vertical axis,
+    // completing one full rotation every 30 seconds.
+    const Vec3 baseDir(-0.5f, -1.f, -0.3f);
+    const double twoPi = 6.283185307179586;
+    double angle = t * (twoPi / 30.);
+    float cosA = (float)cos(angle);
+    float sinA = (float)sin(angle);
+    win.dLight.setDir(Vec3(
+        baseDir.x * cosA - baseDir.z * sinA,
+        baseDir.y,
+        baseDir.x * sinA + baseDir.z * cosA
+    ));
+
     if (win.pLights.size() < 3) return;
 
     win.pLights[0]->setPos(Vec3(-30, 6, (float)sin(t * .3) * 20));

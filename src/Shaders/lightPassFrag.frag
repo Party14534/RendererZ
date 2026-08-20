@@ -58,10 +58,21 @@ vec3 calcDirLight(DirLight light, vec3 normal, vec3 viewDir, vec3 FragPos,
     vec3 diffuse = light.diffuse * (diff * Albedo);
     vec3 specular = light.specular * (spec * Specular * Albedo);
 
-    vec4 fragPosLightSpace = lightSpaceMatrix_z * vec4(FragPos + normal * .1, 1.);
+    // Slope-scaled normal offset: grows as the light gets more grazing
+    // (diff -> 0) so the light's changing angle doesn't leave surfaces
+    // under- or over-biased, which shows up as flickering shadow acne.
+    float normalOffset = clamp(1. / max(diff, 0.05), 1., 4.);
+    vec4 fragPosLightSpace = lightSpaceMatrix_z * vec4(FragPos + normal * normalOffset, 1.);
     vec3 projCoords = fragPosLightSpace.xyz * .5 + .5;
 
-    float lit = texture(gDirShadowMap, projCoords); 
+    vec2 shadowTexelSize = 1. / vec2(textureSize(gDirShadowMap, 0));
+    float lit = 0.;
+    for (int x = -2; x <= 2; x++) {
+        for (int y = -2; y <= 2; y++) {
+            lit += texture(gDirShadowMap, projCoords + vec3(vec2(x, y) * shadowTexelSize, 0.));
+        }
+    }
+    lit /= 25.;
 
     return (ambient + lit * (diffuse + specular));
 }
