@@ -6,11 +6,13 @@
 extern std::string saoBlurPassFrag;
 
 extern std::string saoPassFrag;
-//extern std::string saoPassVertex;
 
 extern std::string lightPassFrag;
 extern std::string lightPassVertex;
 
 extern std::string gBufferFrag;
 extern std::string gBufferVertex;
+
+extern std::string dLightFrag;
+extern std::string dLightVertex;
 #endif

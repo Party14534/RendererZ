@@ -32,6 +32,8 @@ int main() {
     std::shared_ptr<ComplexDrawable> car = LoadComplexDrawableFromFilePath("../src/res/objects/car/scene.gltf");
     std::shared_ptr<ComplexDrawable> phoenix = LoadComplexDrawableFromFilePath("../src/res/objects/phoenix_bird/scene.gltf");
 
+    sceneOne.addToList({&(*car), &(*phoenix)});
+
     /* TODO: Set up points again
     std::shared_ptr<PointMesh> pMesh = PointMesh::fromPoints(points);
     pMesh->drawType = GL_POINTS;
@@ -99,8 +101,6 @@ int main() {
         switch (sceneMode) {
             case SceneMode::TestScene:
                 win.draw(sceneOne);
-                win.draw(*phoenix);
-                win.draw(*car);
                 break;
             case SceneMode::ManyLights:
                 win.draw(lightScene);

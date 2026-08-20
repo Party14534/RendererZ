@@ -2,12 +2,16 @@
 
 Scene::Scene() { }
 
-Scene::Scene(std::initializer_list<Drawable*> objects) {
+Scene::Scene(std::initializer_list<IRenderable*> objects) {
     sceneObjects = objects;
 }
 
-void Scene::addToList(Drawable* object) {
+void Scene::addToList(IRenderable* object) {
     sceneObjects.push_back(object);
+}
+
+void Scene::addToList(std::initializer_list<IRenderable*> objects) {
+    sceneObjects.insert(sceneObjects.end(), objects);
 }
 
 void Scene::draw(std::shared_ptr<ShaderProgram> defaultShader, const Mat4D& vp) {

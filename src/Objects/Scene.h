@@ -8,12 +8,13 @@
 #include "../Shaders/shaders.h"
 
 struct Scene {
-    std::list<Drawable*> sceneObjects;
+    std::list<IRenderable*> sceneObjects;
 
     Scene();
-    Scene(std::initializer_list<Drawable*> objects);
+    Scene(std::initializer_list<IRenderable*> objects);
 
-    void addToList(Drawable* object);
+    void addToList(IRenderable* object);
+    void addToList(std::initializer_list<IRenderable*> objects);
 
     void draw(std::shared_ptr<ShaderProgram> defaultShader, const Mat4D& vp);
 };

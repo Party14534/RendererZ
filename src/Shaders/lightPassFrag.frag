@@ -34,12 +34,15 @@ uniform sampler2D gNormal;
 uniform sampler2D gAlbedoSpec;
 uniform sampler2D gSAOBlur;
 
-uniform vec3 view_pos_z;
-uniform vec2 resolution_z;
-uniform mat4 projection_z;
-uniform bool showSao_z;
+uniform sampler2DShadow gDirShadowMap;
 
-vec3 calcDirLight(DirLight light, vec3 normal, vec3 viewDir,
+uniform bool showSao_z;
+uniform vec2 resolution_z;
+uniform vec3 view_pos_z;
+uniform mat4 projection_z;
+uniform mat4 lightSpaceMatrix_z;
+
+vec3 calcDirLight(DirLight light, vec3 normal, vec3 viewDir, vec3 FragPos,
         vec3 Albedo, float Specular, float sao) {
     vec3 lightDir = normalize(-light.direction);
 
@@ -55,7 +58,12 @@ vec3 calcDirLight(DirLight light, vec3 normal, vec3 viewDir,
     vec3 diffuse = light.diffuse * (diff * Albedo);
     vec3 specular = light.specular * (spec * Specular * Albedo);
 
-    return (ambient + diffuse + specular);
+    vec4 fragPosLightSpace = lightSpaceMatrix_z * vec4(FragPos + normal * .1, 1.);
+    vec3 projCoords = fragPosLightSpace.xyz * .5 + .5;
+
+    float lit = texture(gDirShadowMap, projCoords); 
+
+    return (ambient + lit * (diffuse + specular));
 }
 
 vec3 calcPointLight(PointLight light, vec3 normal, vec3 fragPos,
@@ -100,7 +108,7 @@ void main()
 
     // LIGHT CODE
     float sao = texture(gSAOBlur, TexCoord).r;
-    vec3 result = calcDirLight(dirLight_z, Normal, viewDir, Albedo, Specular, sao);
+    vec3 result = calcDirLight(dirLight_z, Normal, viewDir, FragPos, Albedo, Specular, sao);
 
     for(int i = 0; i < pointLightCnt_z; i++) {
         result += calcPointLight(pointLights_z[i], Normal, FragPos, viewDir, Albedo, Specular, sao);

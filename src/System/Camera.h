@@ -24,6 +24,10 @@ struct Camera {
     Mat4D GetProjectionMatrix();
 
     void BuildPerspectiveMatrices(u32 width, u32 height);
+    Mat4D CreateOrthographicMatrix(double near, double far, double right,
+                                    double left, double top, double bottom);
+    Mat4D CreatePerspectiveMatrix(double near, double far, double FOV,
+                                    double width, double height);
 
     private:
     Vec3 pos;

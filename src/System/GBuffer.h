@@ -5,12 +5,12 @@
 #include "Objects/Texture.h"
 
 struct Framebuffer {
-    u32 ID;
-    u32 depthRBO;
+    u32 ID, depthRBO, width, height;
+
     Texture tex;
 
     Framebuffer();
-    void init(u32 width, u32 height);
+    void init(TextureFormat internal, u32 width, u32 height, TextureFormat format, TexturePixelDataType type, TextureFilterOption min, TextureFilterOption mag);
     void bind();
     void bindTexture(u32 n);
     void unbind();

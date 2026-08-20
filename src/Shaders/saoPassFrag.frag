@@ -1,6 +1,6 @@
 #version 330 core
 
-layout (location = 0) out float gSAO;
+layout (location = 0) out vec2 gSAO; // r = ao, g = view-space depth (for the blur pass's bilateral weight)
 
 in vec2 TexCoord;
 
@@ -93,7 +93,7 @@ vec3 randomVec(vec2 seed) {
     return normalize(vec3(x * 2.0 - 1.0, y * 2.0 - 1.0, 0.0));
 }
 
-float calcSAO(vec3 normal, vec3 fragPos, vec2 uv) {
+vec2 calcSAO(vec3 normal, vec3 fragPos, vec2 uv) {
     vec3 cPos = (view_z * vec4(fragPos, 1.)).xyz;
     float zc = cPos.z;
     vec3 nc = normalize(mat3(view_z) * normal);
@@ -142,7 +142,7 @@ float calcSAO(vec3 normal, vec3 fragPos, vec2 uv) {
 
     float val = 1. - ((2.*sigma) / validCount) * summation;
 
-    return max(0., val); // To the power of k but k is one in Alchemy AO
+    return vec2(max(0., val), zc); // To the power of k but k is one in Alchemy AO
 }
 
 float calcSSAO(vec3 normal, vec3 fragPos, vec2 uv) {
@@ -182,6 +182,5 @@ void main()
 
     vec3 viewDir = normalize(view_pos_z - FragPos);
 
-    float sao = calcSAO(Normal, FragPos, TexCoord);
-    gSAO = sao;
+    gSAO = calcSAO(Normal, FragPos, TexCoord);
 }

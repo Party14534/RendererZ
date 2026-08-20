@@ -113,4 +113,6 @@ struct Mat4D {
 Mat generateRandomMatrix(size_t rows, size_t cols);
 MatD generateRandomMatrixD(size_t rows, size_t cols);
 
+Mat4D lookAt(Vec3 eye, Vec3 target, Vec3 up);
+
 #endif

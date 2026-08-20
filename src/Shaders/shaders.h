@@ -30,6 +30,7 @@
 #define SHADER_MVP_SET_UNIFORM "mvp_z"
 #define SHADER_PROJECTION_SET_UNIFORM "projection_z"
 #define SHADER_VIEW_POSITION_UNIFORM "view_pos_z"
+#define SHADER_LIGHT_SPACE_MATRIX_UNIFORM "lightSpaceMatrix_z"
 #define SHADER_DIRECTIONAL_LIGHT "dirLight_z"
 #define SHADER_POINT_LIGHT_COUNT "pointLightCnt_z"
 #define SHADER_POINT_SIZE_UNIFORM "pointSize_z"
@@ -40,6 +41,8 @@
 #define SHADER_GALBEDO_SPEC_UNIFORM "gAlbedoSpec"
 #define SHADER_GSAO_UNIFORM "gSAO"
 #define SHADER_GSAO_BLUR_UNIFORM "gSAOBlur"
+#define SHADER_DIR_SHADOW_MAP_UNIFORM "gDirShadowMap"
+#define SHADER_SAO_BLUR_DIRECTION_UNIFORM "saoBlurDir_z"
 #define SHADER_SHOW_SAO_UNIFORM "showSao_z"
 #define SHADER_POINT_LIGHT_BLOCK "PointLightBlock"
 #define POINT_LIGHT_UBO_BINDING 0

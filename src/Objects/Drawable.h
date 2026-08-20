@@ -19,7 +19,12 @@ struct Transform {
     Mat4D GetModelMatD();
 };
 
-struct Drawable {
+struct IRenderable {
+      virtual void draw(std::shared_ptr<ShaderProgram> shader, const Mat4D& vp) = 0;
+      virtual ~IRenderable() = default;
+};
+
+struct Drawable : IRenderable {
         //std::shared_ptr<Shader> shader = nullptr;
         std::shared_ptr<Mesh> mesh = nullptr;
         Material material = Material {
@@ -65,7 +70,7 @@ struct Drawable {
         static Drawable SkyBox(std::vector<std::string> textures);
 };
 
-struct ComplexDrawable {
+struct ComplexDrawable : IRenderable {
     public:
         std::vector<Drawable> targets;
 

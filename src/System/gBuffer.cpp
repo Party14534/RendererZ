@@ -1,19 +1,33 @@
 #include "GBuffer.h"
 #include "Objects/Texture.h"
+#include "Shaders/shaders.h"
 #include "global.h"
 
 Framebuffer::Framebuffer() { }
 
-void Framebuffer::init(u32 width, u32 height) {
+void Framebuffer::init(TextureFormat internal, u32 width, u32 height,
+        TextureFormat format, TexturePixelDataType type, 
+        TextureFilterOption min, TextureFilterOption mag)
+{
+    this->width = width;
+    this->height = height;
+
     glGenFramebuffers(1, &ID);
     glBindFramebuffer(GL_FRAMEBUFFER, ID);
 
-    tex = Texture(RED, width, height, RED, FLOAT);
-    tex.setTextureParameter(MIN_FILTER, NEAREST);
-    tex.setTextureParameter(MAG_FILTER, NEAREST);
-    tex.attachToFramebuffer2D(0);
+    tex = Texture(internal, width, height, format, type);
+    tex.setTextureParameter(MIN_FILTER, min);
+    tex.setTextureParameter(MAG_FILTER, mag);
 
-    //glDrawBuffer(1);
+    if (internal == DEPTH) {
+        tex.setTextureParameter(COMPARE_MODE, REF_TO_TEX);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
+                GL_TEXTURE_2D, tex.ID, 0);
+        glDrawBuffer(GL_NONE);
+        glReadBuffer(GL_NONE);
+    } else {
+        tex.attachToFramebuffer2D(0);
+    }
 }
 
 void Framebuffer::bind() {

@@ -1,6 +1,7 @@
 #include "Window.h"
 #include "Shaders/ShaderCode.h"
 #include "Shaders/shaders.h"
+#include "global.h"
 #include <vector>
 
 // Mirrors PointLightBlock's std140 layout in lightPassFrag.frag.
@@ -22,9 +23,7 @@ Window::Window(u32 width, u32 height, std::string windowName) :
     windowName(windowName),
     mouse((float)width / 2.f, (float)height / 2.f),
     dLight(Vec3(0., -1, 0.), DirLightProperties()),
-    lightPassScreen(Drawable::Plane()),
-    saoPassScreen(Drawable::Plane()),
-    saoBlurPassScreen(Drawable::Plane())
+    drawScreen(Drawable::Plane())
 {
     initializeGL(); // Initialize GLFW
 
@@ -51,14 +50,19 @@ Window::Window(u32 width, u32 height, std::string windowName) :
     this->width = fbWidth;
     this->height = fbHeight;
 
+    // TODO: deal with resizing
     gBuffer.init(fbWidth, fbHeight);
-    saoBuffer.init(fbWidth, fbHeight);
-    saoBlurBuffer.init(fbWidth, fbHeight);
+    saoBuffer.init(RG16, fbWidth, fbHeight, RG, FLOAT, NEAREST, NEAREST);
+    saoBlurHBuffer.init(RG16, fbWidth, fbHeight, RG, FLOAT, NEAREST, NEAREST);
+    saoBlurBuffer.init(RG16, fbWidth, fbHeight, RG, FLOAT, NEAREST, NEAREST);
+
+    dLightShadowBuffer.init(DEPTH, 1024 * (width / height), 1024, DEPTH, FLOAT, LINEAR, LINEAR);
 
     // Update window size with window update
     glfwSetFramebufferSizeCallback(win, framebuffer_size_callback);
 
     gBufferShader = std::make_shared<ShaderProgram>(ShaderProgram::fromStrings(gBufferVertex, gBufferFrag));
+    dLightShader = std::make_shared<ShaderProgram>(ShaderProgram::fromStrings(dLightVertex, dLightFrag));
     lightPassShader = std::make_shared<ShaderProgram>(ShaderProgram::fromStrings(lightPassVertex, lightPassFrag));
     saoPassShader = std::make_shared<ShaderProgram>(ShaderProgram::fromStrings(lightPassVertex, saoPassFrag));
     saoBlurPassShader = std::make_shared<ShaderProgram>(ShaderProgram::fromStrings(lightPassVertex, saoBlurPassFrag));
@@ -93,10 +97,10 @@ Window::Window(u32 width, u32 height, std::string windowName) :
     // Initialize Lights
     pLights = std::vector<std::shared_ptr<PointLight>>(0);
 
-    lightPassScreen.setScale(Vec3(2., 2., 0.));
-    saoPassScreen.setScale(Vec3(2., 2., 0.));
-    saoBlurPassScreen.setScale(Vec3(2., 2., 0.));
-    std::cout << width << "x" << height << " vs fb " << fbWidth << "x" << fbHeight << "\n";
+    // Reserve targets beforehand to not face large penalty at launch
+    renderTargets.reserve(128);
+
+    drawScreen.setScale(Vec3(2., 2., 0.));
 }
 
 Window::~Window() {
@@ -115,6 +119,33 @@ void Window::display() {
         glDepthFunc(GL_LESS);
     }*/
 
+    // Shadow Map pass
+    glViewport(0, 0, dLightShadowBuffer.width, dLightShadowBuffer.height);
+    dLightShadowBuffer.bind();
+    glClear(GL_DEPTH_BUFFER_BIT);
+    dLightShader->use();
+    dLightShadowBuffer.bind();
+    setDLightUniforms();
+    glDisable(GL_CULL_FACE);
+    for (auto& target : renderTargets) {
+        target->draw(dLightShader, dLightVP);
+    }
+    glEnable(GL_CULL_FACE);
+    dLightShadowBuffer.unbind();
+    dLightShadowBuffer.bindTexture(5);
+
+
+    glViewport(0, 0, width, height);
+    // Draw GBuffer
+    gBuffer.bind();
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    gBufferShader->use();
+    setGBufferUniforms();
+
+    for (auto& target : renderTargets) {
+        target->draw(gBufferShader, gBufferVP);
+    }
+
     // Everything drawn to GBuffer, now run the light pass to the screen
     gBuffer.unbind();
     gBuffer.bindTextures();
@@ -125,17 +156,27 @@ void Window::display() {
     saoPassShader->use();
     setSAOPassUniforms();
     glDisable(GL_CULL_FACE);
-    saoPassScreen.drawLightPass(saoPassShader);
+    drawScreen.drawLightPass(saoPassShader);
 
     saoBuffer.unbind();
 
-    // BLUR SAO
-    saoBlurBuffer.bind();
+    // BLUR SAO: two separable passes (horizontal then vertical) instead of
+    // one 2D pass, so a wide bilateral blur stays cheap.
+    saoBlurHBuffer.bind();
     saoBuffer.bindTexture(3);
     glClear(GL_COLOR_BUFFER_BIT);
     saoBlurPassShader->use();
-    setSAOBlurPassUniforms();
-    saoBlurPassScreen.drawLightPass(saoBlurPassShader);
+    setSAOBlurPassUniforms(Vec2(1., 0.));
+    drawScreen.drawLightPass(saoBlurPassShader);
+
+    saoBlurHBuffer.unbind();
+
+    saoBlurBuffer.bind();
+    saoBlurHBuffer.bindTexture(3);
+    glClear(GL_COLOR_BUFFER_BIT);
+    saoBlurPassShader->use();
+    setSAOBlurPassUniforms(Vec2(0., 1.));
+    drawScreen.drawLightPass(saoBlurPassShader);
 
     saoBlurBuffer.unbind();
 
@@ -147,8 +188,10 @@ void Window::display() {
     setLightPassUniforms();
 
     // Quad is drawn in clip space directly, so its winding can be back-facing.
-    lightPassScreen.drawLightPass(lightPassShader);
+    drawScreen.drawLightPass(lightPassShader);
     glEnable(GL_CULL_FACE);
+
+    renderTargets.clear();
 
     glfwSwapBuffers(win);
 }
@@ -158,28 +201,20 @@ bool Window::isOpen() {
 }
 
 void Window::clear(Color c) {
-    gBuffer.bind();
     glClearColor(0., 0., 0., 1.);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    /*
-    setDefaultUniforms(objectShader);
-    setDefaultUniforms(skyBoxShader);
-    setDefaultUniforms(pointShader);
-    if (skyBox != nullptr) skyBox->map.bind(SKYBOX_TEXTURE_UNIT);*/
-    gBufferShader->use();
-    setGBufferUniforms();
+
+    //if (skyBox != nullptr) skyBox->map.bind(SKYBOX_TEXTURE_UNIT);
 }
 
-void Window::draw(Drawable& d) {
-    d.draw(gBufferShader, gBufferVP);
-}
-
-void Window::draw(ComplexDrawable& d) {
-    d.draw(gBufferShader, gBufferVP);
+void Window::draw(IRenderable& d) {
+    renderTargets.push_back(&d);
 }
 
 void Window::draw(Scene& s) {
-    s.draw(gBufferShader, gBufferVP);
+    for (auto& target : s.sceneObjects) { 
+        renderTargets.push_back(target); 
+    }
 }
 
 void Window::setSkyBox(std::shared_ptr<SkyBox> _skyBox) {
@@ -199,6 +234,12 @@ void Window::setGBufferUniforms() {
     gBufferVP = cam.GetProjectionMatrix() * cam.GetViewMatrix();
 }
 
+void Window::setDLightUniforms() {
+    calcDLightVP();
+    
+    dLightShader->setMat4(SHADER_LIGHT_SPACE_MATRIX_UNIFORM, dLightVP);
+}
+
 void Window::setLightPassUniforms() {
     lightPassShader->use();
 
@@ -208,6 +249,7 @@ void Window::setLightPassUniforms() {
     lightPassShader->setInt(SHADER_GNORMAL_UNIFORM, 1);
     lightPassShader->setInt(SHADER_GALBEDO_SPEC_UNIFORM, 2);
     lightPassShader->setInt(SHADER_GSAO_BLUR_UNIFORM, 4);
+    lightPassShader->setInt(SHADER_DIR_SHADOW_MAP_UNIFORM, 5);
 
     setPointLightUniforms();
 
@@ -225,6 +267,8 @@ void Window::setLightPassUniforms() {
 
     lightPassShader->setMat4(SHADER_VIEW_SET_UNIFORM, cam.GetViewMatrix());
     lightPassShader->setMat4(SHADER_PROJECTION_SET_UNIFORM, cam.GetProjectionMatrix());
+
+    lightPassShader->setMat4(SHADER_LIGHT_SPACE_MATRIX_UNIFORM, dLightVP);
 
     lightPassShader->setBool(SHADER_SHOW_SAO_UNIFORM, showSao);
 }
@@ -246,9 +290,11 @@ void Window::setSAOPassUniforms() {
     saoPassShader->setMat4(SHADER_PROJECTION_SET_UNIFORM, cam.GetProjectionMatrix());
 }
 
-void Window::setSAOBlurPassUniforms() {
+void Window::setSAOBlurPassUniforms(Vec2 direction) {
     saoBlurPassShader->use();
     saoBlurPassShader->setInt(SHADER_GSAO_UNIFORM, 3);
+    saoBlurPassShader->setVec2(SHADER_SAO_BLUR_DIRECTION_UNIFORM, direction);
+    saoBlurPassShader->setVec2(SHADER_RESOLUTION_UNIFORM, Vec2(width, height));
 }
 
 void Window::setPointLightUniforms() {
@@ -267,6 +313,21 @@ void Window::setPointLightUniforms() {
 
     glBindBuffer(GL_UNIFORM_BUFFER, pointLightUBO);
     glBufferSubData(GL_UNIFORM_BUFFER, 0, count * sizeof(GPUPointLight), data.data());
+}
+
+void Window::calcDLightVP() {
+    double near = 0.1;
+    double extent = 75.;
+    double shadowDistance = 100.;
+    double far = shadowDistance + extent;
+
+    Vec3 target = cam.GetPos();
+    Vec3 eye = target - dLight.getDir().normalize() * shadowDistance;
+
+    Mat4D p = cam.CreateOrthographicMatrix(near, far, extent, -extent, extent, -extent);
+    Mat4D v = lookAt(eye, target, Vec3(0., 1., 0.));
+
+    dLightVP = p * v;
 }
 
 

@@ -472,3 +472,25 @@ Vec4 Mat4D::operator*(const Vec4& vec) const {
 MatD Mat4D::toMatD() const {
     return MatD(4, 4, std::vector<double>(values, values + 16));
 }
+
+Mat4D lookAt(Vec3 eye, Vec3 target, Vec3 up) {
+    Vec3 direction = (eye - target).normalize();
+    Vec3 right = up.cross(direction).normalize();
+    Vec3 camUp = direction.cross(right);
+
+    Mat4D m1({
+        right.x, right.y, right.z, 0,
+        camUp.x, camUp.y, camUp.z, 0,
+        direction.x, direction.y, direction.z, 0,
+        0, 0, 0, 1
+    });
+
+    Mat4D m2({
+        1, 0, 0, -eye.x,
+        0, 1, 0, -eye.y,
+        0, 0, 1, -eye.z,
+        0, 0, 0, 1
+    });
+
+    return m1 * m2;
+}

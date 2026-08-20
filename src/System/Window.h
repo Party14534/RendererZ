@@ -20,19 +20,30 @@ struct Window {
     u32 width, height;
     std::string windowName;
 
+    std::vector<IRenderable*> renderTargets;
+
+    // Shaders
     std::shared_ptr<ShaderProgram> gBufferShader = nullptr;
+    std::shared_ptr<ShaderProgram> dLightShader = nullptr;
     std::shared_ptr<ShaderProgram> lightPassShader = nullptr;
     std::shared_ptr<ShaderProgram> saoPassShader = nullptr;
     std::shared_ptr<ShaderProgram> saoBlurPassShader = nullptr;
 
+    // Frame Buffers
     GBuffer gBuffer;
+    Framebuffer dLightShadowBuffer;
     Framebuffer saoBuffer;
+    Framebuffer saoBlurHBuffer;
     Framebuffer saoBlurBuffer;
-    Drawable lightPassScreen;
-    Drawable saoPassScreen;
-    Drawable saoBlurPassScreen;
-    u32 pointLightUBO;
+
+    // Screens
+    Drawable drawScreen;
+
+    // VP Matrices
     Mat4D gBufferVP;
+
+    // UBOs
+    u32 pointLightUBO;
 
     std::shared_ptr<SkyBox> skyBox = nullptr;
 
@@ -41,6 +52,8 @@ struct Window {
 
     // Lighting
     DirLight dLight;
+    Mat4D dLightVP;
+
     std::vector<std::shared_ptr<PointLight>> pLights;
 
     bool wasMouseMoved;
@@ -54,17 +67,17 @@ struct Window {
     void display();
     bool isOpen();
     void clear(Color c);
-    void draw(Drawable& d);
-    void draw(ComplexDrawable& d);
+    void draw(IRenderable& d);
     void draw(Scene& scene);
 
     void setSkyBox(std::shared_ptr<SkyBox> skyBox);
     
     // Uniforms
     void setGBufferUniforms();
+    void setDLightUniforms();
     void setLightPassUniforms();
     void setSAOPassUniforms();
-    void setSAOBlurPassUniforms();
+    void setSAOBlurPassUniforms(Vec2 direction);
     void setPointLightUniforms();
 
     // Events
@@ -78,6 +91,7 @@ struct Window {
     // Lighting
     void addPointLight(PointLight p);
     void removePointLight(u32 i);
+    void calcDLightVP();
 
     // Callbacks
     static void mouseCallback(GLFWwindow* win, double xPos, double yPos);

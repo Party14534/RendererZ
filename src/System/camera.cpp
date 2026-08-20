@@ -103,16 +103,28 @@ void Camera::BuildPerspectiveMatrices(u32 width, u32 height) {
 
     aspectRatio = (float)width / (float)height;
     double aspectRatioD = (double)width / (double)height;
-    orthoMat = Mat4D({
+    orthoMat = CreateOrthographicMatrix(near, far, right, left, top, bottom);
+
+    perspMat = CreatePerspectiveMatrix(near, far, fov, (double)width, (double)height);
+}
+
+
+Mat4D Camera::CreateOrthographicMatrix(double near, double far, double right, 
+        double left, double top, double bottom) {
+    return Mat4D({
             2/(right - left), 0, 0, -((right + left) / (right - left)),
             0, 2/(top - bottom), 0, -((top + bottom) / (top - bottom)),
             0, 0, -2/(far - near), -((far + near) / (far - near)),
             0, 0, 0, 1
         }
     );
+}
 
+Mat4D Camera::CreatePerspectiveMatrix(double near, double far, double FOV,
+        double width, double height) {
+    double aspectRatio = width / height;
     double S = 1. / (tan((fov * 0.5) * (PI * (1. / 180.))));
-    perspMat = Mat4D({
+    return Mat4D({
             S / aspectRatio, 0, 0, 0,
             0, S, 0, 0,
             0, 0, -1., -2. * near,
