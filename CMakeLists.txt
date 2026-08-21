@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 
 # To build: cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=ON && cmake --build build -j
+# For profiling builds (VTune, perf, etc.) see PROFILING.md.
 
 # --- Compiler selection -------------------------------------------------------
 # This must happen BEFORE project(), since CMake locks in the compiler there.
@@ -89,6 +90,15 @@ target_include_directories(renderer PRIVATE
 )
 
 # -O3 in Release comes from the build type; nothing extra needed here.
+
+# --- Profiling build (RelWithDebInfo) --------------------------------------
+# CMake's stock RelWithDebInfo is "-O2 -g -DNDEBUG" - a different optimizer
+# tier than Release. Override it to "-O3 -g" so profiling (VTune, perf, etc.)
+# runs against the same codegen that actually ships, just with symbols kept.
+# -fno-omit-frame-pointer makes hardware-event-sampling stack unwinding (VTune
+# hotspots/microarch analysis, perf) reliable; it's a no-op for correctness.
+set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O3 -g -fno-omit-frame-pointer")
+set(CMAKE_C_FLAGS_RELWITHDEBINFO "-O3 -g -fno-omit-frame-pointer")
 
 # --- Native CPU tuning ----------------------------------------------------
 # -march=native tunes codegen for the exact CPU doing the build, so it's only
