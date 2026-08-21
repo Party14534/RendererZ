@@ -45,14 +45,14 @@ captured enough frames — VTune records until the process exits.
 
 ```bash
 # Where is time going, generally
-vtune -collect hotspots -result-dir ./vtune_hotspots -- ./build-profile/renderer
+vtune -collect hotspots -result-dir ./vtune_hotspots -- ./renderer
 
 # TBB/OpenMP thread behavior - stalls, imbalance, actual TBB task attribution
-vtune -collect threading -result-dir ./vtune_threading -- ./build-profile/renderer
+vtune -collect threading -result-dir ./vtune_threading -- ./renderer
 
 # Cache misses / memory-bound analysis - often more revealing than hotspots
 # for math-heavy CPU code (matrix/vertex work) feeding the GPU
-vtune -collect memory-access -result-dir ./vtune_memaccess -- ./build-profile/renderer
+vtune -collect memory-access -result-dir ./vtune_memaccess -- ./renderer
 ```
 
 View results:
