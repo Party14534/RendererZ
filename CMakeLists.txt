@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 
+# To build: cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=ON && cmake --build build -j
+
 # --- Compiler selection -------------------------------------------------------
 # This must happen BEFORE project(), since CMake locks in the compiler there.
 # On macOS we use clang (Apple's toolchain / the GL+GLFW path expects it).
@@ -87,6 +89,18 @@ target_include_directories(renderer PRIVATE
 )
 
 # -O3 in Release comes from the build type; nothing extra needed here.
+
+# --- Native CPU tuning ----------------------------------------------------
+# -march=native tunes codegen for the exact CPU doing the build, so it's only
+# appropriate for local dev builds, not binaries meant to run elsewhere.
+# Guarded with a compile check since not every compiler/target accepts it.
+include(CheckCXXCompilerFlag)
+check_cxx_compiler_flag("-march=native" RZ_HAS_MARCH_NATIVE)
+if(RZ_HAS_MARCH_NATIVE)
+    target_compile_options(renderer PRIVATE -march=native)
+else()
+    message(STATUS "-march=native not supported by this compiler - skipping.")
+endif()
 
 # --- GLFW ---------------------------------------------------------------------
 # Prefer the package config GLFW ships (Homebrew/apt/vcpkg all provide it),
