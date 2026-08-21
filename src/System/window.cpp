@@ -43,6 +43,9 @@ Window::Window(u32 width, u32 height, std::string windowName) :
         exit(1);
     }
 
+    std::cout << "GPU: " << glGetString(GL_RENDERER)
+               << " (" << glGetString(GL_VENDOR) << ")" << std::endl;
+
     // Set viewport using the actual framebuffer size (differs from the
     // requested window size on high-DPI / Retina displays)
     int fbWidth, fbHeight;
