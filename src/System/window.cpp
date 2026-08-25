@@ -60,9 +60,9 @@ Window::Window(u32 width, u32 height, std::string windowName) :
     saoBlurHBuffer.init(RG16, fbWidth, fbHeight, RG, FLOAT, NEAREST, NEAREST);
     saoBlurBuffer.init(RG16, fbWidth, fbHeight, RG, FLOAT, NEAREST, NEAREST);
 
-    int dBufferWidth = int(2048.f * (float(width) / float(height)));
+    int dBufferWidth = int(1024.f * (float(width) / float(height)));
 
-    dLightShadowBuffer.init(DEPTH, dBufferWidth, 2048, DEPTH, FLOAT, LINEAR, LINEAR);
+    dLightShadowBuffer.init(DEPTH, dBufferWidth, 1024, DEPTH, FLOAT, LINEAR, LINEAR);
 
     // Update window size with window update
     glfwSetFramebufferSizeCallback(win, framebuffer_size_callback);
@@ -323,7 +323,7 @@ void Window::setPointLightUniforms() {
 
 void Window::calcDLightVP() {
     double near = 0.1;
-    double extent = 75.;
+    double extent = 16.;
     double shadowDistance = 100.;
     double far = shadowDistance + extent;
 
