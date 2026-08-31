@@ -22,13 +22,15 @@ uniform bool usingSkyBox_z;
 
 void main()
 {
+
     gPosition = FragPos;
 
     gNormal = usingNormalMap_z
         ? normalize(TBN * (texture(normalMap, TexCoord).rgb * 2.0 - 1.0))
         : normalize(TBN[2]);
 
-    gAlbedoSpec.rgb = usingTex_z ? texture(tex, TexCoord).rgb : vec3(1.);
+    vec4 col = usingTex_z ? texture(tex, TexCoord) : vec4(1.);
+    gAlbedoSpec.rgb = col.rgb;
     gAlbedoSpec.rgb *= color_z;
     gAlbedoSpec.a = specular_z;
 }

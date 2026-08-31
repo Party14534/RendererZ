@@ -114,14 +114,14 @@ vec2 calcSAO(vec3 normal, vec3 fragPos, vec2 uv) {
     float wR = 1.; // World space radius
     float radius2 = wR * wR;
     float radius = (wR * focalLen) / -zc;
-    float tau = 7. * 1.5;
+    float tau = 7. * 1.;
 
     //float phi = float( (30 * int(x)) ^ int(y)) + 10.*x*y;
     float phi = hash12(vec2(x, y)) * 2. * M_PI;
     float radiusJitter = hash12(vec2(x, y) + vec2(91.3, 47.7));
 
     float summation = 0.;
-    float s = 9. * 1.5;
+    float s = 9. * 1.;
     float validCount = 0.;
     for (float i = 0.; i < s; i++) {
         //float a = (1. / s) * (i + .5);

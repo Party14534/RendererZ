@@ -8,7 +8,7 @@ uniform sampler2D gSAO;
 uniform vec2 saoBlurDir_z;
 uniform vec2 resolution_z;
 
-const int RADIUS = 4;
+const int RADIUS = 16;
 const float DEPTH_SIGMA = 1.;
 
 void main()
