@@ -1,15 +1,13 @@
 #ifndef GLOBAL_H
 #define GLOBAL_H
 
-#include "../include/glad.h"
+#include <memory>
 
-#include <GLFW/glfw3.h>
-#include "Math/vec.h"
-#include "Shaders/shaders.h"
-#include <cstdint>
-#include <iostream>
+#include "System/GraphicsAPI/GraphicsApi.h"
 
-inline GLFWwindow* win;
+#include "../include/stb_image.h"
+
+inline std::shared_ptr<GraphicsAPI> api;
 
 inline bool frameCallbackFlag = false;
 inline uint32_t frameCallbackWidth = 0;
@@ -17,7 +15,5 @@ inline uint32_t frameCallbackHeight = 0;
 inline bool mouseCallbackFlag = false;
 inline double mouseCallbackX = 0.0f;
 inline double mouseCallbackY = 0.0f;
-
-void initializeGL();
 
 #endif

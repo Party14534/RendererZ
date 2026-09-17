@@ -1,7 +1,8 @@
 #include "Window.h"
 #include "Shaders/ShaderCode.h"
 #include "Shaders/shaders.h"
-#include "global.h"
+#include "System/GraphicsAPI/GraphicsPipeline.h"
+#include "System/GraphicsApi/GraphicsApi.h"
 #include <cmath>
 #include <vector>
 
@@ -18,54 +19,28 @@ static void writeVec3(float* dst, const Vec3& v) {
     dst[0] = v.x; dst[1] = v.y; dst[2] = v.z; dst[3] = 0.f;
 }
 
-Window::Window(u32 width, u32 height, std::string windowName) :
-    width(width),
-    height(height),
+Window::Window(u32 _width, u32 _height, std::string windowName) :
+    width(_width),
+    height(_height),
     windowName(windowName),
-    mouse((float)width / 2.f, (float)height / 2.f),
+    mouse((float)_width / 2.f, (float)_height / 2.f),
     dLight(Vec3(0., -1, 0.), DirLightProperties()),
-    drawScreen(Drawable::Plane())
+    drawScreen(Drawable::Plane()),
+    _api(std::make_shared<OpenGLAPI>(_width, _height, windowName))
 {
-    initializeGL(); // Initialize GLFW
+    api = _api;
+    api->createWindow();
+    width = api->width;
+    height = api->height;
 
-    win = glfwCreateWindow(width, height, windowName.c_str(), NULL, NULL);
-    if (win == NULL) {
-        std::cout << "Failed to create window\n";
-        glfwTerminate();
-        exit(1);
-    }
-    glfwMakeContextCurrent(win);
-
-    // Initialize glad
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-    {
-        std::cout << "Failed to initialize GLAD" << std::endl;
-        exit(1);
-    }
-
-    std::cout << "GPU: " << glGetString(GL_RENDERER)
-               << " (" << glGetString(GL_VENDOR) << ")" << std::endl;
-
-    // Set viewport using the actual framebuffer size (differs from the
-    // requested window size on high-DPI / Retina displays)
-    int fbWidth, fbHeight;
-    glfwGetFramebufferSize(win, &fbWidth, &fbHeight);
-    glViewport(0, 0, fbWidth, fbHeight);
-    this->width = fbWidth;
-    this->height = fbHeight;
-
-    // TODO: deal with resizing
-    gBuffer.init(fbWidth, fbHeight);
-    saoBuffer.init(RG16, fbWidth, fbHeight, RG, FLOAT, NEAREST, NEAREST);
-    saoBlurHBuffer.init(RG16, fbWidth, fbHeight, RG, FLOAT, NEAREST, NEAREST);
-    saoBlurBuffer.init(RG16, fbWidth, fbHeight, RG, FLOAT, NEAREST, NEAREST);
+    gBuffer.init(api->width, api->height);
+    saoBuffer.init(RG16, api->width, api->height, RG, FLOAT, NEAREST, NEAREST);
+    saoBlurHBuffer.init(RG16, api->width, api->height, RG, FLOAT, NEAREST, NEAREST);
+    saoBlurBuffer.init(RG16, api->width, api->height, RG, FLOAT, NEAREST, NEAREST);
 
     int dBufferWidth = int(1024.f * (float(width) / float(height)));
 
     dLightShadowBuffer.init(DEPTH, dBufferWidth, 1024, DEPTH, FLOAT, LINEAR, LINEAR);
-
-    // Update window size with window update
-    glfwSetFramebufferSizeCallback(win, framebuffer_size_callback);
 
     gBufferShader = std::make_shared<ShaderProgram>(ShaderProgram::fromStrings(gBufferVertex, gBufferFrag));
     dLightShader = std::make_shared<ShaderProgram>(ShaderProgram::fromStrings(dLightVertex, dLightFrag));
@@ -73,11 +48,9 @@ Window::Window(u32 width, u32 height, std::string windowName) :
     saoPassShader = std::make_shared<ShaderProgram>(ShaderProgram::fromStrings(lightPassVertex, saoPassFrag));
     saoBlurPassShader = std::make_shared<ShaderProgram>(ShaderProgram::fromStrings(lightPassVertex, saoBlurPassFrag));
 
-    glGenBuffers(1, &pointLightUBO);
-    glBindBuffer(GL_UNIFORM_BUFFER, pointLightUBO);
-    glBufferData(GL_UNIFORM_BUFFER, MAX_POINT_LIGHTS * sizeof(GPUPointLight), NULL, GL_DYNAMIC_DRAW);
-    glBindBufferBase(GL_UNIFORM_BUFFER, POINT_LIGHT_UBO_BINDING, pointLightUBO);
-    lightPassShader->bindUniformBlock(SHADER_POINT_LIGHT_BLOCK, POINT_LIGHT_UBO_BINDING);
+
+    pointLightUBO.init(MAX_POINT_LIGHTS * sizeof(GPUPointLight), 0, DYNAMIC, 0);
+    lightPassShader->bindUniformBlock(SHADER_POINT_LIGHT_BLOCK, pointLightUBO);
 
     // gl_PointSize in the vertex shader is ignored unless this is enabled.
     /* TODO: POINTS
@@ -88,17 +61,17 @@ Window::Window(u32 width, u32 height, std::string windowName) :
     // Create perspective matrices
     cam.BuildPerspectiveMatrices(width, height);
 
-    // Enable depth testing
-    glEnable(GL_DEPTH_TEST);
-
-    // Set cursor callback
-    glfwSetCursorPosCallback(win, mouseCallback);
+    // Set callbacks
+    api->setResizeCallback(framebuffer_size_callback);
+    api->setCursorPosCallback(mouseCallback);
     
     // Set mouse position
-    glfwGetCursorPos(win, &mouse.x, &mouse.y);
+    mouse.pos = api->getCursorPos();
 
-    glEnable(GL_CULL_FACE);
-    glEnable(GL_FRAMEBUFFER_SRGB);
+    // Enable depth testing
+    api->setDepthTest(true);
+    api->setSRGB(true);
+    api->setCullFace(true);
 
     // Initialize Lights
     pLights = std::vector<std::shared_ptr<PointLight>>(0);
@@ -113,7 +86,11 @@ Window::~Window() {
     glfwTerminate();
 }
 
-void Window::display() {
+void testCallback() {
+    api->setCullFace(false);
+}
+
+void Window::display(GraphicsPipeline& pipeline) {
     // If a sky box is set draw that now
     /*if (skyBox != nullptr) {
         Mat view = cam.GetViewMatrix().scaleDown().scaleUp();
@@ -125,85 +102,13 @@ void Window::display() {
         glDepthFunc(GL_LESS);
     }*/
 
-    // Shadow Map pass
-    glViewport(0, 0, dLightShadowBuffer.width, dLightShadowBuffer.height);
-    dLightShadowBuffer.bind();
-    glClear(GL_DEPTH_BUFFER_BIT);
-    dLightShader->use();
-    dLightShadowBuffer.bind();
-    setDLightUniforms();
-    glDisable(GL_CULL_FACE);
-    for (auto& target : renderTargets) {
-        target->draw(dLightShader, dLightVP);
-    }
-    glEnable(GL_CULL_FACE);
-    dLightShadowBuffer.unbind();
-    dLightShadowBuffer.bindTexture(5);
-
-
-    glViewport(0, 0, width, height);
-    // Draw GBuffer
-    gBuffer.bind();
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    gBufferShader->use();
-    setGBufferUniforms();
-
-    for (auto& target : renderTargets) {
-        target->draw(gBufferShader, gBufferVP);
-    }
-
-    // Everything drawn to GBuffer, now run the light pass to the screen
-    gBuffer.unbind();
-    gBuffer.bindTextures();
-
-    // SAO rendering
-    saoBuffer.bind();
-    glClear(GL_COLOR_BUFFER_BIT);
-    saoPassShader->use();
-    setSAOPassUniforms();
-    glDisable(GL_CULL_FACE);
-    drawScreen.drawLightPass(saoPassShader);
-
-    saoBuffer.unbind();
-
-    // BLUR SAO: two separable passes (horizontal then vertical) instead of
-    // one 2D pass, so a wide bilateral blur stays cheap.
-    saoBlurHBuffer.bind();
-    saoBuffer.bindTexture(3);
-    glClear(GL_COLOR_BUFFER_BIT);
-    saoBlurPassShader->use();
-    setSAOBlurPassUniforms(Vec2(1., 0.));
-    drawScreen.drawLightPass(saoBlurPassShader);
-
-    saoBlurHBuffer.unbind();
-
-    saoBlurBuffer.bind();
-    saoBlurHBuffer.bindTexture(3);
-    glClear(GL_COLOR_BUFFER_BIT);
-    saoBlurPassShader->use();
-    setSAOBlurPassUniforms(Vec2(0., 1.));
-    drawScreen.drawLightPass(saoBlurPassShader);
-
-    saoBlurBuffer.unbind();
-
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    saoBlurBuffer.bindTexture(4);
-
-    // Render lighting
-    lightPassShader->use();
-    setLightPassUniforms();
-
-    // Quad is drawn in clip space directly, so its winding can be back-facing.
-    drawScreen.drawLightPass(lightPassShader);
-    glEnable(GL_CULL_FACE);
-
+    pipeline.runPipeline(renderTargets);
     renderTargets.clear();
-
-    glfwSwapBuffers(win);
+    api->swapBuffers();
 }
 
 bool Window::isOpen() {
-    return !glfwWindowShouldClose(win);
+    return api->isWindowOpen();
 }
 
 void Window::clear(Color c) {
@@ -317,14 +222,14 @@ void Window::setPointLightUniforms() {
         writeVec3(data[i].attenuation, l->properties.attenuation);
     }
 
-    glBindBuffer(GL_UNIFORM_BUFFER, pointLightUBO);
+    pointLightUBO.bind();
     glBufferSubData(GL_UNIFORM_BUFFER, 0, count * sizeof(GPUPointLight), data.data());
 }
 
 void Window::calcDLightVP() {
     double near = 0.1;
     double extent = 16.;
-    double shadowDistance = 100.;
+    double shadowDistance = 10000.;
     double far = shadowDistance + extent;
 
     Vec3 lightDir = dLight.getDir().normalize();
@@ -344,6 +249,7 @@ void Window::calcDLightVP() {
     double texelSizeY = (extent * 2.) / double(dLightShadowBuffer.height);
 
     Vec3 camPos = cam.GetPos();
+    camPos = Vec3(0., 0., 0.);
     float u = camPos.dot(right);
     float w = camPos.dot(camUp);
     float depth = camPos.dot(direction);
@@ -371,7 +277,9 @@ void Window::pollEvents() {
     if (frameCallbackFlag) {
         width = frameCallbackWidth;
         height = frameCallbackHeight;
-        
+        api->width = frameCallbackWidth;
+        api->height = frameCallbackHeight;
+
         // Build perspective matrices
         cam.BuildPerspectiveMatrices(width, height);
 
@@ -383,13 +291,13 @@ void Window::pollEvents() {
     if (mouseCallbackFlag) {
         // The cursor callback reports absolute positions; convert to a
         // frame-to-frame delta relative to the last position we stored.
-        float dx = (float)(mouseCallbackX - mouse.x);
-        float dy = (float)(mouse.y - mouseCallbackY); // screen-y grows downward; invert
+        float dx = (float)(mouseCallbackX - mouse.pos.x);
+        float dy = (float)(mouse.pos.y - mouseCallbackY); // screen-y grows downward; invert
 
         mouseChange = Vec2(dx, dy);
 
-        mouse.x = mouseCallbackX;
-        mouse.y = mouseCallbackY;
+        mouse.pos.x = mouseCallbackX;
+        mouse.pos.y = mouseCallbackY;
 
         mouseCallbackFlag = false;
         wasMouseMoved = true;
@@ -397,15 +305,15 @@ void Window::pollEvents() {
 }
 
 void Window::captureMouse() {
-    glfwSetInputMode(win, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    api->captureMouse(true);
 }
 
 void Window::uncaptureMouse() {
-    glfwSetInputMode(win, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+    api->captureMouse(false);
 }
 
 bool Window::isKeyPressed(u32 keycode) {
-    return glfwGetKey(win, keycode);
+    return api->isKeyPressed(keycode);
 }
 
 /*

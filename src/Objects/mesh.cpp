@@ -1,9 +1,6 @@
 #include "Mesh.h"
 #include "Primitives.h"
 #include "../Tools/ObjectLoading.h"
-#include "global.h"
-#include <execution>
-#include <memory>
 
 Mesh::Mesh(std::vector<VertexAttribute> vertices, std::vector<u32> indices) :
     vertices(vertices),
@@ -14,58 +11,46 @@ Mesh::Mesh() { }
 
 void Mesh::init() {
     // Generate VAO and VBO and EBO
-    glGenBuffers(1, &VBO);
-    glGenBuffers(1, &EBO);
-    glGenVertexArrays(1, &VAO);
+    VAO.init();
+    VAO.bind();
 
-    // Bind and set up buffers
-    glBindVertexArray(VAO); // MUST BIND VAO FIRST
+    VBO.init(vertices.size() * sizeof(VertexAttribute),
+            vertices.data(), STATIC, 0);
 
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(VertexAttribute),
-            vertices.data(), GL_STATIC_DRAW);
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(u32),
-            indices.data(), GL_STATIC_DRAW);
+    EBO.init(indices.size() * sizeof(u32),
+            indices.data(), STATIC, 0);
 
     // Set attribs
     // vertex pos
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE,
+    api->setVertexAttribute(0, 3, FLOAT, GL_FALSE,
                             14 * sizeof(float), (void*)(0));
-    glEnableVertexAttribArray(0);
+    api->enableVertexAttributeArray(0);
 
     // vertex normal
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE,
+    api->setVertexAttribute(1, 3, FLOAT, GL_FALSE,
                             14 * sizeof(float),
                             (void*)(3*sizeof(float)));
-    glEnableVertexAttribArray(1);
+    api->enableVertexAttributeArray(1);
 
     // tex coord
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE,
+    api->setVertexAttribute(2, 2, FLOAT, GL_FALSE,
                             14 * sizeof(float),
                             (void*)(6*sizeof(float)));
-    glEnableVertexAttribArray(2);
+    api->enableVertexAttributeArray(2);
 
     // tangent
-    glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE,
+    api->setVertexAttribute(3, 3, FLOAT, GL_FALSE,
                             14 * sizeof(float),
                             (void*)(8*sizeof(float)));
-    glEnableVertexAttribArray(3);
+    api->enableVertexAttributeArray(3);
 
     // bitangent
-    glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE,
+    api->setVertexAttribute(4, 3, FLOAT, GL_FALSE,
                             14 * sizeof(float),
                             (void*)(11*sizeof(float)));
-    glEnableVertexAttribArray(4);
+    api->enableVertexAttributeArray(4);
 
     initialized = true;
-}
-
-Mesh::~Mesh() {
-    glDeleteBuffers(1, &VBO);
-    glDeleteBuffers(1, &EBO);
-    glDeleteVertexArrays(1, &VAO);
 }
 
 std::shared_ptr<Mesh> Mesh::tri() {
@@ -181,9 +166,9 @@ void Mesh::generateTangents() {
 
 void Mesh::draw() {
     if (!initialized) init();
-    glBindVertexArray(VAO);
-    glDrawElements(drawType, indices.size(), GL_UNSIGNED_INT, 0);
-    glBindVertexArray(0);
+    VAO.bind();
+    api->drawElements(drawType, indices.size(), UNSIGNED_INT);
+    VAO.unbind();
 }
 
 
@@ -248,11 +233,6 @@ void PointMesh::init() {
     glEnableVertexAttribArray(1);
 
     initialized = true;
-}
-
-PointMesh::~PointMesh() {
-    glDeleteBuffers(1, &VBO);
-    glDeleteVertexArrays(1, &VAO);
 }
 
 void PointMesh::draw() {

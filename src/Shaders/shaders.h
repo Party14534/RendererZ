@@ -1,15 +1,14 @@
 #ifndef SHADERS_H
 #define SHADERS_H
 
-#include "../../include/glad.h"
 #include <string>
 #include <fstream>
 #include <iterator>
 #include <iostream>
-#include <GLFW/glfw3.h>
 #include <unordered_map>
 
 #include "../Math/math.h"
+#include "System/Buffer/Buffer.h"
 
 #define SHADER_MATERIAL_AMBIENT_UNIFORM "material_z.ambient"
 #define SHADER_MATERIAL_DIFFUSE_UNIFORM "material_z.diffuse"
@@ -120,7 +119,7 @@ struct ShaderProgram {
     const void setDirLight(const Vec3& dir, const Vec3& ambient,
             const Vec3& diffuse, const Vec3& specular) const;
 
-    const void bindUniformBlock(const std::string& name, u32 bindingPoint) const;
+    const void bindUniformBlock(const std::string& name, UniformBuffer& ubo) const;
 
     static ShaderProgram fromStrings(const std::string& vert, const std::string& frag);
 

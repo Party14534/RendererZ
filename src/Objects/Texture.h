@@ -5,52 +5,10 @@
 #include <algorithm>
 #include <iterator>
 #include <memory>
-
-#include "../../include/stb_image.h"
 #include "../global.h"
+
 #include "../Math/math.h"
-#include "../Shaders/shaders.h"
-
-enum TextureFilter {
-    MIN_FILTER = GL_TEXTURE_MIN_FILTER,
-    MAG_FILTER = GL_TEXTURE_MAG_FILTER,
-    WRAP_S = GL_TEXTURE_WRAP_S,
-    WRAP_T = GL_TEXTURE_WRAP_T,
-    WRAP_R = GL_TEXTURE_WRAP_R,
-    COMPARE_MODE = GL_TEXTURE_COMPARE_MODE
-};
-
-enum TextureFilterOption {
-    NEAREST = GL_NEAREST,
-    LINEAR = GL_LINEAR,
-    REPEAT = GL_REPEAT,
-    MIRRORED_REPEAT = GL_MIRRORED_REPEAT,
-    CLAMP_TO_EDGE = GL_CLAMP_TO_EDGE,
-    CLAMP_TO_BORDER = GL_CLAMP_TO_BORDER,
-    REF_TO_TEX = GL_COMPARE_REF_TO_TEXTURE
-};
-
-enum TextureFormat {
-    RED = GL_RED,
-    RG = GL_RG,
-    RGB = GL_RGB,
-    RGBA = GL_RGBA,
-    RG16 = GL_RG16F,
-    RGBA16 = GL_RGBA16F,
-    DEPTH = GL_DEPTH_COMPONENT
-};
-
-enum MipMapFilterOption {
-    NEAREST_NEAREST,
-    LINEAR_NEAREST,
-    NEAREST_LINEAR,
-    LINEAR_LINEAR
-};
-
-enum TexturePixelDataType {
-    FLOAT = GL_FLOAT,
-    UNSIGNED_BYTE = GL_UNSIGNED_BYTE
-};
+#include "System/GraphicsAPI/GraphicsApi.h"
 
 class Texture {
     public:
@@ -65,15 +23,17 @@ class Texture {
         bool loaded = false;
 
         Texture();
-        Texture(TextureFormat internal, u32 width, u32 height, TextureFormat format, TexturePixelDataType type);
+        Texture(TextureFormat internal, u32 width, u32 height,
+            TextureFormat format, DataType type, void* data);
         Texture(std::string _path, bool sRGB = true, bool flipVertically = true);
 
         void loadImage(std::string _path, bool sRGB, bool flipVertically = true);
 
-        void setTextureParameter(TextureFilter filter, TextureFilterOption opt);
-        void attachToFramebuffer2D(u32 i);
-        void setActive(u32 texNum);
-        void bind();
+        void setTextureParameter(TextureFilter filter,
+                TextureFilterOption opt);
+        void attachToFramebuffer2D(u32 i) const;
+        void setActive(u32 texNum) const;
+        void bind() const;
 
         static std::shared_ptr<Texture> fromFile(std::string path, bool sRGB = true, bool flipVertically = true);
 };

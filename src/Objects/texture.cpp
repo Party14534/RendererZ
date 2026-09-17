@@ -1,5 +1,4 @@
 #include "Texture.h"
-#include "../Shaders/shaders.h"
 #include "global.h"
 #include <algorithm>
 #include <iterator>
@@ -8,18 +7,18 @@
 Texture::Texture() { }
 
 Texture::Texture(TextureFormat internal, u32 width, u32 height,
-        TextureFormat format, TexturePixelDataType type) { 
-    glGenTextures(1, &ID);
+        TextureFormat format, DataType type, void* data) {
+    ID = api->createTexture2D(internal, width, height, format, type, data);
     loaded = true;
     bind();
-    glTexImage2D(GL_TEXTURE_2D, 0, internal, width, height, 0, format, type, 0);
 }
 
 Texture::Texture(std::string _path, bool sRGB, bool flipVertically) : path(_path) {
     loadImage(_path, sRGB, flipVertically);
 }
 
-std::shared_ptr<Texture> Texture::fromFile(std::string path, bool sRGB, bool flipVertically) {
+std::shared_ptr<Texture> Texture::fromFile(
+        std::string path, bool sRGB, bool flipVertically) {
     Texture t(path, sRGB, flipVertically);
     return std::make_shared<Texture>(t);
 }
@@ -34,39 +33,33 @@ void Texture::loadImage(std::string _path, bool sRGB, bool flipVertically) {
         return;
     }
 
-    glGenTextures(1, &ID);
+    TextureFormat format = (sRGB) ? SRGB : RGB;
 
-    glBindTexture(GL_TEXTURE_2D, ID);
-
-    u32 format = (sRGB) ? GL_SRGB : GL_RGB;
-
-    glTexImage2D(GL_TEXTURE_2D, 0, format, width, height,
-            0, GL_RGB, GL_UNSIGNED_BYTE, data);
-
-    glGenerateMipmap(GL_TEXTURE_2D);
+    ID = api->createTexture2D(format, width, height, RGB, UNSIGNED_BYTE, data);
+    setTextureParameter(MIN_FILTER, LINEAR);
+    setTextureParameter(MAG_FILTER, LINEAR);
 
     stbi_image_free(data);
 
     loaded = true;
 }
 
-void Texture::bind() {
+void Texture::bind() const {
     if(!loaded) { std::cerr << "Binding unloaded texture\n"; exit(1); }
-    glBindTexture(GL_TEXTURE_2D, ID);
+    api->bindTexture2D(ID);
 }
 
-void Texture::setActive(u32 texNum) {
+void Texture::setActive(u32 texNum) const {
     if(!loaded) { std::cerr << "Binding unloaded texture\n"; exit(1); }
-    glActiveTexture(GL_TEXTURE0 + texNum);
-    glBindTexture(GL_TEXTURE_2D, ID);
+    api->activeTexture2D(texNum, ID);
 }
 
 void Texture::setTextureParameter(TextureFilter filter, TextureFilterOption opt) {
-    glTexParameteri(GL_TEXTURE_2D, filter, opt);
+    api->setTexture2DParameter(filter, opt);
 }
 
-void Texture::attachToFramebuffer2D(u32 i) {
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, GL_TEXTURE_2D, ID, 0);
+void Texture::attachToFramebuffer2D(u32 i) const {
+    api->attachTexture2DToFramebuffer2D(i, ID);
 }
 
 

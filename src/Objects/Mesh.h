@@ -6,8 +6,8 @@
 #include <execution>
 #include <memory>
 
-#include "../global.h"
 #include "../Math/math.h"
+#include "System/Buffer/Buffer.h"
 
 struct VertexAttribute {
     float x, y, z, xn, yn, zn, u, v, xt, yt, zt, xbt, ybt, zbt;
@@ -32,11 +32,10 @@ class Mesh {
         std::vector<VertexAttribute> vertices;
         std::vector<u32> indices;
 
-        u32 drawType = GL_TRIANGLES;
+        DrawType drawType = TRI;
 
         Mesh();
         Mesh(std::vector<VertexAttribute> verts, std::vector<u32> indices);
-        virtual ~Mesh();                                   // glDeleteBuffers / glDeleteVertexArrays
 
         Mesh(const Mesh&)            = delete;      // GL handles aren't copyable...
         Mesh& operator=(const Mesh&) = delete;
@@ -56,7 +55,9 @@ class Mesh {
                 bool genNormals = false);
 
     private:
-        u32 VAO, VBO, EBO;
+        VertexArray VAO;
+        ArrayBuffer VBO;
+        ElementArrayBuffer EBO;
         bool initialized = false;
 };
 
@@ -66,7 +67,6 @@ class PointMesh : public Mesh {
         u32 drawType = GL_POINTS;
 
         PointMesh(std::vector<PointVertexAttribute>& verts);
-        ~PointMesh() override;                                   // glDeleteBuffers / glDeleteVertexArrays
 
         PointMesh(const PointMesh&)            = delete;      // GL handles aren't copyable...
         PointMesh& operator=(const PointMesh&) = delete;

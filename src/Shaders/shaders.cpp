@@ -262,7 +262,7 @@ const void ShaderProgram::setDirLight(const Vec3& dir, const Vec3& ambient,
             specular.x, specular.y, specular.z);
 }
 
-const void ShaderProgram::bindUniformBlock(const std::string& name, u32 bindingPoint) const {
+const void ShaderProgram::bindUniformBlock(const std::string& name, UniformBuffer& ubo) const {
     u32 blockIndex = glGetUniformBlockIndex(ID, name.c_str());
-    glUniformBlockBinding(ID, blockIndex, bindingPoint);
+    glUniformBlockBinding(ID, blockIndex, ubo.index);
 }

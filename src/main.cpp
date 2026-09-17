@@ -2,11 +2,13 @@
 #include "Objects/Drawable.h"
 #include "Objects/Texture.h"
 #include "Shaders/shaders.h"
+#include "System/GraphicsAPI/GraphicsPipeline.h"
 #include "Tools/ObjectLoading.h"
 #include "Scenes/TestSceneOne.h"
 #include "Scenes/ManyLightsScene.h"
 #include "Scenes/SponzaScene.h"
 #include "global.h"
+#include "pipelineItems.h"
 
 enum class SceneMode { TestScene, ManyLights, Sponza };
 
@@ -49,6 +51,21 @@ int main() {
 
     int frameCount = 0;
     double fpsTimer = glfwGetTime();
+
+    /*
+     * BUILD PIPELINE
+     */
+    GraphicsPipelineItem items[6] = {
+        getDLightPipelineItem(win),
+        getGBufferPipelineItem(win),
+        getSAOPipelineItem(win),
+        getSAOBlurHPipelineItem(win),
+        getSAOBlurPipelineItem(win),
+        getLightPassPipelineItem(win)
+    };
+
+    std::span<GraphicsPipelineItem> sItems = items;
+    GraphicsPipeline pipeline(sItems);
 
     while(win.isOpen())
     {
@@ -110,7 +127,7 @@ int main() {
                 break;
         }
 
-        win.display();
+        win.display(pipeline);
     }
 
     return 0;

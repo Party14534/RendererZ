@@ -1,10 +1,14 @@
 #ifndef INPUT_H
 #define INPUT_H
 
-struct Mouse {
-    double x, y;
+#include "Math/math.h"
 
-    Mouse(double _x, double _y);
+struct Mouse {
+    Vec2 pos;
+
+    Mouse(Vec2 _pos);
+    Mouse(double x, double y);
+    Mouse(float x, float y);
 };
 
 #endif

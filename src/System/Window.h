@@ -13,7 +13,9 @@
 #include "../Objects/LightSource.h"
 #include "../Objects/SkyBox.h"
 #include "../Objects/Scene.h"
-#include "System/GBuffer.h"
+#include "System/FrameBuffer/FrameBuffer.h"
+#include "System/GraphicsAPI/GraphicsPipeline.h"
+#include "System/GraphicsApi/GraphicsApi.h"
 
 struct Window {
     // Window variables
@@ -21,6 +23,8 @@ struct Window {
     std::string windowName;
 
     std::vector<IRenderable*> renderTargets;
+
+    std::shared_ptr<GraphicsAPI> _api;
 
     // Shaders
     std::shared_ptr<ShaderProgram> gBufferShader = nullptr;
@@ -31,10 +35,10 @@ struct Window {
 
     // Frame Buffers
     GBuffer gBuffer;
-    Framebuffer dLightShadowBuffer;
-    Framebuffer saoBuffer;
-    Framebuffer saoBlurHBuffer;
-    Framebuffer saoBlurBuffer;
+    FrameBuffer dLightShadowBuffer;
+    FrameBuffer saoBuffer;
+    FrameBuffer saoBlurHBuffer;
+    FrameBuffer saoBlurBuffer;
 
     // Screens
     Drawable drawScreen;
@@ -43,7 +47,7 @@ struct Window {
     Mat4D gBufferVP;
 
     // UBOs
-    u32 pointLightUBO;
+    UniformBuffer pointLightUBO;
 
     std::shared_ptr<SkyBox> skyBox = nullptr;
 
@@ -61,10 +65,10 @@ struct Window {
 
     bool showSao = false;
 
-    Window(u32 width, u32 height, std::string windowName);
+    Window(u32 _width, u32 _height, std::string windowName);
     ~Window();
 
-    void display();
+    void display(GraphicsPipeline& pipeline);
     bool isOpen();
     void clear(Color c);
     void draw(IRenderable& d);
