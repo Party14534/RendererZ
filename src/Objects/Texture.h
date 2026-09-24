@@ -31,6 +31,7 @@ class Texture {
 
         void setTextureParameter(TextureFilter filter,
                 TextureFilterOption opt);
+        void setTextureBorderColor(Color c);
         void attachToFramebuffer2D(u32 i) const;
         void setActive(u32 texNum) const;
         void bind() const;

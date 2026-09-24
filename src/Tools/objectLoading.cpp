@@ -337,7 +337,7 @@ std::shared_ptr<ComplexDrawable> loadGLTFFileFromFilePath(std::filesystem::path 
 
 std::shared_ptr<ComplexDrawable> LoadComplexDrawableFromFilePath(std::filesystem::path filePath) {
     std::string extension = filePath.extension().string();
-    if (extension == ".gltf") {
+    if (extension == ".gltf" || extension == ".glb") {
         return loadGLTFFileFromFilePath(filePath);
     } else {
         std::cerr << "Uncompatible object file type\n";

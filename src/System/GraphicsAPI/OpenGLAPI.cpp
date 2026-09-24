@@ -210,6 +210,11 @@ void OpenGLAPI::setTexture2DParameter(TextureFilter filter, TextureFilterOption 
     glTexParameteri(GL_TEXTURE_2D, filter, opt);
 }
 
+void OpenGLAPI::setTexture2DBorderColor(Color c) {
+    float col[4] = {c.r, c.g, c.b, c.a};
+    glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, col);
+}
+
 void OpenGLAPI::attachTexture2DToFramebuffer2D(u32 i, u32 ID) {
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, GL_TEXTURE_2D, ID, 0);
 }

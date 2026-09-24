@@ -58,6 +58,10 @@ void Texture::setTextureParameter(TextureFilter filter, TextureFilterOption opt)
     api->setTexture2DParameter(filter, opt);
 }
 
+void Texture::setTextureBorderColor(Color c) {
+    api->setTexture2DBorderColor(c);
+}
+
 void Texture::attachToFramebuffer2D(u32 i) const {
     api->attachTexture2DToFramebuffer2D(i, ID);
 }

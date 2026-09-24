@@ -38,7 +38,6 @@ struct Window {
     FrameBuffer dLightShadowBuffer;
     FrameBuffer saoBuffer;
     FrameBuffer saoBlurHBuffer;
-    FrameBuffer saoBlurBuffer;
 
     // Screens
     Drawable drawScreen;

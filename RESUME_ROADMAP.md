@@ -53,9 +53,9 @@ as a graphics engineer's project.
 
 ## Milestone 2 — Shadows
 
-- [ ] Basic shadow mapping for a directional light (render depth from light, sample in
+- [X] Basic shadow mapping for a directional light (render depth from light, sample in
       the main pass).
-- [ ] Fix the obvious artifacts: depth bias for acne, PCF for soft edges.
+- [X] Fix the obvious artifacts: depth bias for acne, PCF for soft edges.
 - [ ] Cascaded Shadow Maps (CSM) — split the frustum, one shadow map per cascade.
       CSM is a name interviewers recognize instantly.
 

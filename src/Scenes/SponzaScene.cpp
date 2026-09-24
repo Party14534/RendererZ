@@ -9,7 +9,7 @@ void setUpSponzaLighting(Window& win) {
     win.dLight.setColor(Color(1.f, .95f, .85f, 1.f));
     win.dLight.setDir(Vec3(-0.5f, -1.f, -0.3f));
     win.dLight.properties = DirLightProperties {
-        .2f, .8f, .4f,
+        .2f, .9f, .7f,
     };
 
     /*PointLightProperties props;

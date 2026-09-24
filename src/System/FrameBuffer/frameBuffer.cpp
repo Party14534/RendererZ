@@ -1,4 +1,5 @@
 #include "FrameBuffer.h"
+#include "System/GraphicsAPI/GraphicsApi.h"
 #include "global.h"
 
 void FrameBuffer::init(TextureFormat internal, u32 width, u32 height,
@@ -17,6 +18,9 @@ void FrameBuffer::init(TextureFormat internal, u32 width, u32 height,
 
     if (internal == DEPTH) {
         tex.setTextureParameter(COMPARE_MODE, REF_TO_TEX);
+        tex.setTextureParameter(WRAP_S, CLAMP_TO_BORDER);
+        tex.setTextureParameter(WRAP_T, CLAMP_TO_BORDER);
+        tex.setTextureBorderColor(Color(1.));
         api->attachDepthBufferToFrameBuffer(tex.ID);
         api->setDrawBuffer(NONE);
         api->setReadBuffer(NONE);

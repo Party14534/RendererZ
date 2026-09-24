@@ -131,7 +131,7 @@ void setUpLighting(Window &win) {
     win.dLight.setColor(Color(.99f, .56f, .38f, 1));
     win.dLight.setDir(Vec3(-0.5f, -1.f, -0.3f));
     win.dLight.properties = DirLightProperties {
-        .2, .7, .9,
+        .1, .7, .9,
     };
 }
 

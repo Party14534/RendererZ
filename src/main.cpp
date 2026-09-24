@@ -33,8 +33,11 @@ int main() {
     std::shared_ptr<ComplexDrawable> sponza = loadSponza();
     std::shared_ptr<ComplexDrawable> car = LoadComplexDrawableFromFilePath("../src/res/objects/car/scene.gltf");
     std::shared_ptr<ComplexDrawable> phoenix = LoadComplexDrawableFromFilePath("../src/res/objects/phoenix_bird/scene.gltf");
+    std::shared_ptr<ComplexDrawable> trophy = LoadComplexDrawableFromFilePath("../src/res/objects/trophy.glb");
 
-    sceneOne.addToList({&(*car), &(*phoenix)});
+    trophy->targets[0].setPos(Vec3(0, 0, 10));
+
+    sceneOne.addToList({&(*car), &(*phoenix), &(*trophy)});
 
     /* TODO: Set up points again
     std::shared_ptr<PointMesh> pMesh = PointMesh::fromPoints(points);
