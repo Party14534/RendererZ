@@ -2,8 +2,8 @@
 #define BUFFER_H
 
 #include "../../global.h"
-#include "Math/math.h"
-#include "System/GraphicsApi/GraphicsApi.h"
+#include "../../Math/math.h"
+#include "../GraphicsAPI/GraphicsAPI.h"
 
 struct Buffer {
     u32 ID, size, index;

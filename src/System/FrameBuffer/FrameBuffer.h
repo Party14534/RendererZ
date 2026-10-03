@@ -1,9 +1,9 @@
 #ifndef FRAMEBUFFER_H
 #define FRAMEBUFFER_H
 
-#include "Math/math.h"
-#include "Objects/Texture.h"
-#include "System/GraphicsApi/GraphicsApi.h"
+#include "../../Math/math.h"
+#include "../../Objects/Texture.h"
+#include "../GraphicsApi/GraphicsAPI.h"
 #include <memory>
 
 struct FrameBuffer {

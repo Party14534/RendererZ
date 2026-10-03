@@ -1,7 +1,7 @@
 #ifndef GRAPHICS_API_H
 #define GRAPHICS_API_H
 
-#include "../include/glad.h"
+#include "../../../include/glad.h"
 #include <GLFW/glfw3.h>
 #include <iostream>
 

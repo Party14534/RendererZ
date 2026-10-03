@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "System/GraphicsAPI/GraphicsApi.h"
+#include "System/GraphicsAPI/GraphicsAPI.h"
 
 #include "../include/stb_image.h"
 
