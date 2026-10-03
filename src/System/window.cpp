@@ -36,7 +36,6 @@ Window::Window(u32 _width, u32 _height, std::string windowName) :
     gBuffer.init(api->width, api->height);
     saoBuffer.init(RG16, api->width, api->height, RG, FLOAT, NEAREST, NEAREST);
     saoBlurHBuffer.init(RG16, api->width, api->height, RG, FLOAT, NEAREST, NEAREST);
-    saoBlurBuffer.init(RG16, api->width, api->height, RG, FLOAT, NEAREST, NEAREST);
 
     int dBufferWidth = int(1024.f * (float(width) / float(height)));
 
@@ -228,8 +227,8 @@ void Window::setPointLightUniforms() {
 
 void Window::calcDLightVP() {
     double near = 0.1;
-    double extent = 16.;
-    double shadowDistance = 10000.;
+    double extent = 24.;
+    double shadowDistance = 100.;
     double far = shadowDistance + extent;
 
     Vec3 lightDir = dLight.getDir().normalize();
@@ -249,7 +248,7 @@ void Window::calcDLightVP() {
     double texelSizeY = (extent * 2.) / double(dLightShadowBuffer.height);
 
     Vec3 camPos = cam.GetPos();
-    camPos = Vec3(0., 0., 0.);
+    //camPos = Vec3(0., 0., 0.);
     float u = camPos.dot(right);
     float w = camPos.dot(camUp);
     float depth = camPos.dot(direction);

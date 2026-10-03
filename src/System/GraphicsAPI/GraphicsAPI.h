@@ -128,6 +128,7 @@ struct GraphicsAPI {
         virtual void bindTexture2D(u32 ID) = 0;
         virtual void activeTexture2D(u32 texNum, u32 ID) = 0;
         virtual void setTexture2DParameter(TextureFilter filter, TextureFilterOption opt) = 0;
+        virtual void setTexture2DBorderColor(Color c) = 0;
         virtual void attachTexture2DToFramebuffer2D(u32 index, u32 texID) = 0;
         virtual void generateMipMap() = 0;
 
@@ -197,6 +198,7 @@ struct OpenGLAPI : public GraphicsAPI {
         void bindTexture2D(u32 ID);
         void activeTexture2D(u32 texNum, u32 ID);
         void setTexture2DParameter(TextureFilter filter, TextureFilterOption opt);
+        void setTexture2DBorderColor(Color c);
         void attachTexture2DToFramebuffer2D(u32 index, u32 texID);
         void generateMipMap();
 

@@ -74,6 +74,8 @@ vec3 calcDirLight(DirLight light, vec3 normal, vec3 viewDir, vec3 FragPos,
     }
     lit /= 25.;
 
+    if(projCoords.z > 1.) { lit = 1.; }
+
     return (ambient + lit * (diffuse + specular));
 }
 

@@ -93,14 +93,14 @@ GraphicsPipelineItem getSAOBlurHPipelineItem(Window& win) {
 
 GraphicsPipelineItem getSAOBlurPipelineItem(Window& win) {
     Callback begin = [&win] {
-        win.saoBlurBuffer.bind();
+        win.saoBuffer.bind();
         win.saoBlurHBuffer.bindTexture(3);
         glClear(GL_COLOR_BUFFER_BIT);
         win.setSAOBlurPassUniforms(Vec2(0., 1.));
     };
 
     Callback end = [&win] {
-        win.saoBlurBuffer.unbind();
+        win.saoBuffer.unbind();
     };
 
     return GraphicsPipelineItem::PostProcessing(
@@ -113,7 +113,7 @@ GraphicsPipelineItem getSAOBlurPipelineItem(Window& win) {
 GraphicsPipelineItem getLightPassPipelineItem(Window& win) {
     Callback begin = [&win] {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        win.saoBlurBuffer.bindTexture(4);
+        win.saoBuffer.bindTexture(4);
         win.setLightPassUniforms();
     };
 
