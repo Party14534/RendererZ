@@ -1,6 +1,5 @@
 #include "FrameBuffer.h"
-#include "System/GraphicsAPI/GraphicsApi.h"
-#include "global.h"
+#include "../../global.h"
 
 void FrameBuffer::init(TextureFormat internal, u32 width, u32 height,
         TextureFormat format, DataType type, 

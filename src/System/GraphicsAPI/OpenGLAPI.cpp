@@ -1,6 +1,6 @@
 #include "GraphicsAPI.h"
-#include "System/GraphicsAPI/GraphicsApi.h"
-#include "global.h"
+#include "../GraphicsAPI/GraphicsAPI.h"
+#include "../../global.h"
 #include <GLFW/glfw3.h>
 
 OpenGLAPI::OpenGLAPI(

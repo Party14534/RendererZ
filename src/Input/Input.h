@@ -1,7 +1,7 @@
 #ifndef INPUT_H
 #define INPUT_H
 
-#include "Math/math.h"
+#include "../Math/math.h"
 
 struct Mouse {
     Vec2 pos;

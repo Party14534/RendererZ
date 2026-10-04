@@ -1,0 +1,906 @@
+{
+    "warp_bottom_up_view": {
+        "aggr_function_statistics": 0,
+        "function_tree_view": {
+            "functions_current": [
+            ],
+            "functions_expanded": [
+            ],
+            "functions_selected": [
+            ]
+        }
+    },
+    "warp_device_index": 0,
+    "warp_event_details_view": {
+        "event_details_expanded": {
+        }
+    },
+    "warp_event_list_view": {
+        "decouple_selection": false,
+        "desc_label_type": 2,
+        "event_list_expanded": [
+            {
+                "Index": 0,
+                "Type": 2
+            }
+        ],
+        "event_list_selection": [
+            {
+                "Index": 0,
+                "Type": 2
+            }
+        ],
+        "hierarchy_mode_flags": -2,
+        "view_mode": 0
+    },
+    "warp_flame_graph_view": {
+        "color_palette": 0,
+        "color_type": 0,
+        "counter_type": "Samples",
+        "hide_tooltip": false,
+        "visibleRangeEnd": 495961,
+        "visibleRangeStart": 0
+    },
+    "warp_hotspot_view": {
+        "hotspot_table": {
+            "hotspots_expanded": [
+            ],
+            "hotspots_selected": [
+            ],
+            "hotspots_sort_order": 1,
+            "hotspots_sort_role": 3
+        },
+        "hotspot_type": 1
+    },
+    "warp_instruction_mix_view": {
+        "AutoExpandItems": false,
+        "InputDependenciesTable_Expanded": [
+        ],
+        "OutputStallLocationsTable_Expanded": [
+        ],
+        "SelfInstructionMixTable_Expanded": [
+        ],
+        "ShowAllSourceLocations": true,
+        "ShowInternalItems": true,
+        "ShowItemsWithoutSamples": true
+    },
+    "warp_main_view_tab": 2,
+    "warp_scrubber_view": {
+        "flat_queue_rows": true,
+        "grid_layout": {
+            "children": [
+                {
+                    "cells": [
+                        {
+                            "key": "Time",
+                            "width": 254,
+                            "x": 1
+                        },
+                        {
+                            "width": 20,
+                            "x": 255
+                        }
+                    ],
+                    "flags": 296,
+                    "height": 28,
+                    "visible": true,
+                    "y": 1
+                },
+                {
+                    "cells": [
+                        {
+                            "key": "Frames",
+                            "width": 254,
+                            "x": 1
+                        },
+                        {
+                            "width": 20,
+                            "x": 255
+                        }
+                    ],
+                    "flags": 273,
+                    "height": 28,
+                    "visible": true,
+                    "y": -83
+                },
+                {
+                    "cells": [
+                        {
+                            "key": "GPU Contexts",
+                            "width": 254,
+                            "x": 1
+                        },
+                        {
+                            "width": 20,
+                            "x": 255
+                        }
+                    ],
+                    "flags": 273,
+                    "height": 28,
+                    "visible": true,
+                    "y": -55
+                },
+                {
+                    "cells": [
+                        {
+                            "key": "OpenGL Context:0",
+                            "width": 254,
+                            "x": 1
+                        },
+                        {
+                            "width": 20,
+                            "x": 255
+                        }
+                    ],
+                    "children": [
+                        {
+                            "cells": [
+                                {
+                                    "key": "Synchronization",
+                                    "width": 254,
+                                    "x": 0
+                                },
+                                {
+                                    "width": 20,
+                                    "x": 0
+                                }
+                            ],
+                            "flags": 273,
+                            "height": 0,
+                            "visible": false,
+                            "y": 0
+                        },
+                        {
+                            "cells": [
+                                {
+                                    "key": "Submits",
+                                    "width": 254,
+                                    "x": 1
+                                },
+                                {
+                                    "width": 20,
+                                    "x": 255
+                                }
+                            ],
+                            "flags": 273,
+                            "height": 28,
+                            "visible": true,
+                            "y": 1
+                        },
+                        {
+                            "cells": [
+                                {
+                                    "key": "Command Buffers",
+                                    "width": 254,
+                                    "x": 0
+                                },
+                                {
+                                    "width": 20,
+                                    "x": 0
+                                }
+                            ],
+                            "flags": 273,
+                            "height": 0,
+                            "visible": false,
+                            "y": 0
+                        },
+                        {
+                            "cells": [
+                                {
+                                    "key": "Pipeline Ranges",
+                                    "width": 254,
+                                    "x": 0
+                                },
+                                {
+                                    "width": 20,
+                                    "x": 0
+                                }
+                            ],
+                            "flags": 273,
+                            "height": 0,
+                            "visible": false,
+                            "y": 0
+                        },
+                        {
+                            "cells": [
+                                {
+                                    "key": "Actions",
+                                    "width": 254,
+                                    "x": 1
+                                },
+                                {
+                                    "width": 20,
+                                    "x": 255
+                                }
+                            ],
+                            "flags": 273,
+                            "height": 28,
+                            "visible": true,
+                            "y": 29
+                        }
+                    ],
+                    "flags": 273,
+                    "height": 28,
+                    "visible": true,
+                    "y": -27
+                },
+                {
+                    "cells": [
+                        {
+                            "key": "User Ranges",
+                            "width": 254,
+                            "x": 1
+                        },
+                        {
+                            "width": 20,
+                            "x": 255
+                        }
+                    ],
+                    "flags": 2833,
+                    "height": 28,
+                    "visible": true,
+                    "y": 57
+                },
+                {
+                    "cells": [
+                        {
+                            "key": "NVTX Ranges",
+                            "width": 254,
+                            "x": 0
+                        },
+                        {
+                            "width": 20,
+                            "x": 0
+                        }
+                    ],
+                    "flags": 273,
+                    "height": 0,
+                    "visible": false,
+                    "y": 0
+                },
+                {
+                    "cells": [
+                        {
+                            "key": "GPU Engine Activity",
+                            "width": 254,
+                            "x": 1
+                        },
+                        {
+                            "width": 20,
+                            "x": 255
+                        }
+                    ],
+                    "flags": 401,
+                    "height": 28,
+                    "visible": true,
+                    "y": 85
+                },
+                {
+                    "cells": [
+                        {
+                            "key": "Top-Level Throughput",
+                            "width": 254,
+                            "x": 1
+                        },
+                        {
+                            "width": 20,
+                            "x": 255
+                        }
+                    ],
+                    "flags": 401,
+                    "height": 104,
+                    "visible": true,
+                    "y": 113
+                },
+                {
+                    "cells": [
+                        {
+                            "key": "PCIe Bandwidth",
+                            "width": 254,
+                            "x": 1
+                        },
+                        {
+                            "width": 20,
+                            "x": 255
+                        }
+                    ],
+                    "flags": 401,
+                    "height": 28,
+                    "visible": true,
+                    "y": 217
+                },
+                {
+                    "cells": [
+                        {
+                            "key": "PCIe Incoming BAR Accesses",
+                            "width": 254,
+                            "x": 1
+                        },
+                        {
+                            "width": 20,
+                            "x": 255
+                        }
+                    ],
+                    "flags": 401,
+                    "height": 28,
+                    "visible": true,
+                    "y": 245
+                },
+                {
+                    "cells": [
+                        {
+                            "key": "VRAM Bandwidth",
+                            "width": 254,
+                            "x": 1
+                        },
+                        {
+                            "width": 20,
+                            "x": 255
+                        }
+                    ],
+                    "flags": 401,
+                    "height": 28,
+                    "visible": true,
+                    "y": 273
+                },
+                {
+                    "cells": [
+                        {
+                            "key": "L2 Bandwidth per Source Unit",
+                            "width": 254,
+                            "x": 1
+                        },
+                        {
+                            "width": 20,
+                            "x": 255
+                        }
+                    ],
+                    "flags": 401,
+                    "height": 28,
+                    "visible": true,
+                    "y": 301
+                },
+                {
+                    "cells": [
+                        {
+                            "key": "L2 Sector Hit-Rate (Total)",
+                            "width": 254,
+                            "x": 1
+                        },
+                        {
+                            "width": 20,
+                            "x": 255
+                        }
+                    ],
+                    "flags": 401,
+                    "height": 28,
+                    "visible": true,
+                    "y": 329
+                },
+                {
+                    "cells": [
+                        {
+                            "key": "SM Instruction Throughput",
+                            "width": 254,
+                            "x": 1
+                        },
+                        {
+                            "width": 20,
+                            "x": 255
+                        }
+                    ],
+                    "flags": 401,
+                    "height": 28,
+                    "visible": true,
+                    "y": 357
+                },
+                {
+                    "cells": [
+                        {
+                            "key": "Active Threads Per Warp",
+                            "width": 254,
+                            "x": 0
+                        },
+                        {
+                            "width": 20,
+                            "x": 0
+                        }
+                    ],
+                    "flags": 401,
+                    "height": 28,
+                    "visible": true,
+                    "y": 385
+                },
+                {
+                    "cells": [
+                        {
+                            "key": "SM Warp Occupancy",
+                            "width": 254,
+                            "x": 0
+                        },
+                        {
+                            "width": 20,
+                            "x": 0
+                        }
+                    ],
+                    "flags": 401,
+                    "height": 78,
+                    "visible": true,
+                    "y": 413
+                },
+                {
+                    "cells": [
+                        {
+                            "key": "SM Warp Occupancy (sampled)",
+                            "width": 254,
+                            "x": 0
+                        },
+                        {
+                            "width": 20,
+                            "x": 0
+                        }
+                    ],
+                    "flags": 401,
+                    "height": 78,
+                    "visible": true,
+                    "y": 491
+                },
+                {
+                    "cells": [
+                        {
+                            "key": "Range-Avg. Warp Latency",
+                            "width": 254,
+                            "x": 0
+                        },
+                        {
+                            "width": 20,
+                            "x": 0
+                        }
+                    ],
+                    "flags": 401,
+                    "height": 28,
+                    "visible": true,
+                    "y": 569
+                },
+                {
+                    "cells": [
+                        {
+                            "key": "Warps Launched",
+                            "width": 254,
+                            "x": 0
+                        },
+                        {
+                            "width": 20,
+                            "x": 0
+                        }
+                    ],
+                    "flags": 401,
+                    "height": 28,
+                    "visible": true,
+                    "y": 597
+                },
+                {
+                    "cells": [
+                        {
+                            "key": "Warp Can't Launch",
+                            "width": 254,
+                            "x": 0
+                        },
+                        {
+                            "width": 20,
+                            "x": 0
+                        }
+                    ],
+                    "flags": 401,
+                    "height": 28,
+                    "visible": true,
+                    "y": 625
+                },
+                {
+                    "cells": [
+                        {
+                            "key": "SM Warps Stalled at Issue Stage",
+                            "width": 254,
+                            "x": 0
+                        },
+                        {
+                            "width": 20,
+                            "x": 0
+                        }
+                    ],
+                    "flags": 401,
+                    "height": 28,
+                    "visible": true,
+                    "y": 653
+                },
+                {
+                    "cells": [
+                        {
+                            "key": "TRAM Allocation Stalled",
+                            "width": 254,
+                            "x": 0
+                        },
+                        {
+                            "width": 20,
+                            "x": 0
+                        }
+                    ],
+                    "flags": 401,
+                    "height": 28,
+                    "visible": true,
+                    "y": 681
+                },
+                {
+                    "cells": [
+                        {
+                            "key": "ISBE Allocation Stalled",
+                            "width": 254,
+                            "x": 0
+                        },
+                        {
+                            "width": 20,
+                            "x": 0
+                        }
+                    ],
+                    "flags": 401,
+                    "height": 28,
+                    "visible": true,
+                    "y": 709
+                },
+                {
+                    "cells": [
+                        {
+                            "key": "L2 Sector Hit-Rates from L1TEX",
+                            "width": 254,
+                            "x": 0
+                        },
+                        {
+                            "width": 20,
+                            "x": 0
+                        }
+                    ],
+                    "flags": 401,
+                    "height": 28,
+                    "visible": true,
+                    "y": 737
+                },
+                {
+                    "cells": [
+                        {
+                            "key": "CWD Thread Groups Launched",
+                            "width": 254,
+                            "x": 0
+                        },
+                        {
+                            "width": 20,
+                            "x": 0
+                        }
+                    ],
+                    "flags": 401,
+                    "height": 28,
+                    "visible": true,
+                    "y": 765
+                },
+                {
+                    "cells": [
+                        {
+                            "key": "Compute In Flight",
+                            "width": 254,
+                            "x": 0
+                        },
+                        {
+                            "width": 20,
+                            "x": 0
+                        }
+                    ],
+                    "flags": 401,
+                    "height": 28,
+                    "visible": true,
+                    "y": 793
+                },
+                {
+                    "cells": [
+                        {
+                            "key": "HW Dispatch Started",
+                            "width": 254,
+                            "x": 0
+                        },
+                        {
+                            "width": 20,
+                            "x": 0
+                        }
+                    ],
+                    "flags": 401,
+                    "height": 28,
+                    "visible": true,
+                    "y": 821
+                },
+                {
+                    "cells": [
+                        {
+                            "key": "Screen Pipe Throughput",
+                            "width": 254,
+                            "x": 0
+                        },
+                        {
+                            "width": 20,
+                            "x": 0
+                        }
+                    ],
+                    "flags": 401,
+                    "height": 28,
+                    "visible": true,
+                    "y": 849
+                },
+                {
+                    "cells": [
+                        {
+                            "key": "ROP Bandwidth",
+                            "width": 254,
+                            "x": 0
+                        },
+                        {
+                            "width": 20,
+                            "x": 0
+                        }
+                    ],
+                    "flags": 401,
+                    "height": 28,
+                    "visible": true,
+                    "y": 877
+                },
+                {
+                    "cells": [
+                        {
+                            "key": "Depth Test in LateZ Mode",
+                            "width": 254,
+                            "x": 0
+                        },
+                        {
+                            "width": 20,
+                            "x": 0
+                        }
+                    ],
+                    "flags": 401,
+                    "height": 28,
+                    "visible": true,
+                    "y": 905
+                },
+                {
+                    "cells": [
+                        {
+                            "key": "Screen Pipe Data Flow",
+                            "width": 254,
+                            "x": 0
+                        },
+                        {
+                            "width": 20,
+                            "x": 0
+                        }
+                    ],
+                    "flags": 401,
+                    "height": 28,
+                    "visible": true,
+                    "y": 933
+                },
+                {
+                    "cells": [
+                        {
+                            "key": "World Pipe Throughput",
+                            "width": 254,
+                            "x": 0
+                        },
+                        {
+                            "width": 20,
+                            "x": 0
+                        }
+                    ],
+                    "flags": 401,
+                    "height": 28,
+                    "visible": true,
+                    "y": 961
+                },
+                {
+                    "cells": [
+                        {
+                            "key": "PD Primitives In",
+                            "width": 254,
+                            "x": 0
+                        },
+                        {
+                            "width": 20,
+                            "x": 0
+                        }
+                    ],
+                    "flags": 401,
+                    "height": 28,
+                    "visible": true,
+                    "y": 989
+                },
+                {
+                    "cells": [
+                        {
+                            "key": "Draw Started",
+                            "width": 254,
+                            "x": 0
+                        },
+                        {
+                            "width": 20,
+                            "x": 0
+                        }
+                    ],
+                    "flags": 401,
+                    "height": 28,
+                    "visible": true,
+                    "y": 1017
+                },
+                {
+                    "cells": [
+                        {
+                            "key": "Sync Q Pixel Shader Barrier Issued",
+                            "width": 254,
+                            "x": 0
+                        },
+                        {
+                            "width": 20,
+                            "x": 0
+                        }
+                    ],
+                    "flags": 401,
+                    "height": 28,
+                    "visible": true,
+                    "y": 1045
+                },
+                {
+                    "cells": [
+                        {
+                            "key": "Sync Q Go-Idle Commands",
+                            "width": 254,
+                            "x": 0
+                        },
+                        {
+                            "width": 20,
+                            "x": 0
+                        }
+                    ],
+                    "flags": 401,
+                    "height": 28,
+                    "visible": true,
+                    "y": 1073
+                },
+                {
+                    "cells": [
+                        {
+                            "key": "Sync Q Waiting",
+                            "width": 254,
+                            "x": 0
+                        },
+                        {
+                            "width": 20,
+                            "x": 0
+                        }
+                    ],
+                    "flags": 401,
+                    "height": 28,
+                    "visible": true,
+                    "y": 1101
+                },
+                {
+                    "cells": [
+                        {
+                            "key": "Compute Q Go-Idle Commands",
+                            "width": 254,
+                            "x": 0
+                        },
+                        {
+                            "width": 20,
+                            "x": 0
+                        }
+                    ],
+                    "flags": 401,
+                    "height": 28,
+                    "visible": true,
+                    "y": 1129
+                },
+                {
+                    "cells": [
+                        {
+                            "key": "Compute Q Waiting",
+                            "width": 254,
+                            "x": 0
+                        },
+                        {
+                            "width": 20,
+                            "x": 0
+                        }
+                    ],
+                    "flags": 401,
+                    "height": 28,
+                    "visible": true,
+                    "y": 1157
+                },
+                {
+                    "cells": [
+                        {
+                            "key": "Clock Frequencies",
+                            "width": 254,
+                            "x": 0
+                        },
+                        {
+                            "width": 20,
+                            "x": 0
+                        }
+                    ],
+                    "flags": 401,
+                    "height": 28,
+                    "visible": true,
+                    "y": 1185
+                },
+                {
+                    "cells": [
+                        {
+                            "width": 254,
+                            "x": 1
+                        },
+                        {
+                            "width": 20,
+                            "x": 255
+                        }
+                    ],
+                    "flags": 328,
+                    "height": 28,
+                    "visible": true,
+                    "y": 368
+                }
+            ]
+        },
+        "overlay_background_context": true,
+        "overlay_barriers": false,
+        "overlay_subchannel_switches": false,
+        "overlay_wait_signal_pairings": false,
+        "ruler_mode": 0,
+        "trace_info_tab": 0,
+        "visible_range_end": 14415520,
+        "visible_range_start": 467040
+    },
+    "warp_selection_model": {
+    },
+    "warp_shader_botom_right_tab": 2,
+    "warp_shader_bottom_left_tab": 1,
+    "warp_shader_pipelines_view": {
+        "group_by": 1,
+        "sample_item_view": {
+            "sample_item_expanded": [
+            ],
+            "sample_item_selected": [
+            ],
+            "sample_item_sort_order": 1,
+            "sample_item_sort_role": 6
+        },
+        "show_inactive": true
+    },
+    "warp_top_down_view": {
+        "aggr_function_statistics": 0,
+        "aggr_regions": true,
+        "function_tree_view": {
+            "functions_current": [
+            ],
+            "functions_expanded": [
+            ],
+            "functions_selected": [
+            ]
+        }
+    },
+    "warp_trace_ray_live_state_view": {
+        "trace_ray_view": {
+            "trace_ray_current": [
+            ],
+            "trace_ray_expanded": [
+            ],
+            "trace_ray_selected": [
+            ],
+            "trace_ray_sort_order": 1,
+            "trace_ray_sort_role": 5
+        }
+    }
+}

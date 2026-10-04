@@ -1,10 +1,4 @@
 #include "Window.h"
-#include "Shaders/ShaderCode.h"
-#include "Shaders/shaders.h"
-#include "System/GraphicsAPI/GraphicsPipeline.h"
-#include "System/GraphicsApi/GraphicsApi.h"
-#include <cmath>
-#include <vector>
 
 // Mirrors PointLightBlock's std140 layout in lightPassFrag.frag.
 struct GPUPointLight {

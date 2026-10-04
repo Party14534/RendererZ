@@ -1,5 +1,4 @@
 #include "GraphicsPipeline.h"
-#include "Objects/Drawable.h"
 
 /*
  * Pipeline
@@ -16,6 +15,7 @@ void GraphicsPipeline::runPipeline(std::span<IRenderable*> targets) {
         // Set viewport and clear needed buffers
         // Return a view and projection matrix
         item.beginCallback();
+
         bool isGeometry = item.drawType == GEOMETRY;
 
         if (isGeometry) {

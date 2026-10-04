@@ -7,7 +7,7 @@
 #include <memory>
 
 #include "../Math/math.h"
-#include "System/Buffer/Buffer.h"
+#include "../System/Buffer/Buffer.h"
 
 struct VertexAttribute {
     float x, y, z, xn, yn, zn, u, v, xt, yt, zt, xbt, ybt, zbt;

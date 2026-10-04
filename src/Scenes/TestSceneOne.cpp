@@ -1,6 +1,4 @@
 #include "TestSceneOne.h"
-#include "Objects/Drawable.h"
-#include "Objects/Texture.h"
 
 namespace {
     Drawable bottom = Drawable::Plane();
@@ -100,9 +98,9 @@ Scene testSceneOne() {
     });
     cow.setMaterial(bunny.getMaterial());
 
-    return Scene({ &bottom, &whiteCube, &redCube,
+    return Scene({ &whiteCube, &redCube,
                 &blueCube, &greenCube, &r7, &bunny, &teapot, &armadillo,
-                &homer, &cow, &tung });
+                &homer, &cow, &tung, &bottom });
 }
 
 void setUpLighting(Window &win) {

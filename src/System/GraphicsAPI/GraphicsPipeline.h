@@ -1,13 +1,14 @@
 #ifndef GRAPHICS_PIPELINE_H
 #define GRAPHICS_PIPELINE_H
 
-#include "Math/math.h"
-#include "Objects/Drawable.h"
-#include "Shaders/Shaders.h"
-#include "System/FrameBuffer/FrameBuffer.h"
-#include "System/GraphicsAPI/GraphicsApi.h"
-#include "global.h"
+#include "math.h"
+#include "../../Objects/Drawable.h"
+#include "../../Shaders/shaders.h"
+#include "../FrameBuffer/FrameBuffer.h"
+#include "GraphicsAPI.h"
+#include "../../global.h"
 #include <span>
+#include <chrono>
 
 /*
  * 

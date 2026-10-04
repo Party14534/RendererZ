@@ -13,9 +13,10 @@
 #include "../Objects/LightSource.h"
 #include "../Objects/SkyBox.h"
 #include "../Objects/Scene.h"
-#include "System/FrameBuffer/FrameBuffer.h"
-#include "System/GraphicsAPI/GraphicsPipeline.h"
-#include "System/GraphicsApi/GraphicsApi.h"
+#include "FrameBuffer/FrameBuffer.h"
+#include "GraphicsAPI/GraphicsPipeline.h"
+#include "GraphicsAPI/GraphicsAPI.h"
+#include "../Shaders/ShaderCode.h"
 
 struct Window {
     // Window variables

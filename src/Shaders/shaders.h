@@ -8,7 +8,7 @@
 #include <unordered_map>
 
 #include "../Math/math.h"
-#include "System/Buffer/Buffer.h"
+#include "../System/Buffer/Buffer.h"
 
 #define SHADER_MATERIAL_AMBIENT_UNIFORM "material_z.ambient"
 #define SHADER_MATERIAL_DIFFUSE_UNIFORM "material_z.diffuse"
