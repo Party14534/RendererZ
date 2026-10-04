@@ -146,7 +146,7 @@ vec2 calcSAO(vec3 normal, vec3 fragPos, vec2 uv) {
     return vec2(max(0., val), zc); // To the power of k but k is one in Alchemy AO
 }
 
-float calcSSAO(vec3 normal, vec3 fragPos, vec2 uv) {
+vec2 calcSSAO(vec3 normal, vec3 fragPos, vec2 uv) {
     vec3 viewFragPos = (view_z * vec4(fragPos, 1.)).xyz;
     vec3 viewNormal = normalize(mat3(view_z) * normal);
 
@@ -173,7 +173,7 @@ float calcSSAO(vec3 normal, vec3 fragPos, vec2 uv) {
         occlusion += (sceneWorldDepth >= pointPos.z + bias ? 1. : 0.) * rangeCheck;
     }
 
-    return 1. - (occlusion / 64.);
+    return vec2(1. - (occlusion / 64.), viewFragPos.z);
 }
 
 void main()

@@ -69,6 +69,7 @@ enum TextureFormat {
     RGBA = GL_RGBA,
     RG16 = GL_RG16F,
     RGBA16 = GL_RGBA16F,
+    RGBA12 = GL_RGBA12,
     DEPTH = GL_DEPTH_COMPONENT
 };
 

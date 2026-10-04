@@ -66,16 +66,16 @@ vec3 calcDirLight(DirLight light, vec3 normal, vec3 viewDir, vec3 FragPos,
     vec4 fragPosLightSpace = lightSpaceMatrix_z * vec4(FragPos + normal * normalOffset, 1.);
     vec3 projCoords = fragPosLightSpace.xyz * .5 + .5;
 
+    if(projCoords.z > 1.) { return (ambient + diffuse + specular); }
+
     vec2 shadowTexelSize = 1. / vec2(textureSize(gDirShadowMap, 0));
     float lit = 0.;
-    for (int x = -2; x <= 2; x++) {
-        for (int y = -2; y <= 2; y++) {
+    for (int x = -1; x <= 1; x++) {
+        for (int y = -1; y <= 1; y++) {
             lit += texture(gDirShadowMap, projCoords + vec3(vec2(x, y) * shadowTexelSize, 0.));
         }
     }
-    lit /= 25.;
-
-    if(projCoords.z > 1.) { lit = 1.; }
+    lit /= 9.;
 
     return (ambient + lit * (diffuse + specular));
 }

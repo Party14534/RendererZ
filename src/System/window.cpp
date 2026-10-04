@@ -28,8 +28,8 @@ Window::Window(u32 _width, u32 _height, std::string windowName) :
     height = api->height;
 
     gBuffer.init(api->width, api->height);
-    saoBuffer.init(RG16, api->width, api->height, RG, FLOAT, NEAREST, NEAREST);
-    saoBlurHBuffer.init(RG16, api->width, api->height, RG, FLOAT, NEAREST, NEAREST);
+    saoBuffer.init(RED, api->width, api->height, RED, FLOAT, NEAREST, NEAREST);
+    saoBlurHBuffer.init(RED, api->width, api->height, RED, FLOAT, NEAREST, NEAREST);
 
     int dBufferWidth = int(1024.f * (float(width) / float(height)));
 
