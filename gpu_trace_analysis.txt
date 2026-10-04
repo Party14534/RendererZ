@@ -1,0 +1,85 @@
+Range: "\"Frame 0\""
+RelativeFrameDuration: 1
+Rules:
+  - Name: L2 Limited
+    Category: Throughputs
+    Explanation: "For this workload, the L2 unit is the top throughput unit.  \nThe top-level L2 Throughput% is the MAX of the L2 sub-throughput metrics."
+    Suggestion: "Reducing the number of L2 requests should improve performance.  \nTry increasing the L1TEX cache hit rate.  \nTry reducing texture-format sizes.  \nGo to the L1TEX L2 sections."
+    RangeSpeedupFactor: 1.7684513207608421
+    FrameGain: 42.823610974253448
+    Metrics:
+      - Name: L2 Throughput [%]
+        Id: lts__throughput.avg.pct_of_peak_sustained_elapsed
+        Description: LTS throughput
+        Value: 26.6359
+      - Name: Warps Issue Stalled Long Scoreboard L1 [%]
+        Id: smsp__warps_issue_stalled_long_scoreboard_pipe_l1tex.avg.pct_of_peak_sustained_elapsed
+        Description: Cumulative warp latency cycles for warps waiting for a scoreboard dependency on a L1TEX (local, global, surface, tex) operation
+        Value: 26.6059
+      - Name: Warps Issue Stalled LG Throttle [%]
+        Id: smsp__warps_issue_stalled_lg_throttle.avg.pct_of_peak_sustained_elapsed
+        Description: Cumulative warp latency cycles for warps waiting for a free entry in the LSU instruction queue (for Local and Global memory accesses)
+        Value: 0.0000
+      - Name: Warps Issue Stalled TEX Throttle [%]
+        Id: smsp__warps_issue_stalled_tex_throttle.avg.pct_of_peak_sustained_elapsed
+        Description: Cumulative warp latency cycles for warps waiting for a free entry in the TEX instruction queue
+        Value: 16.8474
+  - Name: SM Throughputs
+    Category: Throughputs
+    Explanation: "SM pipes on GA10X and AD10X:  \n- adu: Computed branches and indexed constants\n- alu: INT32 except multiply; FP32 comparison\n- cbu: Divergent branches and control flow\n- fma: FP32 mul/add, FP16 mul/add\n- fmaheavy: FP32 mul/add and INT32 multiply\n- fp64: FP64 mul/add\n- ipa: Pixel shader attribute interpolation\n- lsu: Global, local, shared memory, and misc\n- tensor: Tensor matrix multiply (FP16, INT8/4/1)\n- tex: Texture and surface memory\n- uniform: Warp-level scalar operations\n- xu: Transcendentals and float/int conversion"
+    Suggestion: Look at the top SM throughput metric and remove work from its associated pipe to get a speedup.
+    Metrics:
+      - Name: SM Pipe FMA Active [%]
+        Id: sm__pipe_fma_cycles_active.avg.pct_of_peak_sustained_elapsed
+        Description: Number of cycles where fma pipes were active
+        Value: 16.6962
+      - Name: SM Pipe FMA Heavy [%]
+        Id: smsp__inst_executed_pipe_fmaheavy.avg.pct_of_peak_sustained_elapsed
+        Description: ""
+        Value: 12.3675
+
+
+Range: "\"Frame 0\""
+RelativeFrameDuration: 1
+Rules:
+  - Name: Warp Stalled by L1TEX Long Scoreboard
+    Category: SM Warp Latency
+    Explanation: "Percentage of cumulative warp cycles for warps waiting on a dependency on a memory read from:\n- textures or buffers (SRVs)\n- surfaces (UAVs or ROVs)\n- local or global memory"
+    Suggestion: "Go to the Input Dependency panel of the Shader Profiler and locate the most-expensive L1TEX load instructions.  \n* Try better hiding the latency of the L1TEX instructions:  \n  - With other math instructions: try hoisting L1TEX instructions (i.e.: prefetch: move the texture fetches so they happen earlier in the program)  \n  - With other L1TEX instructions: try batching likely hits (e.g. by grouping independent texture fetches in batches of 2 to 4 back-to-back instructions at the HLSL level)  \n  - Removing unnecessary control flow that prevents L1TEX instructions from being batched\n* Try reducing the latencies of the L1TEX instructions:  \n  - Consider using more compact texture formats and/or reducing texture sizes\n  - Consider using Buffer SRV Loads instead of Buffer UAV Loads  \n  - Consider removing indirections in buffer accesses to reduce chains of dependent loads\n  - If you are doing path tracing, consider disabling anisotropic filtering globally, as that should not degrade image quality"
+    RangeSpeedupFactor: 1.3625075920074463
+    FrameGain: 26.220333365501769
+    Metrics:
+      - Name: Warps Issue Stalled Long Scoreboard L1 [%]
+        Id: smsp__warps_issue_stalled_long_scoreboard_pipe_l1tex.avg.pct_of_peak_sustained_elapsed
+        Description: Cumulative warp latency cycles for warps waiting for a scoreboard dependency on a L1TEX (local, global, surface, tex) operation
+        Value: 26.6059
+      - Name: L2 Hit Rate [%]
+        Id: lts__t_sector_hit_rate.pct
+        Description: Percentage of total L2 sector accesses that hit
+        Value: 87.4854
+  - Name: Warp Stalled by TEX Throttle
+    Category: SM Warp Latency
+    Explanation: "Percentage of cumulative warp cycles for warps stalled due to the TEX input queue being full.  \nThe SM texture pipeline forwards texture (SRV) and surface (UAV) instructions to the L1TEX unit's TEXIN stage.  \nOn GPUs where FP64 or Tensor pipelines are decoupled, the texture pipeline forwards those types of instructions, too."
+    Suggestion: "Go to the Shader Profiler and locate which HLSL instructions are getting most of the tex_throttle stalls.  \nTry sinking L1TEX instructions (i.e.: move the texture fetches within branches, to reduce the number of executed texture instructions).  \nTry reducing the latencies of the L1TEX instructions (see Warp Stalled by Long Scoreboard)."
+    RangeSpeedupFactor: 1.2026087265396981
+    FrameGain: 16.603277608751679
+    Metrics:
+      - Name: Warps Issue Stalled TEX Throttle [%]
+        Id: smsp__warps_issue_stalled_tex_throttle.avg.pct_of_peak_sustained_elapsed
+        Description: Cumulative warp latency cycles for warps waiting for a free entry in the TEX instruction queue
+        Value: 16.8474
+      - Name: L2 Hit Rate [%]
+        Id: lts__t_sector_hit_rate.pct
+        Description: Percentage of total L2 sector accesses that hit
+        Value: 87.4854
+  - Name: Warp Stalled by MIO Throttle
+    Category: SM Warp Latency
+    Explanation: "Percentage of cumulative warp cycles for warps stalled due to the MIO input queue being full.  \nMIO throttle is a superset of LG (Local/Global Memory) throttle. See LG throttle.  \nOther types of instruction to MIO beyond LG include shared memory, shuffle, and indexed constant-buffer loads."
+    Suggestion: Go to the Shader Profiler and locate which HLSL instructions are getting most of the mio_throttle stalls.
+    RangeSpeedupFactor: 1.0419936131445757
+    FrameGain: 3.9717163028524198
+    Metrics:
+      - Name: Warps Issue Stalled MIO Throttle MIO [%]
+        Id: smsp__warps_issue_stalled_mio_throttle_pipe_mio.avg.pct_of_peak_sustained_elapsed
+        Description: Cumulative warp latency cycles for warps waiting for a free entry in the MIO instruction queue
+        Value: 4.0301
