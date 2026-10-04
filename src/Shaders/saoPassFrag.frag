@@ -1,4 +1,5 @@
 #version 330 core
+#pragma debug(on)
 
 layout (location = 0) out vec2 gSAO; // r = ao, g = view-space depth (for the blur pass's bilateral weight)
 

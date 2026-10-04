@@ -1,4 +1,5 @@
 #version 330 core
+#pragma debug(on)
 
 out vec4 FragColor;
 

@@ -26,8 +26,8 @@
         ],
         "event_list_selection": [
             {
-                "Index": 0,
-                "Type": 2
+                "Index": 184,
+                "Type": 0
             }
         ],
         "hierarchy_mode_flags": -2,
@@ -38,7 +38,7 @@
         "color_type": 0,
         "counter_type": "Samples",
         "hide_tooltip": false,
-        "visibleRangeEnd": 495961,
+        "visibleRangeEnd": 127088,
         "visibleRangeStart": 0
     },
     "warp_hotspot_view": {
@@ -77,7 +77,7 @@
                             "x": 1
                         },
                         {
-                            "width": 20,
+                            "width": 101,
                             "x": 255
                         }
                     ],
@@ -94,14 +94,14 @@
                             "x": 1
                         },
                         {
-                            "width": 20,
+                            "width": 101,
                             "x": 255
                         }
                     ],
                     "flags": 273,
                     "height": 28,
                     "visible": true,
-                    "y": -83
+                    "y": 29
                 },
                 {
                     "cells": [
@@ -111,14 +111,14 @@
                             "x": 1
                         },
                         {
-                            "width": 20,
+                            "width": 101,
                             "x": 255
                         }
                     ],
                     "flags": 273,
                     "height": 28,
                     "visible": true,
-                    "y": -55
+                    "y": 57
                 },
                 {
                     "cells": [
@@ -128,7 +128,7 @@
                             "x": 1
                         },
                         {
-                            "width": 20,
+                            "width": 101,
                             "x": 255
                         }
                     ],
@@ -146,7 +146,7 @@
                                 }
                             ],
                             "flags": 273,
-                            "height": 0,
+                            "height": 26,
                             "visible": false,
                             "y": 0
                         },
@@ -158,14 +158,14 @@
                                     "x": 1
                                 },
                                 {
-                                    "width": 20,
+                                    "width": 101,
                                     "x": 255
                                 }
                             ],
                             "flags": 273,
                             "height": 28,
                             "visible": true,
-                            "y": 1
+                            "y": 113
                         },
                         {
                             "cells": [
@@ -180,7 +180,7 @@
                                 }
                             ],
                             "flags": 273,
-                            "height": 0,
+                            "height": 26,
                             "visible": false,
                             "y": 0
                         },
@@ -197,7 +197,7 @@
                                 }
                             ],
                             "flags": 273,
-                            "height": 0,
+                            "height": 26,
                             "visible": false,
                             "y": 0
                         },
@@ -209,20 +209,20 @@
                                     "x": 1
                                 },
                                 {
-                                    "width": 20,
+                                    "width": 101,
                                     "x": 255
                                 }
                             ],
                             "flags": 273,
                             "height": 28,
                             "visible": true,
-                            "y": 29
+                            "y": 141
                         }
                     ],
                     "flags": 273,
                     "height": 28,
                     "visible": true,
-                    "y": -27
+                    "y": 85
                 },
                 {
                     "cells": [
@@ -232,14 +232,14 @@
                             "x": 1
                         },
                         {
-                            "width": 20,
+                            "width": 101,
                             "x": 255
                         }
                     ],
                     "flags": 2833,
                     "height": 28,
                     "visible": true,
-                    "y": 57
+                    "y": 169
                 },
                 {
                     "cells": [
@@ -254,7 +254,7 @@
                         }
                     ],
                     "flags": 273,
-                    "height": 0,
+                    "height": 26,
                     "visible": false,
                     "y": 0
                 },
@@ -266,14 +266,14 @@
                             "x": 1
                         },
                         {
-                            "width": 20,
+                            "width": 101,
                             "x": 255
                         }
                     ],
                     "flags": 401,
                     "height": 28,
                     "visible": true,
-                    "y": 85
+                    "y": 197
                 },
                 {
                     "cells": [
@@ -283,14 +283,14 @@
                             "x": 1
                         },
                         {
-                            "width": 20,
+                            "width": 101,
                             "x": 255
                         }
                     ],
                     "flags": 401,
                     "height": 104,
                     "visible": true,
-                    "y": 113
+                    "y": 225
                 },
                 {
                     "cells": [
@@ -300,75 +300,7 @@
                             "x": 1
                         },
                         {
-                            "width": 20,
-                            "x": 255
-                        }
-                    ],
-                    "flags": 401,
-                    "height": 28,
-                    "visible": true,
-                    "y": 217
-                },
-                {
-                    "cells": [
-                        {
-                            "key": "PCIe Incoming BAR Accesses",
-                            "width": 254,
-                            "x": 1
-                        },
-                        {
-                            "width": 20,
-                            "x": 255
-                        }
-                    ],
-                    "flags": 401,
-                    "height": 28,
-                    "visible": true,
-                    "y": 245
-                },
-                {
-                    "cells": [
-                        {
-                            "key": "VRAM Bandwidth",
-                            "width": 254,
-                            "x": 1
-                        },
-                        {
-                            "width": 20,
-                            "x": 255
-                        }
-                    ],
-                    "flags": 401,
-                    "height": 28,
-                    "visible": true,
-                    "y": 273
-                },
-                {
-                    "cells": [
-                        {
-                            "key": "L2 Bandwidth per Source Unit",
-                            "width": 254,
-                            "x": 1
-                        },
-                        {
-                            "width": 20,
-                            "x": 255
-                        }
-                    ],
-                    "flags": 401,
-                    "height": 28,
-                    "visible": true,
-                    "y": 301
-                },
-                {
-                    "cells": [
-                        {
-                            "key": "L2 Sector Hit-Rate (Total)",
-                            "width": 254,
-                            "x": 1
-                        },
-                        {
-                            "width": 20,
+                            "width": 101,
                             "x": 255
                         }
                     ],
@@ -380,12 +312,12 @@
                 {
                     "cells": [
                         {
-                            "key": "SM Instruction Throughput",
+                            "key": "PCIe Incoming BAR Accesses",
                             "width": 254,
                             "x": 1
                         },
                         {
-                            "width": 20,
+                            "width": 101,
                             "x": 255
                         }
                     ],
@@ -397,13 +329,13 @@
                 {
                     "cells": [
                         {
-                            "key": "Active Threads Per Warp",
+                            "key": "VRAM Bandwidth",
                             "width": 254,
-                            "x": 0
+                            "x": 1
                         },
                         {
-                            "width": 20,
-                            "x": 0
+                            "width": 101,
+                            "x": 255
                         }
                     ],
                     "flags": 401,
@@ -414,70 +346,138 @@
                 {
                     "cells": [
                         {
-                            "key": "SM Warp Occupancy",
+                            "key": "L2 Bandwidth per Source Unit",
                             "width": 254,
-                            "x": 0
+                            "x": 1
                         },
                         {
-                            "width": 20,
-                            "x": 0
+                            "width": 101,
+                            "x": 255
                         }
                     ],
                     "flags": 401,
-                    "height": 78,
+                    "height": 28,
                     "visible": true,
                     "y": 413
                 },
                 {
                     "cells": [
                         {
-                            "key": "SM Warp Occupancy (sampled)",
+                            "key": "L2 Sector Hit-Rate (Total)",
                             "width": 254,
-                            "x": 0
+                            "x": 1
                         },
                         {
-                            "width": 20,
-                            "x": 0
+                            "width": 101,
+                            "x": 255
+                        }
+                    ],
+                    "flags": 401,
+                    "height": 28,
+                    "visible": true,
+                    "y": 441
+                },
+                {
+                    "cells": [
+                        {
+                            "key": "SM Instruction Throughput",
+                            "width": 254,
+                            "x": 1
+                        },
+                        {
+                            "width": 101,
+                            "x": 255
+                        }
+                    ],
+                    "flags": 401,
+                    "height": 28,
+                    "visible": true,
+                    "y": 469
+                },
+                {
+                    "cells": [
+                        {
+                            "key": "Active Threads Per Warp",
+                            "width": 254,
+                            "x": 1
+                        },
+                        {
+                            "width": 101,
+                            "x": 255
+                        }
+                    ],
+                    "flags": 401,
+                    "height": 28,
+                    "visible": true,
+                    "y": 497
+                },
+                {
+                    "cells": [
+                        {
+                            "key": "SM Warp Occupancy",
+                            "width": 254,
+                            "x": 1
+                        },
+                        {
+                            "width": 101,
+                            "x": 255
                         }
                     ],
                     "flags": 401,
                     "height": 78,
                     "visible": true,
-                    "y": 491
+                    "y": 525
+                },
+                {
+                    "cells": [
+                        {
+                            "key": "SM Warp Occupancy (sampled)",
+                            "width": 254,
+                            "x": 1
+                        },
+                        {
+                            "width": 101,
+                            "x": 255
+                        }
+                    ],
+                    "flags": 401,
+                    "height": 78,
+                    "visible": true,
+                    "y": 603
                 },
                 {
                     "cells": [
                         {
                             "key": "Range-Avg. Warp Latency",
                             "width": 254,
-                            "x": 0
+                            "x": 1
                         },
                         {
                             "width": 20,
-                            "x": 0
+                            "x": 255
                         }
                     ],
                     "flags": 401,
                     "height": 28,
                     "visible": true,
-                    "y": 569
+                    "y": 681
                 },
                 {
                     "cells": [
                         {
                             "key": "Warps Launched",
                             "width": 254,
-                            "x": 0
+                            "x": 1
                         },
                         {
                             "width": 20,
-                            "x": 0
+                            "x": 255
                         }
                     ],
                     "flags": 401,
                     "height": 28,
                     "visible": true,
-                    "y": 597
+                    "y": 709
                 },
                 {
                     "cells": [
@@ -494,7 +494,7 @@
                     "flags": 401,
                     "height": 28,
                     "visible": true,
-                    "y": 625
+                    "y": 737
                 },
                 {
                     "cells": [
@@ -511,7 +511,7 @@
                     "flags": 401,
                     "height": 28,
                     "visible": true,
-                    "y": 653
+                    "y": 765
                 },
                 {
                     "cells": [
@@ -528,7 +528,7 @@
                     "flags": 401,
                     "height": 28,
                     "visible": true,
-                    "y": 681
+                    "y": 793
                 },
                 {
                     "cells": [
@@ -545,7 +545,7 @@
                     "flags": 401,
                     "height": 28,
                     "visible": true,
-                    "y": 709
+                    "y": 821
                 },
                 {
                     "cells": [
@@ -562,7 +562,7 @@
                     "flags": 401,
                     "height": 28,
                     "visible": true,
-                    "y": 737
+                    "y": 849
                 },
                 {
                     "cells": [
@@ -579,7 +579,7 @@
                     "flags": 401,
                     "height": 28,
                     "visible": true,
-                    "y": 765
+                    "y": 877
                 },
                 {
                     "cells": [
@@ -596,7 +596,7 @@
                     "flags": 401,
                     "height": 28,
                     "visible": true,
-                    "y": 793
+                    "y": 905
                 },
                 {
                     "cells": [
@@ -613,7 +613,7 @@
                     "flags": 401,
                     "height": 28,
                     "visible": true,
-                    "y": 821
+                    "y": 933
                 },
                 {
                     "cells": [
@@ -630,7 +630,7 @@
                     "flags": 401,
                     "height": 28,
                     "visible": true,
-                    "y": 849
+                    "y": 961
                 },
                 {
                     "cells": [
@@ -647,7 +647,7 @@
                     "flags": 401,
                     "height": 28,
                     "visible": true,
-                    "y": 877
+                    "y": 989
                 },
                 {
                     "cells": [
@@ -664,7 +664,7 @@
                     "flags": 401,
                     "height": 28,
                     "visible": true,
-                    "y": 905
+                    "y": 1017
                 },
                 {
                     "cells": [
@@ -681,7 +681,7 @@
                     "flags": 401,
                     "height": 28,
                     "visible": true,
-                    "y": 933
+                    "y": 1045
                 },
                 {
                     "cells": [
@@ -698,7 +698,7 @@
                     "flags": 401,
                     "height": 28,
                     "visible": true,
-                    "y": 961
+                    "y": 1073
                 },
                 {
                     "cells": [
@@ -715,7 +715,7 @@
                     "flags": 401,
                     "height": 28,
                     "visible": true,
-                    "y": 989
+                    "y": 1101
                 },
                 {
                     "cells": [
@@ -732,7 +732,7 @@
                     "flags": 401,
                     "height": 28,
                     "visible": true,
-                    "y": 1017
+                    "y": 1129
                 },
                 {
                     "cells": [
@@ -749,7 +749,7 @@
                     "flags": 401,
                     "height": 28,
                     "visible": true,
-                    "y": 1045
+                    "y": 1157
                 },
                 {
                     "cells": [
@@ -766,7 +766,7 @@
                     "flags": 401,
                     "height": 28,
                     "visible": true,
-                    "y": 1073
+                    "y": 1185
                 },
                 {
                     "cells": [
@@ -783,7 +783,7 @@
                     "flags": 401,
                     "height": 28,
                     "visible": true,
-                    "y": 1101
+                    "y": 1213
                 },
                 {
                     "cells": [
@@ -800,7 +800,7 @@
                     "flags": 401,
                     "height": 28,
                     "visible": true,
-                    "y": 1129
+                    "y": 1241
                 },
                 {
                     "cells": [
@@ -817,7 +817,7 @@
                     "flags": 401,
                     "height": 28,
                     "visible": true,
-                    "y": 1157
+                    "y": 1269
                 },
                 {
                     "cells": [
@@ -834,7 +834,7 @@
                     "flags": 401,
                     "height": 28,
                     "visible": true,
-                    "y": 1185
+                    "y": 1297
                 },
                 {
                     "cells": [
@@ -843,7 +843,7 @@
                             "x": 1
                         },
                         {
-                            "width": 20,
+                            "width": 101,
                             "x": 255
                         }
                     ],
@@ -859,13 +859,16 @@
         "overlay_subchannel_switches": false,
         "overlay_wait_signal_pairings": false,
         "ruler_mode": 0,
-        "trace_info_tab": 0,
+        "trace_info_tab": 1,
         "visible_range_end": 14415520,
-        "visible_range_start": 467040
+        "visible_range_start": 49472
     },
     "warp_selection_model": {
+        "selection_type_action": [
+            17
+        ]
     },
-    "warp_shader_botom_right_tab": 2,
+    "warp_shader_botom_right_tab": 5,
     "warp_shader_bottom_left_tab": 1,
     "warp_shader_pipelines_view": {
         "group_by": 1,
