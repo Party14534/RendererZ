@@ -1,4 +1,5 @@
 #include "Texture.h"
+#include "System/GraphicsAPI/GraphicsAPI.h"
 #include "global.h"
 #include <algorithm>
 #include <iterator>
@@ -36,7 +37,7 @@ void Texture::loadImage(std::string _path, bool sRGB, bool flipVertically) {
     TextureFormat format = (sRGB) ? SRGB : RGB;
 
     ID = api->createTexture2D(format, width, height, RGB, UNSIGNED_BYTE, data);
-    setTextureParameter(MIN_FILTER, LINEAR);
+    setTextureParameter(MIN_FILTER, MIPMAP_LINEAR);
     setTextureParameter(MAG_FILTER, LINEAR);
 
     stbi_image_free(data);
