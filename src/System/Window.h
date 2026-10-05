@@ -27,6 +27,9 @@ struct Window {
 
     std::shared_ptr<GraphicsAPI> _api;
 
+    // TEMP
+    bool useSao = true;
+
     // Shaders
     std::shared_ptr<ShaderProgram> gBufferShader = nullptr;
     std::shared_ptr<ShaderProgram> dLightShader = nullptr;

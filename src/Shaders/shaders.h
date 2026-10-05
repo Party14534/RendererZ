@@ -43,6 +43,7 @@
 #define SHADER_DIR_SHADOW_MAP_UNIFORM "gDirShadowMap"
 #define SHADER_SAO_BLUR_DIRECTION_UNIFORM "saoBlurDir_z"
 #define SHADER_SHOW_SAO_UNIFORM "showSao_z"
+#define SHADER_USE_SAO_UNIFORM "useSao_z"
 #define SHADER_POINT_LIGHT_BLOCK "PointLightBlock"
 #define POINT_LIGHT_UBO_BINDING 0
 #define MAX_POINT_LIGHTS 800 // keep in sync with lightPassFrag.frag; 65536-byte UBO limit / 80 bytes per light = 819 max

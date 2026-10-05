@@ -51,6 +51,7 @@ int main() {
     SceneMode sceneMode = SceneMode::TestScene;
     bool toggleKeyWasPressed = false;
     bool saoToggleKeyWasPressed = false;
+    bool sao2ToggleKeyWasPressed = false;
 
     int frameCount = 0;
     double fpsTimer = glfwGetTime();
@@ -108,6 +109,11 @@ int main() {
             win.showSao = !win.showSao;
         }
         saoToggleKeyWasPressed = win.isKeyPressed(GLFW_KEY_N);
+
+        if (win.isKeyPressed(GLFW_KEY_C) && !sao2ToggleKeyWasPressed) {
+            win.useSao = !win.useSao;
+        }
+        sao2ToggleKeyWasPressed = win.isKeyPressed(GLFW_KEY_C);
 
         switch (sceneMode) {
             case SceneMode::TestScene:  updateTestSceneOne(t, win);   break;

@@ -9,10 +9,10 @@ void setUpSponzaLighting(Window& win) {
     win.dLight.setColor(Color(1.f, .95f, .85f, 1.f));
     win.dLight.setDir(Vec3(-0.5f, -1.f, -0.3f));
     win.dLight.properties = DirLightProperties {
-        .2f, .9f, .7f,
+        .6f, .9f, .7f,
     };
 
-    /*PointLightProperties props;
+    PointLightProperties props;
     props.attenuation = Vec3(1.0f, 0.045f, 0.0075f);
 
     PointLight warm(Vec3(-30, 6, 0), props);
@@ -25,7 +25,7 @@ void setUpSponzaLighting(Window& win) {
 
     PointLight center(Vec3(0, 20, 0), props);
     center.setColor(Color(1.f));
-    win.addPointLight(center);*/
+    win.addPointLight(center);
 }
 
 void updateSponzaScene(double t, Window& win) {

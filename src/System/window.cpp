@@ -192,6 +192,7 @@ void Window::setSAOPassUniforms() {
 
     saoPassShader->setMat4(SHADER_VIEW_SET_UNIFORM, cam.GetViewMatrix());
     saoPassShader->setMat4(SHADER_PROJECTION_SET_UNIFORM, cam.GetProjectionMatrix());
+    saoPassShader->setBool(SHADER_USE_SAO_UNIFORM, useSao);
 }
 
 void Window::setSAOBlurPassUniforms(Vec2 direction) {

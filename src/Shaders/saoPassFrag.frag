@@ -15,6 +15,8 @@ uniform vec2 resolution_z;
 uniform mat4 view_z;
 uniform mat4 projection_z;
 
+uniform bool useSao_z;
+
 vec3[64] saoPoints = vec3[](
     vec3( -0.02372893145416545 ,  -0.010685747521495623 ,  0.047912920308334016 ),
     vec3( 0.030706586959765015 ,  -0.002975497907109882 ,  0.012210718316033351 ),
@@ -106,7 +108,7 @@ vec2 calcSAO(vec3 normal, vec3 fragPos, vec2 uv) {
 
     // Alchemy AO variables
     float beta = .0001; // Set for look
-    float epsilon = .0001;
+    float epsilon = .000001;
     float sigma = 1.;
 
     // Calculate radius
@@ -183,5 +185,5 @@ void main()
 
     vec3 viewDir = normalize(view_pos_z - FragPos);
 
-    gSAO = calcSAO(Normal, FragPos, TexCoord);
+    gSAO = useSao_z ? calcSAO(Normal, FragPos, TexCoord) : vec2(1., 0.);
 }
