@@ -19,10 +19,10 @@ void ComplexDrawable::draw(std::shared_ptr<ShaderProgram> defaultShader, const M
  */
 
 Drawable::Drawable(std::shared_ptr<Mesh> m) : 
-    mesh(m) { }
+    mesh(m), material(std::make_shared<BlinnPhongMaterial>(defaultBlinnPhongMaterial)) { }
 
-void Drawable::setColor(Color c) { material.color = c; }
-Color Drawable::getColor() const { return material.color; }
+void Drawable::setColor(Color c) { material->color = c; }
+Color Drawable::getColor() const { return material->color; }
 
 void Drawable::setPos(Vec3 v) { transform.pos = v; }
 Vec3 Drawable::getPos() const { return transform.pos; }
@@ -30,8 +30,8 @@ Vec3 Drawable::getPos() const { return transform.pos; }
 void Drawable::setScale(Vec3 s) { transform.scale = s; }
 Vec3 Drawable::getScale() const { return transform.scale; }
 
-void Drawable::setMaterial(Material m) { material = m; }
-Material Drawable::getMaterial() const { return material; }
+void Drawable::setMaterial(std::shared_ptr<Material> m) { material = m; }
+std::shared_ptr<Material> Drawable::getMaterial() const { return material; }
 
 void Drawable::rotateX(float angle) { 
     transform.rotation.x = angle;
@@ -64,8 +64,7 @@ void Drawable::draw(std::shared_ptr<ShaderProgram> shader, const Mat4D& vp) {
     Mat4D mvp = vp * transform.GetModelMatD();
     shader->setMat4(SHADER_MODEL_SET_UNIFORM, transform.GetModelMat());
     shader->setMat4(SHADER_MVP_SET_UNIFORM, mvp);
-    shader->setVec3(SHADER_COLOR_UNIFORM, material.color.toRGB());
-    shader->setFloat(SHADER_SPECULAR_UNIFORM, material.specular);
+    shader->setVec3(SHADER_COLOR_UNIFORM, material->color.toRGB());
     shader->setBool(SHADER_TEX_SET_UNIFORM, diffuseTexture != nullptr);
     shader->setBool(SHADER_NORMAL_MAP_SET_UNIFORM, normalTexture != nullptr);
     shader->setVec2(SHADER_UV_SCALE_UNIFORM, uvScale);

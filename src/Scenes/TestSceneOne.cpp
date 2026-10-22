@@ -77,25 +77,25 @@ Scene testSceneOne() {
     r7.setScale(Vec3(2.f));
     tung.setScale(Vec3(.3f));
 
-    armadillo.setMaterial(Material {
+    armadillo.setMaterial(std::make_shared<BlinnPhongMaterial>(
         Color(1.f),
         0.f,
         0.f,
         1.f,
         0.f,
         1.f
-    });
+    ));
 
     homer.setMaterial(armadillo.getMaterial());
 
-    bunny.setMaterial(Material {
+    bunny.setMaterial(std::make_shared<BlinnPhongMaterial> (
             Color(1.f),
             .0f,
             .0f,
             .0f,
             32.f,
             1.f
-    });
+    ));
     cow.setMaterial(bunny.getMaterial());
 
     return Scene({ &whiteCube, &redCube,

@@ -9,6 +9,7 @@
 
 #include "../Math/math.h"
 #include "../System/Buffer/Buffer.h"
+#include "../Objects/Texture.h"
 
 #define SHADER_MATERIAL_AMBIENT_UNIFORM "material_z.ambient"
 #define SHADER_MATERIAL_DIFFUSE_UNIFORM "material_z.diffuse"
@@ -34,7 +35,6 @@
 #define SHADER_POINT_LIGHT_COUNT "pointLightCnt_z"
 #define SHADER_POINT_SIZE_UNIFORM "pointSize_z"
 #define SHADER_UV_SCALE_UNIFORM "uvScale_z"
-#define SHADER_SPECULAR_UNIFORM "specular_z"
 #define SHADER_GPOSITION_UNIFORM "gPosition"
 #define SHADER_GNORMAL_UNIFORM "gNormal"
 #define SHADER_GALBEDO_SPEC_UNIFORM "gAlbedoSpec"
@@ -50,13 +50,39 @@
                         
 inline std::unordered_map<std::string, u32> uniformIDs;
 
+struct ShaderProgram;
+
 struct Material {
-    Color color;
+    public:
+        Color color;
+        Material(Color c = Color()) : color(c) {}
+        virtual void setMaterial(ShaderProgram& p) = 0;
+};
+
+struct BlinnPhongMaterial : public Material {
     float ambient = 1.f;
     float diffuse = 1.f;
     float specular = 1.f;
     float shininess = 32.f;
     float reflectivity = 0.f;
+    
+    BlinnPhongMaterial() {}
+    BlinnPhongMaterial(Color c, float a, float d,
+            float s, float sh, float r) 
+        : Material(c), ambient(a), diffuse(d), specular(s),
+        shininess(sh), reflectivity(r) {}
+
+    void setMaterial(ShaderProgram& p) override;
+};
+
+struct PBRMaterial : Material {
+    std::shared_ptr<Texture> albedo, normal, metallic, roughness;
+
+    PBRMaterial(std::shared_ptr<Texture> a, std::shared_ptr<Texture> n,
+            std::shared_ptr<Texture> m, std::shared_ptr<Texture> r)
+        : albedo(a), normal(n), metallic(m), roughness(r) {}
+
+    void setMaterial(ShaderProgram& p) override;
 };
 
 struct DirLightProperties {
@@ -115,7 +141,8 @@ struct ShaderProgram {
     const void setMat4(const std::string& name, const Mat4& m) const;
     const void setMat4(const std::string& name, const Mat4D& m) const;
 
-    const void setMaterial(const Material& m) const;
+    const void setBlinnPhongMaterial(const BlinnPhongMaterial& m) const;
+    const void setPBRMaterial(const PBRMaterial& m) const;
 
     const void setDirLight(const Vec3& dir, const Vec3& ambient,
             const Vec3& diffuse, const Vec3& specular) const;

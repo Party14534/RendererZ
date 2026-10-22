@@ -231,7 +231,7 @@ const void ShaderProgram::setMat4(const std::string& name, const Mat4D& m) const
     }
 }
 
-const void ShaderProgram::setMaterial(const Material& m) const {
+const void ShaderProgram::setBlinnPhongMaterial(const BlinnPhongMaterial& m) const {
     Vec3 c = m.color.toRGB();
     Vec3 ambient = c * m.ambient;
     Vec3 diffuse = c * m.diffuse;
@@ -247,6 +247,13 @@ const void ShaderProgram::setMaterial(const Material& m) const {
             m.shininess);
     glUniform1f(getUniformLocation(ID, SHADER_MATERIAL_REFLECTIVITY_UNIFORM),
             m.reflectivity);
+}
+
+const void ShaderProgram::setPBRMaterial(const PBRMaterial& m) const {
+    m.albedo->bind();
+    m.metallic->bind();
+    m.normal->bind();
+    m.roughness->bind();
 }
 
 const void ShaderProgram::setDirLight(const Vec3& dir, const Vec3& ambient,
@@ -266,3 +273,6 @@ const void ShaderProgram::bindUniformBlock(const std::string& name, UniformBuffe
     u32 blockIndex = glGetUniformBlockIndex(ID, name.c_str());
     glUniformBlockBinding(ID, blockIndex, ubo.index);
 }
+
+void BlinnPhongMaterial::setMaterial(ShaderProgram& p) { p.setBlinnPhongMaterial(*this); }
+void PBRMaterial::setMaterial(ShaderProgram& p) { p.setPBRMaterial(*this); }

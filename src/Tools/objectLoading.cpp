@@ -125,8 +125,8 @@ std::shared_ptr<Texture> getBaseColorTexture(
     return textures[cgltf_texture_index(data, tex)];
 }
 
-Material materialFromGLTF(const cgltf_material* material) {
-    if (!material || !material->has_pbr_metallic_roughness) return Material {};
+BlinnPhongMaterial BlinnPhongMaterialFromGLTF(const cgltf_material* material) {
+    if (!material || !material->has_pbr_metallic_roughness) return BlinnPhongMaterial();
 
     const cgltf_pbr_metallic_roughness& pbr = material->pbr_metallic_roughness;
     Color color(pbr.base_color_factor[0], pbr.base_color_factor[1],
@@ -138,7 +138,7 @@ Material materialFromGLTF(const cgltf_material* material) {
     bool hasMRTexture = pbr.metallic_roughness_texture.texture != nullptr;
     float reflectivity = hasMRTexture ? 0.f : metallic * (1.f - roughness) * .15f;
 
-    return Material {
+    return BlinnPhongMaterial {
         color,
         .1f,
         1.f - metallic,
@@ -321,7 +321,8 @@ std::shared_ptr<ComplexDrawable> loadGLTFFileFromFilePath(std::filesystem::path 
 
             Drawable d(mesh);
 
-            d.setMaterial(materialFromGLTF(prim.material));
+            d.setMaterial(std::make_shared<BlinnPhongMaterial>
+                    (BlinnPhongMaterialFromGLTF(prim.material)));
 
             std::shared_ptr<Texture> tex = getBaseColorTexture(prim.material, data, textures);
             if (tex) d.setDiffuseTexture(tex);

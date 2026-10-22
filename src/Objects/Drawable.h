@@ -12,6 +12,15 @@
 #include "Mesh.h"
 #include "Texture.h"
 
+inline BlinnPhongMaterial defaultBlinnPhongMaterial = {
+        Color(1.f),
+        .2f,
+        .5f,
+        .5f,
+        32.f,
+        0.f
+};
+
 struct Transform {
     Vec3 pos, rotation;
     Vec3 scale = Vec3(1.f);
@@ -27,13 +36,7 @@ struct IRenderable {
 struct Drawable : IRenderable {
         //std::shared_ptr<Shader> shader = nullptr;
         std::shared_ptr<Mesh> mesh = nullptr;
-        Material material = Material {
-            Color(1.f),
-            .2f,
-            .5f,
-            .5f,
-            32.f
-        };
+        std::shared_ptr<Material> material;
         std::shared_ptr<Texture> diffuseTexture;
         std::shared_ptr<Texture> normalTexture;
         Vec2 uvScale = Vec2(1.f, 1.f);
@@ -50,8 +53,8 @@ struct Drawable : IRenderable {
         Vec3 getPos() const;
         void setScale(Vec3 v);
         Vec3 getScale() const;
-        void setMaterial(Material m);
-        Material getMaterial() const;
+        void setMaterial(std::shared_ptr<Material> m);
+        std::shared_ptr<Material> getMaterial() const;
 
         void rotateX(float angle);
         void rotateY(float angle);
