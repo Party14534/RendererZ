@@ -31,6 +31,16 @@ struct DirLight {
 };
 uniform DirLight dirLight_z;
 
+/*
+    MATERIAL
+   */
+struct Material {
+    sampler2D albedo;
+    sampler2D metallic;
+    sampler2D roughness;
+};
+uniform Material material_z;
+
 in vec2 TexCoord;
 
 uniform sampler2D gPosition;
@@ -142,6 +152,8 @@ void main()
     Normal =  texture(gNormal, TexCoord).rgb;
     Albedo = texture(gAlbedoSpec, TexCoord).rgb;
     Specular = texture(gAlbedoSpec, TexCoord).a;
+
+    float roughness = texture(material.roughness, TexCoord).r;
 
     vec3 viewDir = normalize(view_pos_z - FragPos);
 
