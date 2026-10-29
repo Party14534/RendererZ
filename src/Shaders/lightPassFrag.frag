@@ -1,6 +1,8 @@
 #version 330 core
 #pragma debug(on)
 
+layout (location = 0) out vec4 gFragColor;
+
 out vec4 FragColor;
 
 struct PointLight {
@@ -128,5 +130,5 @@ void main()
         result += calcPointLight(pointLights_z[i], Normal, FragPos, viewDir, Albedo, Specular, sao);
     }
 
-    FragColor = showSao_z ? vec4(vec3(sao), 1.) : vec4(result, 1.);
+    gFragColor = showSao_z ? vec4(vec3(sao), 1.) : vec4(result, 1.);
 }

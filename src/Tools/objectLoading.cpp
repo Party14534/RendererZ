@@ -148,6 +148,22 @@ BlinnPhongMaterial BlinnPhongMaterialFromGLTF(const cgltf_material* material) {
     };
 }
 
+PBRMaterial PBRMaterialFromGLTF(const cgltf_material* material) {
+    if (!material || !material->has_pbr_metallic_roughness) return PBRMaterial();
+
+    const cgltf_pbr_metallic_roughness& pbr = material->pbr_metallic_roughness;
+    Color color(pbr.base_color_factor[0], pbr.base_color_factor[1],
+            pbr.base_color_factor[2], pbr.base_color_factor[3]);
+
+    float metallic = pbr.metallic_factor;
+    float roughness = pbr.roughness_factor;
+
+    bool hasMRTexture = pbr.metallic_roughness_texture.texture != nullptr;
+    material->pbr_metallic_roughness.base_color_texture;
+
+    return PBRMaterial();
+}
+
 static std::vector<std::shared_ptr<Texture>> loadGLTFTextures(
         const cgltf_data* data,
         const std::filesystem::path& filePath)
@@ -285,7 +301,7 @@ static void applyNodeWorldTransform(std::vector<VertexAttribute>& vertices, cons
     }
 }
 
-std::shared_ptr<ComplexDrawable> loadGLTFFileFromFilePath(std::filesystem::path filePath) {
+std::shared_ptr<ComplexDrawable> loadGLTFFileFromFilePath(std::filesystem::path filePath, bool PBR) {
     cgltf_options opts = {};
     cgltf_data* data = nullptr;
     if (cgltf_parse_file(&opts, filePath.c_str(), &data) != cgltf_result_success) {
@@ -321,8 +337,14 @@ std::shared_ptr<ComplexDrawable> loadGLTFFileFromFilePath(std::filesystem::path 
 
             Drawable d(mesh);
 
+            if (PBR) {
+            d.setMaterial(std::make_shared<PBRMaterial>
+                    (PBRMaterialFromGLTF(prim.material)));
+            }
+            else {
             d.setMaterial(std::make_shared<BlinnPhongMaterial>
                     (BlinnPhongMaterialFromGLTF(prim.material)));
+            }
 
             std::shared_ptr<Texture> tex = getBaseColorTexture(prim.material, data, textures);
             if (tex) d.setDiffuseTexture(tex);
@@ -336,10 +358,11 @@ std::shared_ptr<ComplexDrawable> loadGLTFFileFromFilePath(std::filesystem::path 
     return std::make_shared<ComplexDrawable>(nodes);
 }
 
-std::shared_ptr<ComplexDrawable> LoadComplexDrawableFromFilePath(std::filesystem::path filePath) {
+std::shared_ptr<ComplexDrawable> LoadComplexDrawableFromFilePath(std::filesystem::path filePath,
+        bool PBR) {
     std::string extension = filePath.extension().string();
     if (extension == ".gltf" || extension == ".glb") {
-        return loadGLTFFileFromFilePath(filePath);
+        loadGLTFFileFromFilePath(filePath, PBR);
     } else {
         std::cerr << "Uncompatible object file type\n";
         exit(1);

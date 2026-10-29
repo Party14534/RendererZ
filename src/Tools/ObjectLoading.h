@@ -8,7 +8,8 @@
 #include <sstream>
 #include <nlohmann/json.hpp>
 
-std::shared_ptr<Mesh> LoadMeshFromFilePath(std::filesystem::path filePath);
-std::shared_ptr<ComplexDrawable> LoadComplexDrawableFromFilePath(std::filesystem::path filePath);
+std::shared_ptr<Mesh> LoadMeshFromFilePath(std::filesystem::path filePath,
+        bool PBR);
+std::shared_ptr<ComplexDrawable> LoadComplexDrawableFromFilePath(std::filesystem::path filePath, bool PBR);
 
 #endif

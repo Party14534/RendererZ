@@ -76,11 +76,18 @@ struct BlinnPhongMaterial : public Material {
 };
 
 struct PBRMaterial : Material {
-    std::shared_ptr<Texture> albedo, normal, metallic, roughness;
+    std::shared_ptr<Texture> albedo, normal, metallicRoughness;
+    Color baseColorFactor;
+    float metallicFactor;
+    float roughnessFactor;
+
+    bool hasMRTexture;
 
     PBRMaterial(std::shared_ptr<Texture> a, std::shared_ptr<Texture> n,
-            std::shared_ptr<Texture> m, std::shared_ptr<Texture> r)
-        : albedo(a), normal(n), metallic(m), roughness(r) {}
+            std::shared_ptr<Texture> mr,
+            Color bcf, float mf, float rf)
+        : albedo(a), normal(n), metallicRoughness(mr),
+        baseColorFactor(bcf), metallicFactor(mf), roughnessFactor(rf){}
 
     void setMaterial(ShaderProgram& p) override;
 };
