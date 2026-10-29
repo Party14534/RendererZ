@@ -127,3 +127,27 @@ GraphicsPipelineItem getLightPassPipelineItem(Window& win) {
             end,
             win.drawScreen);
 }
+
+/*
+ * PBR
+ */
+
+GraphicsPipelineItem getGBufferPipelineItemPBR(Window& win) {
+    Callback begin = [&win] {
+        win.gBuffer.bind();
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        win.setGBufferUniforms();
+    };
+
+    Callback end = [&win] {
+        win.gBuffer.unbind();
+        win.gBuffer.bindTextures();
+    };
+
+
+    return GraphicsPipelineItem::Geometry(
+            win.gBufferShader,
+            begin,
+            end,
+            win.gBufferVP);
+}

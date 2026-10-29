@@ -8,11 +8,8 @@ out vec4 FragColor;
 
 struct PointLight {
     vec3 pos;
-    
-    vec3 ambient;
-    vec3 diffuse;
-    vec3 specular;
     vec3 attenuation;
+    vec3 color;
 };
 #define MAX_POINT_LIGHTS 800
 uniform int pointLightCnt_z;
@@ -31,23 +28,13 @@ struct DirLight {
 };
 uniform DirLight dirLight_z;
 
-/*
-    MATERIAL
-   */
-struct Material {
-    sampler2D albedo;
-    sampler2D metallic;
-    sampler2D roughness;
-};
-uniform Material material_z;
-
 in vec2 TexCoord;
 
 uniform sampler2D gPosition;
 uniform sampler2D gNormal;
 uniform sampler2D gAlbedoSpec;
-uniform smapler2D gMetallic;
-uniform smapler2D gRoughness;
+uniform sampler2D gMetallic;
+uniform sampler2D gRoughness;
 uniform sampler2D gSAOBlur;
 
 uniform sampler2DShadow gDirShadowMap;
@@ -64,7 +51,7 @@ uniform mat4 lightSpaceMatrix_z;
 vec3 FragPos = texture(gPosition, TexCoord).rgb;
 vec3 Normal =  texture(gNormal, TexCoord).rgb;
 vec3 Albedo = texture(gAlbedoSpec, TexCoord).rgb;
-float Specular = texture(gAlbedoSpec, TexCoord).a;
+//float Specular = texture(gAlbedoSpec, TexCoord).a;
 float Metallic = texture(gMetallic, TexCoord).r;
 float Roughness = texture(gRoughness, TexCoord).r;
 
@@ -83,7 +70,7 @@ float GGXTR(vec3 normal, vec3 halfway, float roughness) {
     float normalHalfwayDot = max(dot(normal, halfway), 0.);
 
     float nom = roughness * roughness;
-    float denom = (normalHalfway * normalHalfway) * (nom - 1.) + 1.;
+    float denom = (normalHalfwayDot * normalHalfwayDot) * (nom - 1.) + 1.;
     denom = PI * denom * denom;
 
     return nom / denom;
@@ -112,67 +99,73 @@ float GeomSmith(vec3 normal, vec3 view, vec3 Wi, float roughnessK) {
 // Fresnel-Schlick
 // Ratio of light that gets reflected over the light that gets refracted.
 // Varies over the angle we're looking at the surface
-float FresnelSchlick(float cosTheta, vec3 FZero) {
-    //vec3 F0 = vec3(.04);
-    //F0 = mix(F0, Albedo.rgb, metalness);
+vec3 FresnelSchlick(float cosTheta/*, vec3 FZero*/) {
+    vec3 FZero = vec3(.04);
+    FZero = mix(FZero, Albedo.rgb, Metallic);
     
     return FZero + (1. - FZero) * pow(1. - cosTheta, 5.0);
 }
 
-float CTBRDF(vec3 FragPos, vec3 Wi, vec3 viewDir, float roughness) {
-    vec3 halfway = normalize(Wi, viewDir);
+vec3 CTBRDF(vec3 FragPos, vec3 Wi, vec3 viewDir, float roughness) {
+    vec3 halfway = normalize(Wi + viewDir);
 
     float kS = calcSpecular();
     float kD = 1. - kS;
 
     // Calculate lambert
-    float lambert = Albedo * PI_RECIP;
+    vec3 lambert = Albedo * PI_RECIP;
 
     // Calculate Cook-Torrance
     float normalDistribution = GGXTR(Normal, halfway,
             roughness); // Trowbridge-Reitz GGX
 
-    float fresnelEq = FresnelSchlick(dot(Normal, halfway),
-            material_z.FZero); // Schlick-Fresnel
+    vec3 fresnelEq = FresnelSchlick(dot(Normal, halfway)); // Schlick-Fresnel
     
     float geometryFunc = GeomSmith(Normal, viewDir, 
             Wi, calcDirectRoughnessK(roughness)); // Smith's Schlick-GGX
 
-    float nom = normalDistribution * fresnelEq * geometyFunc;
+    vec3 nom = normalDistribution * fresnelEq * geometryFunc;
     float denom = 4 * dot(viewDir, Normal) * dot(Wi, Normal);
 
-    float cookTorrance = nom / denom;
+    vec3 cookTorrance = nom / denom;
     
     return kD*lambert + cookTorrance;
 }
 
+float calcAttenuation(vec3 attenuation, float distance) {
+    return 1.0 / (attenuation.x
+            + attenuation.y * distance
+            + attenuation.z * (distance * distance));
+}
+
+vec3 Radiance(vec3 fragPos, vec3 Wi, PointLight light) {
+    vec3 lightCol = light.color;
+    float cosTheta = max(dot(Normal, Wi), 0.);
+    float attenuation = calcAttenuation(light.attenuation, length(light.pos - fragPos));
+    
+    return lightCol * attenuation * cosTheta;
+}
+
 void main()
 {
-    FragPos = texture(gPosition, TexCoord).rgb;
-    Normal =  texture(gNormal, TexCoord).rgb;
-    Albedo = texture(gAlbedoSpec, TexCoord).rgb;
-    Specular = texture(gAlbedoSpec, TexCoord).a;
-
-    float roughness = texture(material.roughness, TexCoord).r;
-
     vec3 viewDir = normalize(view_pos_z - FragPos);
 
     // LIGHT CODE
     float sao = texture(gSAOBlur, TexCoord).r;
 
-    float sum = 0.;
+    vec3 sum = vec3(0.);
     float dW = 1. / pointLightCnt_z;
     for(int i = 0; i < pointLightCnt_z; i++) {
         // Calculate incoming light direction
-        vec3 Wi = normalize(pointsLights_z[i].pos - FragPos);
+        vec3 Wi = normalize(pointLights_z[i].pos - FragPos);
 
         // Riemann sum for the rendering equation
-        sum += CTBRDF(FragPos, Wi, viewDir, roughness) * // Bi-directional Reflective Distribution Function
-            Radiance(FragPos, Wi) * // Incoming light
+        sum += CTBRDF(FragPos, Wi, viewDir, Roughness) * // Bi-directional Reflective Distribution Function
+            Radiance(FragPos, Wi, pointLights_z[i]) * // Incoming light
             dot(Normal, Wi) *
             dW;
-        result += calcPointLight(pointLights_z[i], Normal, FragPos, viewDir, Albedo, Specular, sao);
     }
+    sum = sum / pointLightCnt_z;
 
-    FragColor = showSao_z ? vec4(vec3(sao), 1.) : vec4(result, 1.);
+    FragColor = showSao_z ? vec4(vec3(sao), 1.) : vec4(sum, 1.);
 }

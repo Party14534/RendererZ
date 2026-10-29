@@ -37,4 +37,16 @@ struct GBuffer {
     void unbind() const;
 };
 
+struct GBufferPBR {
+    u32 ID;
+    u32 depthRBO;
+    Texture pos, norm, color;
+
+    GBufferPBR();
+    void init(u32 width, u32 height);
+    void bind() const;
+    void bindTextures() const;
+    void unbind() const;
+};
+
 #endif

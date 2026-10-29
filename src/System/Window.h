@@ -31,14 +31,21 @@ struct Window {
     bool useSao = true;
 
     // Shaders
-    std::shared_ptr<ShaderProgram> gBufferShader = nullptr;
     std::shared_ptr<ShaderProgram> dLightShader = nullptr;
-    std::shared_ptr<ShaderProgram> lightPassShader = nullptr;
     std::shared_ptr<ShaderProgram> saoPassShader = nullptr;
     std::shared_ptr<ShaderProgram> saoBlurPassShader = nullptr;
 
+    // Blinn-Phong shaders
+    std::shared_ptr<ShaderProgram> gBufferShader = nullptr;
+    std::shared_ptr<ShaderProgram> lightPassShader = nullptr;
+
+    // PBR shaders
+    std::shared_ptr<ShaderProgram> gBufferShaderPBR = nullptr;
+    std::shared_ptr<ShaderProgram> lightPassShaderPBR = nullptr;
+
     // Frame Buffers
     GBuffer gBuffer;
+    GBuffer gBufferPBR;
     FrameBuffer dLightShadowBuffer;
     FrameBuffer saoBuffer;
     FrameBuffer saoBlurHBuffer;
