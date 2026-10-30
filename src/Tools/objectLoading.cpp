@@ -125,31 +125,37 @@ std::shared_ptr<Texture> getBaseColorTexture(
     return textures[cgltf_texture_index(data, tex)];
 }
 
-BlinnPhongMaterial BlinnPhongMaterialFromGLTF(const cgltf_material* material) {
-    if (!material || !material->has_pbr_metallic_roughness) return BlinnPhongMaterial();
+std::shared_ptr<Texture> getNormalTexture(
+        const cgltf_material* material,
+        const cgltf_data* data,
+        const std::vector<std::shared_ptr<Texture>>& textures)
+{
+    if (!material) return nullptr;
 
-    const cgltf_pbr_metallic_roughness& pbr = material->pbr_metallic_roughness;
-    Color color(pbr.base_color_factor[0], pbr.base_color_factor[1],
-            pbr.base_color_factor[2], pbr.base_color_factor[3]);
+    const cgltf_texture* tex = material->normal_texture.texture;
+    if (!tex) return nullptr;
 
-    float metallic = pbr.metallic_factor;
-    float roughness = pbr.roughness_factor;
-
-    bool hasMRTexture = pbr.metallic_roughness_texture.texture != nullptr;
-    float reflectivity = hasMRTexture ? 0.f : metallic * (1.f - roughness) * .15f;
-
-    return BlinnPhongMaterial {
-        color,
-        .1f,
-        1.f - metallic,
-        .2f + metallic * .8f,
-        4.f + (1.f - roughness) * 252.f,
-        reflectivity
-    };
+    return textures[cgltf_texture_index(data, tex)];
 }
 
-PBRMaterial PBRMaterialFromGLTF(const cgltf_material* material) {
-    if (!material || !material->has_pbr_metallic_roughness) return PBRMaterial();
+std::shared_ptr<Texture> getMetallicRoughnessTexture(
+        const cgltf_material* material,
+        const cgltf_data* data,
+        const std::vector<std::shared_ptr<Texture>>& textures)
+{
+    if (!material || !material->has_pbr_metallic_roughness) return nullptr;
+
+    const cgltf_texture* tex = material->pbr_metallic_roughness.metallic_roughness_texture.texture;
+    if (!tex) return nullptr;
+
+    return textures[cgltf_texture_index(data, tex)];
+}
+
+PBRMaterial PBRMaterialFromGLTF(const cgltf_material* material,
+        const cgltf_data* data,
+        const std::vector<std::shared_ptr<Texture>>& textures) 
+{
+    if (!material || !material->has_pbr_metallic_roughness) return PBRMaterial(nullptr, nullptr, nullptr, Color(1.), .5, .5);
 
     const cgltf_pbr_metallic_roughness& pbr = material->pbr_metallic_roughness;
     Color color(pbr.base_color_factor[0], pbr.base_color_factor[1],
@@ -158,10 +164,12 @@ PBRMaterial PBRMaterialFromGLTF(const cgltf_material* material) {
     float metallic = pbr.metallic_factor;
     float roughness = pbr.roughness_factor;
 
-    bool hasMRTexture = pbr.metallic_roughness_texture.texture != nullptr;
-    material->pbr_metallic_roughness.base_color_texture;
+    std::shared_ptr<Texture> albedo = getBaseColorTexture(material, data, textures);
+    std::shared_ptr<Texture> metallicRoughness = getMetallicRoughnessTexture(material, data, textures);
+    std::shared_ptr<Texture> normal = getNormalTexture(material, data, textures);
 
-    return PBRMaterial();
+    return PBRMaterial(albedo, normal, metallicRoughness,
+            color, metallic, roughness);
 }
 
 static std::vector<std::shared_ptr<Texture>> loadGLTFTextures(
@@ -301,7 +309,7 @@ static void applyNodeWorldTransform(std::vector<VertexAttribute>& vertices, cons
     }
 }
 
-std::shared_ptr<ComplexDrawable> loadGLTFFileFromFilePath(std::filesystem::path filePath, bool PBR) {
+std::shared_ptr<ComplexDrawable> loadGLTFFileFromFilePath(std::filesystem::path filePath) {
     cgltf_options opts = {};
     cgltf_data* data = nullptr;
     if (cgltf_parse_file(&opts, filePath.c_str(), &data) != cgltf_result_success) {
@@ -337,17 +345,8 @@ std::shared_ptr<ComplexDrawable> loadGLTFFileFromFilePath(std::filesystem::path 
 
             Drawable d(mesh);
 
-            if (PBR) {
             d.setMaterial(std::make_shared<PBRMaterial>
-                    (PBRMaterialFromGLTF(prim.material)));
-            }
-            else {
-            d.setMaterial(std::make_shared<BlinnPhongMaterial>
-                    (BlinnPhongMaterialFromGLTF(prim.material)));
-            }
-
-            std::shared_ptr<Texture> tex = getBaseColorTexture(prim.material, data, textures);
-            if (tex) d.setDiffuseTexture(tex);
+                    (PBRMaterialFromGLTF(prim.material, data, textures)));
 
             nodes.push_back(d);
         }
@@ -358,13 +357,13 @@ std::shared_ptr<ComplexDrawable> loadGLTFFileFromFilePath(std::filesystem::path 
     return std::make_shared<ComplexDrawable>(nodes);
 }
 
-std::shared_ptr<ComplexDrawable> LoadComplexDrawableFromFilePath(std::filesystem::path filePath,
-        bool PBR) {
+std::shared_ptr<ComplexDrawable> LoadComplexDrawableFromFilePath(std::filesystem::path filePath) {
     std::string extension = filePath.extension().string();
     if (extension == ".gltf" || extension == ".glb") {
-        loadGLTFFileFromFilePath(filePath, PBR);
+        loadGLTFFileFromFilePath(filePath);
     } else {
         std::cerr << "Uncompatible object file type\n";
         exit(1);
     }
+    exit(1);
 }

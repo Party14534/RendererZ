@@ -1,5 +1,4 @@
 #include "ManyLightsScene.h"
-#include "Objects/Drawable.h"
 #include <cstdlib>
 #include <cmath>
 

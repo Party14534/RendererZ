@@ -1,8 +1,8 @@
 #ifndef MANY_LIGHTS_SCENE_H
 #define MANY_LIGHTS_SCENE_H
 
-#include "Objects/Scene.h"
-#include "System/Window.h"
+#include "../Objects/Scene.h"
+#include "../System/Window.h"
 
 Scene testManyLightsScene();
 void setUpManyPointLights(Window& win);

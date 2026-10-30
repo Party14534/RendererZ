@@ -231,6 +231,7 @@ const void ShaderProgram::setMat4(const std::string& name, const Mat4D& m) const
     }
 }
 
+/*
 const void ShaderProgram::setBlinnPhongMaterial(const BlinnPhongMaterial& m) const {
     Vec3 c = m.color.toRGB();
     Vec3 ambient = c * m.ambient;
@@ -247,13 +248,32 @@ const void ShaderProgram::setBlinnPhongMaterial(const BlinnPhongMaterial& m) con
             m.shininess);
     glUniform1f(getUniformLocation(ID, SHADER_MATERIAL_REFLECTIVITY_UNIFORM),
             m.reflectivity);
-}
+}*/
 
 const void ShaderProgram::setPBRMaterial(const PBRMaterial& m) const {
-    m.albedo->bind();
-    m.metallic->bind();
-    m.normal->bind();
-    m.roughness->bind();
+    // Bind textures
+    if(m.albedo != nullptr) {
+        setBool(SHADER_MATERIAL_USING_ALBEDO, true);
+        glUniform1i(getUniformLocation(ID, SHADER_MATERIAL_ALBEDO), 0);    
+        api->activeTexture2D(0, m.albedo->ID);
+    }
+
+    if(m.normal != nullptr) {
+        setBool(SHADER_MATERIAL_USING_NORMAL, true);
+        glUniform1i(getUniformLocation(ID, SHADER_MATERIAL_NORMAL), 1);    
+        api->activeTexture2D(1, m.normal->ID);
+    }
+
+    if(m.metallicRoughness != nullptr) {
+        setBool(SHADER_MATERIAL_USING_METALLIC_ROUGHNESS, true);
+        glUniform1i(getUniformLocation(ID, SHADER_MATERIAL_METALLIC_ROUGHNESS), 2);    
+        api->activeTexture2D(2, m.metallicRoughness->ID);
+    }
+
+    // Bind variables
+    setColor(SHADER_MATERIAL_COLOR, m.color);
+    setFloat(SHADER_MATERIAL_METALLIC_FACTOR, m.metallicFactor);
+    setFloat(SHADER_MATERIAL_ROUGHNESS_FACTOR, m.roughnessFactor);
 }
 
 const void ShaderProgram::setDirLight(const Vec3& dir, const Vec3& ambient,
@@ -274,5 +294,6 @@ const void ShaderProgram::bindUniformBlock(const std::string& name, UniformBuffe
     glUniformBlockBinding(ID, blockIndex, ubo.index);
 }
 
-void BlinnPhongMaterial::setMaterial(ShaderProgram& p) { p.setBlinnPhongMaterial(*this); }
-void PBRMaterial::setMaterial(ShaderProgram& p) { p.setPBRMaterial(*this); }
+void PBRMaterial::setMaterial(std::shared_ptr<ShaderProgram> p) { 
+    p->setPBRMaterial(*this);
+}

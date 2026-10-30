@@ -63,8 +63,14 @@ void GBuffer::init(u32 width, u32 height) {
     color.setTextureParameter(MAG_FILTER, NEAREST);
     color.attachToFramebuffer2D(2);
 
-    u32 attachments[3] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2 };
-    glDrawBuffers(3, attachments);
+    metallicRoughness = Texture(RG, width, height, RG, FLOAT, nullptr);
+    color.setTextureParameter(MIN_FILTER, NEAREST);
+    color.setTextureParameter(MAG_FILTER, NEAREST);
+    color.attachToFramebuffer2D(3);
+
+    u32 attachments[4] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1,
+        GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3 };
+    glDrawBuffers(4, attachments);
 
     glGenRenderbuffers(1, &depthRBO);
     glBindRenderbuffer(GL_RENDERBUFFER, depthRBO);
@@ -81,6 +87,7 @@ void GBuffer::bindTextures() const {
     pos.setActive(0);
     norm.setActive(1);
     color.setActive(2);
+    metallicRoughness.setActive(3);
 }
 
 void GBuffer::unbind() const {

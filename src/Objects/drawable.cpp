@@ -19,7 +19,10 @@ void ComplexDrawable::draw(std::shared_ptr<ShaderProgram> defaultShader, const M
  */
 
 Drawable::Drawable(std::shared_ptr<Mesh> m) : 
-    mesh(m), material(std::make_shared<BlinnPhongMaterial>(defaultBlinnPhongMaterial)) { }
+    mesh(m), material(nullptr) { }
+
+Drawable::Drawable(std::shared_ptr<Mesh> m, std::shared_ptr<Material> mat) : 
+    mesh(m), material(mat) { }
 
 void Drawable::setColor(Color c) { material->color = c; }
 Color Drawable::getColor() const { return material->color; }
@@ -45,14 +48,6 @@ void Drawable::rotateZ(float angle) {
     transform.rotation.z = angle;
 }
 
-void Drawable::setDiffuseTexture(std::shared_ptr<Texture> _tex) {
-    diffuseTexture = _tex;
-}
-
-void Drawable::setNormalTexture(std::shared_ptr<Texture> _tex) {
-    normalTexture = _tex;
-}
-
 /*void Drawable::setShader(std::shared_ptr<Shader> _shader) {
     shader = _shader;
 }*/
@@ -65,12 +60,13 @@ void Drawable::draw(std::shared_ptr<ShaderProgram> shader, const Mat4D& vp) {
     shader->setMat4(SHADER_MODEL_SET_UNIFORM, transform.GetModelMat());
     shader->setMat4(SHADER_MVP_SET_UNIFORM, mvp);
     shader->setVec3(SHADER_COLOR_UNIFORM, material->color.toRGB());
-    shader->setBool(SHADER_TEX_SET_UNIFORM, diffuseTexture != nullptr);
-    shader->setBool(SHADER_NORMAL_MAP_SET_UNIFORM, normalTexture != nullptr);
+    if (material != nullptr) material->setMaterial(shader);
     shader->setVec2(SHADER_UV_SCALE_UNIFORM, uvScale);
 
+    /*
     if (diffuseTexture != nullptr) { diffuseTexture->setActive(0); }
     if (normalTexture != nullptr) { normalTexture->setActive(1); }
+    */
     mesh->draw();
 }
 

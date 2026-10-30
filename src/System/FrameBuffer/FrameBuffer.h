@@ -28,7 +28,7 @@ struct MultiFrameBuffer : public FrameBuffer {
 struct GBuffer {
     u32 ID;
     u32 depthRBO;
-    Texture pos, norm, color;
+    Texture pos, norm, color, metallicRoughness;
 
     GBuffer();
     void init(u32 width, u32 height);

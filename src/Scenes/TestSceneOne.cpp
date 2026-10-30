@@ -26,14 +26,23 @@ Scene testSceneOne() {
     std::shared_ptr<Texture> wallTex = Texture::fromFile("../src/res/textures/wall/wall_diffuse.png");
     std::shared_ptr<Texture> wallNormalTex = Texture::fromFile("../src/res/textures/wall/wall_normal.png");
 
-    redCube.setDiffuseTexture(zariTex);
-    blueCube.setDiffuseTexture(zariTex);
-    greenCube.setDiffuseTexture(zariTex);
-    tung.setDiffuseTexture(tungTex);
-    bottom.setDiffuseTexture(wallTex);
-    bottom.setNormalTexture(wallNormalTex);
-    r7.setDiffuseTexture(wallTex);
-    r7.setNormalTexture(wallNormalTex);
+    std::shared_ptr<PBRMaterial> zariMat = std::make_shared<PBRMaterial>(zariTex, nullptr, nullptr,
+            Color(1.), .5, .5);
+    std::shared_ptr<PBRMaterial> tungMat = std::make_shared<PBRMaterial>(tungTex, nullptr, nullptr,
+            Color(1.), .0, .5);
+    std::shared_ptr<PBRMaterial> wallMat = std::make_shared<PBRMaterial>(wallTex, wallNormalTex, nullptr,
+            Color(1.), .0, 1.);
+    std::shared_ptr<PBRMaterial> metalMat = std::make_shared<PBRMaterial>(nullptr, nullptr, nullptr,
+            Color(1.), 1., 0.);
+    std::shared_ptr<PBRMaterial> roughMat = std::make_shared<PBRMaterial>(nullptr, nullptr, nullptr,
+            Color(1.), 0., 1.);
+
+    redCube.setMaterial(zariMat);
+    blueCube.setMaterial(zariMat);
+    greenCube.setMaterial(zariMat);
+    tung.setMaterial(tungMat);
+    bottom.setMaterial(wallMat);
+    r7.setMaterial(wallMat);
 
     bottom.rotateX(radians(90));
     bottom.setPos(Vec3(0, -20, 0));
@@ -77,25 +86,11 @@ Scene testSceneOne() {
     r7.setScale(Vec3(2.f));
     tung.setScale(Vec3(.3f));
 
-    armadillo.setMaterial(std::make_shared<BlinnPhongMaterial>(
-        Color(1.f),
-        0.f,
-        0.f,
-        1.f,
-        0.f,
-        1.f
-    ));
+    armadillo.setMaterial(roughMat);
 
     homer.setMaterial(armadillo.getMaterial());
 
-    bunny.setMaterial(std::make_shared<BlinnPhongMaterial> (
-            Color(1.f),
-            .0f,
-            .0f,
-            .0f,
-            32.f,
-            1.f
-    ));
+    bunny.setMaterial(metalMat);
     cow.setMaterial(bunny.getMaterial());
 
     return Scene({ &whiteCube, &redCube,

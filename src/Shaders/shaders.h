@@ -11,11 +11,26 @@
 #include "../System/Buffer/Buffer.h"
 #include "../Objects/Texture.h"
 
+/*
+ * MATERIAL
+ */
 #define SHADER_MATERIAL_AMBIENT_UNIFORM "material_z.ambient"
 #define SHADER_MATERIAL_DIFFUSE_UNIFORM "material_z.diffuse"
 #define SHADER_MATERIAL_SPECULAR_UNIFORM "material_z.specular"
 #define SHADER_MATERIAL_SHININESS_UNIFORM "material_z.shininess"
 #define SHADER_MATERIAL_REFLECTIVITY_UNIFORM "material_z.reflectivity"
+
+#define SHADER_MATERIAL_ALBEDO "material_z.albedo"
+#define SHADER_MATERIAL_NORMAL "material_z.normal"
+#define SHADER_MATERIAL_METALLIC_ROUGHNESS "material_z.metallicRoughness"
+#define SHADER_MATERIAL_COLOR "material_z.color"
+#define SHADER_MATERIAL_METALLIC_FACTOR "material_z.metallicFactor"
+#define SHADER_MATERIAL_ROUGHNESS_FACTOR "material_z.roughnessFactor"
+#define SHADER_MATERIAL_USING_ALBEDO "material_z.usingAlbedo"
+#define SHADER_MATERIAL_USING_NORMAL "material_z.usingNormal"
+#define SHADER_MATERIAL_USING_METALLIC_ROUGHNESS "material_z.usingMetallicRoughness"
+
+
 #define SHADER_COLOR_UNIFORM "color_z"
 #define SHADER_TEX_SET_UNIFORM "usingTex_z"
 #define SHADER_TEX_UNIFORM "tex"
@@ -56,9 +71,10 @@ struct Material {
     public:
         Color color;
         Material(Color c = Color()) : color(c) {}
-        virtual void setMaterial(ShaderProgram& p) = 0;
+        virtual void setMaterial(std::shared_ptr<ShaderProgram> p) = 0;
 };
 
+/*
 struct BlinnPhongMaterial : public Material {
     float ambient = 1.f;
     float diffuse = 1.f;
@@ -73,11 +89,10 @@ struct BlinnPhongMaterial : public Material {
         shininess(sh), reflectivity(r) {}
 
     void setMaterial(ShaderProgram& p) override;
-};
+}; */
 
 struct PBRMaterial : Material {
     std::shared_ptr<Texture> albedo, normal, metallicRoughness;
-    Color baseColorFactor;
     float metallicFactor;
     float roughnessFactor;
 
@@ -87,9 +102,9 @@ struct PBRMaterial : Material {
             std::shared_ptr<Texture> mr,
             Color bcf, float mf, float rf)
         : albedo(a), normal(n), metallicRoughness(mr),
-        baseColorFactor(bcf), metallicFactor(mf), roughnessFactor(rf){}
+        metallicFactor(mf), roughnessFactor(rf), Material(bcf){}
 
-    void setMaterial(ShaderProgram& p) override;
+    void setMaterial(std::shared_ptr<ShaderProgram> p) override;
 };
 
 struct DirLightProperties {
@@ -148,7 +163,7 @@ struct ShaderProgram {
     const void setMat4(const std::string& name, const Mat4& m) const;
     const void setMat4(const std::string& name, const Mat4D& m) const;
 
-    const void setBlinnPhongMaterial(const BlinnPhongMaterial& m) const;
+    //const void setBlinnPhongMaterial(const BlinnPhongMaterial& m) const;
     const void setPBRMaterial(const PBRMaterial& m) const;
 
     const void setDirLight(const Vec3& dir, const Vec3& ambient,
