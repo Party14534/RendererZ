@@ -15,7 +15,7 @@ std::vector<std::string> splitBySpace(const std::string& str) {
     return words;
 }
 
-std::shared_ptr<Mesh> loadObjectFileFromFilePath(std::filesystem::path filePath) {
+shared<Mesh> loadObjectFileFromFilePath(std::filesystem::path filePath) {
     std::vector<VertexAttribute> vertices;
     std::vector<u32> indices;
 
@@ -98,11 +98,11 @@ std::shared_ptr<Mesh> loadObjectFileFromFilePath(std::filesystem::path filePath)
         }
     }
 
-    std::shared_ptr<Mesh> m = std::make_shared<Mesh>(vertices, indices);
+    shared<Mesh> m = std::make_shared<Mesh>(vertices, indices);
     return m;
 }
 
-std::shared_ptr<Mesh> LoadMeshFromFilePath(std::filesystem::path filePath) {
+shared<Mesh> LoadMeshFromFilePath(std::filesystem::path filePath) {
     std::string extension = filePath.extension().string();
     if (extension == ".obj") {
         return loadObjectFileFromFilePath(filePath);
@@ -112,10 +112,10 @@ std::shared_ptr<Mesh> LoadMeshFromFilePath(std::filesystem::path filePath) {
     }
 }
 
-std::shared_ptr<Texture> getBaseColorTexture(
+shared<Texture> getBaseColorTexture(
         const cgltf_material* material,
         const cgltf_data* data,
-        const std::vector<std::shared_ptr<Texture>>& textures)
+        const std::vector<shared<Texture>>& textures)
 {
     if (!material || !material->has_pbr_metallic_roughness) return nullptr;
 
@@ -125,10 +125,10 @@ std::shared_ptr<Texture> getBaseColorTexture(
     return textures[cgltf_texture_index(data, tex)];
 }
 
-std::shared_ptr<Texture> getNormalTexture(
+shared<Texture> getNormalTexture(
         const cgltf_material* material,
         const cgltf_data* data,
-        const std::vector<std::shared_ptr<Texture>>& textures)
+        const std::vector<shared<Texture>>& textures)
 {
     if (!material) return nullptr;
 
@@ -138,10 +138,10 @@ std::shared_ptr<Texture> getNormalTexture(
     return textures[cgltf_texture_index(data, tex)];
 }
 
-std::shared_ptr<Texture> getMetallicRoughnessTexture(
+shared<Texture> getMetallicRoughnessTexture(
         const cgltf_material* material,
         const cgltf_data* data,
-        const std::vector<std::shared_ptr<Texture>>& textures)
+        const std::vector<shared<Texture>>& textures)
 {
     if (!material || !material->has_pbr_metallic_roughness) return nullptr;
 
@@ -153,7 +153,7 @@ std::shared_ptr<Texture> getMetallicRoughnessTexture(
 
 PBRMaterial PBRMaterialFromGLTF(const cgltf_material* material,
         const cgltf_data* data,
-        const std::vector<std::shared_ptr<Texture>>& textures) 
+        const std::vector<shared<Texture>>& textures) 
 {
     if (!material || !material->has_pbr_metallic_roughness) return PBRMaterial(nullptr, nullptr, nullptr, Color(1.), .5, .5);
 
@@ -164,19 +164,19 @@ PBRMaterial PBRMaterialFromGLTF(const cgltf_material* material,
     float metallic = pbr.metallic_factor;
     float roughness = pbr.roughness_factor;
 
-    std::shared_ptr<Texture> albedo = getBaseColorTexture(material, data, textures);
-    std::shared_ptr<Texture> metallicRoughness = getMetallicRoughnessTexture(material, data, textures);
-    std::shared_ptr<Texture> normal = getNormalTexture(material, data, textures);
+    shared<Texture> albedo = getBaseColorTexture(material, data, textures);
+    shared<Texture> metallicRoughness = getMetallicRoughnessTexture(material, data, textures);
+    shared<Texture> normal = getNormalTexture(material, data, textures);
 
     return PBRMaterial(albedo, normal, metallicRoughness,
             color, metallic, roughness);
 }
 
-static std::vector<std::shared_ptr<Texture>> loadGLTFTextures(
+static std::vector<shared<Texture>> loadGLTFTextures(
         const cgltf_data* data,
         const std::filesystem::path& filePath)
 {
-    std::vector<std::shared_ptr<Texture>> textures(data->textures_count);
+    std::vector<shared<Texture>> textures(data->textures_count);
     for (u32 i = 0; i < data->textures_count; i++) {
         const cgltf_image* image = data->textures[i].image;
         if (!image) continue;
@@ -309,7 +309,7 @@ static void applyNodeWorldTransform(std::vector<VertexAttribute>& vertices, cons
     }
 }
 
-std::shared_ptr<ComplexDrawable> loadGLTFFileFromFilePath(std::filesystem::path filePath) {
+shared<ComplexDrawable> loadGLTFFileFromFilePath(std::filesystem::path filePath) {
     cgltf_options opts = {};
     cgltf_data* data = nullptr;
     if (cgltf_parse_file(&opts, filePath.c_str(), &data) != cgltf_result_success) {
@@ -323,7 +323,7 @@ std::shared_ptr<ComplexDrawable> loadGLTFFileFromFilePath(std::filesystem::path 
     }
 
     // Load Textures first
-    std::vector<std::shared_ptr<Texture>> textures = loadGLTFTextures(data, filePath.parent_path());
+    std::vector<shared<Texture>> textures = loadGLTFTextures(data, filePath.parent_path());
 
     std::vector<Drawable> nodes;
 
@@ -340,7 +340,7 @@ std::shared_ptr<ComplexDrawable> loadGLTFFileFromFilePath(std::filesystem::path 
 
             applyNodeWorldTransform(vertices, node);
 
-            std::shared_ptr<Mesh> mesh = std::make_shared<Mesh>(vertices, indices);
+            shared<Mesh> mesh = std::make_shared<Mesh>(vertices, indices);
             if (!hadTangents) mesh->generateTangents();
 
             Drawable d(mesh);
@@ -357,10 +357,10 @@ std::shared_ptr<ComplexDrawable> loadGLTFFileFromFilePath(std::filesystem::path 
     return std::make_shared<ComplexDrawable>(nodes);
 }
 
-std::shared_ptr<ComplexDrawable> LoadComplexDrawableFromFilePath(std::filesystem::path filePath) {
+shared<ComplexDrawable> LoadComplexDrawableFromFilePath(std::filesystem::path filePath) {
     std::string extension = filePath.extension().string();
     if (extension == ".gltf" || extension == ".glb") {
-        loadGLTFFileFromFilePath(filePath);
+        return loadGLTFFileFromFilePath(filePath);
     } else {
         std::cerr << "Uncompatible object file type\n";
         exit(1);

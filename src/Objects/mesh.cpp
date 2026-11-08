@@ -53,31 +53,31 @@ void Mesh::init() {
     initialized = true;
 }
 
-std::shared_ptr<Mesh> Mesh::tri() {
-    std::shared_ptr<Mesh> m = std::make_shared<Mesh>(triDefaultVerts, triDefaultIndices);
+shared<Mesh> Mesh::tri() {
+    shared<Mesh> m = std::make_shared<Mesh>(triDefaultVerts, triDefaultIndices);
     m->generateTangents();
     return m;
 }
 
-std::shared_ptr<Mesh> Mesh::plane() {
-    std::shared_ptr<Mesh> m = std::make_shared<Mesh>(planeDefaultVerts, planeDefaultIndices);
+shared<Mesh> Mesh::plane() {
+    shared<Mesh> m = std::make_shared<Mesh>(planeDefaultVerts, planeDefaultIndices);
     m->generateTangents();
     return m;
 }
 
-std::shared_ptr<Mesh> Mesh::cube() {
-    std::shared_ptr<Mesh> m = std::make_shared<Mesh>(cubeDefaultVerts, cubeDefaultIndices);
+shared<Mesh> Mesh::cube() {
+    shared<Mesh> m = std::make_shared<Mesh>(cubeDefaultVerts, cubeDefaultIndices);
     m->generateTangents();
     return m;
 }
 
-std::shared_ptr<Mesh> Mesh::skyBox() {
-    std::shared_ptr<Mesh> m = std::make_shared<Mesh>(skyBoxDefaultVerts, skyBoxDefaultIndices);
+shared<Mesh> Mesh::skyBox() {
+    shared<Mesh> m = std::make_shared<Mesh>(skyBoxDefaultVerts, skyBoxDefaultIndices);
     return m;
 }
 
-std::shared_ptr<Mesh> Mesh::fromOBJ(const std::filesystem::path &path, bool genNormals) {
-    std::shared_ptr<Mesh> m = LoadMeshFromFilePath(path);
+shared<Mesh> Mesh::fromOBJ(const std::filesystem::path &path, bool genNormals) {
+    shared<Mesh> m = LoadMeshFromFilePath(path);
     if (genNormals) {
         m->generateNormals();
         m->generateTangents();
@@ -179,7 +179,7 @@ PointMesh::PointMesh(std::vector<PointVertexAttribute>& _points) :
     points(_points)
 { }
 
-std::shared_ptr<PointMesh> PointMesh::fromPoints(std::vector<PointVertexAttribute> &points) {
+shared<PointMesh> PointMesh::fromPoints(std::vector<PointVertexAttribute> &points) {
     return std::make_shared<PointMesh>(PointMesh(points));
 }
 

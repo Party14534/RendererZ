@@ -3,9 +3,10 @@
 
 #include <list>
 #include <memory>
+#include "../types.h"
 
 #include "Drawable.h"
-#include "../Shaders/shaders.h"
+#include "../Shaders/Shaders.h"
 
 struct Scene {
     std::list<IRenderable*> sceneObjects;
@@ -16,7 +17,7 @@ struct Scene {
     void addToList(IRenderable* object);
     void addToList(std::initializer_list<IRenderable*> objects);
 
-    void draw(std::shared_ptr<ShaderProgram> defaultShader, const Mat4D& vp);
+    void draw(shared<ShaderProgram> defaultShader, const Mat4D& vp);
 };
 
 #endif

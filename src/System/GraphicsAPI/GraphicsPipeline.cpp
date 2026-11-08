@@ -37,7 +37,7 @@ void GraphicsPipeline::runPipeline(std::span<IRenderable*> targets) {
  * Pipeline Item
  */
 GraphicsPipelineItem::GraphicsPipelineItem(
-        std::shared_ptr<ShaderProgram> program,
+        shared<ShaderProgram> program,
         Callback begin, Callback end,
         PipelineItemTarget target,
         PipelineItemType drawType, const Mat4D* vp) :
@@ -46,7 +46,7 @@ GraphicsPipelineItem::GraphicsPipelineItem(
 { }
 
 GraphicsPipelineItem GraphicsPipelineItem::PostProcessing(
-        std::shared_ptr<ShaderProgram> program,
+        shared<ShaderProgram> program,
         Callback begin, Callback end, Drawable& target)
 {
     PipelineItemTarget t = PipelineItemTarget {
@@ -60,7 +60,7 @@ GraphicsPipelineItem GraphicsPipelineItem::PostProcessing(
 }
 
 GraphicsPipelineItem GraphicsPipelineItem::Geometry(
-        std::shared_ptr<ShaderProgram> program,
+        shared<ShaderProgram> program,
         Callback begin, Callback end,
         const Mat4D& VP)
 {
@@ -74,7 +74,7 @@ GraphicsPipelineItem GraphicsPipelineItem::Geometry(
 }
 
 GraphicsPipelineItem GraphicsPipelineItem::Geometry(
-        std::shared_ptr<ShaderProgram> program,
+        shared<ShaderProgram> program,
         Callback begin, Callback end, std::span<IRenderable*> targets,
         const Mat4D& VP)
 {

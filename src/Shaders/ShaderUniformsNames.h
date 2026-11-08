@@ -1,0 +1,51 @@
+/*
+ * MATERIAL
+ */
+#define SHADER_MATERIAL_AMBIENT_UNIFORM "material_z.ambient"
+#define SHADER_MATERIAL_DIFFUSE_UNIFORM "material_z.diffuse"
+#define SHADER_MATERIAL_SPECULAR_UNIFORM "material_z.specular"
+#define SHADER_MATERIAL_SHININESS_UNIFORM "material_z.shininess"
+#define SHADER_MATERIAL_REFLECTIVITY_UNIFORM "material_z.reflectivity"
+
+#define SHADER_MATERIAL_ALBEDO "material_z.albedo"
+#define SHADER_MATERIAL_NORMAL "material_z.normal"
+#define SHADER_MATERIAL_METALLIC_ROUGHNESS "material_z.metallicRoughness"
+#define SHADER_MATERIAL_COLOR "material_z.color"
+#define SHADER_MATERIAL_METALLIC_FACTOR "material_z.metallicFactor"
+#define SHADER_MATERIAL_ROUGHNESS_FACTOR "material_z.roughnessFactor"
+#define SHADER_MATERIAL_USING_ALBEDO "material_z.usingAlbedo"
+#define SHADER_MATERIAL_USING_NORMAL "material_z.usingNormal"
+#define SHADER_MATERIAL_USING_METALLIC_ROUGHNESS "material_z.usingMetallicRoughness"
+
+
+#define SHADER_COLOR_UNIFORM "color_z"
+#define SHADER_TEX_SET_UNIFORM "usingTex_z"
+#define SHADER_TEX_UNIFORM "tex"
+#define SHADER_NORMAL_MAP_SET_UNIFORM "usingNormalMap_z"
+#define SHADER_NORMAL_MAP_UNIFORM "normalMap"
+#define SHADER_SKYBOX_SET_UNIFORM "usingSkyBox_z"
+#define SHADER_SKYBOX_UNIFORM "skyBox_z"
+#define SKYBOX_TEXTURE_UNIT 8
+#define SHADER_MODEL_SET_UNIFORM "model_z"
+#define SHADER_RESOLUTION_UNIFORM "resolution_z"
+#define SHADER_VIEW_SET_UNIFORM "view_z"
+#define SHADER_MVP_SET_UNIFORM "mvp_z"
+#define SHADER_PROJECTION_SET_UNIFORM "projection_z"
+#define SHADER_VIEW_POSITION_UNIFORM "view_pos_z"
+#define SHADER_LIGHT_SPACE_MATRIX_UNIFORM "lightSpaceMatrix_z"
+#define SHADER_DIRECTIONAL_LIGHT "dirLight_z"
+#define SHADER_POINT_LIGHT_COUNT "pointLightCnt_z"
+#define SHADER_POINT_SIZE_UNIFORM "pointSize_z"
+#define SHADER_UV_SCALE_UNIFORM "uvScale_z"
+#define SHADER_GPOSITION_UNIFORM "gPosition"
+#define SHADER_GNORMAL_UNIFORM "gNormal"
+#define SHADER_GALBEDO_SPEC_UNIFORM "gAlbedoSpec"
+#define SHADER_GSAO_UNIFORM "gSAO"
+#define SHADER_GSAO_BLUR_UNIFORM "gSAOBlur"
+#define SHADER_DIR_SHADOW_MAP_UNIFORM "gDirShadowMap"
+#define SHADER_SAO_BLUR_DIRECTION_UNIFORM "saoBlurDir_z"
+#define SHADER_SHOW_SAO_UNIFORM "showSao_z"
+#define SHADER_USE_SAO_UNIFORM "useSao_z"
+#define SHADER_POINT_LIGHT_BLOCK "PointLightBlock"
+#define POINT_LIGHT_UBO_BINDING 0
+#define MAX_POINT_LIGHTS 800 // keep in sync with lightPassFrag.frag; 65536-byte UBO limit / 80 bytes per light = 819 max

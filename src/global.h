@@ -2,12 +2,13 @@
 #define GLOBAL_H
 
 #include <memory>
+#include "types.h"
 
 #include "System/GraphicsAPI/GraphicsAPI.h"
 
 #include "../include/stb_image.h"
 
-inline std::shared_ptr<GraphicsAPI> api;
+inline shared<GraphicsAPI> api;
 
 inline bool frameCallbackFlag = false;
 inline uint32_t frameCallbackWidth = 0;

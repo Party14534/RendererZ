@@ -13,7 +13,7 @@ Texture::Texture(std::string _path, bool sRGB, bool flipVertically) : path(_path
     loadImage(_path, sRGB, flipVertically);
 }
 
-std::shared_ptr<Texture> Texture::fromFile(
+shared<Texture> Texture::fromFile(
         std::string path, bool sRGB, bool flipVertically) {
     Texture t(path, sRGB, flipVertically);
     return std::make_shared<Texture>(t);

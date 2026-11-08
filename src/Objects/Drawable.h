@@ -3,12 +3,13 @@
 
 #include "LightSource.h"
 #include <memory>
+#include "../types.h"
 #include <optional>
 #include <vector>
 #include <cstdlib>
 
 #include "../global.h"
-#include "../Shaders/shaders.h"
+#include "../Shaders/Shaders.h"
 #include "Mesh.h"
 #include "Texture.h"
 
@@ -20,23 +21,23 @@ struct Transform {
 };
 
 struct IRenderable {
-      virtual void draw(std::shared_ptr<ShaderProgram> shader, const Mat4D& vp) = 0;
+      virtual void draw(shared<ShaderProgram> shader, const Mat4D& vp) = 0;
       virtual ~IRenderable() = default;
 };
 
 struct Drawable : IRenderable {
-        //std::shared_ptr<Shader> shader = nullptr;
-        std::shared_ptr<Mesh> mesh = nullptr;
-        std::shared_ptr<Material> material;
+        //shared<Shader> shader = nullptr;
+        shared<Mesh> mesh = nullptr;
+        shared<Material> material;
 
         Vec2 uvScale = Vec2(1.f, 1.f);
         Transform transform;
 
-        Drawable(std::shared_ptr<Mesh> m);
-        Drawable(std::shared_ptr<Mesh> m, std::shared_ptr<Material> mat);
+        Drawable(shared<Mesh> m);
+        Drawable(shared<Mesh> m, shared<Material> mat);
 
-        void draw(std::shared_ptr<ShaderProgram> defaultShader, const Mat4D& vp);
-        void drawLightPass(std::shared_ptr<ShaderProgram> shader);
+        void draw(shared<ShaderProgram> defaultShader, const Mat4D& vp);
+        void drawLightPass(shared<ShaderProgram> shader);
 
         void setColor(Color c);
         Color getColor() const;
@@ -44,8 +45,8 @@ struct Drawable : IRenderable {
         Vec3 getPos() const;
         void setScale(Vec3 v);
         Vec3 getScale() const;
-        void setMaterial(std::shared_ptr<Material> m);
-        std::shared_ptr<Material> getMaterial() const;
+        void setMaterial(shared<Material> m);
+        shared<Material> getMaterial() const;
 
         void rotateX(float angle);
         void rotateY(float angle);
@@ -69,7 +70,7 @@ struct ComplexDrawable : IRenderable {
 
         virtual ~ComplexDrawable();
 
-        void draw(std::shared_ptr<ShaderProgram> defaultShader, const Mat4D& vp);
+        void draw(shared<ShaderProgram> defaultShader, const Mat4D& vp);
 };
 
 #endif

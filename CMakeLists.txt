@@ -50,8 +50,8 @@ list(FILTER RENDERER_SOURCES EXCLUDE REGEX "${CMAKE_SOURCE_DIR}/src/temp/")
 # std::string literal, generate that .cpp from the real shader file at build
 # time - the .frag/.vert file is the only copy anyone ever edits.
 file(GLOB_RECURSE SHADER_SOURCE_FILES CONFIGURE_DEPENDS
-    ${CMAKE_SOURCE_DIR}/src/Shaders/*.frag
-    ${CMAKE_SOURCE_DIR}/src/Shaders/*.vert
+    ${CMAKE_SOURCE_DIR}/src/ShaderCode/*.frag
+    ${CMAKE_SOURCE_DIR}/src/ShaderCode/*.vert
 )
 
 set(SHADER_GEN_DIR ${CMAKE_BINARY_DIR}/generated/ShaderCode)

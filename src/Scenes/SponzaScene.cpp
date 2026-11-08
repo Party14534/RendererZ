@@ -1,7 +1,7 @@
 #include "SponzaScene.h"
 #include "../Tools/ObjectLoading.h"
 
-std::shared_ptr<ComplexDrawable> loadSponza() {
+shared<ComplexDrawable> loadSponza() {
     return LoadComplexDrawableFromFilePath("../src/res/objects/sponza/Sponza.gltf");
 }
 

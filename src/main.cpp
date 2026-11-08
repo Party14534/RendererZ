@@ -1,7 +1,5 @@
 #include "main.h"
 #include "Objects/Drawable.h"
-#include "Objects/Texture.h"
-#include "Shaders/shaders.h"
 #include "System/GraphicsAPI/GraphicsPipeline.h"
 #include "Tools/ObjectLoading.h"
 #include "Scenes/TestSceneOne.h"
@@ -30,17 +28,17 @@ int main() {
 
     Scene sceneOne = testSceneOne();
     Scene lightScene = testManyLightsScene();
-    std::shared_ptr<ComplexDrawable> sponza = loadSponza();
-    std::shared_ptr<ComplexDrawable> car = LoadComplexDrawableFromFilePath("../src/res/objects/car/scene.gltf");
-    std::shared_ptr<ComplexDrawable> phoenix = LoadComplexDrawableFromFilePath("../src/res/objects/phoenix_bird/scene.gltf");
-    std::shared_ptr<ComplexDrawable> trophy = LoadComplexDrawableFromFilePath("../src/res/objects/trophy.glb");
+    shared<ComplexDrawable> sponza = loadSponza();
+    shared<ComplexDrawable> car = LoadComplexDrawableFromFilePath("../src/res/objects/car/scene.gltf");
+    shared<ComplexDrawable> phoenix = LoadComplexDrawableFromFilePath("../src/res/objects/phoenix_bird/scene.gltf");
+    shared<ComplexDrawable> trophy = LoadComplexDrawableFromFilePath("../src/res/objects/trophy.glb");
 
     trophy->targets[0].setPos(Vec3(0, 0, 10));
 
     sceneOne.addToList({&(*car), &(*phoenix), &(*trophy)});
 
     /* TODO: Set up points again
-    std::shared_ptr<PointMesh> pMesh = PointMesh::fromPoints(points);
+    shared<PointMesh> pMesh = PointMesh::fromPoints(points);
     pMesh->drawType = GL_POINTS;
     Drawable cloud = Drawable(pMesh);
     cloud.setShader(win.pointShader);
@@ -137,6 +135,7 @@ int main() {
         }
 
         win.display(pipeline);
+        return 0;
     }
 
     return 0;

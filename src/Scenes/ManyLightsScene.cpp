@@ -28,7 +28,7 @@ namespace {
     };
 
     float randRange(float lo, float hi) {
-        return lo + (float)rand() / RAND_MAX * (hi - lo);
+        return lo + (float)rand() / (float)RAND_MAX * (hi - lo);
     }
 
     // Independent random RGB channels tend toward pale/gray (their average

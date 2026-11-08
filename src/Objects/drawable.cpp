@@ -1,4 +1,5 @@
 #include "Drawable.h"
+#include "Shaders/Material.h"
 
 /*
  * Complex Drawable
@@ -8,7 +9,7 @@ ComplexDrawable::ComplexDrawable(std::vector<Drawable>& targets) : targets(targe
 
 ComplexDrawable::~ComplexDrawable() { }
 
-void ComplexDrawable::draw(std::shared_ptr<ShaderProgram> defaultShader, const Mat4D& vp) {
+void ComplexDrawable::draw(shared<ShaderProgram> defaultShader, const Mat4D& vp) {
     for(auto& target : targets) {
         target.draw(defaultShader, vp);
     }
@@ -17,11 +18,10 @@ void ComplexDrawable::draw(std::shared_ptr<ShaderProgram> defaultShader, const M
 /*
  * Drawable
  */
+Drawable::Drawable(shared<Mesh> m) : 
+    mesh(m), material(CreateDefaultMaterial()) { }
 
-Drawable::Drawable(std::shared_ptr<Mesh> m) : 
-    mesh(m), material(nullptr) { }
-
-Drawable::Drawable(std::shared_ptr<Mesh> m, std::shared_ptr<Material> mat) : 
+Drawable::Drawable(shared<Mesh> m, shared<Material> mat) : 
     mesh(m), material(mat) { }
 
 void Drawable::setColor(Color c) { material->color = c; }
@@ -33,8 +33,8 @@ Vec3 Drawable::getPos() const { return transform.pos; }
 void Drawable::setScale(Vec3 s) { transform.scale = s; }
 Vec3 Drawable::getScale() const { return transform.scale; }
 
-void Drawable::setMaterial(std::shared_ptr<Material> m) { material = m; }
-std::shared_ptr<Material> Drawable::getMaterial() const { return material; }
+void Drawable::setMaterial(shared<Material> m) { material = m; }
+shared<Material> Drawable::getMaterial() const { return material; }
 
 void Drawable::rotateX(float angle) { 
     transform.rotation.x = angle;
@@ -48,14 +48,14 @@ void Drawable::rotateZ(float angle) {
     transform.rotation.z = angle;
 }
 
-/*void Drawable::setShader(std::shared_ptr<Shader> _shader) {
+/*void Drawable::setShader(shared<Shader> _shader) {
     shader = _shader;
 }*/
 
 void Drawable::setUVScale(Vec2 scale) { uvScale = scale; }
 Vec2 Drawable::getUVScale() const { return uvScale; }
 
-void Drawable::draw(std::shared_ptr<ShaderProgram> shader, const Mat4D& vp) {
+void Drawable::draw(shared<ShaderProgram> shader, const Mat4D& vp) {
     Mat4D mvp = vp * transform.GetModelMatD();
     shader->setMat4(SHADER_MODEL_SET_UNIFORM, transform.GetModelMat());
     shader->setMat4(SHADER_MVP_SET_UNIFORM, mvp);
@@ -70,7 +70,7 @@ void Drawable::draw(std::shared_ptr<ShaderProgram> shader, const Mat4D& vp) {
     mesh->draw();
 }
 
-void Drawable::drawLightPass(std::shared_ptr<ShaderProgram> shader) {
+void Drawable::drawLightPass(shared<ShaderProgram> shader) {
     shader->setMat4(SHADER_MODEL_SET_UNIFORM, transform.GetModelMat());
 
     mesh->draw();

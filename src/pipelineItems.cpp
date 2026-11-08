@@ -131,7 +131,6 @@ GraphicsPipelineItem getLightPassPipelineItem(Window& win) {
 /*
  * PBR
  */
-
 GraphicsPipelineItem getGBufferPipelineItemPBR(Window& win) {
     Callback begin = [&win] {
         win.gBuffer.bind();
@@ -150,4 +149,21 @@ GraphicsPipelineItem getGBufferPipelineItemPBR(Window& win) {
             begin,
             end,
             win.gBufferVP);
+}
+
+GraphicsPipelineItem getPBRLightPassPipelineItem(Window& win) {
+    Callback begin = [&win] {
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        //win.setPBRLightPassUniforms();
+    };
+
+    Callback end = [&win] {
+        api->setCullFace(true);
+    };
+
+    return GraphicsPipelineItem::PostProcessing(
+            win.lightPassShader,
+            begin,
+            end,
+            win.drawScreen);
 }

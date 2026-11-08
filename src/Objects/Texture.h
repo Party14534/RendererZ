@@ -2,6 +2,7 @@
 #define TEXTURE_H
 
 #include <string>
+#include "../types.h"
 #include <algorithm>
 #include <iterator>
 #include <memory>
@@ -36,7 +37,7 @@ class Texture {
         void setActive(u32 texNum) const;
         void bind() const;
 
-        static std::shared_ptr<Texture> fromFile(std::string path, bool sRGB = true, bool flipVertically = true);
+        static shared<Texture> fromFile(std::string path, bool sRGB = true, bool flipVertically = true);
 };
 
 class CubeMap : public Texture {

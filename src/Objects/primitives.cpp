@@ -5,7 +5,7 @@
  * Object
  */
 Drawable Drawable::Object(std::string filePath, bool genNormals) {
-    std::shared_ptr mesh = LoadMeshFromFilePath(filePath);
+    shared<Mesh> mesh = LoadMeshFromFilePath(filePath);
     if (genNormals) mesh->generateNormals();
 
     Drawable target(mesh);
@@ -17,7 +17,7 @@ Drawable Drawable::Object(std::string filePath, bool genNormals) {
  * Cube
  */
 Drawable Drawable::Cube() {
-    std::shared_ptr mesh = Mesh::cube();
+    shared<Mesh> mesh = Mesh::cube();
     Drawable target(mesh);
     Drawable d(target);
     return d;
@@ -27,7 +27,7 @@ Drawable Drawable::Cube() {
  * Plane
  */
 Drawable Drawable::Plane() {
-    std::shared_ptr mesh = Mesh::plane();
+    shared<Mesh> mesh = Mesh::plane();
     Drawable target(mesh);
     Drawable d(target);
     return d;
@@ -37,7 +37,7 @@ Drawable Drawable::Plane() {
  * Tri
  */
 Drawable Drawable::Tri() {
-    std::shared_ptr mesh = Mesh::tri();
+    shared<Mesh> mesh = Mesh::tri();
     Drawable target(mesh);
     Drawable d(target);
     return d;

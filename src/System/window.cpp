@@ -35,9 +35,9 @@ Window::Window(u32 _width, u32 _height, std::string windowName) :
 
     dLightShadowBuffer.init(DEPTH, dBufferWidth, 1024, DEPTH, FLOAT, LINEAR, LINEAR);
 
-    gBufferShader = std::make_shared<ShaderProgram>(ShaderProgram::fromStrings(gBufferVertex, gBufferFrag));
+    gBufferShader = std::make_shared<ShaderProgram>(ShaderProgram::fromStrings(gBufferVertex, gBufferFragPBR));
     dLightShader = std::make_shared<ShaderProgram>(ShaderProgram::fromStrings(dLightVertex, dLightFrag));
-    lightPassShader = std::make_shared<ShaderProgram>(ShaderProgram::fromStrings(lightPassVertex, lightPassFrag));
+    lightPassShader = std::make_shared<ShaderProgram>(ShaderProgram::fromStrings(lightPassVertex, lightPassFragPBR));
     saoPassShader = std::make_shared<ShaderProgram>(ShaderProgram::fromStrings(lightPassVertex, saoPassFrag));
     saoBlurPassShader = std::make_shared<ShaderProgram>(ShaderProgram::fromStrings(lightPassVertex, saoBlurPassFrag));
 
@@ -67,7 +67,7 @@ Window::Window(u32 _width, u32 _height, std::string windowName) :
     api->setCullFace(true);
 
     // Initialize Lights
-    pLights = std::vector<std::shared_ptr<PointLight>>(0);
+    pLights = std::vector<shared<PointLight>>(0);
 
     // Reserve targets beforehand to not face large penalty at launch
     renderTargets.reserve(128);
@@ -79,22 +79,7 @@ Window::~Window() {
     glfwTerminate();
 }
 
-void testCallback() {
-    api->setCullFace(false);
-}
-
 void Window::display(GraphicsPipeline& pipeline) {
-    // If a sky box is set draw that now
-    /*if (skyBox != nullptr) {
-        Mat view = cam.GetViewMatrix().scaleDown().scaleUp();
-        view.set(3, 3, 1.f);
-        glDepthFunc(GL_LEQUAL);
-        skyBoxShader->use(); 
-        skyBoxShader->setMat4(SHADER_VIEW_SET_UNIFORM, view);
-        skyBox->draw(skyBoxShader);
-        glDepthFunc(GL_LESS);
-    }*/
-
     pipeline.runPipeline(renderTargets);
     renderTargets.clear();
     api->swapBuffers();
@@ -121,7 +106,7 @@ void Window::draw(Scene& s) {
     }
 }
 
-void Window::setSkyBox(std::shared_ptr<SkyBox> _skyBox) {
+void Window::setSkyBox(shared<SkyBox> _skyBox) {
     skyBox = _skyBox;
 }
 
@@ -207,7 +192,7 @@ void Window::setPointLightUniforms() {
 
     std::vector<GPUPointLight> data(count);
     for (u32 i = 0; i < count; i++) {
-        const std::shared_ptr<PointLight>& l = pLights[i];
+        const shared<PointLight>& l = pLights[i];
         Vec3 lc = Vec3(l->getColor().toRGB());
         writeVec3(data[i].pos, l->getPos());
         writeVec3(data[i].ambient, lc * l->properties.ambient);

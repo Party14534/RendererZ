@@ -4,7 +4,7 @@
 #include "../Objects/Drawable.h"
 #include "../System/Window.h"
 
-std::shared_ptr<ComplexDrawable> loadSponza();
+shared<ComplexDrawable> loadSponza();
 void setUpSponzaLighting(Window& win);
 void updateSponzaScene(double t, Window& win);
 

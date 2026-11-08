@@ -7,7 +7,7 @@
 
 #include "../Objects/Drawable.h"
 #include "../Math/math.h"
-#include "../Shaders/shaders.h"
+#include "../Shaders/Shaders.h"
 #include "Camera.h"
 #include "../Input/Input.h"
 #include "../Objects/LightSource.h"
@@ -16,7 +16,7 @@
 #include "FrameBuffer/FrameBuffer.h"
 #include "GraphicsAPI/GraphicsPipeline.h"
 #include "GraphicsAPI/GraphicsAPI.h"
-#include "../Shaders/ShaderCode.h"
+#include "../ShaderCode/ShaderCode.h"
 
 struct Window {
     // Window variables
@@ -25,23 +25,23 @@ struct Window {
 
     std::vector<IRenderable*> renderTargets;
 
-    std::shared_ptr<GraphicsAPI> _api;
+    shared<GraphicsAPI> _api;
 
     // TEMP
     bool useSao = true;
 
     // Shaders
-    std::shared_ptr<ShaderProgram> dLightShader = nullptr;
-    std::shared_ptr<ShaderProgram> saoPassShader = nullptr;
-    std::shared_ptr<ShaderProgram> saoBlurPassShader = nullptr;
+    shared<ShaderProgram> dLightShader = nullptr;
+    shared<ShaderProgram> saoPassShader = nullptr;
+    shared<ShaderProgram> saoBlurPassShader = nullptr;
 
     // Blinn-Phong shaders
-    std::shared_ptr<ShaderProgram> gBufferShader = nullptr;
-    std::shared_ptr<ShaderProgram> lightPassShader = nullptr;
+    shared<ShaderProgram> gBufferShader = nullptr;
+    shared<ShaderProgram> lightPassShader = nullptr;
 
     // PBR shaders
-    std::shared_ptr<ShaderProgram> gBufferShaderPBR = nullptr;
-    std::shared_ptr<ShaderProgram> lightPassShaderPBR = nullptr;
+    shared<ShaderProgram> gBufferShaderPBR = nullptr;
+    shared<ShaderProgram> lightPassShaderPBR = nullptr;
 
     // Frame Buffers
     GBuffer gBuffer;
@@ -59,7 +59,7 @@ struct Window {
     // UBOs
     UniformBuffer pointLightUBO;
 
-    std::shared_ptr<SkyBox> skyBox = nullptr;
+    shared<SkyBox> skyBox = nullptr;
 
     Camera cam;
     Mouse mouse;
@@ -68,7 +68,7 @@ struct Window {
     DirLight dLight;
     Mat4D dLightVP;
 
-    std::vector<std::shared_ptr<PointLight>> pLights;
+    std::vector<shared<PointLight>> pLights;
 
     bool wasMouseMoved;
     Vec2 mouseChange;
@@ -84,7 +84,7 @@ struct Window {
     void draw(IRenderable& d);
     void draw(Scene& scene);
 
-    void setSkyBox(std::shared_ptr<SkyBox> skyBox);
+    void setSkyBox(shared<SkyBox> skyBox);
     
     // Uniforms
     void setGBufferUniforms();

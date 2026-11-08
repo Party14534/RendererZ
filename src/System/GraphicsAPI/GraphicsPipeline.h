@@ -3,7 +3,7 @@
 
 #include "math.h"
 #include "../../Objects/Drawable.h"
-#include "../../Shaders/shaders.h"
+#include "../../Shaders/Shaders.h"
 #include "../FrameBuffer/FrameBuffer.h"
 #include "GraphicsAPI.h"
 #include "../../global.h"
@@ -36,7 +36,7 @@ union PipelineItemTarget {
 };
 
 struct GraphicsPipelineItem {
-    std::shared_ptr<ShaderProgram> program;
+    shared<ShaderProgram> program;
     Callback beginCallback;
     Callback endCallback;
     PipelineItemTarget pipelineTarget;
@@ -47,23 +47,23 @@ struct GraphicsPipelineItem {
     GraphicsPipelineItem();
 
     static GraphicsPipelineItem PostProcessing (
-            std::shared_ptr<ShaderProgram> program,
+            shared<ShaderProgram> program,
             Callback begin, Callback end, Drawable& target);
 
     // Not using default targets
     static GraphicsPipelineItem Geometry (
-            std::shared_ptr<ShaderProgram> program,
+            shared<ShaderProgram> program,
             Callback begin, Callback end, std::span<IRenderable*> targets,
             const Mat4D& VP);
 
     // Using default targets
     static GraphicsPipelineItem Geometry (
-            std::shared_ptr<ShaderProgram> program,
+            shared<ShaderProgram> program,
             Callback begin, Callback end,
             const Mat4D& VP);
 
     private:
-        GraphicsPipelineItem(std::shared_ptr<ShaderProgram> program,
+        GraphicsPipelineItem(shared<ShaderProgram> program,
                             Callback begin, Callback end,
                             PipelineItemTarget pipelineTarget,
                             PipelineItemType drawType, const Mat4D* vp);

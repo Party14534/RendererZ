@@ -2,6 +2,7 @@
 #define MESH_H
 
 #include <filesystem>
+#include "../types.h"
 #include <vector>
 #include <execution>
 #include <memory>
@@ -47,11 +48,11 @@ class Mesh {
         virtual void generateTangents();
         virtual void init();
 
-        static std::shared_ptr<Mesh> tri();
-        static std::shared_ptr<Mesh> plane();
-        static std::shared_ptr<Mesh> cube();
-        static std::shared_ptr<Mesh> skyBox();
-        static std::shared_ptr<Mesh> fromOBJ(const std::filesystem::path& path,
+        static shared<Mesh> tri();
+        static shared<Mesh> plane();
+        static shared<Mesh> cube();
+        static shared<Mesh> skyBox();
+        static shared<Mesh> fromOBJ(const std::filesystem::path& path,
                 bool genNormals = false);
 
     private:
@@ -73,7 +74,7 @@ class PointMesh : public Mesh {
         PointMesh(PointMesh&&) noexcept;                      // ...but they're movable (RAII)
         PointMesh& operator=(PointMesh&&) noexcept;
 
-        static std::shared_ptr<PointMesh> fromPoints(std::vector<PointVertexAttribute>& verts);
+        static shared<PointMesh> fromPoints(std::vector<PointVertexAttribute>& verts);
 
         void draw() override;                          // bind VAO + glDrawElements(indexCount)
         void init() override;

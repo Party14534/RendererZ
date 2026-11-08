@@ -21,20 +21,20 @@ namespace {
 }
 
 Scene testSceneOne() {
-    std::shared_ptr<Texture> zariTex = Texture::fromFile("../src/res/textures/zari.jpg");
-    std::shared_ptr<Texture> tungTex = Texture::fromFile("../src/res/textures/tung.png");
-    std::shared_ptr<Texture> wallTex = Texture::fromFile("../src/res/textures/wall/wall_diffuse.png");
-    std::shared_ptr<Texture> wallNormalTex = Texture::fromFile("../src/res/textures/wall/wall_normal.png");
+    shared<Texture> zariTex = Texture::fromFile("../src/res/textures/zari.jpg");
+    shared<Texture> tungTex = Texture::fromFile("../src/res/textures/tung.png");
+    shared<Texture> wallTex = Texture::fromFile("../src/res/textures/wall/wall_diffuse.png");
+    shared<Texture> wallNormalTex = Texture::fromFile("../src/res/textures/wall/wall_normal.png");
 
-    std::shared_ptr<PBRMaterial> zariMat = std::make_shared<PBRMaterial>(zariTex, nullptr, nullptr,
+    shared<PBRMaterial> zariMat = std::make_shared<PBRMaterial>(zariTex, nullptr, nullptr,
             Color(1.), .5, .5);
-    std::shared_ptr<PBRMaterial> tungMat = std::make_shared<PBRMaterial>(tungTex, nullptr, nullptr,
+    shared<PBRMaterial> tungMat = std::make_shared<PBRMaterial>(tungTex, nullptr, nullptr,
             Color(1.), .0, .5);
-    std::shared_ptr<PBRMaterial> wallMat = std::make_shared<PBRMaterial>(wallTex, wallNormalTex, nullptr,
+    shared<PBRMaterial> wallMat = std::make_shared<PBRMaterial>(wallTex, wallNormalTex, nullptr,
             Color(1.), .0, 1.);
-    std::shared_ptr<PBRMaterial> metalMat = std::make_shared<PBRMaterial>(nullptr, nullptr, nullptr,
+    shared<PBRMaterial> metalMat = std::make_shared<PBRMaterial>(nullptr, nullptr, nullptr,
             Color(1.), 1., 0.);
-    std::shared_ptr<PBRMaterial> roughMat = std::make_shared<PBRMaterial>(nullptr, nullptr, nullptr,
+    shared<PBRMaterial> roughMat = std::make_shared<PBRMaterial>(nullptr, nullptr, nullptr,
             Color(1.), 0., 1.);
 
     redCube.setMaterial(zariMat);

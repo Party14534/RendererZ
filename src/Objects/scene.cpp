@@ -14,7 +14,7 @@ void Scene::addToList(std::initializer_list<IRenderable*> objects) {
     sceneObjects.insert(sceneObjects.end(), objects);
 }
 
-void Scene::draw(std::shared_ptr<ShaderProgram> defaultShader, const Mat4D& vp) {
+void Scene::draw(shared<ShaderProgram> defaultShader, const Mat4D& vp) {
     for(auto& o : sceneObjects) {
         o->draw(defaultShader, vp);
     }

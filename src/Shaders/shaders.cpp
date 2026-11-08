@@ -1,4 +1,4 @@
-#include "shaders.h"
+#include "Shaders.h"
 #include <string>
 
 std::string loadFile(std::string path) {
@@ -294,6 +294,6 @@ const void ShaderProgram::bindUniformBlock(const std::string& name, UniformBuffe
     glUniformBlockBinding(ID, blockIndex, ubo.index);
 }
 
-void PBRMaterial::setMaterial(std::shared_ptr<ShaderProgram> p) { 
+void PBRMaterial::setMaterial(shared<ShaderProgram> p) { 
     p->setPBRMaterial(*this);
 }
