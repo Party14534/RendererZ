@@ -21,8 +21,8 @@ struct Transform {
 };
 
 struct IRenderable {
-      virtual void draw(shared<ShaderProgram> shader, const Mat4D& vp) = 0;
-      virtual ~IRenderable() = default;
+    virtual void draw(shared<ShaderProgram> shader, const Mat4D& vp) = 0;
+    virtual ~IRenderable() = default;
 };
 
 struct Drawable : IRenderable {

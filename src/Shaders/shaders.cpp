@@ -251,6 +251,11 @@ const void ShaderProgram::setBlinnPhongMaterial(const BlinnPhongMaterial& m) con
 }*/
 
 const void ShaderProgram::setPBRMaterial(const PBRMaterial& m) const {
+    // Reset flags so state from a previous drawable doesn't leak through
+    setBool(SHADER_MATERIAL_USING_ALBEDO, false);
+    setBool(SHADER_MATERIAL_USING_NORMAL, false);
+    setBool(SHADER_MATERIAL_USING_METALLIC_ROUGHNESS, false);
+
     // Bind textures
     if(m.albedo != nullptr) {
         setBool(SHADER_MATERIAL_USING_ALBEDO, true);

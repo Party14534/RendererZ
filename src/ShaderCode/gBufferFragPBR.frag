@@ -31,14 +31,20 @@ void main()
 {
     gPosition = FragPos;
 
-    gNormal = usingNormalMap_z
+    gNormal = material_z.usingNormal
         ? normalize(TBN * (texture(material_z.normal, TexCoord).rgb * 2.0 - 1.0))
         : normalize(TBN[2]);
 
-    vec4 col = usingTex_z ? texture(material_z.albedo, TexCoord) : vec4(1.);
-    gAlbedoSpec.rgb = col.rgb;
-    gAlbedoSpec.rgb *= color_z;
+    vec4 col = material_z.usingAlbedo 
+        ? texture(material_z.albedo, TexCoord) 
+        : vec4(1.);
 
-    gMetallic.r = texture(material_z.metallic, TexCoord);
-    gRoughness.r = texture(material_z.roughness, TexCoord);
+    gAlbedoSpec = col * material_z.color;
+
+    vec2 metallicRoughness = material_z.usingMetallicRoughness 
+        ? texture(material_z.metallicRoughness, TexCoord).bg
+        : vec2(1.);
+
+    gMetallicRoughness = metallicRoughness * vec2(material_z.metallicFactor,
+            material_z.roughnessFactor);
 }

@@ -1,12 +1,10 @@
 #include "Window.h"
 
-// Mirrors PointLightBlock's std140 layout in lightPassFrag.frag.
+// Mirrors PointLightBlock's std140 layout in lightPassFragPBR.frag.
 struct GPUPointLight {
     float pos[4];
-    float ambient[4];
-    float diffuse[4];
-    float specular[4];
     float attenuation[4];
+    float color[4];
 };
 
 static void writeVec3(float* dst, const Vec3& v) {
@@ -137,6 +135,7 @@ void Window::setLightPassUniforms() {
     lightPassShader->setInt(SHADER_GPOSITION_UNIFORM, 0);
     lightPassShader->setInt(SHADER_GNORMAL_UNIFORM, 1);
     lightPassShader->setInt(SHADER_GALBEDO_SPEC_UNIFORM, 2);
+    lightPassShader->setInt(SHADER_GMETALLIC_ROUGHNESS_UNIFORM, 3);
     lightPassShader->setInt(SHADER_GSAO_BLUR_UNIFORM, 4);
     lightPassShader->setInt(SHADER_DIR_SHADOW_MAP_UNIFORM, 5);
 
@@ -193,12 +192,9 @@ void Window::setPointLightUniforms() {
     std::vector<GPUPointLight> data(count);
     for (u32 i = 0; i < count; i++) {
         const shared<PointLight>& l = pLights[i];
-        Vec3 lc = Vec3(l->getColor().toRGB());
         writeVec3(data[i].pos, l->getPos());
-        writeVec3(data[i].ambient, lc * l->properties.ambient);
-        writeVec3(data[i].diffuse, lc * l->properties.diffuse);
-        writeVec3(data[i].specular, lc * l->properties.specular);
         writeVec3(data[i].attenuation, l->properties.attenuation);
+        writeVec3(data[i].color, Vec3(l->getColor().toRGB()));
     }
 
     pointLightUBO.bind();

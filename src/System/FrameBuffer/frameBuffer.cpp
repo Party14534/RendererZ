@@ -64,9 +64,9 @@ void GBuffer::init(u32 width, u32 height) {
     color.attachToFramebuffer2D(2);
 
     metallicRoughness = Texture(RG, width, height, RG, FLOAT, nullptr);
-    color.setTextureParameter(MIN_FILTER, NEAREST);
-    color.setTextureParameter(MAG_FILTER, NEAREST);
-    color.attachToFramebuffer2D(3);
+    metallicRoughness.setTextureParameter(MIN_FILTER, NEAREST);
+    metallicRoughness.setTextureParameter(MAG_FILTER, NEAREST);
+    metallicRoughness.attachToFramebuffer2D(3);
 
     u32 attachments[4] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1,
         GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3 };
@@ -76,6 +76,11 @@ void GBuffer::init(u32 width, u32 height) {
     glBindRenderbuffer(GL_RENDERBUFFER, depthRBO);
     glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRBO);
+
+    GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+    if (status != GL_FRAMEBUFFER_COMPLETE) {
+        std::cerr << "G-buffer framebuffer incomplete: 0x" << std::hex << status << std::dec << "\n";
+    }
 }
 
 void GBuffer::bind() const {

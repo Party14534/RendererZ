@@ -33,10 +33,9 @@ in vec2 TexCoord;
 uniform sampler2D gPosition;
 uniform sampler2D gNormal;
 uniform sampler2D gAlbedoSpec;
-uniform sampler2D gMetallic;
-uniform sampler2D gRoughness;
-uniform sampler2D gSAOBlur;
+uniform sampler2D gMetallicRoughness;
 
+uniform sampler2D gSAOBlur;
 uniform sampler2DShadow gDirShadowMap;
 
 uniform bool showSao_z;
@@ -52,8 +51,8 @@ vec3 FragPos = texture(gPosition, TexCoord).rgb;
 vec3 Normal =  texture(gNormal, TexCoord).rgb;
 vec3 Albedo = texture(gAlbedoSpec, TexCoord).rgb;
 //float Specular = texture(gAlbedoSpec, TexCoord).a;
-float Metallic = texture(gMetallic, TexCoord).r;
-float Roughness = texture(gRoughness, TexCoord).r;
+float Metallic = texture(gMetallicRoughness, TexCoord).r;
+float Roughness = texture(gMetallicRoughness, TexCoord).g;
 
 float calcIBLRoughnessK(float roughness) {
     return roughness * roughness * .5;
@@ -106,6 +105,10 @@ vec3 FresnelSchlick(float cosTheta/*, vec3 FZero*/) {
     return FZero + (1. - FZero) * pow(1. - cosTheta, 5.0);
 }
 
+float calcSpecular() {
+    return 0.3;
+}
+
 vec3 CTBRDF(vec3 FragPos, vec3 Wi, vec3 viewDir, float roughness) {
     vec3 halfway = normalize(Wi + viewDir);
 
@@ -119,7 +122,7 @@ vec3 CTBRDF(vec3 FragPos, vec3 Wi, vec3 viewDir, float roughness) {
     float normalDistribution = GGXTR(Normal, halfway,
             roughness); // Trowbridge-Reitz GGX
 
-    vec3 fresnelEq = FresnelSchlick(dot(Normal, halfway)); // Schlick-Fresnel
+    vec3 fresnelEq = FresnelSchlick(max(dot(halfway, viewDir), 0.)); // Schlick-Fresnel
     
     float geometryFunc = GeomSmith(Normal, viewDir, 
             Wi, calcDirectRoughnessK(roughness)); // Smith's Schlick-GGX
@@ -154,18 +157,15 @@ void main()
     float sao = texture(gSAOBlur, TexCoord).r;
 
     vec3 sum = vec3(0.);
-    float dW = 1. / pointLightCnt_z;
     for(int i = 0; i < pointLightCnt_z; i++) {
         // Calculate incoming light direction
         vec3 Wi = normalize(pointLights_z[i].pos - FragPos);
 
         // Riemann sum for the rendering equation
         sum += CTBRDF(FragPos, Wi, viewDir, Roughness) * // Bi-directional Reflective Distribution Function
-            Radiance(FragPos, Wi, pointLights_z[i]) * // Incoming light
-            dot(Normal, Wi) *
-            dW;
+            Radiance(FragPos, Wi, pointLights_z[i]); // Incoming light
     }
-    sum = sum / pointLightCnt_z;
+    sum += (0.09 * Albedo);
 
     FragColor = showSao_z ? vec4(vec3(sao), 1.) : vec4(sum, 1.);
 }

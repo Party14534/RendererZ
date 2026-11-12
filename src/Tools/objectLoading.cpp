@@ -176,6 +176,16 @@ static std::vector<shared<Texture>> loadGLTFTextures(
         const cgltf_data* data,
         const std::filesystem::path& filePath)
 {
+    // Only base color textures are sRGB; normal and metallic-roughness
+    // data must be sampled linearly.
+    std::vector<bool> isSRGB(data->textures_count, false);
+    for (u32 m = 0; m < data->materials_count; m++) {
+        const cgltf_material& mat = data->materials[m];
+        if (!mat.has_pbr_metallic_roughness) continue;
+        const cgltf_texture* t = mat.pbr_metallic_roughness.base_color_texture.texture;
+        if (t) isSRGB[cgltf_texture_index(data, t)] = true;
+    }
+
     std::vector<shared<Texture>> textures(data->textures_count);
     for (u32 i = 0; i < data->textures_count; i++) {
         const cgltf_image* image = data->textures[i].image;
@@ -184,7 +194,7 @@ static std::vector<shared<Texture>> loadGLTFTextures(
         if (image->uri) {
             std::string uri = image->uri;
             cgltf_decode_uri(uri.data());
-            textures[i] = Texture::fromFile((filePath / uri).string(), true, false);
+            textures[i] = Texture::fromFile((filePath / uri).string(), isSRGB[i], false);
         }
 
         // TODO: Implement load image from buffer
@@ -212,7 +222,7 @@ bool appendPrimitiveValues(cgltf_primitive& prim,
                 normAcc = attr.data;
                 break;
             case cgltf_attribute_type_texcoord:
-                uvAcc = attr.data;
+                if (attr.index == 0) uvAcc = attr.data;
                 break;
             case cgltf_attribute_type_tangent:
                 tangentAcc = attr.data;

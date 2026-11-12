@@ -35,8 +35,6 @@ struct PBRMaterial : Material {
     float metallicFactor;
     float roughnessFactor;
 
-    bool hasMRTexture;
-
     PBRMaterial(shared<Texture> a, shared<Texture> n,
             shared<Texture> mr,
             Color bcf, float mf, float rf)

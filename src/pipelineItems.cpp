@@ -151,14 +151,14 @@ GraphicsPipelineItem getGBufferPipelineItemPBR(Window& win) {
             win.gBufferVP);
 }
 
-GraphicsPipelineItem getPBRLightPassPipelineItem(Window& win) {
+GraphicsPipelineItem getLightPassPipelineItemPBR(Window& win) {
     Callback begin = [&win] {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        //win.setPBRLightPassUniforms();
+        win.setLightPassUniforms();
     };
 
     Callback end = [&win] {
-        api->setCullFace(true);
+        api->setCullFace(false);
     };
 
     return GraphicsPipelineItem::PostProcessing(

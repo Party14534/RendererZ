@@ -57,13 +57,13 @@ int main() {
     /*
      * BUILD PIPELINE
      */
-    GraphicsPipelineItem items[6] = {
-        getDLightPipelineItem(win),
-        getGBufferPipelineItem(win),
-        getSAOPipelineItem(win),
-        getSAOBlurHPipelineItem(win),
-        getSAOBlurPipelineItem(win),
-        getLightPassPipelineItem(win)
+    GraphicsPipelineItem items[2] = {
+        //getDLightPipelineItem(win),
+        getGBufferPipelineItemPBR(win),
+        //getSAOPipelineItem(win),
+        //getSAOBlurHPipelineItem(win),
+        //getSAOBlurPipelineItem(win),
+        getLightPassPipelineItemPBR(win)
     };
 
     std::span<GraphicsPipelineItem> sItems = items;
@@ -135,7 +135,6 @@ int main() {
         }
 
         win.display(pipeline);
-        return 0;
     }
 
     return 0;
