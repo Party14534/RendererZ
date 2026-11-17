@@ -137,7 +137,7 @@ vec3 CTBRDF(vec3 FragPos, vec3 Wi, vec3 viewDir, float roughness) {
 
     vec3 cookTorrance = nom / denom;
     
-    return (kD*lambert + cookTorrance) * NdotL;
+    return (kD*lambert + cookTorrance);
 }
 
 float calcAttenuation(float distance) {
@@ -169,11 +169,10 @@ void main()
     vec3 sum = vec3(0.);
 
     // Directional light
-    vec3 Wi = normalize(-dirLight_z.direction);
+    vec3 WiDir = normalize(-dirLight_z.direction);
 
-    sum += CTBRDF(FragPos, Wi, viewDir, Roughness) * // Bi-directional Reflective Distribution Function
-        Radiance(FragPos, Wi, dirLight_z); // Incoming light
-
+    sum += CTBRDF(FragPos, WiDir, viewDir, Roughness) * // Bi-directional Reflective Distribution Function
+        Radiance(FragPos, WiDir, dirLight_z); // Incoming light
     // PointLight
     for(int i = 0; i < pointLightCnt_z; i++) {
         // Calculate incoming light direction

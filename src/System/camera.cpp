@@ -91,7 +91,7 @@ void Camera::calculateViewMatrix() {
 }
 
 void Camera::BuildPerspectiveMatrices(u32 width, u32 height) {
-    double near = 0.1;
+    double near = 0.5;
     double far = 1000.;
     double left = 0;
     double right = width;
