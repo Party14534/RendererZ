@@ -91,7 +91,7 @@ struct Window {
     void setDLightUniforms();
     void setLightPassUniforms();
     void setSAOPassUniforms();
-    void setSAOBlurPassUniforms(Vec2 direction);
+    void setSAOBlurPassUniforms(Vec2 direction, int inputUnit);
     void setPointLightUniforms();
 
     // Events

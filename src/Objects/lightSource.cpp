@@ -11,7 +11,7 @@ Vec3 LightSource::getPos() const { return pos; }
 /*
  * Dir Light
  */
-DirLight::DirLight(Vec3 _pos, DirLightProperties _prop) : properties(_prop), LightSource(_pos) { }
+DirLight::DirLight(Vec3 _pos) : LightSource(_pos) { }
 
 
 void DirLight::setDir(Vec3 v) { pos = v; }
@@ -24,3 +24,6 @@ PointLight::PointLight() :
     properties(PointLightProperties()), LightSource(Vec3()) { }
 PointLight::PointLight(Vec3 _pos, PointLightProperties _prop) :
     properties(_prop), LightSource(_pos) { }
+
+void PointLight::setIntensity(float i) { properties.intensity = i; }
+float PointLight::getIntensity() { return properties.intensity; }

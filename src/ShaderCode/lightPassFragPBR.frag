@@ -21,10 +21,7 @@ layout(std140) uniform PointLightBlock {
 
 struct DirLight {
     vec3 direction;
-    
-    vec3 ambient;
-    vec3 diffuse;
-    vec3 specular;
+    vec3 color;
 };
 uniform DirLight dirLight_z;
 
@@ -53,6 +50,7 @@ vec3 Albedo = texture(gAlbedoSpec, TexCoord).rgb;
 //float Specular = texture(gAlbedoSpec, TexCoord).a;
 float Metallic = texture(gMetallicRoughness, TexCoord).r;
 float Roughness = texture(gMetallicRoughness, TexCoord).g;
+float epsilon = 0.0001;
 
 float calcIBLRoughnessK(float roughness) {
     return roughness * roughness * .5;
@@ -60,6 +58,11 @@ float calcIBLRoughnessK(float roughness) {
 
 float calcDirectRoughnessK(float roughness) {
     return ((roughness - 1.) * (roughness - 1.)) * .125;
+}
+
+float calcRoughnessK(float roughness) {
+    float r = roughness + 1.;
+    return (r * r) * .125;
 }
 
 // Trowbridge-Reitz GGX
@@ -70,7 +73,7 @@ float GGXTR(vec3 normal, vec3 halfway, float roughness) {
 
     float nom = roughness * roughness;
     float denom = (normalHalfwayDot * normalHalfwayDot) * (nom - 1.) + 1.;
-    denom = PI * denom * denom;
+    denom = (PI * denom * denom) + epsilon;
 
     return nom / denom;
 }
@@ -79,18 +82,18 @@ float GGXTR(vec3 normal, vec3 halfway, float roughness) {
 // Approximates the relative surface area where micro surface details 
 // overshadow each other
 // The roughness changes whether this i0.318309886s from IBL to direct
-float GeomSchlickGGX(float NdotV, float roughnessK) {
+float GeomSchlickGGX(float NdotV, float roughness) {
+    float k = calcRoughnessK(roughness);
+
     float nom = NdotV;
-    float denom = NdotV * (1. - roughnessK) + roughnessK;
+    float denom = NdotV * (1. - k) + k;
 
     return nom / denom;
 }
 
-float GeomSmith(vec3 normal, vec3 view, vec3 Wi, float roughnessK) {
-    float NdotV = max(dot(normal, view), 0.); // Try not maxing here because should alr be occluded if it was
-    float NdotL = max(dot(normal, Wi), 0.);
-    float ggx1 = GeomSchlickGGX(NdotV, roughnessK);
-    float ggx2 = GeomSchlickGGX(NdotL, roughnessK);
+float GeomSmith(float NdotV, float NdotL, float roughness) {
+    float ggx1 = GeomSchlickGGX(NdotV, roughness);
+    float ggx2 = GeomSchlickGGX(NdotL, roughness);
 
     return ggx1 * ggx2;
 }
@@ -102,7 +105,7 @@ vec3 FresnelSchlick(float cosTheta/*, vec3 FZero*/) {
     vec3 FZero = vec3(.04);
     FZero = mix(FZero, Albedo.rgb, Metallic);
     
-    return FZero + (1. - FZero) * pow(1. - cosTheta, 5.0);
+    return FZero + (1. - FZero) * pow(clamp(1. - cosTheta, 0., 1.), 5.0);
 }
 
 float calcSpecular() {
@@ -112,9 +115,6 @@ float calcSpecular() {
 vec3 CTBRDF(vec3 FragPos, vec3 Wi, vec3 viewDir, float roughness) {
     vec3 halfway = normalize(Wi + viewDir);
 
-    float kS = calcSpecular();
-    float kD = 1. - kS;
-
     // Calculate lambert
     vec3 lambert = Albedo * PI_RECIP;
 
@@ -123,30 +123,40 @@ vec3 CTBRDF(vec3 FragPos, vec3 Wi, vec3 viewDir, float roughness) {
             roughness); // Trowbridge-Reitz GGX
 
     vec3 fresnelEq = FresnelSchlick(max(dot(halfway, viewDir), 0.)); // Schlick-Fresnel
+
+    vec3 kS = fresnelEq;
+    vec3 kD = 1. - kS;
+    kD *= 1. - Metallic;
     
-    float geometryFunc = GeomSmith(Normal, viewDir, 
-            Wi, calcDirectRoughnessK(roughness)); // Smith's Schlick-GGX
+    float NdotV = max(dot(Normal, viewDir), 0.); // Try not maxing here because should alr be occluded if it was
+    float NdotL = max(dot(Normal, Wi), 0.);
+    float geometryFunc = GeomSmith(NdotV, NdotL, roughness); // Smith's Schlick-GGX
 
     vec3 nom = normalDistribution * fresnelEq * geometryFunc;
-    float denom = 4 * dot(viewDir, Normal) * dot(Wi, Normal);
+    float denom = 4. * NdotV * NdotL + epsilon;
 
     vec3 cookTorrance = nom / denom;
     
-    return kD*lambert + cookTorrance;
+    return (kD*lambert + cookTorrance) * NdotL;
 }
 
-float calcAttenuation(vec3 attenuation, float distance) {
-    return 1.0 / (attenuation.x
-            + attenuation.y * distance
-            + attenuation.z * (distance * distance));
+float calcAttenuation(float distance) {
+    return 1.0 / (distance * distance);
 }
 
 vec3 Radiance(vec3 fragPos, vec3 Wi, PointLight light) {
     vec3 lightCol = light.color;
     float cosTheta = max(dot(Normal, Wi), 0.);
-    float attenuation = calcAttenuation(light.attenuation, length(light.pos - fragPos));
+    float attenuation = calcAttenuation(length(light.pos - fragPos));
     
     return lightCol * attenuation * cosTheta;
+}
+
+vec3 Radiance(vec3 fragPos, vec3 Wi, DirLight light) {
+    vec3 lightCol = light.color;
+    float cosTheta = max(dot(Normal, Wi), 0.);
+    
+    return lightCol * cosTheta;
 }
 
 void main()
@@ -157,6 +167,14 @@ void main()
     float sao = texture(gSAOBlur, TexCoord).r;
 
     vec3 sum = vec3(0.);
+
+    // Directional light
+    vec3 Wi = normalize(-dirLight_z.direction);
+
+    sum += CTBRDF(FragPos, Wi, viewDir, Roughness) * // Bi-directional Reflective Distribution Function
+        Radiance(FragPos, Wi, dirLight_z); // Incoming light
+
+    // PointLight
     for(int i = 0; i < pointLightCnt_z; i++) {
         // Calculate incoming light direction
         vec3 Wi = normalize(pointLights_z[i].pos - FragPos);
@@ -165,7 +183,7 @@ void main()
         sum += CTBRDF(FragPos, Wi, viewDir, Roughness) * // Bi-directional Reflective Distribution Function
             Radiance(FragPos, Wi, pointLights_z[i]); // Incoming light
     }
-    sum += (0.09 * Albedo);
+    sum += (0.03 * Albedo) * sao;
 
     FragColor = showSao_z ? vec4(vec3(sao), 1.) : vec4(sum, 1.);
 }

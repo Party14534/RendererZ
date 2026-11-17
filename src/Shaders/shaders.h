@@ -14,16 +14,11 @@
                         
 inline std::unordered_map<std::string, u32> uniformIDs;
 
-struct DirLightProperties {
-    float ambient = 1.f;
-    float diffuse = 1.f;
-    float specular = 1.f;
-};
-
 struct PointLightProperties {
     float ambient = 1.f;
     float diffuse = 1.f;
     float specular = 1.f;
+    float intensity = 1.f;
     Vec3 attenuation = Vec3(1.f, .09f, .032f);
 };
 
@@ -73,8 +68,7 @@ struct ShaderProgram {
     //const void setBlinnPhongMaterial(const BlinnPhongMaterial& m) const;
     const void setPBRMaterial(const PBRMaterial& m) const;
 
-    const void setDirLight(const Vec3& dir, const Vec3& ambient,
-            const Vec3& diffuse, const Vec3& specular) const;
+    const void setDirLight(const Vec3& dir, const Color& color) const;
 
     const void bindUniformBlock(const std::string& name, UniformBuffer& ubo) const;
 

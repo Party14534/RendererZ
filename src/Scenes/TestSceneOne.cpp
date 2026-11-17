@@ -33,7 +33,7 @@ Scene testSceneOne() {
     shared<PBRMaterial> wallMat = std::make_shared<PBRMaterial>(wallTex, wallNormalTex, nullptr,
             Color(1.), .0, 1.);
     shared<PBRMaterial> metalMat = std::make_shared<PBRMaterial>(nullptr, nullptr, nullptr,
-            Color(1.), 1., 0.);
+            Color(1.), .94, .1);
     shared<PBRMaterial> roughMat = std::make_shared<PBRMaterial>(nullptr, nullptr, nullptr,
             Color(1.), 0., 1.);
 
@@ -102,30 +102,31 @@ void setUpLighting(Window &win) {
     PointLight l(Vec3(5, 5, 5), PointLightProperties());
     l.setColor(Color(1.f));
     l.setPos(tung.getPos() + Vec3(0, 4, 0));
+    l.setIntensity(150.);
     l.properties.attenuation = Vec3(1.0, 0.045, .0075);
     win.addPointLight(l);
 
     l.properties.attenuation = Vec3(1.0, 0.045, 0.0075);
     l.setColor(Color(1, 0, 0, 1));
     l.setPos(teapot.getPos() + Vec3(10, 0, 0));
+    l.setIntensity(150.);
     redCube.setPos(l.getPos() + Vec3(0, -1, 0));
     win.addPointLight(l);
 
     l.setColor(Color(0., 0., 1., 1.));
     l.setPos(homer.getPos() + Vec3(0, 0, 15));
+    l.setIntensity(150.);
     blueCube.setPos(l.getPos() + Vec3(0, -1, 0));
     win.addPointLight(l);
 
     l.setColor(Color(0., 1., 0., 1.));
     l.setPos(homer.getPos() + Vec3(0, 60, 0));
+    l.setIntensity(150.);
     greenCube.setPos(l.getPos() + Vec3(0, 1, 0));
     win.addPointLight(l);
 
-    win.dLight.setColor(Color(.99f, .56f, .38f, 1));
+    win.dLight.setColor(Color(1.f, 1., 1., 1));
     win.dLight.setDir(Vec3(-0.5f, -1.f, -0.3f));
-    win.dLight.properties = DirLightProperties {
-        .1, .7, .9,
-    };
 }
 
 void updateTestSceneOne(double t, Window& win) {
@@ -143,7 +144,7 @@ void updateTestSceneOne(double t, Window& win) {
 
     float theta = t;
     float r = 4;
-    p = tung.getPos() + Vec3(0, 5, 0);
+    p = Vec3(0, 0, 0) + Vec3(0, 5, 0);
     p.x += r*cos(theta);
     p.z += r*sin(theta);
     win.pLights[0]->setPos(p);

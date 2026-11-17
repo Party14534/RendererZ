@@ -16,7 +16,7 @@ Window::Window(u32 _width, u32 _height, std::string windowName) :
     height(_height),
     windowName(windowName),
     mouse((float)_width / 2.f, (float)_height / 2.f),
-    dLight(Vec3(0., -1, 0.), DirLightProperties()),
+    dLight(Vec3(0., -1, 0.)),
     drawScreen(Drawable::Plane()),
     _api(std::make_shared<OpenGLAPI>(_width, _height, windowName))
 {
@@ -136,16 +136,12 @@ void Window::setLightPassUniforms() {
     lightPassShader->setInt(SHADER_GNORMAL_UNIFORM, 1);
     lightPassShader->setInt(SHADER_GALBEDO_SPEC_UNIFORM, 2);
     lightPassShader->setInt(SHADER_GMETALLIC_ROUGHNESS_UNIFORM, 3);
-    lightPassShader->setInt(SHADER_GSAO_BLUR_UNIFORM, 4);
-    lightPassShader->setInt(SHADER_DIR_SHADOW_MAP_UNIFORM, 5);
+    lightPassShader->setInt(SHADER_GSAO_BLUR_UNIFORM, SAO_TEXTURE_UNIT);
+    lightPassShader->setInt(SHADER_DIR_SHADOW_MAP_UNIFORM, DIR_SHADOW_TEXTURE_UNIT);
 
     setPointLightUniforms();
 
-    Vec3 lc = Vec3(dLight.getColor().toRGB());
-    lightPassShader->setDirLight(dLight.getDir(), 
-                lc * dLight.properties.ambient,
-                lc * dLight.properties.diffuse,
-                lc * dLight.properties.specular);
+    lightPassShader->setDirLight(dLight.getDir(), dLight.getColor());
 
     //lightPassShader->setBool(SHADER_SKYBOX_SET_UNIFORM, skyBox != nullptr);
 
@@ -164,11 +160,8 @@ void Window::setLightPassUniforms() {
 void Window::setSAOPassUniforms() {
     saoPassShader->use();
 
-    // Assign each G-buffer sampler its own texture unit, matching the units
-    // bound in GBuffer::bindTextures().
     saoPassShader->setInt(SHADER_GPOSITION_UNIFORM, 0);
     saoPassShader->setInt(SHADER_GNORMAL_UNIFORM, 1);
-    saoPassShader->setInt(SHADER_GALBEDO_SPEC_UNIFORM, 2);
 
     saoPassShader->setVec3(SHADER_VIEW_POSITION_UNIFORM, cam.GetPos());
 
@@ -179,9 +172,9 @@ void Window::setSAOPassUniforms() {
     saoPassShader->setBool(SHADER_USE_SAO_UNIFORM, useSao);
 }
 
-void Window::setSAOBlurPassUniforms(Vec2 direction) {
+void Window::setSAOBlurPassUniforms(Vec2 direction, int inputUnit) {
     saoBlurPassShader->use();
-    saoBlurPassShader->setInt(SHADER_GSAO_UNIFORM, 3);
+    saoBlurPassShader->setInt(SHADER_GSAO_UNIFORM, inputUnit);
     saoBlurPassShader->setVec2(SHADER_SAO_BLUR_DIRECTION_UNIFORM, direction);
     saoBlurPassShader->setVec2(SHADER_RESOLUTION_UNIFORM, Vec2(width, height));
 }
@@ -194,7 +187,7 @@ void Window::setPointLightUniforms() {
         const shared<PointLight>& l = pLights[i];
         writeVec3(data[i].pos, l->getPos());
         writeVec3(data[i].attenuation, l->properties.attenuation);
-        writeVec3(data[i].color, Vec3(l->getColor().toRGB()));
+        writeVec3(data[i].color, Vec3(l->getColor().toRGB()) * l->properties.intensity);
     }
 
     pointLightUBO.bind();

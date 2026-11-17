@@ -18,9 +18,7 @@ class LightSource {
 
 class DirLight : public LightSource {
     public:
-        DirLightProperties properties;
-
-        DirLight(Vec3 _pos, DirLightProperties _prop);
+        DirLight(Vec3 _pos);
         void setDir(Vec3 v);
         Vec3 getDir() const;
 };
@@ -31,6 +29,9 @@ class PointLight : public LightSource {
 
         PointLight();
         PointLight(Vec3 _pos, PointLightProperties _prop);
+
+        void setIntensity(float i);
+        float getIntensity();
 };
 
 #endif

@@ -26,6 +26,11 @@
 #define SHADER_SKYBOX_SET_UNIFORM "usingSkyBox_z"
 #define SHADER_SKYBOX_UNIFORM "skyBox_z"
 #define SKYBOX_TEXTURE_UNIT 8
+// Units 0-3 are the G-buffer (pos, normal, albedo, metallic/roughness)
+// SAO ping-pongs: saoBuffer -> blurH -> saoBuffer (final)
+#define SAO_TEXTURE_UNIT 4
+#define SAO_BLUR_H_TEXTURE_UNIT 5
+#define DIR_SHADOW_TEXTURE_UNIT 6
 #define SHADER_MODEL_SET_UNIFORM "model_z"
 #define SHADER_RESOLUTION_UNIFORM "resolution_z"
 #define SHADER_VIEW_SET_UNIFORM "view_z"

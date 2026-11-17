@@ -122,7 +122,7 @@ Scene testManyLightsScene() {
 }
 
 void setUpManyPointLights(Window& win) {
-    win.dLight.properties = DirLightProperties { 0.f, 0.f, 0.f };
+    win.dLight.setColor(Color(0.f, 0.f, 0.f, 1.));
 
     float extent = GRID_SIZE * SPACING * 0.5f;
 

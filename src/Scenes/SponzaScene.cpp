@@ -8,9 +8,6 @@ shared<ComplexDrawable> loadSponza() {
 void setUpSponzaLighting(Window& win) {
     win.dLight.setColor(Color(1.f, .95f, .85f, 1.f));
     win.dLight.setDir(Vec3(-0.5f, -1.f, -0.3f));
-    win.dLight.properties = DirLightProperties {
-        .6f, .9f, .7f,
-    };
 
     PointLightProperties props;
     props.attenuation = Vec3(1.0f, 0.045f, 0.0075f);

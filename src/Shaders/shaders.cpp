@@ -281,17 +281,12 @@ const void ShaderProgram::setPBRMaterial(const PBRMaterial& m) const {
     setFloat(SHADER_MATERIAL_ROUGHNESS_FACTOR, m.roughnessFactor);
 }
 
-const void ShaderProgram::setDirLight(const Vec3& dir, const Vec3& ambient,
-        const Vec3& diffuse, const Vec3& specular) const {
+const void ShaderProgram::setDirLight(const Vec3& dir, const Color& color) const {
     std::string name = SHADER_DIRECTIONAL_LIGHT;
     glUniform3f(getUniformLocation(ID, (name + ".direction").c_str()),
             dir.x, dir.y, dir.z);
-    glUniform3f(getUniformLocation(ID, (name + ".ambient").c_str()),
-            ambient.x, ambient.y, ambient.z);
-    glUniform3f(getUniformLocation(ID, (name + ".diffuse").c_str()),
-            diffuse.x, diffuse.y, diffuse.z);
-    glUniform3f(getUniformLocation(ID, (name + ".specular").c_str()),
-            specular.x, specular.y, specular.z);
+    glUniform3f(getUniformLocation(ID, (name + ".color").c_str()),
+            color.r, color.g, color.b);
 }
 
 const void ShaderProgram::bindUniformBlock(const std::string& name, UniformBuffer& ubo) const {
