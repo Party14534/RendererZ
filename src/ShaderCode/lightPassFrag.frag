@@ -170,8 +170,22 @@ void main()
     // Directional light
     vec3 WiDir = normalize(-dirLight_z.direction);
 
+    float diff = max(dot(Normal, WiDir), 0.);
+    float normalOffset = clamp(1. / max(diff, 0.05), 1., 4.);
+    vec4 fragPosLightSpace = lightSpaceMatrix_z * vec4(FragPos + Normal * normalOffset, 1.);
+    vec3 projCoords = fragPosLightSpace.xyz * .5 + .5;
+    vec2 shadowTexelSize = 1. / vec2(textureSize(gDirShadowMap, 0));
+    float lit = 0.;
+    for (int x = -1; x <= 1; x++) {
+        for (int y = -1; y <= 1; y++) {
+            lit += texture(gDirShadowMap, projCoords + vec3(vec2(x, y) * shadowTexelSize, 0.));
+        }
+    }
+    lit /= 9.;
+
     sum += CTBRDF(FragPos, WiDir, viewDir, Roughness) * // Bi-directional Reflective Distribution Function
-        Radiance(FragPos, WiDir, dirLight_z); // Incoming light
+        Radiance(FragPos, WiDir, dirLight_z) * lit; // Incoming light
+
     // PointLight
     for(int i = 0; i < pointLightCnt_z; i++) {
         // Calculate incoming light direction
@@ -181,8 +195,8 @@ void main()
         sum += CTBRDF(FragPos, Wi, viewDir, Roughness) * // Bi-directional Reflective Distribution Function
             Radiance(FragPos, Wi, pointLights_z[i]); // Incoming light
     }
-    sum += vec3(1.) * mix(vec3(0.), Albedo, Metallic) * sao; // HACK
+    //sum += Albedo * mix(0.06, 1., Metallic) * sao; // HACK
+    sum += Albedo * .12 * sao;
 
     FragColor = showSao_z ? vec4(vec3(sao), 1.) : vec4(sum, 1.);
-    //FragColor = vec4(vec2(Roughness, 0.), 0., 1.);
 }

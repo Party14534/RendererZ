@@ -58,8 +58,8 @@ int main() {
     /*
      * BUILD PIPELINE
      */
-    GraphicsPipelineItem items[5] = {
-        //getDLightPipelineItem(win),
+    GraphicsPipelineItem items[6] = {
+        getDLightPipelineItem(win),
         getGBufferPipelineItemPBR(win),
         getSAOPipelineItem(win),
         getSAOBlurHPipelineItem(win),
