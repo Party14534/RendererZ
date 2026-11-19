@@ -10,7 +10,5 @@ SkyBox::SkyBox(std::vector<std::string> textures) :
 void SkyBox::draw(shared<ShaderProgram> defaultShader) {
     defaultShader->use();
     defaultShader->setMat4(SHADER_MODEL_SET_UNIFORM, transform.GetModelMat());
-    defaultShader->setInt("skyBox_z", SKYBOX_TEXTURE_UNIT); 
-    map.bind(SKYBOX_TEXTURE_UNIT);
     mesh->draw();
 }

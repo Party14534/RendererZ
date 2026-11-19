@@ -46,11 +46,6 @@ void Texture::bind() const {
     api->bindTexture2D(ID);
 }
 
-void Texture::setActive(u32 texNum) const {
-    if(!loaded) { std::cerr << "Binding unloaded texture\n"; exit(1); }
-    api->activeTexture2D(texNum, ID);
-}
-
 void Texture::setTextureParameter(TextureFilter filter, TextureFilterOption opt) {
     api->setTexture2DParameter(filter, opt);
 }

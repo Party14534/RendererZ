@@ -14,7 +14,6 @@ struct FrameBuffer {
             TextureFormat format, DataType type, 
             TextureFilterOption min, TextureFilterOption mag);
     void bind() const;
-    void bindTexture(u32 n) const;
     void unbind() const;
 };
 
@@ -28,24 +27,11 @@ struct MultiFrameBuffer : public FrameBuffer {
 struct GBuffer {
     u32 ID;
     u32 depthRBO;
-    Texture pos, norm, color, metallicRoughness;
+    Texture pos, norm, albedo, metallicRoughness;
 
     GBuffer();
     void init(u32 width, u32 height);
     void bind() const;
-    void bindTextures() const;
-    void unbind() const;
-};
-
-struct GBufferPBR {
-    u32 ID;
-    u32 depthRBO;
-    Texture pos, norm, color;
-
-    GBufferPBR();
-    void init(u32 width, u32 height);
-    void bind() const;
-    void bindTextures() const;
     void unbind() const;
 };
 

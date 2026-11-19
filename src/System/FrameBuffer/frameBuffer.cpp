@@ -32,10 +32,6 @@ void FrameBuffer::bind() const {
     api->bindFrameBuffer(ID);
 }
 
-void FrameBuffer::bindTexture(u32 n) const {
-    tex.setActive(n);
-}
-
 void FrameBuffer::unbind() const {
     api->unbindFrameBuffer();
 }
@@ -58,10 +54,10 @@ void GBuffer::init(u32 width, u32 height) {
     norm.setTextureParameter(MAG_FILTER, NEAREST);
     norm.attachToFramebuffer2D(1);
 
-    color = Texture(RGBA, width, height, RGBA, UNSIGNED_BYTE, nullptr);
-    color.setTextureParameter(MIN_FILTER, NEAREST);
-    color.setTextureParameter(MAG_FILTER, NEAREST);
-    color.attachToFramebuffer2D(2);
+    albedo = Texture(RGBA, width, height, RGBA, UNSIGNED_BYTE, nullptr);
+    albedo.setTextureParameter(MIN_FILTER, NEAREST);
+    albedo.setTextureParameter(MAG_FILTER, NEAREST);
+    albedo.attachToFramebuffer2D(2);
 
     metallicRoughness = Texture(RG, width, height, RG, FLOAT, nullptr);
     metallicRoughness.setTextureParameter(MIN_FILTER, NEAREST);
@@ -86,13 +82,6 @@ void GBuffer::init(u32 width, u32 height) {
 void GBuffer::bind() const {
     api->bindFrameBuffer(ID);
     glBindFramebuffer(GL_FRAMEBUFFER, ID);
-}
-
-void GBuffer::bindTextures() const {
-    pos.setActive(0);
-    norm.setActive(1);
-    color.setActive(2);
-    metallicRoughness.setActive(3);
 }
 
 void GBuffer::unbind() const {

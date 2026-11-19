@@ -1,4 +1,5 @@
 #include "Shaders.h"
+#include "System/GraphicsAPI/GraphicsAPI.h"
 #include <string>
 
 std::string loadFile(std::string path) {
@@ -250,29 +251,22 @@ const void ShaderProgram::setBlinnPhongMaterial(const BlinnPhongMaterial& m) con
             m.reflectivity);
 }*/
 
-const void ShaderProgram::setPBRMaterial(const PBRMaterial& m) const {
-    // Reset flags so state from a previous drawable doesn't leak through
-    setBool(SHADER_MATERIAL_USING_ALBEDO, false);
-    setBool(SHADER_MATERIAL_USING_NORMAL, false);
-    setBool(SHADER_MATERIAL_USING_METALLIC_ROUGHNESS, false);
+void ShaderProgram::setPBRMaterial(const PBRMaterial& m) {
+    setBool(SHADER_MATERIAL_USING_ALBEDO, m.albedo != nullptr);
+    setBool(SHADER_MATERIAL_USING_NORMAL, m.normal != nullptr);
+    setBool(SHADER_MATERIAL_USING_METALLIC_ROUGHNESS, m.metallicRoughness != nullptr);
 
     // Bind textures
     if(m.albedo != nullptr) {
-        setBool(SHADER_MATERIAL_USING_ALBEDO, true);
-        glUniform1i(getUniformLocation(ID, SHADER_MATERIAL_ALBEDO), 0);    
-        api->activeTexture2D(0, m.albedo->ID);
+        bindTexture(SHADER_MATERIAL_ALBEDO, *m.albedo);
     }
 
     if(m.normal != nullptr) {
-        setBool(SHADER_MATERIAL_USING_NORMAL, true);
-        glUniform1i(getUniformLocation(ID, SHADER_MATERIAL_NORMAL), 1);    
-        api->activeTexture2D(1, m.normal->ID);
+        bindTexture(SHADER_MATERIAL_NORMAL, *m.normal);
     }
 
     if(m.metallicRoughness != nullptr) {
-        setBool(SHADER_MATERIAL_USING_METALLIC_ROUGHNESS, true);
-        glUniform1i(getUniformLocation(ID, SHADER_MATERIAL_METALLIC_ROUGHNESS), 2);    
-        api->activeTexture2D(2, m.metallicRoughness->ID);
+        bindTexture(SHADER_MATERIAL_METALLIC_ROUGHNESS, *m.metallicRoughness);
     }
 
     // Bind variables
@@ -296,4 +290,33 @@ const void ShaderProgram::bindUniformBlock(const std::string& name, UniformBuffe
 
 void PBRMaterial::setMaterial(shared<ShaderProgram> p) { 
     p->setPBRMaterial(*this);
+}
+
+
+void ShaderProgram::bindTexture(const std::string& name, const Texture& texture) {
+    auto index = samplerUnits.find(name);
+    u32 textureIndex;
+    if (index == samplerUnits.end()) {
+        use();
+
+        textureIndex = samplerUnits.size();
+
+        GLint maxUnits; glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &maxUnits);
+        if((GLint)textureIndex >= maxUnits) {
+            std::cerr << "Out of texture units" << std::endl;
+            exit(1); 
+        }
+
+        // Return early if compiler optimized it out 
+        u32 loc = getUniformLocation(ID, name);
+        if (loc == (u32)-1) return;
+
+        glUniform1i(loc, textureIndex);
+
+        samplerUnits.emplace(name, textureIndex);
+    } else {
+        textureIndex = index->second;
+    }
+
+    api->activeTexture2D(textureIndex, texture.ID);
 }

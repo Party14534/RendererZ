@@ -34,10 +34,7 @@ int main() {
     shared<ComplexDrawable> phoenix = LoadComplexDrawableFromFilePath("../src/res/objects/phoenix_bird/scene.gltf");
     shared<ComplexDrawable> trophy = LoadComplexDrawableFromFilePath("../src/res/objects/trophy.glb");
 
-    PBRMaterial m(nullptr, nullptr, nullptr,
-            trophy->targets[0].getMaterial()->color, .5f, 1.0f);
     trophy->targets[0].setPos(Vec3(0, 0, 10));
-    trophy->targets[0].setMaterial(std::make_shared<PBRMaterial>(m));
 
     sceneOne.addToList({&(*car), &(*phoenix), &(*trophy)});
 

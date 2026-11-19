@@ -1,4 +1,5 @@
 #include "Window.h"
+#include "Shaders/Shaders.h"
 
 // Mirrors PointLightBlock's std140 layout in lightPassFragPBR.frag.
 struct GPUPointLight {
@@ -33,9 +34,9 @@ Window::Window(u32 _width, u32 _height, std::string windowName) :
 
     dLightShadowBuffer.init(DEPTH, dBufferWidth, 1024, DEPTH, FLOAT, LINEAR, LINEAR);
 
-    gBufferShader = std::make_shared<ShaderProgram>(ShaderProgram::fromStrings(gBufferVertex, gBufferFragPBR));
+    gBufferShader = std::make_shared<ShaderProgram>(ShaderProgram::fromStrings(gBufferVertex, gBufferFrag));
     dLightShader = std::make_shared<ShaderProgram>(ShaderProgram::fromStrings(dLightVertex, dLightFrag));
-    lightPassShader = std::make_shared<ShaderProgram>(ShaderProgram::fromStrings(lightPassVertex, lightPassFragPBR));
+    lightPassShader = std::make_shared<ShaderProgram>(ShaderProgram::fromStrings(lightPassVertex, lightPassFrag));
     saoPassShader = std::make_shared<ShaderProgram>(ShaderProgram::fromStrings(lightPassVertex, saoPassFrag));
     saoBlurPassShader = std::make_shared<ShaderProgram>(ShaderProgram::fromStrings(lightPassVertex, saoBlurPassFrag));
 
@@ -112,12 +113,6 @@ void Window::setSkyBox(shared<SkyBox> _skyBox) {
  * Uniforms
  */
 void Window::setGBufferUniforms() {
-    // Assign each sampler its own texture unit. Without this both default to
-    // unit 0, which is illegal for differing sampler types and triggers 1282.
-    gBufferShader->setInt(SHADER_TEX_UNIFORM, 0);
-    gBufferShader->setInt(SHADER_NORMAL_MAP_UNIFORM, 1);
-    gBufferShader->setInt(SHADER_SKYBOX_UNIFORM, SKYBOX_TEXTURE_UNIT);
-
     gBufferVP = cam.GetProjectionMatrix() * cam.GetViewMatrix();
 }
 
@@ -132,12 +127,12 @@ void Window::setLightPassUniforms() {
 
     // Assign each G-buffer sampler its own texture unit, matching the units
     // bound in GBuffer::bindTextures().
-    lightPassShader->setInt(SHADER_GPOSITION_UNIFORM, 0);
-    lightPassShader->setInt(SHADER_GNORMAL_UNIFORM, 1);
-    lightPassShader->setInt(SHADER_GALBEDO_SPEC_UNIFORM, 2);
-    lightPassShader->setInt(SHADER_GMETALLIC_ROUGHNESS_UNIFORM, 3);
-    lightPassShader->setInt(SHADER_GSAO_BLUR_UNIFORM, SAO_TEXTURE_UNIT);
-    lightPassShader->setInt(SHADER_DIR_SHADOW_MAP_UNIFORM, DIR_SHADOW_TEXTURE_UNIT);
+    lightPassShader->bindTexture(SHADER_GPOSITION_UNIFORM, gBuffer.pos);
+    lightPassShader->bindTexture(SHADER_GNORMAL_UNIFORM, gBuffer.norm);
+    lightPassShader->bindTexture(SHADER_GALBEDO_SPEC_UNIFORM, gBuffer.albedo);
+    lightPassShader->bindTexture(SHADER_GMETALLIC_ROUGHNESS_UNIFORM, gBuffer.metallicRoughness);
+    lightPassShader->bindTexture(SHADER_GSAO_BLUR_UNIFORM, saoBuffer.tex);
+    lightPassShader->bindTexture(SHADER_DIR_SHADOW_MAP_UNIFORM, dLightShadowBuffer.tex);
 
     setPointLightUniforms();
 
@@ -160,8 +155,8 @@ void Window::setLightPassUniforms() {
 void Window::setSAOPassUniforms() {
     saoPassShader->use();
 
-    saoPassShader->setInt(SHADER_GPOSITION_UNIFORM, 0);
-    saoPassShader->setInt(SHADER_GNORMAL_UNIFORM, 1);
+    saoPassShader->bindTexture(SHADER_GPOSITION_UNIFORM, gBuffer.pos);
+    saoPassShader->bindTexture(SHADER_GNORMAL_UNIFORM, gBuffer.norm);
 
     saoPassShader->setVec3(SHADER_VIEW_POSITION_UNIFORM, cam.GetPos());
 
@@ -172,9 +167,9 @@ void Window::setSAOPassUniforms() {
     saoPassShader->setBool(SHADER_USE_SAO_UNIFORM, useSao);
 }
 
-void Window::setSAOBlurPassUniforms(Vec2 direction, int inputUnit) {
+void Window::setSAOBlurPassUniforms(Vec2 direction, const Texture& texture) {
     saoBlurPassShader->use();
-    saoBlurPassShader->setInt(SHADER_GSAO_UNIFORM, inputUnit);
+    saoBlurPassShader->bindTexture(SHADER_GSAO_UNIFORM, texture);
     saoBlurPassShader->setVec2(SHADER_SAO_BLUR_DIRECTION_UNIFORM, direction);
     saoBlurPassShader->setVec2(SHADER_RESOLUTION_UNIFORM, Vec2(width, height));
 }

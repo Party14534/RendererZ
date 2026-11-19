@@ -34,7 +34,6 @@ class Texture {
                 TextureFilterOption opt);
         void setTextureBorderColor(Color c);
         void attachToFramebuffer2D(u32 i) const;
-        void setActive(u32 texNum) const;
         void bind() const;
 
         static shared<Texture> fromFile(std::string path, bool sRGB = true, bool flipVertically = true);

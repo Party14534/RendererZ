@@ -1,6 +1,7 @@
 #ifndef SHADERS_H
 #define SHADERS_H
 
+#include <map>
 #include <string>
 #include <fstream>
 #include <iterator>
@@ -45,6 +46,8 @@ struct ShaderProgram {
     VertexShader vert;
     FragmentShader frag;
 
+    std::unordered_map<std::string, u32> samplerUnits;
+
     ShaderProgram();
     ShaderProgram(VertexShader vert, FragmentShader frag);
     ShaderProgram(const std::string& vertPath, const std::string& fragPath);
@@ -66,11 +69,13 @@ struct ShaderProgram {
     const void setMat4(const std::string& name, const Mat4D& m) const;
 
     //const void setBlinnPhongMaterial(const BlinnPhongMaterial& m) const;
-    const void setPBRMaterial(const PBRMaterial& m) const;
+    void setPBRMaterial(const PBRMaterial& m);
 
     const void setDirLight(const Vec3& dir, const Color& color) const;
 
     const void bindUniformBlock(const std::string& name, UniformBuffer& ubo) const;
+
+    void bindTexture(const std::string& name, const Texture& texture);
 
     static ShaderProgram fromStrings(const std::string& vert, const std::string& frag);
 

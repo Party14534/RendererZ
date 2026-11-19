@@ -59,14 +59,14 @@ void Drawable::draw(shared<ShaderProgram> shader, const Mat4D& vp) {
     Mat4D mvp = vp * transform.GetModelMatD();
     shader->setMat4(SHADER_MODEL_SET_UNIFORM, transform.GetModelMat());
     shader->setMat4(SHADER_MVP_SET_UNIFORM, mvp);
-    shader->setVec3(SHADER_COLOR_UNIFORM, material->color.toRGB());
-    if (material != nullptr) material->setMaterial(shader);
+
+    if (material != nullptr) {
+        shader->setVec3(SHADER_COLOR_UNIFORM, material->color.toRGB());
+        material->setMaterial(shader);
+    }     
+
     shader->setVec2(SHADER_UV_SCALE_UNIFORM, uvScale);
 
-    /*
-    if (diffuseTexture != nullptr) { diffuseTexture->setActive(0); }
-    if (normalTexture != nullptr) { normalTexture->setActive(1); }
-    */
     mesh->draw();
 }
 

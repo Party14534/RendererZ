@@ -1,37 +1,53 @@
 #version 330 core
-#pragma debug(on)
 
 layout (location = 0) out vec3 gPosition;
 layout (location = 1) out vec3 gNormal;
 layout (location = 2) out vec4 gAlbedoSpec;
+layout (location = 3) out vec2 gMetallicRoughness;
+
+struct Material {
+    sampler2D albedo;
+    sampler2D normal;
+    sampler2D metallicRoughness;
+
+    vec4 color;
+    float metallicFactor;
+    float roughnessFactor;
+
+    bool usingAlbedo;
+    bool usingNormal;
+    bool usingMetallicRoughness;
+};
+uniform Material material_z;
 
 in mat3 TBN;
 in vec3 FragPos;
 in vec2 TexCoord;
 
-uniform sampler2D tex;
-uniform bool usingTex_z;
-uniform vec3 color_z;
-
-uniform float specular_z;
-
-uniform bool usingNormalMap_z;
-uniform sampler2D normalMap;
-
-uniform samplerCube skyBox_z;
-uniform bool usingSkyBox_z;
+/*uniform samplerCube skyBox_z;
+uniform bool usingSkyBox_z;*/
 
 void main()
 {
-
     gPosition = FragPos;
 
-    gNormal = usingNormalMap_z
-        ? normalize(TBN * (texture(normalMap, TexCoord).rgb * 2.0 - 1.0))
+    vec3 norm = material_z.usingNormal
+        ? normalize(TBN * (texture(material_z.normal, TexCoord).rgb * 2.0 - 1.0))
         : normalize(TBN[2]);
+    gNormal = gl_FrontFacing ? norm : -norm;
 
-    vec4 col = usingTex_z ? texture(tex, TexCoord) : vec4(1.);
-    gAlbedoSpec.rgb = col.rgb;
-    gAlbedoSpec.rgb *= color_z;
-    gAlbedoSpec.a = specular_z;
+    vec4 col = material_z.usingAlbedo 
+        ? texture(material_z.albedo, TexCoord) 
+        : vec4(1.);
+
+    //if (col.a <= 0.5) discard;
+
+    gAlbedoSpec = col * material_z.color;
+
+    vec2 metallicRoughness = material_z.usingMetallicRoughness 
+        ? texture(material_z.metallicRoughness, TexCoord).bg
+        : vec2(.5);
+
+    gMetallicRoughness = metallicRoughness * vec2(material_z.metallicFactor,
+            material_z.roughnessFactor);
 }
